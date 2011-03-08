@@ -9,6 +9,7 @@
   <include package="plone.app.z3cform" />
   <include package="plone.z3cform" />
   <include package="z3c.form" />
+  <include package="Products.CMFCore" />
   <include package="Solgema.ContextualContentMenu" />
 
   <five:registerPackage package="." initialize=".initialize" />
@@ -16,8 +17,8 @@
   <include file="skins.zcml" />
   <include file="vocabularies.zcml" />
   <include file="catalog.zcml" />
-  <include package=".browser" /> 
-  <include package=".widgets" /> 
+  <include package=".browser" />
+  <include package=".widgets" />
   <i18n:registerTranslations directory="locales" />
 
   <class class="Products.ATContentTypes.content.topic.ATTopic">
