@@ -1,0 +1,13 @@
+[default]
+title=base_edit For Solgema.fullcalendar
+
+[validators]
+validators=validate_base
+validators..cancel=
+validators..form_add=
+
+[actions]
+action.success=traverse_to:string:SFContent_edit
+action.success..form_add=traverse_to:string:add_reference
+action.success..cancel=traverse_to:string:SFAjax_go_back
+action.failure=traverse_to:string:SFAjax_base_edit

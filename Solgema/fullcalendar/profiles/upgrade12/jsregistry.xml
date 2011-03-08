@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+ <javascript cacheable="True" compression="safe" cookable="True"
+    enabled="True" expression="python:getattr(here, 'layout', None) == 'solgemafullcalendar_view'" id="jquery-ui-1.8.4.solgemafullcalendar.min.js" inline="False" remove="True"/>
+ <javascript cacheable="True" compression="safe" cookable="True" insert-before="fullcalendar.min.js"
+    enabled="True" expression="python:getattr(here, 'layout', None) == 'solgemafullcalendar_view'" id="jquery-ui-1.8.5.custom.min.js" inline="False"/>
+</object>

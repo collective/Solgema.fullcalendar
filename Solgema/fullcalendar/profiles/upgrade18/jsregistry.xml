@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+ <javascript cacheable="True" compression="safe" cookable="True" remove="True"
+    enabled="True" expression="here/@@iscalendarlayout" id="jquery-ui-1.8.5.custom.min.js" inline="False"/>
+ <javascript cacheable="True" compression="none" cookable="False"
+    enabled="True" expression="here/@@iscalendarlayout" id="fullcalendar.min.js" inline="False"/>
+</object>

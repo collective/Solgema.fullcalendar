@@ -1,0 +1,2 @@
+recursive-include Solgema *
+global-exclude *pyc

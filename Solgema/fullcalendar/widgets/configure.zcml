@@ -1,0 +1,30 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+           i18n_domain="plone">
+
+  <!-- Data Converters -->
+  <adapter
+      for="Solgema.fullcalendar.interfaces.ICustomUpdatingDict
+           .widgets.IColorDictInputWidget"
+      factory=".widgets.ColorDictDataConverter"
+      />
+
+  <adapter
+      factory=".widgets.ColorDictInputFieldWidget"
+      for="Solgema.fullcalendar.interfaces.ICustomUpdatingDict
+           z3c.form.interfaces.IFormLayer"
+      />
+
+  <view
+      type="zope.publisher.interfaces.browser.IBrowserRequest"
+      for="Solgema.fullcalendar.interfaces.ICustomUpdatingDict"
+      provides="zope.app.form.interfaces.IInputWidget"
+      factory=".widgets.ColorDictInputWidget"
+      permission="zope.Public"
+      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
+      />
+
+</configure>

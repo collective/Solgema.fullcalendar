@@ -1,0 +1,30 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- Vocabularies -->
+
+  <utility
+      component=".vocabularies.availableViews" 
+      name="solgemafullcalendar.availableViews"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      component=".vocabularies.daysOfWeek" 
+      name="solgemafullcalendar.daysOfWeek"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      component=".vocabularies.dayHours" 
+      name="solgemafullcalendar.dayHours"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      component=".vocabularies.availableCriterias" 
+      name="solgemafullcalendar.availableCriterias"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+</configure>

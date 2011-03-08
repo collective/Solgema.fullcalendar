@@ -1,0 +1,225 @@
+<tal:block metal:define-macro="master"
+           define="view context/@@at_base_edit_view;
+                   dummy python:view.isTemporaryObject() and request.set('disable_border', True);
+                   lifecycle context/@@at_lifecycle_view;
+                   lock_info context/@@plone_lock_info;
+                   dummy lifecycle/begin_edit;
+                   errors options/state/getErrors | nothing;
+                   schematas here/Schemata;
+                   allow_tabbing python: not view.isMultiPageSchema();
+                   fieldsets python:[key for key in schematas.keys() if (schematas[key].editableFields(here, visible_only=True))];
+                   default_fieldset python:'default' in fieldsets and 'default' or fieldsets and fieldsets[0] or None;
+                   fieldset request/fieldset|options/fieldset|default_fieldset;
+                   fields python:[f for key in fieldsets for f in schematas[key].editableFields(here)];
+                   dummy python:here.at_isEditable(fields);
+                   portal_type python:here.getPortalTypeName().lower().replace(' ', '_');
+                   type_name here/getPortalTypeName|here/archetype_name;
+                   base_macros here/edit_macros/macros;
+                   edit_template python:'%s_edit' % portal_type;
+                   edit_macros python:path('here/%s/macros | nothing' % edit_template);
+                   header_macro edit_macros/header | header_macro | base_macros/header;
+                   typedescription_macro edit_macros/typedescription | typedescription_macro | base_macros/typedescription;
+                   body_macro edit_macros/body | body_macro | base_macros/body;
+                   footer_macro edit_macros/footer | footer_macro | base_macros/footer;
+                   isLocked isLocked | lock_info/is_locked_for_current_user;
+                   css python:here.getUniqueWidgetAttr(fields, 'helper_css');
+                   js python:here.getUniqueWidgetAttr(fields, 'helper_js');">
+
+<metal:block define-slot="top_slot" >
+    <tal:block define="macro edit_macros/topslot | nothing"
+                    condition="macro">
+      <metal:block use-macro="macro" />
+    </tal:block>
+</metal:block>
+
+<tal:doctype tal:replace="structure string:&lt;!DOCTYPE html PUBLIC
+  &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+  &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;" />
+<metal:block use-macro="here/global_defines/macros/defines" />
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      tal:define="portal_state context/@@plone_portal_state;
+                  portal portal_state/portal;
+                  portal_url portal_state/portal_url;
+                  lang portal_state/language | language"
+      tal:attributes="lang lang;
+                      xml:lang lang">
+
+  <tal:cache tal:define="charset site_properties/default_charset|string:utf-8">
+    <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
+      Get the global cache headers located in global_cache_settings.
+    </metal:cache>
+  </tal:cache>
+
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"
+          tal:define="charset site_properties/default_charset|string:utf-8"
+          tal:attributes="content string:text/html;;charset=${charset}" />
+
+    <meta name="generator" content="Plone - http://plone.org" />
+
+    <!-- Internet Explorer fix, forces IE8 into newest possible rendering
+         engine even if it's on an intranet. This has to be defined before any
+         script/style tags. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+
+    <metal:baseslot define-slot="base">
+      <base tal:attributes="href here/renderBase" /><!--[if lt IE 7]></base><![endif]-->
+    </metal:baseslot>
+
+    <div tal:replace="structure provider:plone.htmlhead" />
+
+    <!-- IE6 workaround CSS/JS  -->
+    <tal:iefixstart replace="structure string:&lt;!--[if lte IE 7]&gt;" />
+        <style type="text/css" media="all" tal:condition="exists: portal/IEFixes.css"
+               tal:content="string:@import url($portal_url/IEFixes.css);">
+        </style>
+        
+        <script type="text/javascript"
+                tal:attributes="src string:${portal_url}/iefixes.js">
+        </script>
+    <tal:iefixend replace="structure string:&lt;![endif]--&gt;" />
+
+    <link tal:replace="structure provider:plone.htmlhead.links" />
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no" />
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no" />
+    
+    <tal:comment replace="nothing"> A slot where you can insert elements in the header from a template </tal:comment>
+    <metal:headslot define-slot="head_slot" />
+
+    <tal:comment replace="nothing"> A slot where you can insert CSS in the header from a template </tal:comment>
+    <metal:styleslot define-slot="style_slot" />
+
+    <tal:comment replace="nothing"> This is deprecated, please use style_slot instead. </tal:comment>
+    <metal:cssslot define-slot="css_slot" >
+    <tal:css condition="css"
+             repeat="item css">
+      <style type="text/css"
+             media="all"
+             tal:condition="python:exists('portal/%s' % item)"
+             tal:content="structure string:&lt;!-- @import url($portal_url/$item); --&gt;">
+      </style>
+    </tal:css>
+    <tal:block define="macro edit_macros/css | nothing"
+                    condition="macro">
+      <metal:block use-macro="macro" />
+    </tal:block>
+    </metal:cssslot>
+
+
+    <tal:block define="macro here/archetypes_custom_js/macros/javascript_head | nothing"
+               condition="macro">
+      <metal:block use-macro="macro" />
+    </tal:block>
+    <tal:js condition="js"
+            repeat="item js">
+      <script type="text/javascript"
+              charset="iso-8859-1"
+              tal:condition="python:exists('portal/%s' % item)"
+              tal:attributes="src string:$portal_url/$item">
+      </script>
+    </tal:js>
+    <tal:block define="macro edit_macros/javascript_head | nothing"
+                    condition="macro">
+      <metal:block use-macro="macro" />
+    </tal:block>
+
+<script type="text/javascript" tal:content="string:var hereurl = '${here/getURL|here/absolute_url}';"/>
+<script type="text/javascript">
+  jq(document).ready( function() {
+    jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq("html").height()+30 );
+    var $dialogContent = window.parent.jq('#event_edit_container');
+    if (jq('input[name=form.button.cancel]').attr('name')) {
+        window.parent.jq('a.ui-dialog-titlebar-close').unbind('click').click(function(event){
+          event.preventDefault();
+          jq.ajax({
+            url: hereurl+'/SFAjax_go_back',
+            data: {javascript:true},
+            success: function() {
+              $dialogContent.dialog('close');
+            }
+          });
+        });
+    }
+    var $calendar = window.parent.jq('#calendar');
+    var $kssspinner = window.parent.jq('#kss-spinner');
+    jq("body.ajax_edition").find("input[name='form.button.save']").click( function(event) {
+      $kssspinner.show();
+    });
+    $kssspinner.hide();
+    jq('ul.formTabs a').click(function(event){
+      jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq("html").height()+30 );
+    });
+    jq('select.formTabs').change(function(event){
+      jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq("html").height()+30 );
+    });
+  });
+</script>
+
+  </head>
+
+  <body tal:define="isRTL portal_state/is_rtl;
+                    template_id template/getId;
+                    template_id python:template_id or path('view/__name__');
+                    class_expr string:${context/getSectionFromURL} template-${template_id};"
+        tal:attributes="class python:class_expr.strip()+' ajax_edition';
+                        dir python:test(isRTL, 'rtl', 'ltr')" style="background-color:transparent;">
+            <div id="content">
+
+              <metal:block define-slot="content">
+                <div metal:define-macro="content"
+                     tal:define="show_border context/@@plone/showEditableBorder"
+                     tal:attributes="class python:test(show_border,'documentEditable','')">
+
+                  <div id="region-content"
+                       class="documentContent">
+
+                    <span id="contentTopLeft"></span>
+                    <span id="contentTopRight"></span>
+                    
+                    <a name="documentContent"></a>
+
+                    <div metal:use-macro="here/global_statusmessage/macros/portal_message">
+                      Portal status message
+                    </div>
+
+                    <metal:slot metal:define-slot="body">
+                    <div id="content">
+                      <metal:header metal:define-slot="header" tal:content="nothing">
+                        Visual Header
+                      </metal:header>
+                      <metal:bodytext metal:define-slot="main">
+      <metal:main define-macro="main">
+        <metal:use_typedescription use-macro="typedescription_macro" />
+        <metal:use_body use-macro="body_macro" />
+        <metal:use_footer use-macro="footer_macro" />
+      </metal:main>
+                      </metal:bodytext>
+                    </div>
+                    </metal:slot>
+
+                    <span id="contentBottomLeft"></span>
+                    <span id="contentBottomRight"></span>
+
+                  </div>
+
+                </div>
+
+              </metal:block>
+            </div>
+
+      <script type="text/javascript">
+        jq(document).ready(function(){
+            jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height(jq('body.ajax_edition').height()+30)
+        });
+      </script>
+</body>
+</html>
+</tal:block>

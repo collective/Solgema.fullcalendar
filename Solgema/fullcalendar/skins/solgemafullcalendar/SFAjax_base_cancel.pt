@@ -1,0 +1,10 @@
+<html>
+  <head>
+  <script src="./jquery.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      window.parent.jq('#event_edit_container').dialog('close');
+    </script>
+  </body>
+</html>

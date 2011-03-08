@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+ <object name="object" meta_type="CMF Action Category">
+  <property name="title"></property>
+  <object name="solgemafullcalendar_view" meta_type="CMF Action" remove="True">
+  </object>
+ </object>
+
+</object>

@@ -1,0 +1,8 @@
+[validators]
+validators = validate_base
+
+[actions]
+action.failure=traverse_to:string:SFAjax_base_edit
+action.next_schemata=traverse_to:string:SFAjax_base_edit
+action.success=redirect_to:string:SFValidate_integrity
+action.success_add_reference=redirect_to:python:object.REQUEST['last_referer']

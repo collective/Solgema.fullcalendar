@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    i18n_domain="solgema.fullcalendar">
+
+   <!-- File System Directory Views registration -->
+   <cmf:registerDirectory
+       name="solgemafullcalendar"/>
+   <cmf:registerDirectory
+       name="solgemafullcalendar/ui-lightness"/>
+   <cmf:registerDirectory
+       name="solgemafullcalendar/ui-lightness/images"/>
+   <cmf:registerDirectory
+       name="solgemafullcalendar/colorpicker"/>
+   <cmf:registerDirectory
+       name="solgemafullcalendar/colorpicker/css"/>
+   <cmf:registerDirectory
+       name="solgemafullcalendar/colorpicker/images"/>
+   <cmf:registerDirectory
+       name="solgemafullcalendar/colorpicker/js"/>
+
+</configure>

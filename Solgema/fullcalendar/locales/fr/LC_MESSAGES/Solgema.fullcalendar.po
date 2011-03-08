@@ -1,0 +1,179 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Solgema\n"
+"POT-Creation-Date: 2008-11-29 11:06+0000\n"
+"PO-Revision-Date: 2007-12-14 16:01+0100\n"
+"Last-Translator: Martronic SA <martronic@martronic.ch>\n"
+"Language-Team: EDF\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: fr\n"
+"Language-Name: Français\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: Solgema.fullcalendar\n"
+"X-Is-Fallback-For: fr-be fr-ca fr-lu fr-mc fr-ch fr-fr\n"
+
+msgid "solgemafullcalendar_view"
+msgstr "Vue Calendrier Solgema"
+
+msgid "title_solgemafullcalendar_view"
+msgstr "Calendrier"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Week"
+msgstr "Semaine"
+
+msgid "Day"
+msgstr "Jour"
+
+msgid "Allday"
+msgstr "Jour entier"
+
+msgid "basicWeek"
+msgstr "Semaine basic"
+
+msgid "basicDay"
+msgstr "Jour basic"
+
+msgid "agendaWeek"
+msgstr "Semaine agenda"
+
+msgid "agendaDay"
+msgstr "Jour agenda"
+
+msgid "label_allDaySlot"
+msgstr "Afficher les cases \"Jour entier\""
+
+msgid "label_slotMinutes"
+msgstr "Subdivision"
+
+msgid "help_slotMinutes"
+msgstr "Détermine en minutes la subdivision d'affichage d'une heure"
+
+msgid "label_defaultCalendarView"
+msgstr "Vue par défaut"
+
+msgid "help_defaultCalendarView"
+msgstr "Vue par défaut dans laquelle sera affiché le calendrier"
+
+msgid "label_allowCalEventOverlap"
+msgstr "Autoriser le chevauchement de événements"
+
+msgid "label_overlapEventsSeparate"
+msgstr "Séparer les événements qui se chevauchement"
+
+msgid "label_firstDay"
+msgstr "Premier jour de la semaine"
+
+msgid "help_firstDay"
+msgstr "Afficher le calendrier à partir de ce jour"
+
+msgid "label_relativeFirstDay"
+msgstr "Premier jour relatif"
+
+msgid "help_relativeFirstDay"
+msgstr "Afficher le calendrier à partir d'un certain nombre de jours avant ou après la date courante. ( utiliser le format '+1' ou '-1' )"
+
+msgid "label_weekends"
+msgstr "Weekends"
+
+msgid "help_weekends"
+msgstr "Afficher le samedi et le dimanche"
+
+msgid "label_firstHour"
+msgstr "Première heure affichée"
+
+msgid "help_firstHour"
+msgstr "Détermine la première heure affichée dans le calendrier (doit être du type '5' de 0 à 23). Si cette heure est précédée d'un \"+\" our d'un \"-\", le nombre d'heures défini sera ajouté ou soustrait à l'heure courante."
+
+msgid "label_minTime"
+msgstr "Première heure visible"
+
+msgid "help_minTime"
+msgstr "Détermine la première heure visible dans le calendrier (doit être du type '5' ou '5:30')."
+
+msgid "label_maxTime"
+msgstr "Dernière heure visible"
+
+msgid "help_maxTime"
+msgstr "Détermine la dernière heure visible dans le calendrier (doit être du type '18' ou '18:30')."
+
+msgid "label_daysToShow"
+msgstr "Nombre de jour à afficher"
+
+msgid "help_daysToShow"
+msgstr "Affiche uniquement le nombre de jour défini dans le calendrier"
+
+msgid "Reschedule"
+msgstr "Replanifier"
+
+msgid "addNewEvent"
+msgstr "Ajouter un nouvel événement"
+
+msgid "editEvent"
+msgstr "Modifier l'événement"
+
+msgid "label_target_folder"
+msgstr "Dossier de création"
+
+msgid "help_target_folder"
+msgstr "Choisissez dans quel dossier le nouveau contenu ajouté dans le calendrier sera créé. Si ce champ n'est pas défini, les événements seront créés dans le dossier content cette collection."
+
+msgid "label_undefined"
+msgstr "Non défini"
+
+msgid "label_headerRight"
+msgstr "Entête droite"
+
+msgid "help_headerRight"
+msgstr "Contenu de l'entête droite du calendrier"
+
+msgid "label_calendarHeight"
+msgstr "Hauteur du calendrier"
+
+msgid "help_calendarHeight"
+msgstr "Entrez la hauteur du calendrier en pixels. (exemple: 600 )"
+
+msgid "label_availableCriterias"
+msgstr "Critères de la recherche"
+
+msgid "help_availableCriterias"
+msgstr "Choisissez les critères de la collection qui seront affichés en dessous du calendrier."
+
+msgid "label_displayUndefined"
+msgstr "Non défini"
+
+msgid "help_displayUndefined"
+msgstr "Montrer la case \"Non défini\" dans la recerche en dessous du calendrier. Cela permet de rechercher également du contenu dont le champ recherché n'a pas été renseigné."
+
+msgid "label_overrideStateForAdmin"
+msgstr "Surclasser Critère d'état"
+
+msgid "help_overrideStateForAdmin"
+msgstr "Ne pas prendre en compte le critère d'état pour les administrateurs."
+
+msgid "Calendar"
+msgstr "Calendrier"
+
+msgid "Query"
+msgstr "Recherche"
+
+msgid "Colors"
+msgstr "Couleurs"
+
+msgid "label_queryColors"
+msgstr "Couleurs"
+
+msgid "help_queryColors"
+msgstr "Vous pouvez assigner une couleur à chaque valeur des critères de recherche."
+
+msgid "label_displayNoscriptList"
+msgstr "Liste des événements sans javascript"
+
+msgid "help_displayNoscriptList"
+msgstr "Si coché, lorsque le javascript n'est pas activé, une liste des événements est affichée à la place du calendrier. A utiliser si le contenu du calendrier doit être référencé sur internet (p.e. googlebot)."
+

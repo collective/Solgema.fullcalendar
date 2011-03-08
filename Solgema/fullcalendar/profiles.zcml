@@ -1,0 +1,150 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone">
+    
+  <genericsetup:registerProfile
+    name="default"
+    title="Solgema Fullcalendar"
+    directory="profiles/default"
+    description='Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall Solgema Fullcalendar"
+      directory="profiles/uninstall"
+      description="Uninstall Solgema Fullcalendar Product."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 0.2"
+      description="Update. Look PCK-INFO.txt"
+      source="0.1"
+      destination="0.2"
+      handler="Solgema.fullcalendar.migrations.doNothing"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 0.3"
+      description="Update. Look PCK-INFO.txt"
+      source="0.2"
+      destination="0.3"
+      handler="Solgema.fullcalendar.migrations.upgrade03"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.0"
+      description="Update. Look PCK-INFO.txt"
+      source="0.3"
+      destination="1.0"
+      handler="Solgema.fullcalendar.migrations.doNothing"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.1"
+      description="Update. Look README.txt"
+      source="1.0"
+      destination="1.1"
+      handler="Solgema.fullcalendar.migrations.upgrade11"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:registerProfile
+    name="upgrade12"
+    title="Solgema Fullcalendar Upgrade 1.2"
+    directory="profiles/upgrade12"
+    description='Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.2"
+      description="Update. Look README.txt"
+      source="1.1"
+      destination="1.2"
+      handler="Solgema.fullcalendar.migrations.upgrade12"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:registerProfile
+    name="upgrade13"
+    title="Solgema Fullcalendar Upgrade 1.3"
+    directory="profiles/upgrade13"
+    description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.3"
+      description="Update. Look README.txt"
+      source="1.2"
+      destination="1.3"
+      handler="Solgema.fullcalendar.migrations.upgrade13"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.4"
+      description="Update. Look README.txt"
+      source="1.3"
+      destination="1.4"
+      handler="Solgema.fullcalendar.migrations.upgrade14"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.5"
+      description="Update. Look PCK-INFO.txt"
+      source="1.4"
+      destination="1.5"
+      handler="Solgema.fullcalendar.migrations.doNothing"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:registerProfile
+    name="upgrade16"
+    title="Solgema Fullcalendar Upgrade 1.6"
+    directory="profiles/upgrade16"
+    description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.6"
+      description="Update. Look PCK-INFO.txt"
+      source="1.5"
+      destination="1.6"
+      handler="Solgema.fullcalendar.migrations.upgrade16"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:registerProfile
+    name="upgrade17"
+    title="Solgema Fullcalendar Upgrade 1.7"
+    directory="profiles/upgrade17"
+    description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.7"
+      description="Update. Look PCK-INFO.txt"
+      source="1.6"
+      destination="1.7"
+      handler="Solgema.fullcalendar.migrations.upgrade17"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:registerProfile
+    name="upgrade18"
+    title="Solgema Fullcalendar Upgrade 1.8"
+    directory="profiles/upgrade18"
+    description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 1.8"
+      description="Update. Look PCK-INFO.txt"
+      source="1.7"
+      destination="1.8"
+      handler="Solgema.fullcalendar.migrations.upgrade18"
+      profile="Solgema.fullcalendar:default" />
+
+</configure>

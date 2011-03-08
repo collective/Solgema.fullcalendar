@@ -1,0 +1,1 @@
+<p tal:replace="structure view/generateCSS"/>

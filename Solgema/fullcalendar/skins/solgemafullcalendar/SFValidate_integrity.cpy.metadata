@@ -1,0 +1,6 @@
+[validators]
+validators =
+
+[actions]
+action.failure=traverse_to:string:SFAjax_base_edit
+action.success=traverse_to:string:SFUpdate_version_on_edit

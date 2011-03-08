@@ -1,0 +1,176 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: Solgema\n"
+"POT-Creation-Date: 2008-11-29 11:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: Solgema.fullcalendar\n"
+
+msgid "solgemafullcalendar_view"
+msgstr ""
+
+msgid "title_solgemafullcalendar_view"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Week"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Allday"
+msgstr ""
+
+msgid "basicWeek"
+msgstr ""
+
+msgid "basicDay"
+msgstr ""
+
+msgid "agendaWeek"
+msgstr ""
+
+msgid "agendaDay"
+msgstr ""
+
+msgid "label_allDaySlot"
+msgstr ""
+
+msgid "label_slotMinutes"
+msgstr ""
+
+msgid "help_slotMinutes"
+msgstr ""
+
+msgid "label_defaultCalendarView"
+msgstr ""
+
+msgid "help_defaultCalendarView"
+msgstr ""
+
+msgid "label_allowCalEventOverlap"
+msgstr ""
+
+msgid "label_overlapEventsSeparate"
+msgstr ""
+
+msgid "label_firstDay"
+msgstr ""
+
+msgid "help_firstDay"
+msgstr ""
+
+msgid "label_relativeFirstDay"
+msgstr ""
+
+msgid "help_relativeFirstDay"
+msgstr ""
+
+msgid "label_firstHour"
+msgstr ""
+
+msgid "help_firstHour"
+msgstr ""
+
+msgid "label_minTime"
+msgstr ""
+
+msgid "help_minTime"
+msgstr ""
+
+msgid "label_maxTime"
+msgstr ""
+
+msgid "help_maxTime"
+msgstr ""
+
+msgid "label_daysToShow"
+msgstr ""
+
+msgid "help_daysToShow"
+msgstr ""
+
+msgid "Reschedule"
+msgstr ""
+
+msgid "addNewEvent"
+msgstr ""
+
+msgid "editEvent"
+msgstr ""
+
+msgid "label_target_folder"
+msgstr ""
+
+msgid "help_target_folder"
+msgstr ""
+
+msgid "label_undefined"
+msgstr ""
+
+msgid "label_headerRight"
+msgstr ""
+
+msgid "help_headerRight"
+msgstr ""
+
+msgid "label_calendarHeight"
+msgstr ""
+
+msgid "help_calendarHeight"
+msgstr ""
+
+msgid "label_availableCriterias"
+msgstr ""
+
+msgid "help_availableCriterias"
+msgstr ""
+
+msgid "label_displayUndefined"
+msgstr ""
+
+msgid "help_displayUndefined"
+msgstr ""
+
+msgid "label_overrideStateForAdmin"
+msgstr ""
+
+msgid "help_overrideStateForAdmin"
+msgstr ""
+
+msgid "Calendar"
+msgstr ""
+
+msgid "Query"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "label_queryColors"
+msgstr ""
+
+msgid "help_queryColors"
+msgstr ""
+
+msgid "label_displayNoscriptList"
+msgstr ""
+
+msgid "help_displayNoscriptList"
+msgstr ""
+
+

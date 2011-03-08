@@ -1,0 +1,8 @@
+<metal:block use-macro="here/global_defines/macros/defines" />
+<div id="contextualContentMenu">
+  <ul tal:condition="exists:context/edit" class="base" tal:define="came_from request/HTTP_REFERER | nothing">
+    <li><a id="reschedule" tal:attributes="href string:${context/absolute_url}" i18n:domain="Solgema.fullcalendar" i18n:translate="">Reschedule</a></li>
+    <li><a tal:attributes="href string:${context/absolute_url}/edit?came_from=${came_from}" i18n:domain="plone" i18n:translate="">Edit</a></li>
+  </ul>
+  <div tal:replace="structure provider:plone.contentmenu" />
+</div>

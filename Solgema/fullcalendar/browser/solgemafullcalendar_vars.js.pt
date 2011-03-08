@@ -1,0 +1,33 @@
+<metal:javascript i18n:domain="Solgema.fullcalendar" tal:define="calendar view/calendar" tal:condition="calendar">
+  var SolgemaFullcalendarVars = {
+    slotMinutes : <p tal:replace="calendar/slotMinutes"/>,
+    defaultView: '<p tal:replace="calendar/defaultCalendarView"/>',
+    firstDay : <p tal:replace="view/getFirstDay"/>,
+    year : <p tal:replace="view/getYear"/>,
+    monthNumber : <p tal:replace="view/getMonthNumber"/>,
+    date : <p tal:replace="view/getDate"/>,
+    weekends : <p tal:replace="python:calendar.weekends and 'true' or 'false'"/>,
+    firstHour : '<p tal:replace="calendar/firstHour"/>',
+    minTime : '<p tal:replace="calendar/minTime"/>',
+    maxTime : '<p tal:replace="calendar/maxTime"/>',
+    monthNames: [<tal:recurse repeat="msg view/getMonthsNames">"<p tal:replace="msg"/>",</tal:recurse>],
+    monthNamesShort: [<tal:recurse repeat="msg view/getMonthsNamesAbbr">"<p tal:replace="msg"/>",</tal:recurse>],
+    dayNames: [<tal:recurse repeat="msg view/getWeekdaysNames">"<p tal:replace="msg"/>",</tal:recurse>],
+    dayNamesShort: [<tal:recurse repeat="msg view/getWeekdaysNamesAbbr">"<p tal:replace="msg"/>",</tal:recurse>],
+    today: "<p tal:replace="view/getTodayTranslation"/>",
+    month: "<p tal:replace="view/getMonthTranslation"/>",
+    week: "<p tal:replace="view/getWeekTranslation"/>",
+    day: "<p tal:replace="view/getDayTranslation"/>",
+    titleFormat: <p tal:replace="view/getCustomTitleFormat"/>,
+    axisFormat: "<p tal:replace="view/getHourFormat"/>",
+    allDaySlot: <p tal:replace="python:calendar.allDaySlot and 'true' or 'false'"/>,
+    allDayText: "<p tal:replace="view/getAllDayText"/>",
+    editEventText: "<p tal:replace="view/getEditEventText"/>",
+    target_folder: "<p tal:replace="view/getTargetFolder"/>",
+    headerRight: "<p tal:replace="view/getHeaderRight"/>",
+    ploneVersion: "<p tal:replace="view/getPloneVersion"/>",
+    calendarHeight: "<p tal:replace="calendar/calendarHeight|nothing"/>",
+    topicRelativeUrl: "<p tal:replace="view/getTopicRelativeUrl|nothing"/>",
+    topicAbsoluteUrl :"<p tal:replace="view/getTopicAbsoluteUrl|nothing"/>"
+  }
+</metal:javascript>

@@ -1,0 +1,7 @@
+Changelog
+=========
+
+1.9dev (unreleased)
+-------------------
+
+- Imported Solgema.fullcalendar in collective [Fabien Eloire, Thomas Desvenain]

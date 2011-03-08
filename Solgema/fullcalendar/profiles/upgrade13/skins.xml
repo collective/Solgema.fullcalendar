@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+
+ <skin-path name="*">
+  <layer name="solgemafullcalendar/colorpicker" insert-after="solgemafullcalendar"/>
+  <layer name="solgemafullcalendar/colorpicker/css" insert-after="solgemafullcalendar"/>
+  <layer name="solgemafullcalendar/colorpicker/js" insert-after="solgemafullcalendar"/>
+  <layer name="solgemafullcalendar/colorpicker/images" insert-after="solgemafullcalendar"/>
+ </skin-path>
+
+</object>

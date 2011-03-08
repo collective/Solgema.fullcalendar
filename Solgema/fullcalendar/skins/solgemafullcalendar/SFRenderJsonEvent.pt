@@ -1,0 +1,12 @@
+<html>
+<head>
+<script type="text/javascript" src="./jquery.js"></script>
+</head>
+<body>
+<script>
+  window.parent.jq('#calendar').fullCalendar( 'refetchEvents' );
+  window.parent.jq('#event_edit_container').dialog('close');
+  window.parent.jq('#kss-spinner').hide();
+</script>
+</body>
+</html>

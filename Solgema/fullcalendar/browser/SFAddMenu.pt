@@ -1,0 +1,43 @@
+<div id="contextualContentMenu">
+<ul id="contentActionMenus"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    i18n:domain="plone">
+    <tal:repeat repeat="menuItem view/getMenuItems">
+    <li>
+        <dl class="actionMenu">
+          <dt>
+            <a href="#"
+               tal:omit-tag="not:menuItem/action"
+               tal:attributes="href menuItem/action;
+                               title menuItem/description"
+               i18n:attributes="title;">
+               <span tal:omit-tag="menuItem/action"
+                     class="noMenuAction">
+                  <img width="16"
+                       height="16"
+                       alt=""
+                       tal:condition="menuItem/icon"
+                       tal:attributes="src menuItem/icon;
+                                       title menuItem/description"
+                       i18n:attributes="alt;"/>
+                  <span tal:content="menuItem/title"
+                        i18n:translate="">
+                      Title
+                  </span>
+                  <span tal:condition="menuItem/extra/stateTitle | nothing"
+                        tal:attributes="class menuItem/extra/class | nothing"
+                        tal:content="menuItem/extra/stateTitle"
+                        i18n:translate="">
+                      State title
+                  </span>
+                  <span class="arrowDownAlternative"
+                      tal:condition="not:menuItem/extra/hideChildren | not:submenu | nothing">&#9660;</span>
+               </span>
+            </a>
+          </dt>
+        </dl>
+    </li>
+    </tal:repeat>
+</ul>
+</div>

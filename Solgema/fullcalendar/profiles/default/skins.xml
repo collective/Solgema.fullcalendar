@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+
+ <object name="solgemafullcalendar"
+    meta_type="Filesystem Directory View"
+    directory="Solgema.fullcalendar:skins/solgemafullcalendar"/>
+
+ <skin-path name="*">
+  <layer name="solgemafullcalendar" insert-after="custom"/>
+  <layer name="solgemafullcalendar/ui-lightness" insert-after="custom"/>
+  <layer name="solgemafullcalendar/ui-lightness/images" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker/css" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker/js" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker/images" insert-after="custom"/>
+ </skin-path>
+
+</object>

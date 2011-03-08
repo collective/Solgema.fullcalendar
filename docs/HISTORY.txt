@@ -1,0 +1,11 @@
+
+
+Changelog for Solgema.fullcalendar
+
+    (name of developer listed in brackets)
+
+Solgema.fullcalendar - 0.4 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+

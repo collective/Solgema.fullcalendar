@@ -1,0 +1,8 @@
+[validators]
+validators =
+
+[actions]
+action.success_workspaces_no_edit=traverse_to:string:SFAjax_base_edit
+action.success_workspaces=traverse_to:string:SFAjax_base_edit
+action.success_no_edit=redirect_to:string:@@SFJsonEvent
+action.success=traverse_to:string:SFAjax_base_edit

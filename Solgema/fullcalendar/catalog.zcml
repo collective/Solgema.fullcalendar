@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="Solgema.fullcalendar">
+
+  <adapter factory='.catalog.SFAllowedRolesAndUsersModify' name='SFAllowedRolesAndUsersModify' />
+  <adapter factory='.catalog.SFAllDay' name='SFAllDay' />
+
+</configure>

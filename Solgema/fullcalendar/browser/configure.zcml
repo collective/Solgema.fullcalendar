@@ -1,0 +1,179 @@
+<configure 
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    i18n_domain="Solgema.fullcalendar">
+
+  <!-- THE CALENDAR VIEW -->
+  <browser:page
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="solgemafullcalendar_view"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarView"
+      template="solgemafullcalendar_view.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
+  <browser:page
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="solgemafullcalendar_vars.js"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarJS"
+      template="solgemafullcalendar_vars.js.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR COLORS CSS GENERATED -->
+  <browser:page
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="solgemafullcalendar_colors.css"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarColorsCss"
+      template="solgemafullcalendar_colors.css.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR EVENT QUERY AND RENDERED AS JSON -->
+  <browser:page
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="solgemafullcalendarevents"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarEvents"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
+      permission="zope.Public"
+      />
+
+  <!-- FORM FOR CALENDAR PROPERTIES -->
+  <browser:page
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="solgemafullcalendar_properties"
+      class=".content.SolgemaFullcalendarForm"
+      permission="cmf.ModifyPortalContent"
+      template="layout.pt"
+      />
+
+  <!-- AJAX ACTIONS DONE IN THE CALENDAR -->
+  <browser:page
+      for="*"
+      name="solgemafullcalendar_drop"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarDropView"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="solgemafullcalendar_resize"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarResizeView"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="SFJsonEvent"
+      class=".solgemafullcalendar_actions.SFJsonEvent"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="SFJsonEventDelete"
+      class=".solgemafullcalendar_actions.SFJsonEventDelete"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="SFJsonEventCopy"
+      class=".solgemafullcalendar_actions.SFJsonEventCopy"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="SFJsonEventCut"
+      class=".solgemafullcalendar_actions.SFJsonEventCut"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="SFJsonEventPaste"
+      class=".solgemafullcalendar_actions.SFJsonEventPaste"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="SFDisplayAddMenu"
+      class=".solgemafullcalendar_actions.SFDisplayAddMenu"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="SFAddMenu"
+      template="SFAddMenu.pt"
+      class=".solgemafullcalendar_actions.SFAddMenu"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="solgemafullcalendar_workflowtransition"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarWorkflowTransition"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <!-- QUERY VIEWLET DISPLAYED IN THE BOTTOM OF THE CALENDAR -->
+  <browser:viewletManager
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="Solgema.fullcalendar.queryManager"
+      provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
+      permission="zope2.View"
+      class="plone.app.viewletmanager.manager.OrderedViewletManager"
+      />
+
+   <browser:viewlet
+        name="Solgema.fullcalendar.query"
+        manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
+        class=".solgemafullcalendar_query.SolgemaFullcalendarQuery"
+        template="solgemafullcalendar_query.pt"
+        permission="zope2.View"
+     />
+
+  <!-- ADAPTERS -->
+
+  <adapter
+       provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEditableFilter"
+       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+       factory=".adapters.SolgemaFullcalendarEditableFilter" />
+
+  <adapter
+       provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarCatalogSearch"
+       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+       factory=".adapters.SolgemaFullcalendarCatalogSearch" />
+
+  <adapter
+       provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarTopicEventDict"
+       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker
+            zope.publisher.interfaces.browser.IBrowserRequest"
+       factory=".adapters.SolgemaFullcalendarTopicEventDict" />
+
+  <adapter
+       provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEventDict"
+       for="Products.ATContentTypes.content.event.ATEvent
+            zope.publisher.interfaces.browser.IBrowserRequest"
+       factory=".adapters.SolgemaFullcalendarEventDict" />
+
+  <!-- Actions -->
+  <browser:page
+      for="*"
+      name="iscalendarlayout"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarActionGuards"
+      attribute="is_calendar_layout"
+      permission="zope.Public"
+      />
+
+</configure>

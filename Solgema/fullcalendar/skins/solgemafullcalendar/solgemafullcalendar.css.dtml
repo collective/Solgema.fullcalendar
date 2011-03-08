@@ -1,0 +1,370 @@
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+#calendar div.fc-content {
+    z-index:0;
+}
+
+.fc-content .fc-corner-bottom a {
+    border-bottom-width:0;
+    margin-bottom:0;
+}
+
+.fc-content .fc-corner-top a {
+    border-top-width:0;
+    margin-top:0;
+}
+
+.fc-content .fc-corner-right a {
+    border-right-width:0;
+    margin-right:0;
+}
+.fc-content .fc-corner-left a {
+    border-left-width:0;
+    margin-left:0;
+}
+
+.fc-event-vert {
+    border-width:1px;
+}
+
+.fc-event-hori a {
+    color:#FFFFFF;
+}
+
+#calendar div.contentmenu_selected a {
+    background-color: &dtml-helpBackgroundColor; !important;
+    color: #000;
+}
+
+#calendar table {
+    padding:0px;
+    margin:0px;
+}
+
+#calendar .fc-header-center table {
+    margin:auto;
+}
+
+#calendar div.contentmenu_selected,
+#calendar div.contentmenu_selected .fc-event-time {
+    background-color: &dtml-notifyBorderColor; !important;
+}
+
+#calendar div.contentmenu_selected {
+    border:1px solid &dtml-notifyBorderColor; !important;
+}
+
+#calendar .contentmenu_selected {
+    border: none !important;
+    background-color: transparent !important;
+}
+
+#content #calendar div.contentmenu_selected a:hover {
+    color: #000000 !important;
+}
+
+#calendar div.event_cutted,
+#calendar div.event_copied {
+    opacity:0.7;
+}
+
+.fc-agenda .fc-event-time, .fc-event-bg {
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+}
+
+.fc-event, .fc-event a {
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+}
+
+#content #calendar a:link {
+    border:none;
+    color:#000000;
+}
+
+#content #calendar .fc-content a:hover {
+    color:#FFFFFF !important;
+}
+
+#calendar span.fc-event-time {
+    -moz-border-radius-bottomleft:0px;
+    -moz-border-radius-bottomright:0px;
+    -webkit-border-bottom-left-radius:0px;
+    -webkit-border-bottom-right-radius:0px;
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
+}
+
+#calendar  .ui-draggable-dragging {
+    -moz-box-shadow:4px 4px 5px #666666;
+    box-shadow:4px 4px 5px #666666;
+    -webkit-box-shadow:4px 4px 5px #666666;
+}
+
+#calendar .fc-event:hover,
+#calendar .fc-event.contentmenu_selected {
+    -moz-box-shadow:2px 2px 3px #AAAAAA;
+    box-shadow:2px 2px 3px #AAAAAA;
+    -webkit-box-shadow:2px 2px 3px #AAAAAA;
+}
+
+.fc-event-vert span.fc-event-bg {
+    opacity:0.5;
+}
+
+.ui-resizable-s {
+    color: #333333 !important;
+}
+
+#SFQuery {
+    overflow:hidden;
+}
+
+#SFQuery .SFQuery_input {
+    float:left;
+    margin:0 1% 10px 0;
+    width:32%;
+}
+
+#event_edit_container #content {
+    margin:0px;
+}
+
+#event_edit_container #visual-portal-wrapper {
+    width:100%;
+    margin:0px;
+    padding:0px;
+    min-width:0px;
+    max-width:100%;
+}
+
+#event_edit_container #portal-column-content {
+    float:none;
+    left:0px;
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+
+#event_edit_container #content h1 {
+    display:none;
+}
+
+#event_edit_container .eventDetails {
+    float:none;
+    margin:0px;
+}
+
+/* COLOR INDEXES */
+
+#calendar div.fc-event.colorIndex-undefined {
+    border:1px solid #AAAAAA;
+}
+#calendar div.fc-event.colorIndex-undefined a,
+#calendar div.fc-event.colorIndex-undefined a .fc-event-time {
+    background-color: #AAAAAA;
+}
+label.colorIndex-undefined {
+    color: #AAAAAA;
+}
+
+#calendar div.fc-event.colorIndex-0 {
+    border:1px solid #4ca9ff;
+}
+#calendar div.fc-event.colorIndex-0 a,
+#calendar div.fc-event.colorIndex-0 a .fc-event-time {
+    background-color: #4ca9ff;
+}
+label.colorIndex-0 {
+    color: #4ca9ff;
+}
+
+#calendar div.fc-event.colorIndex-1 {
+    border:1px solid #96d510;
+}
+#calendar div.fc-event.colorIndex-1 a,
+#calendar div.fc-event.colorIndex-1 a .fc-event-time {
+    background-color: #96d510;
+}
+label.colorIndex-1 {
+    color: #96d510;
+}
+
+#calendar div.fc-event.colorIndex-2 {
+    border:1px solid #ff1942;
+}
+#calendar div.fc-event.colorIndex-2 a,
+#calendar div.fc-event.colorIndex-2 a .fc-event-time {
+    background-color: #ff1942;
+}
+label.colorIndex-2 {
+    color: #ff1942;
+}
+
+#calendar div.fc-event.colorIndex-3 {
+    border:1px solid #ff8900;
+}
+#calendar div.fc-event.colorIndex-3 a,
+#calendar div.fc-event.colorIndex-3 a .fc-event-time {
+    background-color: #ff8900;
+}
+label.colorIndex-3 {
+    color: #ff8900;
+}
+
+#calendar div.fc-event.colorIndex-4 {
+    border:1px solid #1e4ae6;
+}
+#calendar div.fc-event.colorIndex-4 a,
+#calendar div.fc-event.colorIndex-4 a .fc-event-time {
+    background-color: #1e4ae6;
+}
+label.colorIndex-4 {
+    color: #1e4ae6;
+}
+
+#calendar div.fc-event.colorIndex-5 {
+    border:1px solid #009934;
+}
+#calendar div.fc-event.colorIndex-5 a,
+#calendar div.fc-event.colorIndex-5 a .fc-event-time {
+    background-color: #009934;
+}
+label.colorIndex-5 {
+    color: #009934;
+}
+
+#calendar div.fc-event.colorIndex-6 {
+    border:1px solid #8a0dec;
+}
+#calendar div.fc-event.colorIndex-6 a,
+#calendar div.fc-event.colorIndex-6 a .fc-event-time {
+    background-color: #8a0dec;
+}
+label.colorIndex-6 {
+    color: #8a0dec;
+}
+
+#calendar div.fc-event.colorIndex-7 {
+    border:1px solid #e01e9e;
+}
+#calendar div.fc-event.colorIndex-7 a,
+#calendar div.fc-event.colorIndex-7 a .fc-event-time {
+    background-color: #e01e9e;
+}
+label.colorIndex-7 {
+    color: #e01e9e;
+}
+
+#calendar div.fc-event.colorIndex-8 {
+    border:1px solid #32ccc2;
+}
+#calendar div.fc-event.colorIndex-8 a,
+#calendar div.fc-event.colorIndex-8 a .fc-event-time {
+    background-color: #32ccc2;
+}
+label.colorIndex-8 {
+    color: #32ccc2;
+}
+
+#calendar div.fc-event.colorIndex-9 {
+    border:1px solid #c7d42a;
+}
+#calendar div.fc-event.colorIndex-9 a,
+#calendar div.fc-event.colorIndex-9 a .fc-event-time {
+    background-color: #c7d42a;
+}
+label.colorIndex-9 {
+    color: #c7d42a;
+}
+
+#calendar div.fc-event.colorIndex-10 {
+    border:1px solid #cd6031;
+}
+#calendar div.fc-event.colorIndex-10 a,
+#calendar div.fc-event.colorIndex-10 a .fc-event-time {
+    background-color: #cd6031;
+}
+label.colorIndex-10 {
+    color: #cd6031;
+}
+
+/*COLORS FOR STATES*/
+
+#calendar.query-review_state div.fc-event.state-private {
+    border:1px solid Red;
+}
+#calendar.query-review_state div.fc-event.state-private a,
+#calendar.query-review_state div.fc-event.state-private a .fc-event-time {
+    background-color: Red;
+}
+label.state-private {
+    color: Red;
+}
+
+#calendar.query-review_state div.fc-event.state-visible {
+    border:1px solid #74AE0B;
+}
+#calendar.query-review_state div.fc-event.state-visible a,
+#calendar.query-review_state div.fc-event.state-visible a .fc-event-time {
+    background-color: #74AE0B;
+}
+label.state-visible {
+    color: #74AE0B;
+}
+
+#calendar.query-review_state div.fc-event.state-published {
+    border:1px solid &dtml-linkColor;;
+}
+#calendar.query-review_state div.fc-event.state-published a,
+#calendar.query-review_state div.fc-event.state-published a .fc-event-time {
+    background-color: &dtml-linkColor;;
+}
+label.state-published {
+    color: &dtml-linkColor;;
+}
+
+#calendar.query-review_state div.fc-event.state-pending {
+    border:1px solid #FFA500;
+}
+#calendar.query-review_state div.fc-event.state-pending a,
+#calendar.query-review_state div.fc-event.state-pending a .fc-event-time {
+    background-color: #FFA500;
+}
+label.state-pending {
+    color: #FFA500;
+}
+
+#calendar.query-review_state div.fc-event.state-expired {
+    border:1px solid Red;
+}
+#calendar.query-review_state div.fc-event.state-expired a,
+#calendar.query-review_state div.fc-event.state-expired a .fc-event-time {
+    background-color: Red;
+}
+label.state-expired {
+    color: Red;
+}
+
+#calendar.query-review_state div.fc-event.syndicated {
+    border:1px solid #008000;
+}
+#calendar.query-review_state div.fc-event.syndicated a,
+#calendar.query-review_state div.fc-event.syndicated a .fc-event-time {
+    background-color: #008000;
+}
+label.syndicated {
+    color: #008000;
+}
+
+
+
+/* </dtml-with> */
+/* @end */
+
+
+
