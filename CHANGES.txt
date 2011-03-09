@@ -4,6 +4,9 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Use Generic setup to install some dependencies.
+  [thomasdesvenain]
+
 - Hide upgrade profiles on Plone site creation form.
   [thomasdesvenain]
 

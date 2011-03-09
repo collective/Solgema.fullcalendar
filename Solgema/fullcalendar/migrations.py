@@ -1,6 +1,7 @@
 import transaction
 from Products.CMFCore.utils import getToolByName
-from Solgema.fullcalendar.config import PRODUCT_DEPENDENCIES
+
+PRODUCT_DEPENDENCIES = ['Solgema.ContextualContentMenu', 'plone.app.z3cform', 'collective.js.jqueryui']
 
 def doNothing(context):
     pass
