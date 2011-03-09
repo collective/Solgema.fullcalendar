@@ -7,6 +7,7 @@
     i18n_domain="Solgema.fullcalendar">
 
   <include package="plone.app.z3cform" />
+  <include package="collective.js.jqueryui" />
   <include package="plone.z3cform" />
   <include package="z3c.form" />
   <include package="Products.CMFCore" />
