@@ -1,4 +1,4 @@
-<configure 
+<configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:gs="http://namespaces.zope.org/genericsetup"
@@ -108,7 +108,7 @@
       for="*"
       name="SFDisplayAddMenu"
       class=".solgemafullcalendar_actions.SFDisplayAddMenu"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       />
 
   <browser:page
@@ -116,7 +116,7 @@
       name="SFAddMenu"
       template="SFAddMenu.pt"
       class=".solgemafullcalendar_actions.SFAddMenu"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       />
 
   <browser:page

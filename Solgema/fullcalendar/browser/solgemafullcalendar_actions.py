@@ -1,26 +1,30 @@
 from urllib import quote_plus
+try:
+    import json
+except:
+    import simplejson as json
+
+from DateTime import DateTime
 from OFS import CopySupport
 from OFS.CopySupport import CopyError, eInvalid, eNotFound
 from zExceptions import Unauthorized, BadRequest
 from ZODB.POSException import ConflictError
 from Acquisition import aq_base, aq_inner, aq_parent
+from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
-from Products.Five import BrowserView
 from zope.component import getMultiAdapter, queryMultiAdapter, getAdapters, queryUtility
-from Products.CMFCore.utils import getToolByName
-from plone.i18n.normalizer.interfaces import IIDNormalizer
-from zope.i18nmessageid import MessageFactory
 from zope.i18n import translate
-from DateTime import DateTime
+from zope.i18nmessageid import MessageFactory
+
+from Products.Five import BrowserView
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.utilities import marker
-try:
-    import json
-except:
-    import simplejson as json
-from AccessControl import getSecurityManager
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+
 from Solgema.fullcalendar.config import _
+
 plMF = MessageFactory('plone')
 PLMF = MessageFactory('plonelocales')
 ATMF = MessageFactory('atcontenttypes')
@@ -61,26 +65,39 @@ class SFJsonEvent(BrowserView):
 class SFDisplayAddMenu(BrowserView):
 
     def __call__(self):
+        portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        context = aq_inner(self.context)
+        target_folder = ISolgemaFullcalendarProperties(context, None).target_folder
+        target_folder = target_folder \
+                    and portal.unrestrictedTraverse('/'+ portal.id + target_folder) \
+                    or aq_parent(context)
+
+        if not getSecurityManager().checkPermission('Add portal content', target_folder):
+            raise Unauthorized, "You can't add an event on %s" % str(target_folder)
+
         query = self.context.buildQuery()
         copyDict = getCopyObjectsUID(self.request)
         if query.has_key('Type'):
             if isinstance(query['Type'], (list, tuple)) and len(query['Type'])>1:
-                return json.dumps({'display':True})
+                return json.dumps({'display': True})
             else:
                 portal_type = isinstance(query['Type'], (tuple, list)) and query['Type'][0] or query['Type']
-                portal = getToolByName(self.context, 'portal_url').getPortalObject()
                 if copyDict and portal.restrictedTraverse(copyDict['url']).portal_type == portal_type:
-                    return json.dumps({'display':True})
+                    return json.dumps({'display': True})
         else:
             portal_type = 'Event'
-        pTypes = [a for a in getToolByName(self.context, 'portal_types').listTypeInfo() if a.id == portal_type]
+
+        pTypes = [a for a in getToolByName(context, 'portal_types').listTypeInfo() if a.id == portal_type]
         pTypeTitle = pTypes and pTypes[0].Title() or portal_type
         typeTitle = translate(pTypeTitle, context=self.request)
         if HAS_PLONE40:
             title = plMF(u'heading_add_item', default='Add ${itemtype}', mapping={'itemtype' : typeTitle})
         else:
             title = plMF(u'label_add_type', default='Add ${type}', mapping={'type' : typeTitle})
-        return json.dumps({'display':False, 'type':portal_type, 'title':translate(title, context=self.request)})
+
+        return json.dumps({'display': False, 'type': portal_type,
+                           'title': translate(title, context=self.request)})
+
 
 class SFAddMenu(BrowserView):
 
@@ -194,7 +211,7 @@ class SFJsonEventDelete(BrowserView):
             lock_info = self.context.restrictedTraverse('@@plone_lock_info')
         except AttributeError:
             lock_info = None
-    
+
         if lock_info is not None and lock_info.is_locked():
             status = 'locked'
             message = plMF(u'${title} is locked and cannot be deleted.',
@@ -287,7 +304,7 @@ class SFJsonEventPaste(BrowserView):
         return getMultiAdapter((event, self.request), ISolgemaFullcalendarEventDict)()
 
     def __call__(self):
-        
+
         msg=plMF(u'Copy or cut one or more items to paste.')
         status='failure'
         if self.context.cb_dataValid:
@@ -297,7 +314,7 @@ class SFJsonEventPaste(BrowserView):
                 intervalle = baseObject.endDate-baseObject.startDate
                 cb_copy_data = self.request['__cp']
                 pasteList = self.context.manage_pasteObjects(cb_copy_data=cb_copy_data)
-                newObject = getattr(self.context, pasteList[0]['new_id']) 
+                newObject = getattr(self.context, pasteList[0]['new_id'])
                 startDate = self.startDate
                 if self.EventAllDay:
                     startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
@@ -368,7 +385,7 @@ class SolgemaFullcalendarWorkflowTransition(BrowserView):
             wfcontext=event.portal_workflow.doActionFor( event,
                                                          workflow_action,
                                                          comment=comment )
-    
+
         if not wfcontext:
             wfcontext = event
 
@@ -398,7 +415,7 @@ class SolgemaFullcalendarDropView(BrowserView):
         startDate, endDate = obj.startDate, obj.endDate
         dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
 
-        startDate = startDate + dayDelta + minuteDelta / 1440.0        
+        startDate = startDate + dayDelta + minuteDelta / 1440.0
         endDate = endDate + dayDelta + minuteDelta / 1440.0
 
         obj.setStartDate(startDate)
@@ -424,11 +441,11 @@ class SolgemaFullcalendarResizeView(BrowserView):
             event_uid = event_uid.split('UID_')[1]
         brains = self.context.portal_catalog(UID = event_uid)
         obj = brains[0].getObject()
-        endDate = obj.endDate 
+        endDate = obj.endDate
         dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
-        
+
         endDate = endDate + dayDelta + minuteDelta / 1440.0
-        
+
         obj.setEndDate(endDate)
         obj.reindexObject()
         return True

@@ -4,6 +4,11 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Check 'Add portal content' permission on target folder
+  instead of Modify portal content on calendar
+  to allow adding an event on the calendar.
+  [thomasdesvenain]
+
 - Fixed : event popup is translated.
   [thomasdesvenain]
 
