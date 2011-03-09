@@ -4,6 +4,9 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Hide upgrade profiles on Plone site creation form.
+  [thomasdesvenain]
+
 - Plone 4.1 compatibility.
   [thomasdesvenain]
 

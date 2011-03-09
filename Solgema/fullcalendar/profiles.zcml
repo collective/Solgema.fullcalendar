@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone">
-    
+
   <genericsetup:registerProfile
     name="default"
     title="Solgema Fullcalendar"
@@ -17,6 +17,7 @@
       directory="profiles/uninstall"
       description="Uninstall Solgema Fullcalendar Product."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:upgradeStep
@@ -57,6 +58,7 @@
     directory="profiles/upgrade12"
     description='Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
     provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
     />
 
   <genericsetup:upgradeStep
@@ -73,6 +75,7 @@
     directory="profiles/upgrade13"
     description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
     provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
     />
 
   <genericsetup:upgradeStep
@@ -97,7 +100,8 @@
       source="1.4"
       destination="1.5"
       handler="Solgema.fullcalendar.migrations.doNothing"
-      profile="Solgema.fullcalendar:default" />
+      profile="Solgema.fullcalendar:default"
+       />
 
   <genericsetup:registerProfile
     name="upgrade16"
@@ -105,6 +109,7 @@
     directory="profiles/upgrade16"
     description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
     provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
     />
 
   <genericsetup:upgradeStep
@@ -121,6 +126,7 @@
     directory="profiles/upgrade17"
     description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
     provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
     />
 
   <genericsetup:upgradeStep
@@ -137,6 +143,7 @@
     directory="profiles/upgrade18"
     description='Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
     provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
     />
 
   <genericsetup:upgradeStep
