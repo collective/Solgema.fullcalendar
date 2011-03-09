@@ -1,13 +1,15 @@
-<div id="content" tal:define="portal_state context/@@plone_portal_state;
-                       context_state context/@@plone_context_state;
-                       plone_view context/@@plone;
-                       lang portal_state/language;
-                       view nocall:view | nocall: plone_view;
-                       dummy python: plone_view.mark_view(view);
-                       portal_url portal_state/portal_url;
-                       checkPermission nocall: context/portal_membership/checkPermission;
-                       site_properties context/portal_properties/site_properties;
-                       ajax_load request/ajax_load | nothing">
+<div id="content"
+     tal:define="portal_state context/@@plone_portal_state;
+                 context_state context/@@plone_context_state;
+                 plone_view context/@@plone;
+                 lang portal_state/language;
+                 view nocall:view | nocall: plone_view;
+                 dummy python: plone_view.mark_view(view);
+                 portal_url portal_state/portal_url;
+                 checkPermission nocall: context/portal_membership/checkPermission;
+                 site_properties context/portal_properties/site_properties;
+                 ajax_load request/ajax_load | nothing"
+      i18n:domain="plone">
 
 
         <div class="eventDetails vcard" tal:define="kssClassesView context/@@kss_field_decorator_view;

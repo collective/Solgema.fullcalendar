@@ -4,6 +4,9 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Fixed : event popup is translated.
+  [thomasdesvenain]
+
 - Use Generic setup to install some dependencies.
   [thomasdesvenain]
 
