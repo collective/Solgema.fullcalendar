@@ -4,6 +4,9 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Translation files generation with i18ndude.
+  [thomasdesvenain]
+
 - Check 'Add portal content' permission on target folder
   instead of Modify portal content on calendar
   to allow adding an event on the calendar.

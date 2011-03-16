@@ -5,7 +5,7 @@
  <object name="object" meta_type="CMF Action Category">
   <property name="title"></property>
   <object name="solgemafullcalendar_view" meta_type="CMF Action" i18n:domain="Solgema.fullcalendar">
-   <property name="title" i18n:translate="title_solgemafullcalendar_view">Calendar View</property>
+   <property name="title" i18n:translate="">Calendar properties</property>
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${object_url}/@@solgemafullcalendar_properties</property>
    <property name="icon_expr"></property>

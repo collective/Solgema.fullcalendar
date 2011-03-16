@@ -34,7 +34,7 @@ class IPersistentOptions( Interface ):
     """
 
 class ISolgemaFullcalendarLayer(IDefaultPloneLayer):
-    """Solgema Fullcalendar layer""" 
+    """Solgema Fullcalendar layer"""
 
 class ISolgemaFullcalendarView(Interface):
     """Solgema Fullcalendar View interface"""
@@ -115,13 +115,13 @@ class CustomSearchableTextSource(SearchableTextSource):
     def __iter__(self):
         return self.vocabulary.__iter__()
 
-    def getTerm(self, value): 
+    def getTerm(self, value):
         return self.vocabulary.getTerm(value)
 
 
-    def getTermByToken(self, token): 
+    def getTermByToken(self, token):
         return self.vocabulary.getTermByToken(token)
-    
+
 
 class CustomSearchableTextSourceBinder(SearchableTextSourceBinder):
     implements(IContextSourceBinder)
@@ -262,8 +262,8 @@ class ISolgemaFullcalendarMarker(Interface):
 class ISFBaseEventFields(Interface):
     """An interface that defines the specific Fullcalendar's events fields """
 
-    allDay = schema.Bool( title=_(u"label_allDay"),
-                                  description = _(u"help_allDay"),
+    allDay = schema.Bool( title=_(u"label_allDay", default=u"Display All day option"),
+                                  description = _(u"help_allDay", default=u"Check this box to display All day option"),
                                   default=False)
 
 class ISolgemaFullcalendarQuery(IViewletManager):
