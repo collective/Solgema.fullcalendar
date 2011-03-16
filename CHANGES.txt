@@ -22,7 +22,7 @@ Changelog
   [thomasdesvenain]
 
 - Imported Solgema.fullcalendar in collective.
-  [Fabien Eloire, thomasdesvenain]
+  [Fabien Moret, thomasdesvenain]
 
 
 *Solgema.fullcalendar 1.8
