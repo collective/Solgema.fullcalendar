@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2011-03-16 18:00+0000\n"
+"POT-Creation-Date: 2011-03-17 10:47+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
 "Last-Translator: Martronic SA <martronic@martronic.ch>\n"
 "Language-Team: EDF\n"
@@ -30,7 +30,8 @@ msgid "Calendar"
 msgstr "Calendar"
 
 #: ../profiles/default/actions.xml
-#: ../profiles/upgrade16/actions.xml
+#: ../upgrades/profiles/upgrade16/actions.xml
+#: ../upgrades/profiles/upgrade19/actions.xml
 msgid "Calendar properties"
 msgstr "Propriétés du calendrier"
 

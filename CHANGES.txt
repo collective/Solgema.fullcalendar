@@ -14,7 +14,16 @@ Changelog
   [thomasdesvenain]
 
 - Fixed: event popup is translated.
-  Translation files generation with i18ndude.
+  [thomasdesvenain]
+
+- Internationalization: translation files generation with i18ndude.
+  [thomasdesvenain]
+
+- Internationalization: fixed event popup translation.
+  [thomasdesvenain]
+
+- Internationalization: calendar parameters tab
+  and calendar display layout are internationalized and french translated.
   [thomasdesvenain]
 
 - Infrastructure : Event view uses event_view macros by default,
