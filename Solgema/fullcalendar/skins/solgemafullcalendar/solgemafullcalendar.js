@@ -38,11 +38,12 @@ function readCookie(name) {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
+      $dialogContent.dialog( "destroy" );
       jq("#contextualContentMenu a[href*='createSFEvent']").click( function(event) {
         event.preventDefault();
         var href = jq(this).attr('href');
         $dialogContent.append('<iframe src="'+href+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
-        jq("#event_edit_container").dialog({
+        $dialogContent.dialog({
           width: 700,
           height: 500,
           autoOpen: true,
@@ -75,6 +76,7 @@ function readCookie(name) {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
+      $dialogContent.dialog( "destroy" );
       var $calendar = jq('#calendar');
       var data = new Object;
       var startMonth = start.getMonth()+1;
@@ -84,7 +86,7 @@ function readCookie(name) {
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
       $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
-      jq("#event_edit_container").dialog({
+      $dialogContent.dialog({
         width: 700,
         height: 500,
         autoOpen: true,
@@ -98,10 +100,12 @@ function readCookie(name) {
     openEditForm: function (eventurl) {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
+      jq("#event_edit_container").dialog( "destroy" );
       $dialogContent.empty();
+      $dialogContent.dialog( "destroy" );
       var $calendar = jq('#calendar');
       $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
-      jq("#event_edit_container").dialog({
+      $dialogContent.dialog({
         width: 700,
         height: 500,
         autoOpen: true,
@@ -261,10 +265,11 @@ function readCookie(name) {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
+      $dialogContent.dialog( "destroy" );
       jq.get(url+extra, data,
         function (msg) {
           $dialogContent.append(msg);
-          jq("#event_edit_container").dialog({
+          $dialogContent.dialog({
             width: 600,
             autoOpen: true,
             modal: true,
@@ -342,8 +347,8 @@ function readCookie(name) {
           type :   'POST',
           url :    './solgemafullcalendar_drop',
           data :   data,
-          success :function(msg) {  
-            jq('#kss-spinner').hide();    
+          success :function(msg) {
+            jq('#kss-spinner').hide();
           }
         });
       },
@@ -437,5 +442,4 @@ function readCookie(name) {
       }
     });
   });
-
 

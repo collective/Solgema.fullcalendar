@@ -16,6 +16,9 @@ Changelog
 - Fixed: event popup is translated.
   [thomasdesvenain]
 
+- Fixed: closing popups after an event has been added works.
+  [fmoret]
+
 - Internationalization: translation files generation with i18ndude.
   [thomasdesvenain]
 
