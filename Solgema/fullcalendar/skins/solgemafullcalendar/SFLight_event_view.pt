@@ -18,11 +18,11 @@
       tal:omit-tag="">
  <div id="content">
 
-   <div class="documentDescription kssattr-atfieldname-description kssattr-templateId-kss_generic_macros kssattr-macro-description-field-view"
+   <p class="documentDescription kssattr-atfieldname-description kssattr-templateId-kss_generic_macros kssattr-macro-description-field-view"
         id="parent-fieldname-description"
         tal:content="structure here/Description">
       The Description
-   </div>
+   </p>
 
    <metal:event_view
      use-macro="event_macros/content-core | event_macros/main" />
