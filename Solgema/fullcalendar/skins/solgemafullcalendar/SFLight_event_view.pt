@@ -1,7 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"                        
-      xmlns:tal="http://xml.zope.org/namespaces/tal"                            
-      xmlns:metal="http://xml.zope.org/namespaces/metal"                        
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"                          
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       tal:define="portal_state context/@@plone_portal_state;
                   context_state context/@@plone_context_state;
@@ -16,8 +16,16 @@
                   event_macros context/event_view/macros"
       i18n:domain="plone"
       tal:omit-tag="">
+ <div id="content">
 
-  <metal:event_view
-      use-macro="event_macros/content-core | event_macros/main" />
+   <div class="documentDescription kssattr-atfieldname-description kssattr-templateId-kss_generic_macros kssattr-macro-description-field-view"
+        id="parent-fieldname-description"
+        tal:content="structure here/Description">
+      The Description
+   </div>
 
+   <metal:event_view
+     use-macro="event_macros/content-core | event_macros/main" />
+
+  </div>
 </html>
