@@ -17,6 +17,10 @@ Changelog
   Translation files generation with i18ndude.
   [thomasdesvenain]
 
+- Infrastructure : Event view uses event_view macros by default,
+  for plone.app.event future compatibility.
+  [vincentfretin]
+
 - Infrastucture: use Generic setup to install some dependencies.
   [thomasdesvenain]
 
