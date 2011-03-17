@@ -4,27 +4,24 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
-- Upgrade profiles don't appear in root profiles.
+- Security: use 'Change portal topics' permission
+  to manage access to Calendar properties.
   [thomasdesvenain]
 
-- Use 'Change portal topics' permission to manage access to Calendar properties.
-  [thomasdesvenain]
-
-- Translation files generation with i18ndude.
-  [thomasdesvenain]
-
-- Check 'Add portal content' permission on target folder
-  instead of Modify portal content on calendar
+- Security: check 'Add portal content' permission on target folder
+  instead of 'Modify portal' content on calendar
   to allow adding an event on the calendar.
   [thomasdesvenain]
 
-- Fixed : event popup is translated.
+- Fixed: event popup is translated.
+  Translation files generation with i18ndude.
   [thomasdesvenain]
 
-- Use Generic setup to install some dependencies.
+- Infrastucture: use Generic setup to install some dependencies.
   [thomasdesvenain]
 
-- Hide upgrade profiles on Plone site creation form.
+- Infrastucture: hide upgrade profiles on Plone site creation form.
+  Upgrade profiles don't appear in root profiles.
   [thomasdesvenain]
 
 - Plone 4.1 compatibility.
@@ -34,87 +31,119 @@ Changelog
   [Fabien Moret, thomasdesvenain]
 
 
-*Solgema.fullcalendar 1.8
+1.8
+---
 
--Clicking on an event always asks for SFLight_event_view.pt. Allows the use of xdv theming
- (thanks to Sylvain Boureliou)
--Comes with ui lightness 1.8.9 theme
+- Clicking on an event always asks for SFLight_event_view.pt. Allows the use of xdv theming
+  (thanks to Sylvain Boureliou)
 
-*Solgema.fullcalendar 1.7
+- Comes with ui lightness 1.8.9 theme
 
--Removed own jqueryui and added collective.js.jqueryui (Thanks to Thomas Desvenain)
--Fixed views and javascript files (fix issue #17 and #20, Thanks to Christian Lederman!)
--Fixed dependencies declarations (Thanks to Olav Peeters)
--Added a small workaround to solve a conflict between base jqueryui css and custom jqueryui lightness css.
--Based on fullcalendar 1.4.10 (Thanks to Adam Arshaw)
+1.7
+---
 
-*Solgema.fullcalendar 1.6
+- Removed own jqueryui and added collective.js.jqueryui (Thanks to Thomas Desvenain)
 
--Fixed wrong call to getUrl method and completed with here/absolute_url
--Fixed bad condition expression in actions (Thanks to Thomas Desvanain)
--Added some steps to be sure (as sure as possible) that solgemafullcalendar_view remains in topic views
+- Fixed views and javascript files (fix issue #17 and #20, Thanks to Christian Lederman!)
 
-*Solgema.fullcalendar 1.5
+- Fixed dependencies declarations (Thanks to Olav Peeters)
 
--Fixed adapting content that is not attribute annotable. ( changed indexer in catalog.py ) that fixes bug
-with plone.app.discussion.
--Fixed cancel button and dialog close when editing. The edited event remained locked when closing dialog.
--Fixed content type for solgemafullcalendar_vars.js
+- Added a small workaround to solve a conflict between base jqueryui css and custom jqueryui lightness css.
 
-*Solgema.fullcalendar 1.4
+- Based on fullcalendar 1.4.10 (Thanks to Adam Arshaw)
 
--Now based on Fullcalendar v 1.4.8
--Fixed IE7 bug (thanks to Kyle Homstead)
--Added the subtopics display in solgemafullcalendar_view (thanks to Christian Ledermann)
--Added a <noscript> tag in solgemafullcalendar_view so that events are display even if javascript is not enabled.
-This can be disabled in Calendar View settings. (thanks to Christian Ledermann)
+1.6
+---
 
-*Solgema.fullcalendar 1.3
+- Fixed wrong call to getUrl method and completed with here/absolute_url
 
--Added the ability to choose your own color for events in the calendar. The color is linked to the topic's critrias.
--Added colorpicker widget to choose the colors in Calendar View settings
--Fixed Content Menu showing under calendar events
+- Fixed bad condition expression in actions (Thanks to Thomas Desvanain)
 
-*Solgema.fullcalendar 1.2
+- Added some steps to be sure (as sure as possible) that solgemafullcalendar_view remains in topic views
 
--Fixed calendar Height Setting
--Using now jquery ui 1.8.5 (added javascripts for 1.8.5 and removed 1.8.4)
+1.5
+---
 
-*Solgema.fullcalendar 1.1
+- Fixed adapting content that is not attribute annotable.
+  (changed indexer in catalog.py ) that fixes bug with plone.app.discussion.
 
--Created an adapter to filter for editable events so that it can be easily overriden.
--Solgema.ContextualContentMenu package included in configure.zcml
--Installs Solgema.ContextualContentMenu properly
--Fix jquery.js to 1.4.2 version (jquery.js added in skins directory)
--Fix height dialog box
--Added an override review_state in topic query for Admins so that the can see private events in calendar
-Event if they are not searched basically by the topic (e.g. for default events aggregator)
+- Fixed cancel button and dialog close when editing. The edited event remained locked when closing dialog.
 
-*Solgema.fullcalendar 1.0
-
--Added relative start hour and relative start day
--Fixed paste action in contextual content menu (when nothing in clipboard)
--Fixed error when deleting topic's criterion after having set them in calendar view criterias.
--Several bug fixed
+- Fixed content type for solgemafullcalendar_vars.js
 
 
-*Solgema.fullcalendar 0.3
+1.4
+---
 
--Added automatic dependencies installation in install.py ( installation of Solgema.ContextualContentMenu )
--Changed the javascript in SFAjax_base_edit.cpt so that when editing through calendar, the dialog's iframe
-is resized to display the entire edit form ( fixes issue #1 )
--Changed Dialog title when adding content ( msgid was "label_add_type" in Plone 3 and now 'heading_add_item'
-in Plone 4 ).
+- Now based on Fullcalendar v 1.4.8
+
+- Fixed IE7 bug (thanks to Kyle Homstead)
+
+- Added the subtopics display in solgemafullcalendar_view (thanks to Christian Ledermann)
+
+- Added a <noscript> tag in solgemafullcalendar_view so that events are display even if javascript is not enabled.
+  This can be disabled in Calendar View settings. (thanks to Christian Ledermann)
+
+1.3
+---
+
+- Added the ability to choose your own color for events in the calendar. The color is linked to the topic's critrias.
+
+- Added colorpicker widget to choose the colors in Calendar View settings
+
+- Fixed Content Menu showing under calendar events
 
 
-*Solgema.fullcalendar 0.2
+1.2
+---
 
--Added a topicRelativeUrl variable into solgemafullcalendar_vars to fix the cookies path.
-(fix an issue with mutiple cookies when the topic is default view of a folder)
+- Fixed calendar Height Setting
 
-(name of developer listed in brackets)
+- Using now jquery ui 1.8.5 (added javascripts for 1.8.5 and removed 1.8.4)
 
-*Solgema.fullcalendar - 0.4 Unreleased
+1.1
+---
 
-- Initial package structure.
-[zopeskel]
+- Created an adapter to filter for editable events so that it can be easily overriden.
+
+- Solgema.ContextualContentMenu package included in configure.zcml
+
+- Installs Solgema.ContextualContentMenu properly
+
+- Fix jquery.js to 1.4.2 version (jquery.js added in skins directory)
+
+- Fix height dialog box
+
+- Added an override review_state in topic query for Admins so that the can see private events in calendar
+  Event if they are not searched basically by the topic (e.g. for default events aggregator)
+
+
+1.0
+---
+
+- Added relative start hour and relative start day
+
+- Fixed paste action in contextual content menu (when nothing in clipboard)
+
+- Fixed error when deleting topic's criterion after having set them in calendar view criterias.
+
+- Several bug fixed
+
+
+0.3
+---
+
+- Added automatic dependencies installation in install.py ( installation of Solgema.ContextualContentMenu )
+
+- Changed the javascript in SFAjax_base_edit.cpt so that when editing through calendar,
+  the dialog's iframe is resized to display the entire edit form ( fixes issue #1 )
+
+- Changed Dialog title when adding content
+  (msgid was "label_add_type" in Plone 3 and now 'heading_add_item' in Plone 4).
+
+
+0.2
+---
+
+- Added a topicRelativeUrl variable into solgemafullcalendar_vars to fix the cookies path.
+  (fix an issue with mutiple cookies when the topic is default view of a folder)
