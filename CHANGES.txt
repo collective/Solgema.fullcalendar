@@ -4,6 +4,12 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Upgrade profiles don't appear in root profiles.
+  [thomasdesvenain]
+
+- Use 'Change portal topics' permission to manage access to Calendar properties.
+  [thomasdesvenain]
+
 - Translation files generation with i18ndude.
   [thomasdesvenain]
 

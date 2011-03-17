@@ -20,6 +20,7 @@
   <include file="catalog.zcml" />
   <include package=".browser" />
   <include package=".widgets" />
+  <include package=".upgrades" />
   <i18n:registerTranslations directory="locales" />
 
   <class class="Products.ATContentTypes.content.topic.ATTopic">
