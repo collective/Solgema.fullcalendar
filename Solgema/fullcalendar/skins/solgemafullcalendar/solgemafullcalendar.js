@@ -25,7 +25,11 @@ function readCookie(name) {
             var startMonth = start.getMonth()+1;
             var endMonth = end.getMonth()+1;
             data['startDate'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
-            data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
+            if (!allDay) {
+              data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
+            } else {
+              data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' 23:55';
+            }
             data['EventAllDay'] = allDay;
             openContextualContentMenu(event, this, '@@SFAddMenu', SolgemaFullcalendar.initAddContextualContentMenu, '.', data);
           } else {
@@ -82,7 +86,11 @@ function readCookie(name) {
       var startMonth = start.getMonth()+1;
       var endMonth = end.getMonth()+1;
       data['startDate'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
-      data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
+      if (!allDay) {
+        data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
+      } else {
+        data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' 23:55';
+      }
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
       $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
@@ -442,4 +450,3 @@ function readCookie(name) {
       }
     });
   });
-

@@ -16,6 +16,9 @@ Changelog
 - Fixed: event popup is translated.
   [thomasdesvenain]
 
+- Fixed: adding 'all day' event add an event from 00:00 to 23:55.
+  [fmoret]
+
 - Fixed: closing popups after an event has been added works.
   [fmoret]
 
