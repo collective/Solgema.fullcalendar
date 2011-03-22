@@ -7,13 +7,15 @@
                   context_state context/@@plone_context_state;
                   plone_view context/@@plone;
                   lang portal_state/language;
-                  view nocall:view | nocall: plone_view;
+                  view nocall:view | nocall:context/@@event_view | nocall:plone_view;
                   dummy python: plone_view.mark_view(view);
                   portal_url portal_state/portal_url;
                   checkPermission nocall: context/portal_membership/checkPermission;
                   site_properties context/portal_properties/site_properties;
                   ajax_load request/ajax_load | nothing;
-                  event_macros context/event_view/macros"
+                  event_macro context/@@event_view/macros/content-core |
+                              context/event_view/macros/content-core |
+                              context/event_view/macros/main"
       i18n:domain="plone"
       tal:omit-tag="">
  <div id="content">
@@ -25,7 +27,7 @@
    </p>
 
    <metal:event_view
-     use-macro="event_macros/content-core | event_macros/main" />
+     use-macro="event_macro" />
 
   </div>
 </html>
