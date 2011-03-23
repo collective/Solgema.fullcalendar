@@ -46,7 +46,7 @@ function readCookie(name) {
       jq("#contextualContentMenu a[href*='createSFEvent']").click( function(event) {
         event.preventDefault();
         var href = jq(this).attr('href');
-        $dialogContent.append('<iframe src="'+href+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
+        $dialogContent.append('<iframe src="'+href+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
         $dialogContent.dialog({
           width: 700,
           height: 500,
@@ -93,7 +93,7 @@ function readCookie(name) {
       }
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
-      $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
+      $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
         width: 700,
         height: 500,
@@ -112,7 +112,7 @@ function readCookie(name) {
       $dialogContent.empty();
       $dialogContent.dialog( "destroy" );
       var $calendar = jq('#calendar');
-      $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:auto;"></iframe>');
+      $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
         width: 700,
         height: 500,

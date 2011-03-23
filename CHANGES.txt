@@ -19,6 +19,9 @@ Changelog
 - Fixed: adding 'all day' event add an event from 00:00 to 23:55.
   [fmoret]
 
+- Fixed: remove duplicated scroll in popup.
+  [thomasdesvenain]
+
 - Fixed: closing popups after an event has been added works.
   [fmoret]
 
