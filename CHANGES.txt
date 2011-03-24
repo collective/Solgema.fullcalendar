@@ -4,6 +4,7 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+
 - Security: use 'Change portal topics' permission
   to manage access to Calendar properties.
   [thomasdesvenain]
@@ -11,6 +12,10 @@ Changelog
 - Security: check 'Add portal content' permission on target folder
   instead of 'Modify portal' content on calendar
   to allow adding an event on the calendar.
+  [thomasdesvenain]
+
+- Fixed: disallow caching ajax action views,
+  to avoid issues behind cache proxies.
   [thomasdesvenain]
 
 - Fixed: event popup is translated.

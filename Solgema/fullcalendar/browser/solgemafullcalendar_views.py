@@ -204,6 +204,7 @@ class SolgemaFullcalendarView(BrowserView):
     def displayNoscriptList(self):
         return getattr(self.calendar, 'displayNoscriptList', True)
 
+
 class SolgemaFullcalendarJS(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
 
@@ -335,6 +336,7 @@ class SolgemaFullcalendarJS(BrowserView):
         self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
         return super(SolgemaFullcalendarJS, self).__call__()
 
+
 class SolgemaFullcalendarEvents(BrowserView):
     """Solgema Fullcalendar Update browser view"""
 
@@ -407,6 +409,7 @@ class SolgemaFullcalendarEvents(BrowserView):
         topicEventsDict = getMultiAdapter((self.context, self.request), ISolgemaFullcalendarTopicEventDict)
         result = topicEventsDict.createDict(brains, args)
         return json.dumps(result, sort_keys=True)
+
 
 class SolgemaFullcalendarColorsCss(BrowserView):
     """Solgema Fullcalendar Javascript variables"""

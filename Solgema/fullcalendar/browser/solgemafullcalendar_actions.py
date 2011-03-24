@@ -47,6 +47,7 @@ except ImportError:
    else:
        HAS_PLONE30 = True
 
+
 def getCopyObjectsUID(REQUEST):
     if REQUEST is not None and REQUEST.has_key('__cp'):
         cp = REQUEST['__cp']
@@ -56,13 +57,23 @@ def getCopyObjectsUID(REQUEST):
     op, mdatas = CopySupport._cb_decode(cp)
     return {'op':op, 'url': ['/'.join(a) for a in mdatas][0]}
 
-class SFJsonEvent(BrowserView):
+
+class BaseActionView(BrowserView):
+
+    def __init__(self, context, request):
+        super(BaseActionView, self).__init__(context, request)
+        request.response.setHeader('Cache-Control', 'no-cache')
+        request.response.setHeader('Pragma', 'no-cache')
+
+
+class SFJsonEvent(BaseActionView):
 
     def __call__(self, *args, **kw):
         eventDict = getMultiAdapter((self.context, self.request), ISolgemaFullcalendarEventDict)()
         return json.dumps(eventDict, sort_keys=True)
 
-class SFDisplayAddMenu(BrowserView):
+
+class SFDisplayAddMenu(BaseActionView):
 
     def __call__(self):
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
@@ -99,7 +110,7 @@ class SFDisplayAddMenu(BrowserView):
                            'title': translate(title, context=self.request)})
 
 
-class SFAddMenu(BrowserView):
+class SFAddMenu(BaseActionView):
 
     def __init__(self, context, request):
         super(SFAddMenu, self).__init__(context, request)
@@ -200,7 +211,7 @@ class SFAddMenu(BrowserView):
     def getMenuItems(self):
         return self.getMenuFactory()+self.getMenuPaste()
 
-class SFJsonEventDelete(BrowserView):
+class SFJsonEventDelete(BaseActionView):
 
     def __call__(self):
         eventid = 'UID_'+self.context.UID()
@@ -225,7 +236,8 @@ class SFJsonEventDelete(BrowserView):
 
         return json.dumps({'status':status, 'message':parent.translate(message), 'id':eventid})
 
-class SFJsonEventCopy(BrowserView):
+
+class SFJsonEventCopy(BaseActionView):
 
     def __call__(self):
         title = safe_unicode(self.context.title_or_id())
@@ -252,7 +264,8 @@ class SFJsonEventCopy(BrowserView):
         contextId = 'UID_'+self.context.UID()
         return json.dumps({'status':status, 'message':self.context.translate(message), 'cp':cp, 'id':contextId})
 
-class SFJsonEventCut(BrowserView):
+
+class SFJsonEventCut(BaseActionView):
 
     def __call__(self):
         title = safe_unicode(self.context.title_or_id())
@@ -291,7 +304,8 @@ class SFJsonEventCut(BrowserView):
         contextId = 'UID_'+self.context.UID()
         return json.dumps({'status':status, 'message':self.context.translate(message), 'cp':cp, 'id':contextId})
 
-class SFJsonEventPaste(BrowserView):
+
+class SFJsonEventPaste(BaseActionView):
 
     def __init__(self, context, request):
         super(SFJsonEventPaste, self).__init__(context, request)
@@ -334,7 +348,8 @@ class SFJsonEventPaste(BrowserView):
 
         return json.dumps({'status':'failure', 'message':self.context.translate(msg)})
 
-class SolgemaFullcalendarWorkflowTransition(BrowserView):
+
+class SolgemaFullcalendarWorkflowTransition(BaseActionView):
 
     def __call__(self):
         request = self.context.REQUEST
@@ -401,7 +416,8 @@ class SolgemaFullcalendarWorkflowTransition(BrowserView):
         eventDict = getMultiAdapter((event, self.request), ISolgemaFullcalendarEventDict)()
         return json.dumps(eventDict, sort_keys=True)
 
-class SolgemaFullcalendarDropView(BrowserView):
+
+class SolgemaFullcalendarDropView(BaseActionView):
 
     def __call__(self):
         request = self.context.REQUEST
@@ -432,7 +448,7 @@ class SolgemaFullcalendarDropView(BrowserView):
         return True
 
 
-class SolgemaFullcalendarResizeView(BrowserView):
+class SolgemaFullcalendarResizeView(BaseActionView):
 
     def __call__(self):
         request = self.context.REQUEST
@@ -450,7 +466,7 @@ class SolgemaFullcalendarResizeView(BrowserView):
         obj.reindexObject()
         return True
 
-class SolgemaFullcalendarActionGuards(BrowserView):
+class SolgemaFullcalendarActionGuards(BaseActionView):
 
     def is_calendar_layout(self):
         selected_layout = getattr(self.context, 'layout', '')
