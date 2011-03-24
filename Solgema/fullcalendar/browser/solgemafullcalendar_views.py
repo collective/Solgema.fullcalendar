@@ -21,6 +21,8 @@ PLMF = MessageFactory('plonelocales')
 ATMF = MessageFactory('atcontenttypes')
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 from Solgema.fullcalendar.interfaces import *
+from Solgema.fullcalendar import log
+
 
 def getCopyObjectsUID(REQUEST):
     if REQUEST is not None and REQUEST.has_key('__cp'):
@@ -30,6 +32,7 @@ def getCopyObjectsUID(REQUEST):
 
     op, mdatas = CopySupport._cb_decode(cp)
     return {'op':op, 'url': ['/'.join(a) for a in mdatas][0]}
+
 
 def listBaseQueryTopicCriteria(topic):
     calendar = ISolgemaFullcalendarProperties(aq_inner(topic), None)
@@ -41,6 +44,7 @@ def listBaseQueryTopicCriteria(topic):
             li.append(criteria)
     return li
 
+
 def listQueryTopicCriteria(topic):
     calendar = ISolgemaFullcalendarProperties(aq_inner(topic), None)
     li = listBaseQueryTopicCriteria(topic)
@@ -50,6 +54,7 @@ def listQueryTopicCriteria(topic):
     if hasattr(calendar, 'availableCriterias') and getattr(calendar, 'availableCriterias', None) != None:
         li = [a for a in li if a.Field() in calendar.availableCriterias]
     return li
+
 
 def getTopic(context, request):
     if not ISolgemaFullcalendarMarker.providedBy(context):
@@ -87,6 +92,7 @@ def getTopic(context, request):
     else:
         return context
 
+
 def getCriteriaItems(context, request):
     topic = getTopic(context, request)
     utils = getToolByName(context, 'plone_utils')
@@ -106,6 +112,7 @@ def getCriteriaItems(context, request):
     if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
         return {'name':criteria.Field(), 'values':list(criteria.getCriteriaItems()[0][1]['query'])+['',]}
     return False
+
 
 def getCookieItems(request, field):
     item = request.cookies.get(field, False)
@@ -133,23 +140,36 @@ def getCookieItems(request, field):
                 pass
             items = items.encode('utf-8')
         return items
+
     return False
+
 
 def getColorIndex(context, request, eventPath=None, brain=None):
     colorIndex = ' colorIndex-undefined'
     criteriaItems = getCriteriaItems(context, request)
     if not criteriaItems:
         return colorIndex
+
     catalog = getToolByName(context, 'portal_catalog')
     if not brain:
         if not eventPath:
             raise ValueError(u'You must provide eventPath or brain')
-        brain = catalog.searchResults(path=eventPath)[0]
+
+
+        brains = catalog.searchResults(path=eventPath)
+        if len(brains) == 0:
+            log.error("Error computing color index : no result for path %s", eventPath)
+            return colorIndex
+
+        brain = brains[0]
+
     selectedItems = getCookieItems(request, criteriaItems['name'])
     if not selectedItems:
         selectedItems = criteriaItems['values']
+
     if not isinstance(selectedItems, list):
         selectedItems = [selectedItems,]
+
     if criteriaItems:
         brainVal = getattr(brain, criteriaItems['name'])
         brainVal = isinstance(brainVal, (tuple, list)) and brainVal or [brainVal,]
@@ -158,7 +178,9 @@ def getColorIndex(context, request, eventPath=None, brain=None):
                 colorIndex = ' colorIndex-'+str(criteriaItems['values'].index(val))
                 colorIndex += ' '+criteriaItems['name']+'colorIndex-'+str(criteriaItems['values'].index(val))
                 break
+
     return colorIndex
+
 
 class SolgemaFullcalendarView(BrowserView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
