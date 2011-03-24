@@ -35,8 +35,12 @@ Changelog
   and calendar display layout are internationalized and french translated.
   [thomasdesvenain]
 
-- Infrastructure : Event view uses event_view macros by default,
-  for plone.app.event future compatibility.
+- Infrastructure : timezones forward compatibility.
+  [vincentfretin, thomasdesvenain]
+
+- Infrastructure : plone.app.event forward compatibility :
+  event view uses event_view macros by default,
+  never use direct access to startDate and endDate attributes for timezones compatibility.
   [vincentfretin]
 
 - Infrastucture: use Generic setup to install some dependencies.

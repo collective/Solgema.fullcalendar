@@ -317,9 +317,9 @@ class SFJsonEventPaste(BrowserView):
                 newObject = getattr(self.context, pasteList[0]['new_id'])
                 startDate = self.startDate
                 if self.EventAllDay:
-                    startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
+                    startDate = DateTime(self.start()).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
                 newObject.setStartDate( DateTime(startDate) )
-                newObject.setEndDate(newObject.startDate + intervalle)
+                newObject.setEndDate(newObject.start() + intervalle)
                 newObject.reindexObject()
                 transaction_note('Pasted content to %s' % (self.context.absolute_url()))
                 return json.dumps({'status':'pasted', 'event':self.createJsonEvent(newObject), 'url':newObject.absolute_url(), 'op':self.copyDict['op'], 'id':baseId})
@@ -412,7 +412,7 @@ class SolgemaFullcalendarDropView(BrowserView):
         brains = self.context.portal_catalog(UID = event_uid)
 
         obj = brains[0].getObject()
-        startDate, endDate = obj.startDate, obj.endDate
+        startDate, endDate = obj.start(), obj.end()
         dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
 
         startDate = startDate + dayDelta + minuteDelta / 1440.0
@@ -441,7 +441,7 @@ class SolgemaFullcalendarResizeView(BrowserView):
             event_uid = event_uid.split('UID_')[1]
         brains = self.context.portal_catalog(UID = event_uid)
         obj = brains[0].getObject()
-        endDate = obj.endDate
+        endDate = obj.end()
         dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
 
         endDate = endDate + dayDelta + minuteDelta / 1440.0
