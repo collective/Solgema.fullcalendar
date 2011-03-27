@@ -1,13 +1,17 @@
 from zope.interface import implements
-from zope.component import adapts
 from AccessControl import getSecurityManager
 from Products.CMFCore.utils import getToolByName
-from zope.publisher.interfaces.http import IHTTPRequest
-from zope.publisher.interfaces.browser import IBrowserRequest
-from zope.component import getMultiAdapter, queryMultiAdapter, queryUtility, queryAdapter
+from zope.component import queryAdapter
 #from Products.ZCatalog.interfaces import ICatalogBrain how to get this interface???
 from Solgema.fullcalendar.browser.solgemafullcalendar_views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar.interfaces import *
+
+try:
+    from plone.event.interfaces import IRecurrenceSupport
+    HAS_RECCURENCE_SUPPORT = True
+except ImportError:
+    HAS_RECCURENCE_SUPPORT = False
+
 
 class SolgemaFullcalendarCatalogSearch(object):
 
@@ -84,22 +88,30 @@ class SolgemaFullcalendarTopicEventDict(object):
         typeClass = ' type-'+brain.portal_type
         colorIndex = getColorIndex(self.context, self.request, brain=brain)
         extraClass = self.getExtraClass(brain)
-        return {"id": "UID_%s" % (brain.UID), 
-                "title": brain.Title, 
+        if HAS_RECCURENCE_SUPPORT:
+            occurences = IRecurrenceSupport(brain.getObject()).occurences()
+        else:
+            occurences = [{'start_date': brain.start.rfc822(),
+                           'end_date': brain.end.rfc822()}]
+        events = []
+        for occurence in occurences:
+            events.append({
+                "id": "UID_%s" % (brain.UID),
+                "title": brain.Title,
                 "description": brain.Description,
-                "start": brain.start.rfc822(),
-                "end": brain.end.rfc822(),
+                "start": HAS_RECCURENCE_SUPPORT and occurence['start_date'].isoformat() or occurence['start_date'],
+                "end": HAS_RECCURENCE_SUPPORT and occurence['end_date'].isoformat() or occurence['end_date'],
                 "url": brain.getURL(),
                 "editable": editable,
-                "allDay": allday, 
-                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass}
+                "allDay": allday,
+                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass})
+        return events
 
     def dictFromObject(self, item):
         eventPhysicalPath = '/'.join(item.getPhysicalPath())
         wft = getToolByName(self.context, 'portal_workflow')
         state = wft.getInfoFor(self.context, 'review_state')
         member = self.context.portal_membership.getAuthenticatedMember()
-        memberid = member.id
         if member.has_permission('Modify portal content', item):
             editable = True
         if item.end() - item.start() > 1.0:
@@ -115,24 +127,33 @@ class SolgemaFullcalendarTopicEventDict(object):
         typeClass = ' type-'+item.portal_type
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getExtraClass(item)
-        return {"status": "ok",
-                "id": "UID_%s" % (event.UID()), 
+        if HAS_RECCURENCE_SUPPORT:
+            occurences = IRecurrenceSupport(event).occurences()
+        else:
+            occurences = [{'start_date': event.start().rfc822(),
+                           'end_date': event.end().rfc822()}]
+        events = []
+        for occurence in occurences:
+            events.append({
+                "status": "ok",
+                "id": "UID_%s" % (event.UID()),
                 "title": event.Title(),
                 "description": event.Description(),
-                "start": event.start().rfc822(),
-                "end": event.end().rfc822(),
+                "start": HAS_RECCURENCE_SUPPORT and occurence['start_date'].isoformat() or occurence['start_date'],
+                "end": HAS_RECCURENCE_SUPPORT and occurence['end_date'].isoformat() or occurence['end_date'],
                 "url": event.absolute_url(),
                 "editable": editable,
-                "allDay": allday, 
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass}
+                "allDay": allday,
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass})
+        return events
 
     def createDict(self, itemsList=[], args={}):
         li = []
         for item in itemsList:
             if hasattr(item, '_unrestrictedGetObject'):
-                li.append(self.dictFromBrain(item, args))
+                li.extend(self.dictFromBrain(item, args))
             else:
-                li.append(self.dictFromObject(item))
+                li.extend(self.dictFromObject(item))
         return li
 
 class SolgemaFullcalendarEventDict(object):
@@ -152,7 +173,6 @@ class SolgemaFullcalendarEventDict(object):
         wft = getToolByName(self.context, 'portal_workflow')
         state = wft.getInfoFor(self.context, 'review_state')
         member = self.context.portal_membership.getAuthenticatedMember()
-        memberid = member.id
         if member.has_permission('Modify portal content', self.context):
             editable = True
         if self.context.end() - self.context.start() > 1.0:
@@ -169,13 +189,13 @@ class SolgemaFullcalendarEventDict(object):
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getExtraClass()
         return {"status": "ok",
-                "id": "UID_%s" % (self.context.UID()), 
+                "id": "UID_%s" % (self.context.UID()),
                 "title": self.context.Title(),
                 "description": self.context.Description(),
                 "start": self.context.start().rfc822(),
                 "end": self.context.end().rfc822(),
                 "url": self.context.absolute_url(),
                 "editable": editable,
-                "allDay": allday, 
+                "allDay": allday,
                 "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass}
 

@@ -4,6 +4,8 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Show reccurring events if plone.event is available.
+  [vincentfretin]
 
 - Security: use 'Change portal topics' permission
   to manage access to Calendar properties.
