@@ -32,6 +32,9 @@ Changelog
 - Fixed: closing popups after an event has been added works.
   [fmoret]
 
+- Fixed: deactivate jquery ui default theme at install.
+  This fixes a css issue due to incompatibility with ui lightness theme.
+
 - Internationalization: translation files generation with i18ndude.
   [thomasdesvenain]
 
