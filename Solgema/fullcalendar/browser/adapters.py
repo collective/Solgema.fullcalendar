@@ -154,7 +154,9 @@ class SolgemaFullcalendarTopicEventDict(object):
                 li.extend(self.dictFromBrain(item, args))
             else:
                 li.extend(self.dictFromObject(item))
+
         return li
+
 
 class SolgemaFullcalendarEventDict(object):
 
@@ -169,32 +171,33 @@ class SolgemaFullcalendarEventDict(object):
         return ''
 
     def __call__(self):
-        eventPhysicalPath = '/'.join(self.context.getPhysicalPath())
-        wft = getToolByName(self.context, 'portal_workflow')
-        state = wft.getInfoFor(self.context, 'review_state')
-        member = self.context.portal_membership.getAuthenticatedMember()
-        if member.has_permission('Modify portal content', self.context):
-            editable = True
-        if self.context.end() - self.context.start() > 1.0:
-            allday = True
-        else:
-            allday = False
-        adapted = ISFBaseEventFields(self.context, None)
+        context = self.context
+
+        eventPhysicalPath = '/'.join(context.getPhysicalPath())
+        wft = getToolByName(context, 'portal_workflow')
+        state = wft.getInfoFor(context, 'review_state')
+        member = context.portal_membership.getAuthenticatedMember()
+        editable = bool(member.has_permission('Modify portal content', context))
+        allday = (context.end() - context.start()) > 1.0
+
+        adapted = ISFBaseEventFields(context, None)
         if adapted:
             allday = adapted.allDay
+
         copycut = ''
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
-        typeClass = ' type-'+self.context.portal_type
-        colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
+
+        typeClass = ' type-' + context.portal_type
+        colorIndex = getColorIndex(context, self.request, eventPhysicalPath)
         extraClass = self.getExtraClass()
         return {"status": "ok",
-                "id": "UID_%s" % (self.context.UID()),
-                "title": self.context.Title(),
-                "description": self.context.Description(),
-                "start": self.context.start().rfc822(),
-                "end": self.context.end().rfc822(),
-                "url": self.context.absolute_url(),
+                "id": "UID_%s" % context.UID(),
+                "title": context.Title(),
+                "description": context.Description(),
+                "start": context.start().rfc822(),
+                "end": context.end().rfc822(),
+                "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
                 "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass}
