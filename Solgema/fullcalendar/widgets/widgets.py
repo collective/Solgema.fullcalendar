@@ -1,15 +1,6 @@
-from zope.i18n import translate
-from zope import component
-from zope.formlib.form import Widgets
 import zope.schema
-from zope.interface import Interface
-from zope.app.form.interfaces import IInputWidget, IDisplayWidget, ConversionError
-from zope.schema import vocabulary
-from zope.component import getUtility
-from zope.schema._bootstrapinterfaces import RequiredMissing, WrongType
-from zope.schema._bootstrapinterfaces import ConstraintNotSatisfied
-from zope.interface import Interface, implements
-from zope.schema.interfaces import ValidationError
+from zope import component
+from zope.interface import implements
 
 from z3c.form.widget import Widget, FieldWidget
 from z3c.form import interfaces
@@ -17,11 +8,13 @@ from z3c.form import interfaces
 from z3c.form.converter import BaseDataConverter
 
 from Solgema.fullcalendar.config import _
-from Solgema.fullcalendar.browser.solgemafullcalendar_views import listQueryTopicCriteria, listBaseQueryTopicCriteria
+from Solgema.fullcalendar.browser.solgemafullcalendar_views import listBaseQueryTopicCriteria
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict
 
-class IColorDictInputWidget( interfaces.IWidget ):
+
+class IColorDictInputWidget(interfaces.IWidget):
     """For Dicts"""
+
 
 class ColorDictInputWidget(Widget):
     implements(IColorDictInputWidget)
@@ -74,14 +67,15 @@ class ColorDictInputWidget(Widget):
             return Dict
         return default
 
+
 @zope.component.adapter(ICustomUpdatingDict, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def ColorDictInputFieldWidget(field, request):
     """IFieldWidget factory for TextWidget."""
     return FieldWidget(field, ColorDictInputWidget(request))
 
-class ColorDictDataConverter( BaseDataConverter ):
 
+class ColorDictDataConverter( BaseDataConverter ):
     type = dict
     errorMessage = _('The entered value is not a valid dict.')
 

@@ -4,7 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 #from Products.ZCatalog.interfaces import ICatalogBrain how to get this interface???
 from Solgema.fullcalendar.browser.solgemafullcalendar_views import getCopyObjectsUID, getColorIndex
-from Solgema.fullcalendar.interfaces import *
+from Solgema.fullcalendar import interfaces
 
 try:
     from plone.event.interfaces import IRecurrenceSupport
@@ -14,8 +14,7 @@ except ImportError:
 
 
 class SolgemaFullcalendarCatalogSearch(object):
-
-    implements(ISolgemaFullcalendarCatalogSearch)
+    implements(interfaces.ISolgemaFullcalendarCatalogSearch)
 
     def __init__(self, context):
         self.context = context
@@ -24,9 +23,9 @@ class SolgemaFullcalendarCatalogSearch(object):
         catalog = getToolByName(self.context, 'portal_catalog')
         return catalog.searchResults(**args)
 
-class SolgemaFullcalendarEditableFilter(object):
 
-    implements(ISolgemaFullcalendarEditableFilter)
+class SolgemaFullcalendarEditableFilter(object):
+    implements(interfaces.ISolgemaFullcalendarEditableFilter)
 
     def __init__(self, context):
         self.context = context
@@ -51,9 +50,9 @@ class SolgemaFullcalendarEditableFilter(object):
         editargs['SFAllowedRolesAndUsersModify'] = self._listSFAllowedRolesAndUsersModify()
         return [a.getURL() for a in catalog.searchResults(**editargs)]
 
-class SolgemaFullcalendarTopicEventDict(object):
 
-    implements(ISolgemaFullcalendarTopicEventDict)
+class SolgemaFullcalendarTopicEventDict(object):
+    implements(interfaces.ISolgemaFullcalendarTopicEventDict)
 
     def __init__(self, topic, request):
         self.context = topic
@@ -64,7 +63,8 @@ class SolgemaFullcalendarTopicEventDict(object):
         return ''
 
     def dictFromBrain(self, brain, args):
-        eventsFilter = queryAdapter( self.context, ISolgemaFullcalendarEditableFilter )
+        eventsFilter = queryAdapter(self.context,
+                                    interfaces.ISolgemaFullcalendarEditableFilter)
         editpaths = eventsFilter.filterEvents(args)
         member = self.context.portal_membership.getAuthenticatedMember()
         memberid = member.id
@@ -72,16 +72,20 @@ class SolgemaFullcalendarTopicEventDict(object):
             editable = True
         else:
             editable = False
+
         if brain.getURL() in editpaths:
             editable = True
         else:
             editable = False
+
         if brain.end - brain.start > 1.0:
             allday = True
         else:
             allday = False
+
         if getattr(brain, 'SFAllDay', None) in [False,True]:
             allday = brain.SFAllDay
+
         copycut = ''
         if self.copyDict and brain.getPath() == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
@@ -114,37 +118,43 @@ class SolgemaFullcalendarTopicEventDict(object):
         member = self.context.portal_membership.getAuthenticatedMember()
         if member.has_permission('Modify portal content', item):
             editable = True
+
         if item.end() - item.start() > 1.0:
             allday = True
         else:
             allday = False
-        adapted = ISFBaseEventFields(item, None)
+
+        adapted = interfaces.ISFBaseEventFields(item, None)
         if adapted:
             allday = adapted.allDay
+
         copycut = ''
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
-        typeClass = ' type-'+item.portal_type
+
+        typeClass = ' type-' + item.portal_type
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getExtraClass(item)
         if HAS_RECCURENCE_SUPPORT:
-            occurences = IRecurrenceSupport(event).occurences()
+            occurences = IRecurrenceSupport(item).occurences()
         else:
-            occurences = [{'start_date': event.start().rfc822(),
-                           'end_date': event.end().rfc822()}]
+            occurences = [{'start_date': item.start().rfc822(),
+                           'end_date': item.end().rfc822()}]
+
         events = []
         for occurence in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (event.UID()),
-                "title": event.Title(),
-                "description": event.Description(),
+                "id": "UID_%s" % (item.UID()),
+                "title": item.Title(),
+                "description": item.Description(),
                 "start": HAS_RECCURENCE_SUPPORT and occurence['start_date'].isoformat() or occurence['start_date'],
                 "end": HAS_RECCURENCE_SUPPORT and occurence['end_date'].isoformat() or occurence['end_date'],
-                "url": event.absolute_url(),
+                "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
                 "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass})
+
         return events
 
     def createDict(self, itemsList=[], args={}):
@@ -159,8 +169,7 @@ class SolgemaFullcalendarTopicEventDict(object):
 
 
 class SolgemaFullcalendarEventDict(object):
-
-    implements(ISolgemaFullcalendarEventDict)
+    implements(interfaces.ISolgemaFullcalendarEventDict)
 
     def __init__(self, event, request):
         self.context = event
@@ -180,7 +189,7 @@ class SolgemaFullcalendarEventDict(object):
         editable = bool(member.has_permission('Modify portal content', context))
         allday = (context.end() - context.start()) > 1.0
 
-        adapted = ISFBaseEventFields(context, None)
+        adapted = interfaces.ISFBaseEventFields(context, None)
         if adapted:
             allday = adapted.allDay
 

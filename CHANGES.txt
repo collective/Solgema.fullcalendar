@@ -60,6 +60,9 @@ Changelog
   Upgrade profiles don't appear in root profiles.
   [thomasdesvenain]
 
+- Peep8 & pyflakes.
+  [thomasdesvenain]
+
 - Plone 4.1 compatibility.
   [thomasdesvenain]
 

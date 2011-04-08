@@ -19,12 +19,11 @@
       />
 
   <view
-      type="zope.publisher.interfaces.browser.IBrowserRequest"
+      type="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
       for="Solgema.fullcalendar.interfaces.ICustomUpdatingDict"
       provides="zope.app.form.interfaces.IInputWidget"
       factory=".widgets.ColorDictInputWidget"
       permission="zope.Public"
-      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
       />
 
 </configure>

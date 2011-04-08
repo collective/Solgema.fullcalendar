@@ -1,8 +1,10 @@
 from zope.schema import vocabulary
-import interfaces
-from Products.CMFCore.utils import getToolByName
 from zope.i18nmessageid import MessageFactory
+from Products.CMFCore.utils import getToolByName
+
 from Solgema.fullcalendar.config import _
+
+
 PLMF = MessageFactory('plonelocales')
 
 class TitledVocabulary(vocabulary.SimpleVocabulary):
@@ -47,9 +49,10 @@ def availableCriterias( topic ):
     for criteria in topic.listCriteria():
         field = criteria.Field()
         if criteria.meta_type=='ATPortalTypeCriterion' and len(criteria.getCriteriaItems()[0][1])>0:
-            index = portal_atct.getIndex(field).friendlyName or ortal_atct.getIndex(field).index
+            index = portal_atct.getIndex(field).friendlyName or portal_atct.getIndex(field).index
             li.append({'id':field, 'title':topic.translate(index)})
         elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
-            index = portal_atct.getIndex(field).friendlyName or ortal_atct.getIndex(field).index
+            index = portal_atct.getIndex(field).friendlyName or portal_atct.getIndex(field).index
             li.append({'id':field, 'title':topic.translate(index)})
+
     return TitledVocabulary.fromTitles([(crit['id'], crit['title']) for crit in li])

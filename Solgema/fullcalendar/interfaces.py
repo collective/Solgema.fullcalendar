@@ -1,27 +1,19 @@
 import itertools
 from Products.ZCTextIndex.ParseTree import ParseError
-from zope.interface import Interface, Attribute
+from zope.interface import Interface
 from zope.interface import implements, classProvides
 from zope.schema.interfaces import ISource, IContextSourceBinder
 from plone.theme.interfaces import IDefaultPloneLayer
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
-from zope import interface, schema
+from zope import schema
 from Solgema.fullcalendar.config import _
-from Products.ATContentTypes import ATCTMessageFactory as ATMF
-from Products.Archetypes import PloneMessageFactory as PMMF
 from zope.i18nmessageid import MessageFactory
 PMF = MessageFactory('plone')
-import datetime
-from zope.component.interface import provideInterface
 from zope.schema.interfaces import IDict
 from plone.app.vocabularies.catalog import SearchableTextSource, SearchableTextSourceBinder
 
-from zope.app.publisher.interfaces.browser import IBrowserMenu
-from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
-from zope.app.publisher.interfaces.browser import IMenuItemType
 from zope.viewlet.interfaces import IViewletManager
 
-from zope.contentprovider.interfaces import IContentProvider
 from Products.ATContentTypes.interface import IATFolder
 
 class IPersistentOptions( Interface ):

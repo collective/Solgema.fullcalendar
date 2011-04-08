@@ -1,28 +1,23 @@
-from Acquisition import aq_parent, aq_inner
-
-from Products.CMFCore.utils import getToolByName
-
-from plone.z3cform.layout import wrap_form
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.i18nmessageid import MessageFactory
-from z3c.form.interfaces import INPUT_MODE, DISPLAY_MODE
+
+from z3c.form.interfaces import INPUT_MODE
 from z3c.form import form as z3cform, field as z3cfield
 from z3c.form import button
 from z3c.form import field, group as z3cgroup
 from z3c.formwidget.query.widget import QuerySourceFieldRadioWidget
 from z3c.form.browser.orderedselect import OrderedSelectWidget
-from z3c.form.widget import SequenceWidget, FieldWidget
+from z3c.form.widget import FieldWidget
 from z3c.form.browser import widget
-from plone.z3cform.fieldsets import group, extensible
-from zope.component import adapts, provideAdapter
-from zope.publisher.interfaces.browser import IBrowserRequest
-from zope.publisher.interfaces.http import IHTTPRequest
 
-from Solgema.fullcalendar.vocabularies import TitledVocabulary
+from Products.CMFCore.utils import getToolByName
+from plone.z3cform.layout import wrap_form
+from plone.z3cform.fieldsets import group, extensible
+
 from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
 from Solgema.fullcalendar.widgets.widgets import ColorDictInputFieldWidget
-from Solgema.fullcalendar.content import SolgemaFullcalendarAdapter
 from Solgema.fullcalendar.config import _
+
+
 PLMF = MessageFactory('plone')
 
 class CriteriasOrderedSelectWidget(OrderedSelectWidget):
@@ -89,7 +84,6 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
 #    fields['queryColors'].widgetFactory[INPUT_MODE] = ColorDictInputFieldWidget
 
     groups = (CalendarGroup, QueryGroup, ColorsGroup)
-#    index = ViewPageTemplateFile('layout.pt', _prefix='')
 
     @button.buttonAndHandler(PLMF('label_save'), name='apply')
     def handleApply(self, action):
