@@ -3,249 +3,249 @@ msgstr ""
 "Project-Id-Version: Solgema\n"
 "POT-Creation-Date: 2011-05-05 10:55+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
-"Last-Translator: Martronic SA <martronic@martronic.ch>\n"
+"Last-Translator: Philip Bauer <bauer@starzel.de>\n"
 "Language-Team: EDF\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: fr\n"
-"Language-Name: Français\n"
+"Language-Code: de\n"
+"Language-Name: Deutsch\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: Solgema.fullcalendar\n"
-"X-Is-Fallback-For: fr-be fr-ca fr-lu fr-mc fr-ch fr-fr\n"
+"X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
 
 #: ./skins/solgemafullcalendar/createSFEvent.cpy:44
 msgid "${tname} has been created."
-msgstr "${tname} a été créé"
+msgstr "${tname} wurde erstellt."
 
 #. Default: "all-day"
 #: ./browser/solgemafullcalendar_views.py:315
 msgid "Allday"
-msgstr "Jour entier"
+msgstr "Ganztags"
 
 #. Default: "Calendar"
 #: ./browser/content.py:44
 msgid "Calendar"
-msgstr "Calendrier"
+msgstr "Kalender"
 
 #: ./profiles/default/actions.xml
 #: ./upgrades/profiles/upgrade16/actions.xml
 #: ./upgrades/profiles/upgrade19/actions.xml
 msgid "Calendar properties"
-msgstr "Propriétés du calendrier"
+msgstr "Kalender Einstellungen"
 
 #. Default: "Colors"
 #: ./browser/content.py:72
 msgid "Colors"
-msgstr "Couleurs"
+msgstr "Farben"
 
 #. Default: "Day"
 #: ./browser/solgemafullcalendar_views.py:312
 msgid "Day"
-msgstr "Jour"
+msgstr "Tag"
 
 #. Default: "Month"
 #: ./browser/solgemafullcalendar_views.py:306
 #: ./vocabularies.py:31
 msgid "Month"
-msgstr "Mois"
+msgstr "Monat"
 
 #: ./skins/solgemafullcalendar/SFValidate_integrity.cpy:19
 msgid "Please correct the indicated errors."
-msgstr "Veuillez corriger les erreurs indiquées."
+msgstr "Bitte korrigierten Sie die angezeigten Fehler."
 
 #. Default: "Query"
 #: ./browser/content.py:63
 msgid "Query"
-msgstr "Recherche"
+msgstr "Abfrage"
 
 #: ./skins/solgemafullcalendar/SFContextualContentMenu.pt:4
 msgid "Reschedule"
-msgstr "Replanifier"
+msgstr "Neu ansetzen"
 
 #: ./widgets/widgets.py:80
 msgid "The entered value is not a valid dict."
-msgstr "La valeur saisie n'est pas un dictionnaire valide."
+msgstr "Der eigegebene Wert ist kein gültiges dictionary."
 
 #: ./skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
 msgid "Versioning for this file has been disabled because it is too large"
-msgstr "Le versionnement de ce fichier a été désactivé car il est trop volumineux."
+msgstr "Versionierung für diese Datei wurde deaktiviert weil sie zu groß ist."
 
 #. Default: "Week"
 #: ./browser/solgemafullcalendar_views.py:309
 msgid "Week"
-msgstr "Semaine"
+msgstr "Woche"
 
 #. Default: "Add New Event"
 #: ./browser/solgemafullcalendar_views.py:318
 msgid "addNewEvent"
-msgstr "Ajouter un nouvel événement"
+msgstr "Neuen Termin erstellen"
 
 #. Default: "agendaDay"
 #: ./vocabularies.py:35
 msgid "agendaDay"
-msgstr "Jour agenda"
+msgstr "Tagesplan"
 
 #. Default: "agendaWeek"
 #: ./vocabularies.py:34
 msgid "agendaWeek"
-msgstr "Semaine agenda"
+msgstr "Wochenplan"
 
 #. Default: "basicDay"
 #: ./vocabularies.py:33
 msgid "basicDay"
-msgstr "Jour basic"
+msgstr "einfache Tagesansicht"
 
 #. Default: "basicWeek"
 #: ./vocabularies.py:32
 msgid "basicWeek"
-msgstr "Semaine basic"
+msgstr "einfache Wochenansicht"
 
 #. Default: "Edit Event"
 #: ./browser/solgemafullcalendar_views.py:321
 msgid "editEvent"
-msgstr "Modifier l'événement"
+msgstr "Termin bearbeiten"
 
 #. Default: "Check this box to display All day option"
 #: ./interfaces.py:258
 msgid "help_allDay"
-msgstr ""
+msgstr "Klicken Sie hier um die Zeile 'ganzer Tag' anzuzeigen."
 
 #: ./interfaces.py:203
 msgid "help_availableCriterias"
-msgstr "Choisissez les critères de la collection qui seront affichés en dessous du calendrier."
+msgstr "Wählen Sie die Kriterien der Kollektion, die am Ende des Kalenders angezeigt werden sollen."
 
 #: ./interfaces.py:198
 msgid "help_calendarHeight"
-msgstr "Entrez la hauteur du calendrier en pixels. (exemple: 600 )"
+msgstr "Geben sie die Höhe des Kalenders in Pixeln ein (z.B. 600)."
 
 #: ./interfaces.py:153
 msgid "help_defaultCalendarView"
-msgstr "Vue par défaut dans laquelle sera affiché le calendrier"
+msgstr "Default view in which the calendar will be displayed"
 
 #: ./interfaces.py:224
 msgid "help_displayNoscriptList"
-msgstr "Si coché, lorsque le javascript n'est pas activé, une liste des événements est affichée à la place du calendrier. A utiliser si le contenu du calendrier doit être référencé sur internet (p.e. googlebot)."
+msgstr "Wenn ausgewählt wird - sofern javascript nicht aktiviert ist - eine Liste vo Terminen statt dem Kelender angezeigt. Verwenden Sie diese Option, wenn der Kalender z.B. durch Suchmaschinen ausgelesen werden soll."
 
 #: ./interfaces.py:214
 msgid "help_displayUndefined"
-msgstr "Montrer la case \"Non défini\" dans la recerche en dessous du calendrier. Cela permet de rechercher également du contenu dont le champ recherché n'a pas été renseigné."
+msgstr "Zeige die Checkbox \"Undefined\" in dem Abfragen-Feld am Ende des Kalenders. Das ermöglicht die Suche nach Inhalten bei denen das gewählte Feld leer ist."
 
 #: ./interfaces.py:168
 msgid "help_firstDay"
-msgstr "Afficher le calendrier à partir de ce jour"
+msgstr "Erster Tag der Woche"
 
 #: ./interfaces.py:179
 msgid "help_firstHour"
-msgstr "Détermine la première heure affichée dans le calendrier (doit être du type '5' de 0 à 23). Si cette heure est précédée d'un \"+\" our d'un \"-\", le nombre d'heures défini sera ajouté ou soustrait à l'heure courante."
+msgstr "Legen Sie die erste Stunden der Kalender-Tagesansicht fest (eine Zahl zwischen 0 und 23). Wenn vor dieser Zahl ein  \"+\" oder \"-\" steht, wird die Zahl von der aktuellen Zeit addiert bzw. substrahiert."
 
 #: ./interfaces.py:158
 msgid "help_headerRight"
-msgstr "Contenu de l'entête droite du calendrier"
+msgstr "Optionen im rechten Kopfbereiches"
 
 #: ./interfaces.py:184
 msgid "help_minTime"
-msgstr "Détermine la première heure visible dans le calendrier (doit être du type '5' ou '5:30')."
+msgstr "Wählen Sie die erste sichtbare Stunde des Kalenders (z.B. '5' oder '5:30')."
 
 #: ./interfaces.py:219
 msgid "help_overrideStateForAdmin"
-msgstr "Ne pas prendre en compte le critère d'état pour les administrateurs."
+msgstr "Workflow-Status-Kriterium für Administratoren überschreiben."
 
 #: ./interfaces.py:209
 msgid "help_queryColors"
-msgstr "Vous pouvez assigner une couleur à chaque valeur des critères de recherche."
+msgstr "Sie können jedem der Kriterien der Kollektion eine eigene Farbe geben. "
 
 #: ./interfaces.py:174
 msgid "help_relativeFirstDay"
-msgstr "Afficher le calendrier à partir d'un certain nombre de jours avant ou après la date courante. ( utiliser le format '+1' ou '-1' )"
+msgstr "Kalender ab einer bestimmten Anzahl von Tagen vor dem aktuellen Datum anzeigen (Format: '+1' oder '-1' )"
 
 #: ./interfaces.py:146
 msgid "help_slotMinutes"
-msgstr "Détermine en minutes la subdivision d'affichage d'une heure"
+msgstr "Länge (in Minuten) von einzelnen Slots in einer Stunde."
 
 #: ./interfaces.py:192
 msgid "help_target_folder"
-msgstr "Choisissez dans quel dossier le nouveau contenu ajouté dans le calendrier sera créé. Si ce champ n'est pas défini, les événements seront créés dans le dossier contenant cette collection."
+msgstr "Wählen Sie einen Ordner in dem in dem neue Termine angelegt werden. Wenn nichts ausgewählt ist werden neue Termine in dem Ordner angelegt in dem auch die Kollektion liegt."
 
 #: ./interfaces.py:163
 msgid "help_weekends"
-msgstr "Afficher le samedi et le dimanche"
+msgstr "Samstage und Sonntage anzeigen"
 
 #. Default: "Display All day option"
 #: ./interfaces.py:257
 msgid "label_allDay"
-msgstr ""
+msgstr "'Ganztags'-Spalte anzeigen"
 
 #: ./interfaces.py:149
 msgid "label_allDaySlot"
-msgstr "Afficher les cases \"Jour entier\""
+msgstr "'Ganztags'-Spalte anzeigen"
 
 #: ./interfaces.py:201
 msgid "label_availableCriterias"
-msgstr "Critères de la recherche"
+msgstr "Suchkriterien"
 
 #: ./interfaces.py:196
 msgid "label_calendarHeight"
-msgstr "Hauteur du calendrier"
+msgstr "Höhe des Kalenders"
 
 #: ./interfaces.py:151
 msgid "label_defaultCalendarView"
-msgstr "Vue par défaut"
+msgstr "Standard-Ansicht"
 
 #: ./interfaces.py:222
 msgid "label_displayNoscriptList"
-msgstr "Liste des événements sans javascript"
+msgstr "Termine ohne Javascript auflisten"
 
 #: ./interfaces.py:212
 msgid "label_displayUndefined"
-msgstr "Non défini"
+msgstr "nicht definiert"
 
 #: ./interfaces.py:166
 msgid "label_firstDay"
-msgstr "Premier jour de la semaine"
+msgstr "Erster Wochentag"
 
 #: ./interfaces.py:177
 msgid "label_firstHour"
-msgstr "Première heure affichée"
+msgstr "Erste angezeigte Stunde"
 
 #: ./interfaces.py:157
 msgid "label_headerRight"
-msgstr "Entête droite"
+msgstr "Kopfbereich rechts"
 
 #: ./interfaces.py:187
 msgid "label_maxTime"
-msgstr "Dernière heure visible"
+msgstr "Letzte sichtbare Stunde"
 
 #: ./interfaces.py:182
 msgid "label_minTime"
-msgstr "Première heure visible"
+msgstr "Erste sichtbare Stunde"
 
 #: ./interfaces.py:217
 msgid "label_overrideStateForAdmin"
-msgstr "Surclasser Critère d'état"
+msgstr "Status-Kriterium überschreiben"
 
 #: ./interfaces.py:207
 msgid "label_queryColors"
-msgstr "Couleurs"
+msgstr "Farben"
 
 #: ./interfaces.py:172
 msgid "label_relativeFirstDay"
-msgstr "Premier jour relatif"
+msgstr "Relativer erster Wochentag"
 
 #: ./interfaces.py:144
 msgid "label_slotMinutes"
-msgstr "Subdivision"
+msgstr "Slots"
 
 #: ./interfaces.py:191
 msgid "label_target_folder"
-msgstr "Dossier de création"
+msgstr "Zielordner für neue Termine"
 
 #: ./browser/solgemafullcalendar_query.pt:46
 msgid "label_undefined"
-msgstr "Non défini"
+msgstr "nicht definiert"
 
 #: ./interfaces.py:162
 msgid "label_weekends"
-msgstr "Weekends"
+msgstr "Wochenenden"
 
