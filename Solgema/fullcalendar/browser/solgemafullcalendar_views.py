@@ -294,10 +294,10 @@ class SolgemaFullcalendarJS(BrowserView):
         return [PLMF(self._ts.month_msgid(m, format='a'), default=self._ts.month_english(m, format='a')) for m in [a+1 for a in range(12)]]
 
     def getWeekdaysNames(self):
-        return [PLMF(self._ts.day_msgid(d), default=self._ts.weekday_english(d)) for d in range(6)]
+        return [PLMF(self._ts.day_msgid(d), default=self._ts.weekday_english(d)) for d in range(7)]
 
     def getWeekdaysNamesAbbr(self):
-        return [PLMF(self._ts.day_msgid(d, format='a'), default=self._ts.weekday_english(d, format='a')) for d in range(6)]
+        return [PLMF(self._ts.day_msgid(d, format='a'), default=self._ts.weekday_english(d, format='a')) for d in range(7)]
 
     def getTodayTranslation(self):
         return DTMF('Today', 'Today')
