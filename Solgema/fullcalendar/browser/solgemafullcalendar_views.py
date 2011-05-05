@@ -324,7 +324,7 @@ class SolgemaFullcalendarJS(BrowserView):
         if self.portal_language in ['fr']:
             return '{month: "MMMM yyyy", week: "d[ MMM][ yyyy]{ \'-\' d MMM yyyy}", day: \'dddd, d MMMM yyyy\'}'
         elif self.portal_language in ['de']:
-            return '{month: \'MMMM yyyy\', week: "d[ yyyy]. MMMM{ \'-\'d.[ MMMM] yyyy}", day: \'dddd, d. MMMM yyyy\'}'
+            return '{month: \'MMMM yyyy\', week: "d[ yyyy].[ MMMM]{ \'- \'d. MMMM yyyy}", day: \'dddd, d. MMMM yyyy\'}'
         else:
             return '{month: \'MMMM yyyy\', week: "MMM d[ yyyy]{ \'-\'[ MMM] d yyyy}", day: \'dddd, MMM d, yyyy\'}'
 
