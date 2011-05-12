@@ -337,6 +337,12 @@ class SolgemaFullcalendarJS(BrowserView):
         else:
             return 'h(:mm)tt'
 
+    def columnFormat(self):
+        if self.portal_language in ['de']:
+            return "{month: 'ddd', week: 'ddd d. MMM', day: 'dddd d. MMM'}"
+        else: 
+            return "{month: 'ddd', week: 'ddd M/d', day: 'dddd M/d'}"
+
     def getTargetFolder(self):
         target_folder = getattr(self.calendar, 'target_folder', None)
         addContext = target_folder and self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder) or aq_parent(aq_inner(self.context))

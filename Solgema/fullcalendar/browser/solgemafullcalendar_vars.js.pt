@@ -14,6 +14,7 @@
     monthNamesShort: [<tal:recurse repeat="msg view/getMonthsNamesAbbr">"<p tal:replace="msg"/>",</tal:recurse>],
     dayNames: [<tal:recurse repeat="msg view/getWeekdaysNames">"<p tal:replace="msg"/>",</tal:recurse>],
     dayNamesShort: [<tal:recurse repeat="msg view/getWeekdaysNamesAbbr">"<p tal:replace="msg"/>",</tal:recurse>],
+    columnFormat: <p tal:replace="view/columnFormat"/>,
     today: "<p tal:replace="view/getTodayTranslation"/>",
     month: "<p tal:replace="view/getMonthTranslation"/>",
     week: "<p tal:replace="view/getWeekTranslation"/>",

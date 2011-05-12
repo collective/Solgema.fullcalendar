@@ -327,6 +327,7 @@ function readCookie(name) {
       monthNamesShort: SolgemaFullcalendarVars.monthNamesShort,
       dayNames: SolgemaFullcalendarVars.dayNames,
       dayNamesShort: SolgemaFullcalendarVars.dayNamesShort,
+      columnFormat: SolgemaFullcalendarVars.columnFormat,
       buttonText: {
         prev: '&nbsp;&#9668;&nbsp;',
         next: '&nbsp;&#9658;&nbsp;',
