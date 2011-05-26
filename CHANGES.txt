@@ -4,6 +4,15 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Fixed: week-view didn't translate saturday
+  [pbauer] 
+
+- Upgrade to fullcalendar-1.5.1. Upgrade ui-css to 1.8.12. Remove unused js-files
+  [pbauer]
+
+- Add german translation and german date-formats 
+  [pbauer] 
+
 - Show reccurring events if plone.event is available.
   [vincentfretin]
 
