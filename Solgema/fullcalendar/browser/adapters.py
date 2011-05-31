@@ -95,16 +95,15 @@ class SolgemaFullcalendarTopicEventDict(object):
         if HAS_RECCURENCE_SUPPORT:
             occurences = IRecurrenceSupport(brain.getObject()).occurences()
         else:
-            occurences = [{'start_date': brain.start.rfc822(),
-                           'end_date': brain.end.rfc822()}]
+            occurences = [(brain.start.rfc822(), brain.end.rfc822())]
         events = []
-        for occurence in occurences:
+        for occurence_start, occurence_end in occurences:
             events.append({
                 "id": "UID_%s" % (brain.UID),
                 "title": brain.Title,
                 "description": brain.Description,
-                "start": HAS_RECCURENCE_SUPPORT and occurence['start_date'].isoformat() or occurence['start_date'],
-                "end": HAS_RECCURENCE_SUPPORT and occurence['end_date'].isoformat() or occurence['end_date'],
+                "start": HAS_RECCURENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
+                "end": HAS_RECCURENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
                 "url": brain.getURL(),
                 "editable": editable,
                 "allDay": allday,
@@ -138,18 +137,17 @@ class SolgemaFullcalendarTopicEventDict(object):
         if HAS_RECCURENCE_SUPPORT:
             occurences = IRecurrenceSupport(item).occurences()
         else:
-            occurences = [{'start_date': item.start().rfc822(),
-                           'end_date': item.end().rfc822()}]
+            occurences = [(item.start().rfc822(), item.end().rfc822())]
 
         events = []
-        for occurence in occurences:
+        for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
                 "id": "UID_%s" % (item.UID()),
                 "title": item.Title(),
                 "description": item.Description(),
-                "start": HAS_RECCURENCE_SUPPORT and occurence['start_date'].isoformat() or occurence['start_date'],
-                "end": HAS_RECCURENCE_SUPPORT and occurence['end_date'].isoformat() or occurence['end_date'],
+                "start": HAS_RECCURENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
+                "end": HAS_RECCURENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,

@@ -4,6 +4,9 @@ Changelog
 1.9dev (unreleased)
 -------------------
 
+- Works with newer plone.event, the API changed.
+  [vincentfretin]
+
 - Fixed: week-view didn't translate saturday
   [pbauer] 
 
