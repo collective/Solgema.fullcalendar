@@ -348,7 +348,7 @@ function readCookie(name) {
       allDaySlot: SolgemaFullcalendarVars.allDaySlot,
       allDayText: SolgemaFullcalendarVars.allDayText,
       weekMode: "liquid",
-      timeFormat: 'H(:mm)',
+      timeFormat: SolgemaFullcalendarVars.axisFormat,
       eventDrop: function(event, dayDelta, minuteDelta, allDay) {
         jq('#kss-spinner').show();
         data = {event: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay};

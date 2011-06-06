@@ -333,7 +333,7 @@ class SolgemaFullcalendarJS(BrowserView):
 
     def getHourFormat(self):
         if self.portal_language in ['fr', 'de', 'it']:
-            return 'HH(:mm)'
+            return 'HH:mm'
         else:
             return 'h(:mm)tt'
 
