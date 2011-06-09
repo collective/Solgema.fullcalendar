@@ -1,9 +1,15 @@
 Changelog
 =========
 
-1.9dev (unreleased)
--------------------
+1.9 (2011-06-06)
+----------------
 
+- the ui-lightness skin for jqueryui has been removed. You can add your own jqueryui skin if you want to.
+  [fmoret]
+  
+- Added the possibility to choose short day name format ( short: 2 characters or abbreviated: 3 characters)
+  [fmoret]
+  
 - Works with newer plone.event, the API changed.
   [vincentfretin]
 
