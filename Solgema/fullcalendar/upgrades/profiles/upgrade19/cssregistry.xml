@@ -6,12 +6,6 @@
  <stylesheet title="" cacheable="True" compression="full" cookable="True"
     enabled="1" expression="here/@@iscalendarlayout" id="solgemafullcalendar.css" media="all"
     rel="stylesheet" rendering="import" insert-before="ploneCustom.css"/>
- <stylesheet title="" cacheable="True" compression="full" cookable="True"
-    enabled="1" expression="here/@@iscalendarlayout" id="jquery-ui-1.8.12.custom.css" media="all"
-    rel="stylesheet" rendering="import" insert-bottom=""/>
- <stylesheet title="" enabled="0" id="jquery-ui-1.8.9.custom.css" remove="True" />
- <stylesheet title=""
-    enabled="0" id="++resource++jquery-ui-themes/sunburst-patch.css" media="all"
-    />
-
+ <stylesheet title="" id="jquery-ui-1.8.12.custom.css" remove="True"/>
+ <stylesheet title="" id="jquery-ui-1.8.9.custom.css" remove="True" />
 </object>
