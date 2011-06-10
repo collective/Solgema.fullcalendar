@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+
+ <skin-path name="*">
+  <layer name="solgemafullcalendar/ui-lightness" remove="true"/>
+  <layer name="solgemafullcalendar/ui-lightness/images" remove="true"/>
+ </skin-path>
+
+</object>
