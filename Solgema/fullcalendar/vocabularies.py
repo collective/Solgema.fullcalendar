@@ -56,3 +56,7 @@ def availableCriterias( topic ):
             li.append({'id':field, 'title':topic.translate(index)})
 
     return TitledVocabulary.fromTitles([(crit['id'], crit['title']) for crit in li])
+    
+def shortNameFormats(context):
+    return TitledVocabulary.fromTitles([('a', _(u'abbreviated', default='abbreviated')), 
+                                        ('s', _(u'short', default='short'))])

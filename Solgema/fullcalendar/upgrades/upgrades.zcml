@@ -156,5 +156,4 @@
       handler=".migrations.upgrade19"
       profile="Solgema.fullcalendar:default" />
 
-
 </configure>

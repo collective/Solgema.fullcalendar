@@ -39,14 +39,14 @@ def CriteriasOrderedSelectFieldWidget(field, request):
     """IFieldWidget factory for SelectWidget."""
     return FieldWidget(field, CriteriasOrderedSelectWidget(request))
 
-
 class CalendarGroup(z3cgroup.Group):
     label = _(u'Calendar', default="Calendar")
-
+    
     fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
         'slotMinutes',
         'allDaySlot',
         'defaultCalendarView',
+        'shortDayNameFormat',
         'headerRight',
         'weekends',
         'firstDay',

@@ -7,10 +7,6 @@
    <cmf:registerDirectory
        name="solgemafullcalendar"/>
    <cmf:registerDirectory
-       name="solgemafullcalendar/ui-lightness"/>
-   <cmf:registerDirectory
-       name="solgemafullcalendar/ui-lightness/images"/>
-   <cmf:registerDirectory
        name="solgemafullcalendar/colorpicker"/>
    <cmf:registerDirectory
        name="solgemafullcalendar/colorpicker/css"/>

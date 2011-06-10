@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2011-05-05 10:55+0000\n"
+"POT-Creation-Date: 2011-06-09 15:48+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
 "Last-Translator: Martronic SA <martronic@martronic.ch>\n"
 "Language-Team: EDF\n"
@@ -15,237 +15,255 @@ msgstr ""
 "Domain: Solgema.fullcalendar\n"
 "X-Is-Fallback-For: en-au en-bz en-ca en-ie en-jm en-nz en-ph en-za en-tt en-gb en-us en-zw\n"
 
-#: ./skins/solgemafullcalendar/createSFEvent.cpy:44
+#: ../skins/solgemafullcalendar/createSFEvent.cpy:44
 msgid "${tname} has been created."
 msgstr "${tname} a été créé."
 
 #. Default: "all-day"
-#: ./browser/solgemafullcalendar_views.py:315
+#: ../browser/solgemafullcalendar_views.py:316
 msgid "Allday"
 msgstr "all-day"
 
 #. Default: "Calendar"
-#: ./browser/content.py:44
+#: ../browser/content.py:43
 msgid "Calendar"
 msgstr "Calendar"
 
-#: ./profiles/default/actions.xml
-#: ./upgrades/profiles/upgrade16/actions.xml
-#: ./upgrades/profiles/upgrade19/actions.xml
+#: ../profiles/default/actions.xml
+#: ../upgrades/profiles/upgrade16/actions.xml
+#: ../upgrades/profiles/upgrade19/actions.xml
 msgid "Calendar properties"
 msgstr "Propriétés du calendrier"
 
 #. Default: "Colors"
-#: ./browser/content.py:72
+#: ../browser/content.py:72
 msgid "Colors"
 msgstr "Colors"
 
 #. Default: "Day"
-#: ./browser/solgemafullcalendar_views.py:312
+#: ../browser/solgemafullcalendar_views.py:313
 msgid "Day"
 msgstr "Day"
 
 #. Default: "Month"
-#: ./browser/solgemafullcalendar_views.py:306
-#: ./vocabularies.py:31
+#: ../browser/solgemafullcalendar_views.py:307
+#: ../vocabularies.py:31
 msgid "Month"
 msgstr "Month"
 
-#: ./skins/solgemafullcalendar/SFValidate_integrity.cpy:19
+#: ../skins/solgemafullcalendar/SFValidate_integrity.cpy:19
 msgid "Please correct the indicated errors."
 msgstr "Veuillez corriger les erreurs indiquées."
 
 #. Default: "Query"
-#: ./browser/content.py:63
+#: ../browser/content.py:63
 msgid "Query"
 msgstr "Query"
 
-#: ./skins/solgemafullcalendar/SFContextualContentMenu.pt:4
+#: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
 msgid "Reschedule"
 msgstr "Reschedule"
 
-#: ./widgets/widgets.py:80
+#: ../widgets/widgets.py:80
 msgid "The entered value is not a valid dict."
 msgstr "La valeur saisie n'est pas un dictionnaire valide."
 
-#: ./skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
+#: ../skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
 msgid "Versioning for this file has been disabled because it is too large"
 msgstr "Le versionnement de ce fichier a été désactivé parce qu'il est trop volumineux."
 
 #. Default: "Week"
-#: ./browser/solgemafullcalendar_views.py:309
+#: ../browser/solgemafullcalendar_views.py:310
 msgid "Week"
 msgstr "Week"
 
+#. Default: "abbreviated"
+#: ../vocabularies.py:61
+msgid "abbreviated"
+msgstr "abbreviated"
+
 #. Default: "Add New Event"
-#: ./browser/solgemafullcalendar_views.py:318
+#: ../browser/solgemafullcalendar_views.py:319
 msgid "addNewEvent"
 msgstr "Add new Event"
 
 #. Default: "agendaDay"
-#: ./vocabularies.py:35
+#: ../vocabularies.py:35
 msgid "agendaDay"
 msgstr "Day agenda"
 
 #. Default: "agendaWeek"
-#: ./vocabularies.py:34
+#: ../vocabularies.py:34
 msgid "agendaWeek"
 msgstr "Week agenda"
 
 #. Default: "basicDay"
-#: ./vocabularies.py:33
+#: ../vocabularies.py:33
 msgid "basicDay"
 msgstr "Day basic"
 
 #. Default: "basicWeek"
-#: ./vocabularies.py:32
+#: ../vocabularies.py:32
 msgid "basicWeek"
 msgstr "Week basic"
 
 #. Default: "Edit Event"
-#: ./browser/solgemafullcalendar_views.py:321
+#: ../browser/solgemafullcalendar_views.py:322
 msgid "editEvent"
 msgstr "Edit Event"
 
 #. Default: "Check this box to display All day option"
-#: ./interfaces.py:258
+#: ../interfaces.py:264
 msgid "help_allDay"
 msgstr "Cochez cette case pour afficher l'option \"Jour entier\""
 
-#: ./interfaces.py:203
+#: ../interfaces.py:209
 msgid "help_availableCriterias"
 msgstr "Choose topic criterions that will be displayed in the bottom of the calendar."
 
-#: ./interfaces.py:198
+#: ../interfaces.py:204
 msgid "help_calendarHeight"
 msgstr "Set the calendar height in pixel. (example: 600)"
 
-#: ./interfaces.py:153
+#: ../interfaces.py:153
 msgid "help_defaultCalendarView"
 msgstr "Default view in which the calendar will be displayed"
 
-#: ./interfaces.py:224
+#: ../interfaces.py:230
 msgid "help_displayNoscriptList"
 msgstr "If selected, when javascript is not enabled, a list of events is displayed instead of the calendar. Use this if the calendar content must be referenced through the web (e.g. googlebot)."
 
-#: ./interfaces.py:214
+#: ../interfaces.py:220
 msgid "help_displayUndefined"
 msgstr "Display the \"Undefined\" checkbox in the query field at the bottom of the calendar. This allows to search also for content that the searched field has not been filled."
 
-#: ./interfaces.py:168
+#: ../interfaces.py:174
 msgid "help_firstDay"
 msgstr "Display calendar from that day"
 
-#: ./interfaces.py:179
+#: ../interfaces.py:185
 msgid "help_firstHour"
 msgstr "Set the first hour to be diplayed in calendar (must be of type '5' from 0 to 23). If that hour is preceeded by a \"+\" or a \"-\", the number of hour defined will be added or substracted to the current hour."
 
-#: ./interfaces.py:158
+#: ../interfaces.py:164
 msgid "help_headerRight"
 msgstr "Content of the right calendar header"
 
-#: ./interfaces.py:184
+#: ../interfaces.py:190
 msgid "help_minTime"
 msgstr "Set the first visible hour in calendar (must be of type '5' or '5:30')."
 
-#: ./interfaces.py:219
+#: ../interfaces.py:225
 msgid "help_overrideStateForAdmin"
 msgstr "Override Review State Criterion for Admins."
 
-#: ./interfaces.py:209
+#: ../interfaces.py:215
 msgid "help_queryColors"
 msgstr "You can assign a color to each topic criterias."
 
-#: ./interfaces.py:174
+#: ../interfaces.py:180
 msgid "help_relativeFirstDay"
 msgstr "Display calendar from a certain number of days before or after the current date. ( use the format '+1' or '-1' )"
 
-#: ./interfaces.py:146
+#: ../interfaces.py:159
+msgid "help_shortDayNameFormat"
+msgstr "Choose short day name format (abbreviated = 3 characters, short = 2 characters)."
+
+#: ../interfaces.py:146
 msgid "help_slotMinutes"
 msgstr "Set the length in minutes for each slice in one hour."
 
-#: ./interfaces.py:192
+#: ../interfaces.py:198
 msgid "help_target_folder"
 msgstr "Choose the folder where the content will be created. If this field is not defined, the events will be created in the folder that contains the current Topic."
 
-#: ./interfaces.py:163
+#: ../interfaces.py:169
 msgid "help_weekends"
 msgstr "Display Saturday and Sunday"
 
 #. Default: "Display All day option"
-#: ./interfaces.py:257
+#: ../interfaces.py:263
 msgid "label_allDay"
 msgstr "Afficher les cases \"Jour entier\""
 
-#: ./interfaces.py:149
+#: ../interfaces.py:149
 msgid "label_allDaySlot"
 msgstr "Display all-day slot"
 
-#: ./interfaces.py:201
+#: ../interfaces.py:207
 msgid "label_availableCriterias"
 msgstr "Search Criterias"
 
-#: ./interfaces.py:196
+#: ../interfaces.py:202
 msgid "label_calendarHeight"
 msgstr "Calendar height"
 
-#: ./interfaces.py:151
+#: ../interfaces.py:151
 msgid "label_defaultCalendarView"
 msgstr "Default View"
 
-#: ./interfaces.py:222
+#: ../interfaces.py:228
 msgid "label_displayNoscriptList"
 msgstr "List of events without javascript"
 
-#: ./interfaces.py:212
+#: ../interfaces.py:218
 msgid "label_displayUndefined"
 msgstr "Undefined"
 
-#: ./interfaces.py:166
+#: ../interfaces.py:172
 msgid "label_firstDay"
 msgstr "First day of week"
 
-#: ./interfaces.py:177
+#: ../interfaces.py:183
 msgid "label_firstHour"
 msgstr "First displayed hour"
 
-#: ./interfaces.py:157
+#: ../interfaces.py:163
 msgid "label_headerRight"
 msgstr "Header Right"
 
-#: ./interfaces.py:187
+#: ../interfaces.py:193
 msgid "label_maxTime"
 msgstr "Last visible hour"
 
-#: ./interfaces.py:182
+#: ../interfaces.py:188
 msgid "label_minTime"
 msgstr "Première heure visible"
 
-#: ./interfaces.py:217
+#: ../interfaces.py:223
 msgid "label_overrideStateForAdmin"
 msgstr "Override State Criterion"
 
-#: ./interfaces.py:207
+#: ../interfaces.py:213
 msgid "label_queryColors"
 msgstr "Colors"
 
-#: ./interfaces.py:172
+#: ../interfaces.py:178
 msgid "label_relativeFirstDay"
 msgstr "Relative first day of week"
 
-#: ./interfaces.py:144
+#: ../interfaces.py:157
+msgid "label_shortDayNameFormat"
+msgstr "Short day name format"
+
+#: ../interfaces.py:144
 msgid "label_slotMinutes"
 msgstr "Subdivision"
 
-#: ./interfaces.py:191
+#: ../interfaces.py:197
 msgid "label_target_folder"
 msgstr "Creation Folder"
 
-#: ./browser/solgemafullcalendar_query.pt:46
+#: ../browser/solgemafullcalendar_query.pt:46
 msgid "label_undefined"
 msgstr "Undefined"
 
-#: ./interfaces.py:162
+#: ../interfaces.py:168
 msgid "label_weekends"
 msgstr "Weekends"
+
+#. Default: "short"
+#: ../vocabularies.py:62
+msgid "short"
+msgstr "short"
 

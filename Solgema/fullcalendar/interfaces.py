@@ -154,6 +154,12 @@ class ISolgemaFullcalendarProperties(Interface):
                                   source = "solgemafullcalendar.availableViews",
                                   default = 'agendaWeek' )
 
+    shortDayNameFormat = schema.Choice( title = _(u"label_shortDayNameFormat"),
+                                  required = True,
+                                  description = _(u"help_shortDayNameFormat"),
+                                  source = "solgemafullcalendar.shortNameFormats",
+                                  default = 'a' )
+                                  
     headerRight = schema.List( title = _(u"label_headerRight"),
                                   description = _(u"help_headerRight"),
                                   value_type = schema.Choice( title = _(u"label_headerRight"), source = "solgemafullcalendar.availableViews"),
