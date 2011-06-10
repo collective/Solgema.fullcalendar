@@ -8,4 +8,5 @@
     rel="stylesheet" rendering="import" insert-before="ploneCustom.css"/>
  <stylesheet title="" id="jquery-ui-1.8.12.custom.css" remove="True"/>
  <stylesheet title="" id="jquery-ui-1.8.9.custom.css" remove="True" />
+ <stylesheet title="" id="jquery-ui-1.8.5.custom.css" remove="True" />
 </object>
