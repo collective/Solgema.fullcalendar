@@ -17,7 +17,7 @@ msgstr ""
 
 #: ../skins/solgemafullcalendar/createSFEvent.cpy:44
 msgid "${tname} has been created."
-msgstr "${tname} a été créé"
+msgstr "${tname} a été créé."
 
 #. Default: "all-day"
 #: ../browser/solgemafullcalendar_views.py:316
@@ -123,7 +123,7 @@ msgstr "Choisissez les critères de la collection qui seront affichés en dessou
 
 #: ../interfaces.py:204
 msgid "help_calendarHeight"
-msgstr "Entrez la hauteur du calendrier en pixels. (exemple: 600 )"
+msgstr "Entrez la hauteur du calendrier en pixels. (exemple: 600)"
 
 #: ../interfaces.py:153
 msgid "help_defaultCalendarView"
@@ -147,7 +147,7 @@ msgstr "Détermine la première heure affichée dans le calendrier (doit être d
 
 #: ../interfaces.py:164
 msgid "help_headerRight"
-msgstr "Contenu de l'entête droite du calendrier"
+msgstr "Contenu de l'en-tête droite du calendrier"
 
 #: ../interfaces.py:190
 msgid "help_minTime"
@@ -163,7 +163,7 @@ msgstr "Vous pouvez assigner une couleur à chaque valeur des critères de reche
 
 #: ../interfaces.py:180
 msgid "help_relativeFirstDay"
-msgstr "Afficher le calendrier à partir d'un certain nombre de jours avant ou après la date courante. ( utiliser le format '+1' ou '-1' )"
+msgstr "Afficher le calendrier à partir d'un certain nombre de jours avant ou après la date courante. (utiliser le format '+1' ou '-1')"
 
 #: ../interfaces.py:159
 msgid "help_shortDayNameFormat"
@@ -220,7 +220,7 @@ msgstr "Première heure affichée"
 
 #: ../interfaces.py:163
 msgid "label_headerRight"
-msgstr "Entête droite"
+msgstr "En-tête droite"
 
 #: ../interfaces.py:193
 msgid "label_maxTime"
