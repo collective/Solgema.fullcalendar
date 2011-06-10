@@ -4,19 +4,18 @@ Changelog
 1.9 (2011-06-06)
 ----------------
 
-- the ui-lightness skin for jqueryui has been removed. You can add your own jqueryui skin if you want to.
+- The ui-lightness skin for jqueryui has been removed. You can add your own
+  jqueryui skin if you want to.
   [fmoret]
   
-- Added the possibility to choose short day name format ( short: 2 characters or abbreviated: 3 characters)
+- Added the possibility to choose short day name format
+  (short: 2 characters or abbreviated: 3 characters).
   [fmoret]
   
-- Works with newer plone.event, the API changed.
-  [vincentfretin]
-
-- Fixed: week-view didn't translate saturday
+- Fixed: week-view didn't translate saturday.
   [pbauer] 
 
-- Upgrade to fullcalendar-1.5.1. Upgrade ui-css to 1.8.12. Remove unused js-files
+- Upgrade to fullcalendar-1.5.1. Remove unused js-files/
   [pbauer]
 
 - Add german translation and german date-formats 
@@ -50,9 +49,6 @@ Changelog
 - Fixed: closing popups after an event has been added works.
   [fmoret]
 
-- Fixed: deactivate jquery ui default theme at install.
-  This fixes a css issue due to incompatibility with ui lightness theme.
-
 - Internationalization: translation files generation with i18ndude.
   [thomasdesvenain]
 
@@ -78,14 +74,14 @@ Changelog
   Upgrade profiles don't appear in root profiles.
   [thomasdesvenain]
 
-- Peep8 & pyflakes.
+- Pep8 & pyflakes.
   [thomasdesvenain]
 
 - Plone 4.1 compatibility.
   [thomasdesvenain]
 
 - Imported Solgema.fullcalendar in collective.
-  [Fabien Moret, thomasdesvenain]
+  [fmoret, thomasdesvenain]
 
 
 1.8
