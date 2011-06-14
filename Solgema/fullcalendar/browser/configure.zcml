@@ -1,8 +1,11 @@
+<?xml version="1.0"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:gs="http://namespaces.zope.org/genericsetup"
     i18n_domain="Solgema.fullcalendar">
+
+   <include package="Products.CMFCore" file="configure.zcml" />
 
   <!-- THE CALENDAR VIEW -->
   <browser:page
