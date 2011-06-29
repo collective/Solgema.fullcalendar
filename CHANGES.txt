@@ -10,18 +10,6 @@ Changelog
 1.9 (2011-06-16)
 ----------------
 
-- Nothing changed yet.
-
-
-1.9 (2011-06-16)
-----------------
-
-- Nothing changed yet.
-
-
-1.9 (2011-06-16)
-----------------
-
 - The ui-lightness skin for jqueryui has been removed. You can add your own
   jqueryui skin if you want to.
   [fmoret]
