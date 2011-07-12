@@ -85,7 +85,7 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
 
     groups = (CalendarGroup, QueryGroup, ColorsGroup)
 
-    @button.buttonAndHandler(PLMF('label_save'), name='apply')
+    @button.buttonAndHandler(PLMF('label_save', default=u'Save'), name='apply')
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
@@ -100,7 +100,8 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
             self.status = self.noChangesMessage
         self.request.RESPONSE.redirect( self.context.absolute_url() )
 
-    @button.buttonAndHandler(PLMF('label_cancel'), name='cancel')
+    @button.buttonAndHandler(PLMF('label_cancel', default=u'Cancel'),
+                             name='cancel')
     def handleCancel( self, action):
         self.request.RESPONSE.redirect( self.context.absolute_url() )
 

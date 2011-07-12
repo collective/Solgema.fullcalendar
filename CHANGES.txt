@@ -4,6 +4,9 @@ Changelog
 1.10 (unreleased)
 -----------------
 
+- Allow calendar properties form buttons to have an default English
+  translation.
+  [davidjb]
 - Fixing some French messages in the English translation.
   [davidjb]
 
