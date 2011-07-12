@@ -33,7 +33,7 @@ msgstr "Calendar"
 #: ../upgrades/profiles/upgrade16/actions.xml
 #: ../upgrades/profiles/upgrade19/actions.xml
 msgid "Calendar properties"
-msgstr "Propriétés du calendrier"
+msgstr ""
 
 #. Default: "Colors"
 #: ../browser/content.py:72
@@ -228,7 +228,7 @@ msgstr "Last visible hour"
 
 #: ../interfaces.py:188
 msgid "label_minTime"
-msgstr "Première heure visible"
+msgstr "First visible hour"
 
 #: ../interfaces.py:223
 msgid "label_overrideStateForAdmin"

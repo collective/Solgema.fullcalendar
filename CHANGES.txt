@@ -4,7 +4,8 @@ Changelog
 1.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Fixing some French messages in the English translation.
+  [davidjb]
 
 
 1.9 (2011-06-16)
