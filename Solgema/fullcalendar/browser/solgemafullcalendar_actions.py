@@ -85,7 +85,10 @@ class SFDisplayAddMenu(BaseActionView):
 
         query = self.context.buildQuery()
         copyDict = getCopyObjectsUID(self.request)
-        if query.has_key('Type'):
+
+        #Check whether our context actually has a query and if so, whether 
+        #it has a Type criterion specified.
+        if query and query.has_key('Type'):
             if isinstance(query['Type'], (list, tuple)) and len(query['Type'])>1:
                 return json.dumps({'display': True})
             else:

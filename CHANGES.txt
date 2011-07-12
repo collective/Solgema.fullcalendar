@@ -4,10 +4,15 @@ Changelog
 1.10 (unreleased)
 -----------------
 
-- Allow calendar properties form buttons to have an default English
-  translation.
+- Fixed: Allow add menu to display even if the current context (doesn't have
+  a query specified yet.
+  [davidjb] 
+
+- Internationalization: Allow calendar properties form buttons to have a 
+  default English translation.
   [davidjb]
-- Fixing some French messages in the English translation.
+
+- Internationalization: Fixing some French messages in the English translation.
   [davidjb]
 
 
