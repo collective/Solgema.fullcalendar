@@ -14,16 +14,16 @@ from zope.i18nmessageid import MessageFactory
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as plMF
+from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
+from Products.ATContentTypes import ATCTMessageFactory as ATMF
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
 
 
-plMF = MessageFactory('plone')
-PLMF = MessageFactory('plonelocales')
-ATMF = MessageFactory('atcontenttypes')
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 
 def getCopyObjectsUID(REQUEST):

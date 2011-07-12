@@ -1,11 +1,10 @@
 from zope.schema import vocabulary
 from zope.i18nmessageid import MessageFactory
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 
 from Solgema.fullcalendar.config import _
 
-
-PLMF = MessageFactory('plonelocales')
 
 class TitledVocabulary(vocabulary.SimpleVocabulary):
     def fromTitles(cls, items, *interfaces):

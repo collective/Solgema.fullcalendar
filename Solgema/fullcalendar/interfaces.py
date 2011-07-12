@@ -7,8 +7,6 @@ from plone.theme.interfaces import IDefaultPloneLayer
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope import schema
 from Solgema.fullcalendar.config import _
-from zope.i18nmessageid import MessageFactory
-PMF = MessageFactory('plone')
 from zope.schema.interfaces import IDict
 from plone.app.vocabularies.catalog import SearchableTextSource, SearchableTextSourceBinder
 

@@ -10,6 +10,7 @@ from z3c.form.widget import FieldWidget
 from z3c.form.browser import widget
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as plMF
 from plone.z3cform.layout import wrap_form
 from plone.z3cform.fieldsets import group, extensible
 
@@ -17,8 +18,6 @@ from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
 from Solgema.fullcalendar.widgets.widgets import ColorDictInputFieldWidget
 from Solgema.fullcalendar.config import _
 
-
-PLMF = MessageFactory('plone')
 
 class CriteriasOrderedSelectWidget(OrderedSelectWidget):
 
@@ -85,7 +84,7 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
 
     groups = (CalendarGroup, QueryGroup, ColorsGroup)
 
-    @button.buttonAndHandler(PLMF('label_save', default=u'Save'), name='apply')
+    @button.buttonAndHandler(plMF('label_save', default=u'Save'), name='apply')
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
@@ -100,7 +99,7 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
             self.status = self.noChangesMessage
         self.request.RESPONSE.redirect( self.context.absolute_url() )
 
-    @button.buttonAndHandler(PLMF('label_cancel', default=u'Cancel'),
+    @button.buttonAndHandler(plMF('label_cancel', default=u'Cancel'),
                              name='cancel')
     def handleCancel( self, action):
         self.request.RESPONSE.redirect( self.context.absolute_url() )

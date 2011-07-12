@@ -17,16 +17,16 @@ from zope.i18nmessageid import MessageFactory
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import PloneMessageFactory as plMF
+from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.utils import safe_unicode
+from Products.ATContentTypes import ATCTMessageFactory as ATMF
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from Solgema.fullcalendar import interfaces
 
 
-plMF = MessageFactory('plone')
-PLMF = MessageFactory('plonelocales')
-ATMF = MessageFactory('atcontenttypes')
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 
 # Check for Plone versions
