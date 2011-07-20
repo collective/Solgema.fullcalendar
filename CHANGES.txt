@@ -4,6 +4,10 @@ Changelog
 1.10 (unreleased)
 -----------------
 
+- Fixed: Changed generated CSS selectors for events on fullcalendar so colors
+  get applied correctly.
+  [davidjb]
+
 - Fixed: Avoid CSS generation throwing an error if colors haven't been
   specified yet and we have a non-existing colors dict.
   [davidjb]
