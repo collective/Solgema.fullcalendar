@@ -4,6 +4,10 @@ Changelog
 1.10 (unreleased)
 -----------------
 
+- Fixed: Avoid CSS generation throwing an error if colors haven't been
+  specified yet and we have a non-existing colors dict.
+  [davidjb]
+
 - Fixed: Allow add menu to display even if the current context (doesn't have
   a query specified yet.
   [davidjb] 

@@ -465,35 +465,36 @@ class SolgemaFullcalendarColorsCss(BrowserView):
         colorsDict = self.calendar.queryColors
         criterias = listBaseQueryTopicCriteria(self.context)
         css = ''
-        for criteria in criterias:
-            field = criteria.Field()
-            fieldid = str(field)
-            if not colorsDict.has_key(fieldid):
-                continue
+        if colorsDict:
+	    for criteria in criterias:
+		field = criteria.Field()
+		fieldid = str(field)
+		if not colorsDict.has_key(fieldid):
+		    continue
 
-            selectedItems = []
-            if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
-                selectedItems = criteria.getCriteriaItems()[0][1]['query']
-            elif criteria.meta_type == 'ATPortalTypeCriterion':
-                selectedItems = criteria.getCriteriaItems()[0][1]
+		selectedItems = []
+		if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
+		    selectedItems = criteria.getCriteriaItems()[0][1]['query']
+		elif criteria.meta_type == 'ATPortalTypeCriterion':
+		    selectedItems = criteria.getCriteriaItems()[0][1]
 
-            for i in range(len(selectedItems)):
-                cValName = selectedItems[i]
-                if not colorsDict[fieldid].has_key(cValName):
-                    continue
+		for i in range(len(selectedItems)):
+		    cValName = selectedItems[i]
+		    if not colorsDict[fieldid].has_key(cValName):
+			continue
 
-                color = colorsDict[fieldid][cValName]
-                if color:
-                    css += '#calendar div.fc-event.%scolorIndex-%s {\n' % (fieldid, str(i))
-                    css += '    border:1px solid %s;\n' % (str(color))
-                    css += '}\n\n'
-                    css += '#calendar div.fc-event.%scolorIndex-%s a,\n' % (fieldid, str(i))
-                    css += '#calendar div.fc-event.%scolorIndex-%s a .fc-event-time {\n' % (fieldid, str(i))
-                    css += '    background-color: %s;\n' % (str(color))
-                    css += '}\n\n'
-                    css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
-                    css += '    color: %s;\n' % (str(color))
-                    css += '}\n\n'
+		    color = colorsDict[fieldid][cValName]
+		    if color:
+			css += '#calendar div.fc-event.%scolorIndex-%s {\n' % (fieldid, str(i))
+			css += '    border:1px solid %s;\n' % (str(color))
+			css += '}\n\n'
+			css += '#calendar div.fc-event.%scolorIndex-%s a,\n' % (fieldid, str(i))
+			css += '#calendar div.fc-event.%scolorIndex-%s a .fc-event-time {\n' % (fieldid, str(i))
+			css += '    background-color: %s;\n' % (str(color))
+			css += '}\n\n'
+			css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
+			css += '    color: %s;\n' % (str(color))
+			css += '}\n\n'
 
         return css
 
