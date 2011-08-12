@@ -17,7 +17,7 @@ msgstr ""
 
 #: ../skins/solgemafullcalendar/createSFEvent.cpy:44
 msgid "${tname} has been created."
-msgstr "${tname} a été créé."
+msgstr "${tname} has been created."
 
 #. Default: "all-day"
 #: ../browser/solgemafullcalendar_views.py:316
@@ -33,7 +33,7 @@ msgstr "Calendar"
 #: ../upgrades/profiles/upgrade16/actions.xml
 #: ../upgrades/profiles/upgrade19/actions.xml
 msgid "Calendar properties"
-msgstr ""
+msgstr "Calendar properties"
 
 #. Default: "Colors"
 #: ../browser/content.py:72
@@ -53,7 +53,7 @@ msgstr "Month"
 
 #: ../skins/solgemafullcalendar/SFValidate_integrity.cpy:19
 msgid "Please correct the indicated errors."
-msgstr "Veuillez corriger les erreurs indiquées."
+msgstr "Please correct the indicated errors."
 
 #. Default: "Query"
 #: ../browser/content.py:63
@@ -66,11 +66,11 @@ msgstr "Reschedule"
 
 #: ../widgets/widgets.py:80
 msgid "The entered value is not a valid dict."
-msgstr "La valeur saisie n'est pas un dictionnaire valide."
+msgstr "The entered value is not a valid dict."
 
 #: ../skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
 msgid "Versioning for this file has been disabled because it is too large"
-msgstr "Le versionnement de ce fichier a été désactivé parce qu'il est trop volumineux."
+msgstr "Versioning for this file has been disabled because it is too large"
 
 #. Default: "Week"
 #: ../browser/solgemafullcalendar_views.py:310
@@ -115,7 +115,7 @@ msgstr "Edit Event"
 #. Default: "Check this box to display All day option"
 #: ../interfaces.py:264
 msgid "help_allDay"
-msgstr "Cochez cette case pour afficher l'option \"Jour entier\""
+msgstr "Check this box to display \"All day\" option."
 
 #: ../interfaces.py:209
 msgid "help_availableCriterias"
@@ -184,7 +184,7 @@ msgstr "Display Saturday and Sunday"
 #. Default: "Display All day option"
 #: ../interfaces.py:263
 msgid "label_allDay"
-msgstr "Afficher les cases \"Jour entier\""
+msgstr "Display \"All day\" option"
 
 #: ../interfaces.py:149
 msgid "label_allDaySlot"
