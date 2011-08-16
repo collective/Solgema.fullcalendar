@@ -1,7 +1,13 @@
 Changelog
 =========
 
-1.10 (unreleased)
+2.0 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
+1.10 (2011-08-16)
 -----------------
 - Internationalization: Updated english translation Solgema.fullcalendar.po
   [fmoret]
