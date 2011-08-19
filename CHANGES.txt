@@ -4,7 +4,8 @@ Changelog
 2.0 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fixed date formats in french.
+  [thomasdesvenain]
 
 
 1.10 (2011-08-16)
@@ -22,9 +23,9 @@ Changelog
 
 - Fixed: Allow add menu to display even if the current context (doesn't have
   a query specified yet.
-  [davidjb] 
+  [davidjb]
 
-- Internationalization: Allow calendar properties form buttons to have a 
+- Internationalization: Allow calendar properties form buttons to have a
   default English translation.
   [davidjb]
 
@@ -38,19 +39,19 @@ Changelog
 - The ui-lightness skin for jqueryui has been removed. You can add your own
   jqueryui skin if you want to.
   [fmoret]
-  
+
 - Added the possibility to choose short day name format
   (short: 2 characters or abbreviated: 3 characters).
   [fmoret]
-  
+
 - Fixed: week-view didn't translate saturday.
-  [pbauer] 
+  [pbauer]
 
 - Upgrade to fullcalendar-1.5.1. Remove unused js-files/
   [pbauer]
 
-- Add german translation and german date-formats 
-  [pbauer] 
+- Add german translation and german date-formats
+  [pbauer]
 
 - Show reccurring events if plone.event is available.
   [vincentfretin]

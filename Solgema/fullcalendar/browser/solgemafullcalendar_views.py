@@ -323,7 +323,7 @@ class SolgemaFullcalendarJS(BrowserView):
 
     def getCustomTitleFormat(self):
         if self.portal_language in ['fr']:
-            return '{month: "MMMM yyyy", week: "d[ MMM][ yyyy]{ \'-\' d MMM yyyy}", day: \'dddd, d MMMM yyyy\'}'
+            return '{month: "MMMM yyyy", week: "d[ MMMM][ yyyy]{ \'-\' d MMMM yyyy}", day: \'dddd d MMMM yyyy\'}'
         elif self.portal_language in ['de']:
             return '{month: \'MMMM yyyy\', week: "d[ yyyy].[ MMMM]{ \'- \'d. MMMM yyyy}", day: \'dddd, d. MMMM yyyy\'}'
         else:
@@ -338,7 +338,9 @@ class SolgemaFullcalendarJS(BrowserView):
     def columnFormat(self):
         if self.portal_language in ['de']:
             return "{month: 'ddd', week: 'ddd d. MMM', day: 'dddd d. MMM'}"
-        else: 
+        elif self.portal_language in ['fr']:
+            return "{month: 'dddd', week: 'ddd d/MM', day: 'dddd d/MM'}"
+        else:
             return "{month: 'ddd', week: 'ddd M/d', day: 'dddd M/d'}"
 
     def getTargetFolder(self):
