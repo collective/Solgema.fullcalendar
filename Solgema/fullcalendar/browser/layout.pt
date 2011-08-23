@@ -7,18 +7,8 @@
       i18n:domain="plone.z3cform">
 
 <head>
-  <metal:slot fill-slot="style_slot">
-        <link rel="stylesheet" type="text/css"
-            tal:attributes="href string:${context/absolute_url}/colorpicker.css"/>
-  </metal:slot>
 
   <metal:slot fill-slot="javascript_head_slot">
-        <script type="text/javascript"
-            tal:attributes="src string:${context/absolute_url}/eye.js"></script>
-        <script type="text/javascript"
-            tal:attributes="src string:${context/absolute_url}/utils.js"></script>
-        <script type="text/javascript"
-            tal:attributes="src string:${context/absolute_url}/colorpicker.js"></script>
         <script type="text/javascript"
             tal:attributes="src string:${context/absolute_url}/solgemacolorpicker.js"></script>
   </metal:slot>

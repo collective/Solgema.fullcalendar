@@ -6,13 +6,5 @@
    <!-- File System Directory Views registration -->
    <cmf:registerDirectory
        name="solgemafullcalendar"/>
-   <cmf:registerDirectory
-       name="solgemafullcalendar/colorpicker"/>
-   <cmf:registerDirectory
-       name="solgemafullcalendar/colorpicker/css"/>
-   <cmf:registerDirectory
-       name="solgemafullcalendar/colorpicker/images"/>
-   <cmf:registerDirectory
-       name="solgemafullcalendar/colorpicker/js"/>
 
 </configure>

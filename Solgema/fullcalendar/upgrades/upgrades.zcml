@@ -156,4 +156,12 @@
       handler=".migrations.upgrade19"
       profile="Solgema.fullcalendar:default" />
 
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 2.0"
+      description="Update to 2.0"
+      source="1.9"
+      destination="2"
+      handler=".migrations.upgrade20"
+      profile="Solgema.fullcalendar:default" />
+
 </configure>

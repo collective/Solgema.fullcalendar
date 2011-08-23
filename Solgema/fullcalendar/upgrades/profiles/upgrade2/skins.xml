@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+
+ <skin-path name="*">
+  <layer name="solgemafullcalendar/colorpicker" remove="True" />
+  <layer name="solgemafullcalendar/colorpicker/css" remove="True"/>
+  <layer name="solgemafullcalendar/colorpicker/js" remove="True"/>
+  <layer name="solgemafullcalendar/colorpicker/images" remove="True" />
+ </skin-path>
+
+</object>

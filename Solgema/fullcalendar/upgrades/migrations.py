@@ -115,3 +115,8 @@ def upgrade19(context):
     checkPortalTypes(context)
     updateRegistries(context)
 
+def upgrade20(context):
+    context.runAllImportStepsFromProfile(
+              'profile-collective.js.colorpicker:default',
+              purge_old=False)
+
