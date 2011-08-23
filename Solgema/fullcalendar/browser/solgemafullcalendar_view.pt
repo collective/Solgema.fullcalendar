@@ -21,13 +21,13 @@
                 tal:define="kssClassesView context/@@kss_field_decorator_view;
                             getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                             templateId template/getId">
-            
+
                 <div tal:replace="structure provider:plone.abovecontenttitle" />
 
                 <h1 class="documentFirstHeading" tal:content="context/Title">
                     Title
                 </h1>
-                
+
                 <div tal:replace="structure provider:plone.belowcontenttitle" />
 
                 <p class="documentDescription" tal:content="context/Description">

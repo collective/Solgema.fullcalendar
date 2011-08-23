@@ -4,7 +4,8 @@ Changelog
 2.0 (unreleased)
 ----------------
 
-- Use collective.js.colorpicker package instead of embedding code.
+- Use collective.js.colorpicker and collective.js.fullcalendar package
+  instead of embedding code.
   [thomasdesvenain]
 
 - Fixed date formats in french.

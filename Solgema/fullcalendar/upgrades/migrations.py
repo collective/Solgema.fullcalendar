@@ -96,7 +96,9 @@ def upgrade18(context):
             portal_quickinstaller.installProduct(product)
             transaction.savepoint()
 
-    portal_setup.runAllImportStepsFromProfile('profile-Solgema.fullcalendar.upgrades:upgrade18', purge_old=False)
+    portal_setup.runAllImportStepsFromProfile(
+             'profile-Solgema.fullcalendar.upgrades:upgrade18',
+             purge_old=False)
     checkPortalTypes(context)
     updateRegistries(context)
 
@@ -111,12 +113,20 @@ def upgrade19(context):
             portal_quickinstaller.installProduct(product)
             transaction.savepoint()
 
-    portal_setup.runAllImportStepsFromProfile('profile-Solgema.fullcalendar.upgrades:upgrade19', purge_old=False)
+    portal_setup.runAllImportStepsFromProfile(
+              'profile-Solgema.fullcalendar.upgrades:upgrade19',
+              purge_old=False)
     checkPortalTypes(context)
     updateRegistries(context)
 
 def upgrade20(context):
     context.runAllImportStepsFromProfile(
               'profile-collective.js.colorpicker:default',
+              purge_old=False)
+    context.runAllImportStepsFromProfile(
+              'profile-collective.js.fullcalendar:default',
+              purge_old=False)
+    context.runAllImportStepsFromProfile(
+              'profile-Solgema.fullcalendar.upgrades:upgrade2',
               purge_old=False)
 
