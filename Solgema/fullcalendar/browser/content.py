@@ -40,7 +40,7 @@ def CriteriasOrderedSelectFieldWidget(field, request):
 
 class CalendarGroup(z3cgroup.Group):
     label = _(u'Calendar', default="Calendar")
-    
+
     fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
         'slotMinutes',
         'allDaySlot',
@@ -72,15 +72,9 @@ class ColorsGroup(z3cgroup.Group):
 
     fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
         'queryColors')
-    fields['queryColors'].widgetFactory[INPUT_MODE] = ColorDictInputFieldWidget
 
 
 class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
-
-#    fields = z3cfield.Fields( ISolgemaFullcalendarProperties )
-#    fields['target_folder'].widgetFactory[INPUT_MODE] = QuerySourceFieldRadioWidget
-#    fields['availableCriterias'].widgetFactory[INPUT_MODE] = CriteriasOrderedSelectFieldWidget
-#    fields['queryColors'].widgetFactory[INPUT_MODE] = ColorDictInputFieldWidget
 
     groups = (CalendarGroup, QueryGroup, ColorsGroup)
 

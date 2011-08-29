@@ -68,7 +68,6 @@ class ColorDictInputWidget(Widget):
         return default
 
 
-@zope.component.adapter(ICustomUpdatingDict, interfaces.IFormLayer)
 @zope.interface.implementer(interfaces.IFieldWidget)
 def ColorDictInputFieldWidget(field, request):
     """IFieldWidget factory for TextWidget."""

@@ -4,6 +4,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Cleanup component registration so that color filter is easier to customize.
+  [thomasdesvenain]
+
 - Use collective.js.colorpicker and collective.js.fullcalendar package
   instead of embedding code.
   [thomasdesvenain]

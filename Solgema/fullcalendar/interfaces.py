@@ -3,7 +3,6 @@ from Products.ZCTextIndex.ParseTree import ParseError
 from zope.interface import Interface
 from zope.interface import implements, classProvides
 from zope.schema.interfaces import ISource, IContextSourceBinder
-from plone.theme.interfaces import IDefaultPloneLayer
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope import schema
 from Solgema.fullcalendar.config import _
@@ -13,6 +12,7 @@ from plone.app.vocabularies.catalog import SearchableTextSource, SearchableTextS
 from zope.viewlet.interfaces import IViewletManager
 
 from Products.ATContentTypes.interface import IATFolder
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 class IPersistentOptions( Interface ):
     """
@@ -23,7 +23,7 @@ class IPersistentOptions( Interface ):
     settings = IMySettings(context)
     """
 
-class ISolgemaFullcalendarLayer(IDefaultPloneLayer):
+class ISolgemaFullcalendarLayer(IDefaultBrowserLayer):
     """Solgema Fullcalendar layer"""
 
 class ISolgemaFullcalendarView(Interface):
@@ -157,7 +157,7 @@ class ISolgemaFullcalendarProperties(Interface):
                                   description = _(u"help_shortDayNameFormat"),
                                   source = "solgemafullcalendar.shortNameFormats",
                                   default = 'a' )
-                                  
+
     headerRight = schema.List( title = _(u"label_headerRight"),
                                   description = _(u"help_headerRight"),
                                   value_type = schema.Choice( title = _(u"label_headerRight"), source = "solgemafullcalendar.availableViews"),
