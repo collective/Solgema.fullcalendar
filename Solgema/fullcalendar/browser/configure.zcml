@@ -32,7 +32,6 @@
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_colors.css"
       class=".solgemafullcalendar_views.SolgemaFullcalendarColorsCss"
-      template="solgemafullcalendar_colors.css.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />

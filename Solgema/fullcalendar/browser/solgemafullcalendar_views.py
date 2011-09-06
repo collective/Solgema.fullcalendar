@@ -463,41 +463,43 @@ class SolgemaFullcalendarColorsCss(BrowserView):
         self.request = request
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
 
-    def generateCSS(self):
+    def __call__(self):
         colorsDict = self.calendar.queryColors
         criterias = listBaseQueryTopicCriteria(self.context)
         css = ''
-        if colorsDict:
-	    for criteria in criterias:
-		field = criteria.Field()
-		fieldid = str(field)
-		if not colorsDict.has_key(fieldid):
-		    continue
+        if not colorsDict:
+            return css
 
-		selectedItems = []
-		if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
-		    selectedItems = criteria.getCriteriaItems()[0][1]['query']
-		elif criteria.meta_type == 'ATPortalTypeCriterion':
-		    selectedItems = criteria.getCriteriaItems()[0][1]
+        for criteria in criterias:
+            field = criteria.Field()
 
-		for i in range(len(selectedItems)):
-		    cValName = selectedItems[i]
-		    if not colorsDict[fieldid].has_key(cValName):
-			continue
+            fieldid = str(field)
+            if not colorsDict.has_key(fieldid):
+                continue
 
-		    color = colorsDict[fieldid][cValName]
-		    if color:
-			css += '#calendar a.fc-event.%scolorIndex-%s {\n' % (fieldid, str(i))
-			css += '    border:1px solid %s;\n' % (str(color))
-			css += '}\n\n'
-			css += '#calendar a.fc-event.%scolorIndex-%s .fc-event-skin,\n' % (fieldid, str(i))
-			css += '#calendar a.fc-event.%scolorIndex-%s .fc-event-time {\n' % (fieldid, str(i))
-			css += '    background-color: %s;\n' % (str(color))
-			css += '    border-color: %s;\n' % (str(color))
-			css += '}\n\n'
-			css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
-			css += '    color: %s;\n' % (str(color))
-			css += '}\n\n'
+            selectedItems = []
+            if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
+                selectedItems = criteria.getCriteriaItems()[0][1]['query']
+            elif criteria.meta_type == 'ATPortalTypeCriterion':
+                selectedItems = criteria.getCriteriaItems()[0][1]
+
+            for i in range(len(selectedItems)):
+                cValName = selectedItems[i]
+                if not colorsDict[fieldid].has_key(cValName):
+                    continue
+
+                color = colorsDict[fieldid][cValName]
+                if color:
+                    css += '#calendar a.fc-event.%scolorIndex-%s {\n' % (fieldid, str(i))
+                    css += '    border:1px solid %s;\n' % (str(color))
+                    css += '}\n\n'
+                    css += '#calendar a.fc-event.%scolorIndex-%s .fc-event-skin,\n' % (fieldid, str(i))
+                    css += '#calendar a.fc-event.%scolorIndex-%s .fc-event-time {\n' % (fieldid, str(i))
+                    css += '    background-color: %s;\n' % (str(color))
+                    css += '    border-color: %s;\n' % (str(color))
+                    css += '}\n\n'
+                    css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
+                    css += '    color: %s;\n' % (str(color))
+                    css += '}\n\n'
 
         return css
-

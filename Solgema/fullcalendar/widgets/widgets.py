@@ -24,43 +24,57 @@ class ColorDictInputWidget(Widget):
     description = ''
     _missing = u'(no value)'
 
-    def getTopicCriteriasKeys(self):
-        criterias = listBaseQueryTopicCriteria(self.context)
+    def getCriteriaKeys(self):
+        criteria = listBaseQueryTopicCriteria(self.context)
         li = []
-        for criteria in criterias:
-            field = criteria.Field()
+        for criterion in criteria:
+            field = criterion.Field()
             fieldid = str(field)
             li.append(self.name+'.'+fieldid)
+
         return li
+
+    def getCriteria(self):
+        return listBaseQueryTopicCriteria(self.context)
 
     def render(self):
         currentValues = self.value or {}
-        criterias = listBaseQueryTopicCriteria(self.context)
+        criteria = self.getCriteria()
         html = ''
-        for criteria in criterias:
-            field = criteria.Field()
+        for criterion in criteria:
+            field = criterion.Field()
             index = self.context.portal_atct.getIndex(field)
             fieldid = str(field)
             fieldname = index.friendlyName or index.index
             selectedItems = []
-            if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
-                selectedItems = criteria.getCriteriaItems()[0][1]['query']
-            elif criteria.meta_type == 'ATPortalTypeCriterion':
-                selectedItems = criteria.getCriteriaItems()[0][1]
+            if criterion.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
+                selectedItems = criterion.getCriteriaItems()[0][1]['query']
+            elif criterion.meta_type == 'ATPortalTypeCriterion':
+                selectedItems = criterion.getCriteriaItems()[0][1]
             if selectedItems:
                 html += '<br/><b>%s</b><br/><table>' % (fieldname)
                 for item in selectedItems:
                     value = ''
-                    if currentValues.has_key(fieldid) and currentValues[fieldid].has_key(item.decode('utf-8')):
+                    if fieldid in currentValues \
+                      and item.decode('utf-8') in currentValues[fieldid]:
                         value = currentValues[fieldid][item.decode('utf-8')]
-                    html += '<tr><td>' + item.decode('utf-8') + '&nbsp;</td><td><input type="text" size="10" name="%s:record" value="%s" class="colorinput" style="background-color:%s;"></td></tr>' % ( self.name+'.'+fieldid+'.'+item.decode('utf-8'), value, value) + '</td></tr>'
+
+                    html += """<tr><td>%s&nbsp;</td><td>
+                    <input type="text" size="10" name="%s:record" value="%s"
+                           class="colorinput" style="background-color:%s;" />
+                    </td></tr>""" % (
+                        item.decode('utf-8'),
+                        self.name+'.'+fieldid+'.'+item.decode('utf-8'),
+                        value, value)
+
                 html+='</table>'
+
         return html
 
     def extract(self, default=interfaces.NOVALUE):
         """See z3c.form.interfaces.IWidget."""
         Dict = {}
-        for key in self.getTopicCriteriasKeys():
+        for key in self.getCriteriaKeys():
             if self.request.get(key, ''):
                 Dict[key.split('.')[-1]] = self.request.get(key)
         if len([a for a in Dict.values() if a]) != 0:
