@@ -169,6 +169,9 @@
             zope.publisher.interfaces.browser.IBrowserRequest"
        factory=".adapters.SolgemaFullcalendarEventDict" />
 
+  <adapter
+       factory=".views.ColorIndexGetter" />
+
   <!-- Actions -->
   <browser:page
       for="*"

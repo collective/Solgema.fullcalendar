@@ -6,6 +6,7 @@ Changelog
 
 - API: Code cleanup to make color management easier to customize.
   - Cleanup component registration so that color filter is easier to customize.
+  - Use an adapter to get event brain class.
   [thomasdesvenain]
 
 - Refactor: remove solgemafullcalendar_ prefix from most module names.

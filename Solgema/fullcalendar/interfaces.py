@@ -1,18 +1,19 @@
 import itertools
-from Products.ZCTextIndex.ParseTree import ParseError
-from zope.interface import Interface
-from zope.interface import implements, classProvides
+
+from zope import schema
+from zope.interface import Interface, Attribute, implements, classProvides
 from zope.schema.interfaces import ISource, IContextSourceBinder
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
-from zope import schema
-from Solgema.fullcalendar.config import _
 from zope.schema.interfaces import IDict
-from plone.app.vocabularies.catalog import SearchableTextSource, SearchableTextSourceBinder
-
 from zope.viewlet.interfaces import IViewletManager
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from Products.ZCTextIndex.ParseTree import ParseError
 
 from Products.ATContentTypes.interface import IATFolder
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from plone.app.vocabularies.catalog import SearchableTextSource, SearchableTextSourceBinder
+
+from Solgema.fullcalendar.config import _
+
 
 class IPersistentOptions( Interface ):
     """
@@ -262,5 +263,20 @@ class ISFBaseEventFields(Interface):
                                   description = _(u"help_allDay", default=u"Check this box to display All day option"),
                                   default=False)
 
+
 class ISolgemaFullcalendarQuery(IViewletManager):
     """topic query for calendar"""
+
+
+class IColorIndexGetter(Interface):
+    """Adapter that provides a method to get color index from brain
+    Adapts a context, a request and the source element
+    """
+
+    context = Attribute("""The calendar context""")
+    request = Attribute("""The request""")
+    source = Attribute("""The event which we get the color""")
+
+    def getColorIndex(self):
+        """Get color class
+        """

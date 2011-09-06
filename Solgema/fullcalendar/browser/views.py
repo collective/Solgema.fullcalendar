@@ -1,5 +1,6 @@
 import datetime
 from urllib import unquote
+from Products.ZCatalog.interfaces import ICatalogBrain
 try:
     import json
 except:
@@ -8,7 +9,8 @@ except:
 from DateTime import DateTime
 from OFS import CopySupport
 from Acquisition import aq_inner, aq_parent
-from zope.interface import implements
+from zope.component import adapts
+from zope.interface import implements, Interface
 from zope.component import getMultiAdapter
 from zope.i18nmessageid import MessageFactory
 
@@ -170,10 +172,6 @@ def getCookieItems(request, field):
 
 
 def getColorIndex(context, request, eventPath=None, brain=None):
-    colorIndex = ' colorIndex-undefined'
-    criteriaItems = getCriteriaItems(context, request)
-    if not criteriaItems:
-        return colorIndex
 
     catalog = getToolByName(context, 'portal_catalog')
     if not brain:
@@ -188,23 +186,46 @@ def getColorIndex(context, request, eventPath=None, brain=None):
 
         brain = brains[0]
 
-    selectedItems = getCookieItems(request, criteriaItems['name'])
-    if not selectedItems:
-        selectedItems = criteriaItems['values']
+    adapter = getMultiAdapter((context, request, brain),
+                              interfaces.IColorIndexGetter)
+    colorIndex = adapter.getColorIndex()
+    return ' ' + (colorIndex or 'colorIndex-undefined')
 
-    if not isinstance(selectedItems, list):
-        selectedItems = [selectedItems,]
 
-    if criteriaItems:
-        brainVal = getattr(brain, criteriaItems['name'])
-        brainVal = isinstance(brainVal, (tuple, list)) and brainVal or [brainVal,]
-        for val in brainVal:
-            if criteriaItems['values'].count(val) != 0 and val in selectedItems:
-                colorIndex = ' colorIndex-'+str(criteriaItems['values'].index(val))
-                colorIndex += ' '+criteriaItems['name']+'colorIndex-'+str(criteriaItems['values'].index(val))
-                break
+class ColorIndexGetter(object):
 
-    return colorIndex
+    implements(interfaces.IColorIndexGetter)
+    adapts(Interface, Interface, ICatalogBrain)
+
+    def __init__(self, context, request, source):
+        self.context = context
+        self.request = request
+        self.source = source
+
+    def getColorIndex(self):
+        context, request, brain = self.context, self.request, self.source
+        criteriaItems = getCriteriaItems(context, request)
+        colorIndex = ''
+        if not criteriaItems:
+            return colorIndex
+
+        selectedItems = getCookieItems(request, criteriaItems['name'])
+        if not selectedItems:
+            selectedItems = criteriaItems['values']
+
+        if not isinstance(selectedItems, list):
+            selectedItems = [selectedItems,]
+
+        if criteriaItems:
+            brainVal = getattr(brain, criteriaItems['name'])
+            brainVal = isinstance(brainVal, (tuple, list)) and brainVal or [brainVal,]
+            for val in brainVal:
+                if criteriaItems['values'].count(val) != 0 and val in selectedItems:
+                    colorIndex = 'colorIndex-'+str(criteriaItems['values'].index(val))
+                    colorIndex += ' '+criteriaItems['name']+'colorIndex-'+str(criteriaItems['values'].index(val))
+                    break
+
+        return colorIndex
 
 
 class SolgemaFullcalendarView(BrowserView):
