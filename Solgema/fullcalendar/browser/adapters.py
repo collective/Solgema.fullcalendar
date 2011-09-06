@@ -3,7 +3,7 @@ from AccessControl import getSecurityManager
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 #from Products.ZCatalog.interfaces import ICatalogBrain how to get this interface???
-from Solgema.fullcalendar.browser.solgemafullcalendar_views import getCopyObjectsUID, getColorIndex
+from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
 
 try:

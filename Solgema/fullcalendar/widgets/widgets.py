@@ -8,7 +8,7 @@ from z3c.form import interfaces
 from z3c.form.converter import BaseDataConverter
 
 from Solgema.fullcalendar.config import _
-from Solgema.fullcalendar.browser.solgemafullcalendar_views import listBaseQueryTopicCriteria
+from Solgema.fullcalendar.browser.views import listBaseQueryTopicCriteria
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict
 
 

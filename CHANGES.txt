@@ -8,6 +8,9 @@ Changelog
   - Cleanup component registration so that color filter is easier to customize.
   [thomasdesvenain]
 
+- Refactor: remove solgemafullcalendar_ prefix from most module names.
+  [thomasdesvenain]
+
 - Use collective.js.colorpicker and collective.js.fullcalendar package
   instead of embedding code.
   [thomasdesvenain]

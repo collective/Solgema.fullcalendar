@@ -3,7 +3,7 @@ from Acquisition import aq_inner
 from plone.app.layout.viewlets.common import ViewletBase
 
 from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
-from Solgema.fullcalendar.browser.solgemafullcalendar_views import listQueryTopicCriteria
+from Solgema.fullcalendar.browser.views import listQueryTopicCriteria
 
 
 class SolgemaFullcalendarQuery(ViewletBase):

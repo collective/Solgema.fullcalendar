@@ -11,8 +11,8 @@
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_view"
-      class=".solgemafullcalendar_views.SolgemaFullcalendarView"
-      template="solgemafullcalendar_view.pt"
+      class=".views.SolgemaFullcalendarView"
+      template="view.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
@@ -21,8 +21,8 @@
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_vars.js"
-      class=".solgemafullcalendar_views.SolgemaFullcalendarJS"
-      template="solgemafullcalendar_vars.js.pt"
+      class=".views.SolgemaFullcalendarJS"
+      template="vars.js.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
       permission="zope.Public"
       />
@@ -31,7 +31,7 @@
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_colors.css"
-      class=".solgemafullcalendar_views.SolgemaFullcalendarColorsCss"
+      class=".views.SolgemaFullcalendarColorsCss"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />
@@ -40,7 +40,7 @@
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendarevents"
-      class=".solgemafullcalendar_views.SolgemaFullcalendarEvents"
+      class=".views.SolgemaFullcalendarEvents"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
       permission="zope.Public"
       />
@@ -58,7 +58,7 @@
   <browser:page
       for="*"
       name="solgemafullcalendar_drop"
-      class=".solgemafullcalendar_actions.SolgemaFullcalendarDropView"
+      class=".actions.SolgemaFullcalendarDropView"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
@@ -66,7 +66,7 @@
   <browser:page
       for="*"
       name="solgemafullcalendar_resize"
-      class=".solgemafullcalendar_actions.SolgemaFullcalendarResizeView"
+      class=".actions.SolgemaFullcalendarResizeView"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
@@ -74,42 +74,42 @@
   <browser:page
       for="*"
       name="SFJsonEvent"
-      class=".solgemafullcalendar_actions.SFJsonEvent"
+      class=".actions.SFJsonEvent"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventDelete"
-      class=".solgemafullcalendar_actions.SFJsonEventDelete"
+      class=".actions.SFJsonEventDelete"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventCopy"
-      class=".solgemafullcalendar_actions.SFJsonEventCopy"
+      class=".actions.SFJsonEventCopy"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventCut"
-      class=".solgemafullcalendar_actions.SFJsonEventCut"
+      class=".actions.SFJsonEventCut"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventPaste"
-      class=".solgemafullcalendar_actions.SFJsonEventPaste"
+      class=".actions.SFJsonEventPaste"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFDisplayAddMenu"
-      class=".solgemafullcalendar_actions.SFDisplayAddMenu"
+      class=".actions.SFDisplayAddMenu"
       permission="zope2.View"
       />
 
@@ -117,14 +117,14 @@
       for="*"
       name="SFAddMenu"
       template="SFAddMenu.pt"
-      class=".solgemafullcalendar_actions.SFAddMenu"
+      class=".actions.SFAddMenu"
       permission="zope2.View"
       />
 
   <browser:page
       for="*"
       name="solgemafullcalendar_workflowtransition"
-      class=".solgemafullcalendar_actions.SolgemaFullcalendarWorkflowTransition"
+      class=".actions.SolgemaFullcalendarWorkflowTransition"
       permission="cmf.ModifyPortalContent"
       />
 
@@ -140,8 +140,8 @@
    <browser:viewlet
         name="Solgema.fullcalendar.query"
         manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-        class=".solgemafullcalendar_query.SolgemaFullcalendarQuery"
-        template="solgemafullcalendar_query.pt"
+        class=".query.SolgemaFullcalendarQuery"
+        template="query.pt"
         permission="zope2.View"
      />
 
@@ -173,7 +173,7 @@
   <browser:page
       for="*"
       name="iscalendarlayout"
-      class=".solgemafullcalendar_actions.SolgemaFullcalendarActionGuards"
+      class=".actions.SolgemaFullcalendarActionGuards"
       attribute="is_calendar_layout"
       permission="zope.Public"
       />
