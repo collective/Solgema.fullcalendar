@@ -48,7 +48,7 @@ class SolgemaFullcalendarEditableFilter(object):
         editargs = args.copy()
         catalog = getToolByName(self.context, 'portal_catalog')
         editargs['SFAllowedRolesAndUsersModify'] = self._listSFAllowedRolesAndUsersModify()
-        return [a.getURL() for a in catalog.searchResults(**editargs)]
+        return [a.UID for a in catalog.searchResults(**editargs)]
 
 
 class SolgemaFullcalendarTopicEventDict(object):
@@ -62,18 +62,11 @@ class SolgemaFullcalendarTopicEventDict(object):
     def getExtraClass(self, item):
         return ''
 
-    def dictFromBrain(self, brain, args):
-        eventsFilter = queryAdapter(self.context,
-                                    interfaces.ISolgemaFullcalendarEditableFilter)
-        editpaths = eventsFilter.filterEvents(args)
+    def dictFromBrain(self, brain, editableEvents=[]):
         member = self.context.portal_membership.getAuthenticatedMember()
         memberid = member.id
-        if memberid in brain.Creator:
-            editable = True
-        else:
-            editable = False
-
-        if brain.getURL() in editpaths:
+        
+        if brain.UID in editableEvents:
             editable = True
         else:
             editable = False
@@ -157,9 +150,14 @@ class SolgemaFullcalendarTopicEventDict(object):
 
     def createDict(self, itemsList=[], args={}):
         li = []
+
+        eventsFilter = queryAdapter(self.context,
+                                    interfaces.ISolgemaFullcalendarEditableFilter)
+        editableEvents = eventsFilter.filterEvents(args)
+
         for item in itemsList:
             if hasattr(item, '_unrestrictedGetObject'):
-                li.extend(self.dictFromBrain(item, args))
+                li.extend(self.dictFromBrain(item, editableEvents=editableEvents))
             else:
                 li.extend(self.dictFromObject(item))
 

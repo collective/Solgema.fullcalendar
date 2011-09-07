@@ -174,12 +174,11 @@ def getCookieItems(request, field):
 
 def getColorIndex(context, request, eventPath=None, brain=None):
 
-    catalog = getToolByName(context, 'portal_catalog')
     if not brain:
         if not eventPath:
             raise ValueError(u'You must provide eventPath or brain')
 
-
+        catalog = getToolByName(context, 'portal_catalog')
         brains = catalog.searchResults(path=eventPath)
         if len(brains) == 0:
             log.error("Error computing color index : no result for path %s", eventPath)

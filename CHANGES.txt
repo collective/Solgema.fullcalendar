@@ -4,6 +4,10 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Huge optimization on calendar events getting.
+  (More than 10 times faster)
+  [thomasdesvenain]
+
 - API: Source of events is an adapter that can be overrided.
   Provide an IEventSource adapter for a specific layer or context
   to get the list of events to display.
