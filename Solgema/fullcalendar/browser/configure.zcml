@@ -125,7 +125,7 @@
       for="*"
       name="solgemafullcalendar_workflowtransition"
       class=".actions.SolgemaFullcalendarWorkflowTransition"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       />
 
   <!-- QUERY VIEWLET DISPLAYED IN THE BOTTOM OF THE CALENDAR -->

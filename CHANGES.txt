@@ -4,11 +4,16 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Fixed: we needed 'Modify portal content' on calendar
+  to change the transition of an event.
+  Transition permission on event itself is enough.
+  [thomasdesvenain]
+
 - Huge optimization on calendar events getting.
   (More than 10 times faster)
   [thomasdesvenain]
 
-- API: Source of events is an adapter that can be overrided.
+- API: Source of events is now an adapter that can be customized.
   Provide an IEventSource adapter for a specific layer or context
   to get the list of events to display.
   [thomasdesvenain]
