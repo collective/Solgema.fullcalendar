@@ -1,6 +1,7 @@
 import datetime
 from urllib import unquote
 from Products.ZCatalog.interfaces import ICatalogBrain
+from Products.ATContentTypes.interfaces.topic import IATTopic
 try:
     import json
 except:
@@ -394,16 +395,16 @@ class SolgemaFullcalendarJS(BrowserView):
         return super(SolgemaFullcalendarJS, self).__call__()
 
 
-class SolgemaFullcalendarEvents(BrowserView):
-    """Solgema Fullcalendar Update browser view"""
-
-    implements(interfaces.ISolgemaFullcalendarEvents)
+class TopicEventSource(object):
+    """Event source that get events from the topic
+    """
+    implements(interfaces.IEventSource)
+    adapts(IATTopic, Interface)
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
-        self.copyDict = getCopyObjectsUID(request)
 
     def convertAsList(self, items):
         if isinstance(items, str):
@@ -411,38 +412,37 @@ class SolgemaFullcalendarEvents(BrowserView):
 
         return items
 
-    def __call__(self, *args, **kw):
-        """Render JS Initialization code"""
-
-        response = self.request.response
+    def getEvents(self):
         context = self.context
+        request = self.request
+        response = request.response
+
         query = context.buildQuery()
-        response.setHeader('Content-Type', 'application/x-javascript')
-        topicCriteria = listQueryTopicCriteria(self.context)
+        topicCriteria = listQueryTopicCriteria(context)
         args = {}
         if not query:
             return json.dumps([])
 
         if 'Type' in query.keys():
-            items = getCookieItems(self.request, 'Type')
+            items = getCookieItems(request, 'Type')
             if items:
                 args['Type'] = items
             else:
                 args['Type'] = query['Type']
         filters = []
         #reinit cookies if criterions are no more there
-        for criteria in self.context.listCriteria():
+        for criteria in context.listCriteria():
             if criteria not in listQueryTopicCriteria(context):
                 response.expireCookie(criteria.Field())
 
-        if self.request.cookies.get('sfqueryDisplay', None) not in [a.Field() for a in topicCriteria]:
+        if request.cookies.get('sfqueryDisplay', None) not in [a.Field() for a in topicCriteria]:
             response.expireCookie('sfqueryDisplay')
 
         for criteria in self.context.listCriteria():
             if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteria.Field():
                 args[criteria.Field()] = query[criteria.Field()]
             elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
-                items = getCookieItems(self.request, criteria.Field())
+                items = getCookieItems(request, criteria.Field())
                 if items and criteria in topicCriteria:
                     if 'undefined' in items:
                         filters.append({'name':criteria.Field(), 'values':items})
@@ -450,8 +450,8 @@ class SolgemaFullcalendarEvents(BrowserView):
                         args[criteria.Field()] = items
                 else:
                     args[criteria.Field()] = query[criteria.Field()]
-        args['start'] = {'query': DateTime(self.request.get('end')), 'range':'max'}
-        args['end'] = {'query': DateTime(self.request.get('start')), 'range':'min'}
+        args['start'] = {'query': DateTime(request.get('end')), 'range':'max'}
+        args['end'] = {'query': DateTime(request.get('start')), 'range':'min'}
         if getattr(self.calendar, 'overrideStateForAdmin', True) and args.has_key('review_state'):
             pm = getToolByName(context,'portal_membership')
             user = pm.getAuthenticatedMember()
@@ -471,7 +471,26 @@ class SolgemaFullcalendarEvents(BrowserView):
         topicEventsDict = getMultiAdapter((context, self.request),
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
         result = topicEventsDict.createDict(brains, args)
-        return json.dumps(result, sort_keys=True)
+        return result
+
+
+class SolgemaFullcalendarEvents(BrowserView):
+    """Solgema Fullcalendar Update browser view"""
+
+    implements(interfaces.ISolgemaFullcalendarEvents)
+
+    def __init__(self, context, request):
+        super(SolgemaFullcalendarEvents, self).__init__(context, request)
+        #self.copyDict = getCopyObjectsUID(request)
+
+    def __call__(self, *args, **kw):
+        """Render JS Initialization code"""
+        self.request.response.setHeader('Content-Type', 'application/x-javascript')
+        context = self.context
+        source = getMultiAdapter((self.context, self.request),
+                                 interfaces.IEventSource)
+        events = source.getEvents()
+        return json.dumps(events, sort_keys=True)
 
 
 class SolgemaFullcalendarColorsCss(BrowserView):

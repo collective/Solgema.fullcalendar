@@ -172,6 +172,9 @@
   <adapter
        factory=".views.ColorIndexGetter" />
 
+  <adapter
+       factory=".views.TopicEventSource" />
+
   <!-- Actions -->
   <browser:page
       for="*"

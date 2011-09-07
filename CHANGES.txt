@@ -4,9 +4,14 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- API: Source of events is an adapter that can be overrided.
+  Provide an IEventSource adapter for a specific layer or context
+  to get the list of events to display.
+  [thomasdesvenain]
+
 - API: Code cleanup to make color management easier to customize.
   - Cleanup component registration so that color filter is easier to customize.
-  - Use an adapter to get event brain class.
+  - Use an adapter to get event brain classes.
   [thomasdesvenain]
 
 - Refactor: remove solgemafullcalendar_ prefix from most module names.

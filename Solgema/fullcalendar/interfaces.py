@@ -280,3 +280,11 @@ class IColorIndexGetter(Interface):
     def getColorIndex(self):
         """Get color class
         """
+
+class IEventSource(Interface):
+    """Adapter that provides a list of events to display in calendar
+    """
+
+    def getEvents(self):
+        """List of event objects to display in calendar
+        """
