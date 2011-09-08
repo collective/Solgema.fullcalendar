@@ -1,5 +1,4 @@
 from zope.schema import vocabulary
-from zope.i18nmessageid import MessageFactory
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 
@@ -55,7 +54,7 @@ def availableCriterias( topic ):
             li.append({'id':field, 'title':topic.translate(index)})
 
     return TitledVocabulary.fromTitles([(crit['id'], crit['title']) for crit in li])
-    
+
 def shortNameFormats(context):
-    return TitledVocabulary.fromTitles([('a', _(u'abbreviated', default='abbreviated')), 
+    return TitledVocabulary.fromTitles([('a', _(u'abbreviated', default='abbreviated')),
                                         ('s', _(u'short', default='short'))])

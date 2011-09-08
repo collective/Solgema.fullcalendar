@@ -17,11 +17,9 @@ from zope.i18nmessageid import MessageFactory
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as plMF
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.utils import safe_unicode
-from Products.ATContentTypes import ATCTMessageFactory as ATMF
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from Solgema.fullcalendar import interfaces
@@ -86,7 +84,7 @@ class SFDisplayAddMenu(BaseActionView):
         query = self.context.buildQuery()
         copyDict = getCopyObjectsUID(self.request)
 
-        #Check whether our context actually has a query and if so, whether 
+        #Check whether our context actually has a query and if so, whether
         #it has a Type criterion specified.
         if query and query.has_key('Type'):
             if isinstance(query['Type'], (list, tuple)) and len(query['Type'])>1:
@@ -102,9 +100,9 @@ class SFDisplayAddMenu(BaseActionView):
         pTypeTitle = pTypes and pTypes[0].Title() or portal_type
         typeTitle = translate(pTypeTitle, context=self.request)
         if HAS_PLONE40:
-            title = plMF(u'heading_add_item', default='Add ${itemtype}', mapping={'itemtype' : typeTitle})
+            title = PLMF(u'heading_add_item', default='Add ${itemtype}', mapping={'itemtype' : typeTitle})
         else:
-            title = plMF(u'label_add_type', default='Add ${type}', mapping={'type' : typeTitle})
+            title = PLMF(u'label_add_type', default='Add ${type}', mapping={'type' : typeTitle})
 
         return json.dumps({'display': False, 'type': portal_type,
                            'title': translate(title, context=self.request)})
@@ -151,7 +149,7 @@ class SFAddMenu(BaseActionView):
 
             title = translate(t.Title(), context=self.request)
             results.append({ 'id'           : typeId,
-                             'title'        : plMF(u'label_add_type', default='Add ${type}', mapping={'type' : title}),
+                             'title'        : PLMF(u'label_add_type', default='Add ${type}', mapping={'type' : title}),
                              'description'  : t.Description(),
                              'action'       : url,
                              'selected'     : False,
@@ -231,12 +229,12 @@ class SFJsonEventDelete(BaseActionView):
 
         if lock_info is not None and lock_info.is_locked():
             status = 'locked'
-            message = plMF(u'${title} is locked and cannot be deleted.',
+            message = PLMF(u'${title} is locked and cannot be deleted.',
                 mapping={u'title' : title})
         else:
             parent.manage_delObjects(self.context.getId())
             status = 'ok'
-            message = plMF(u'${title} has been deleted.',
+            message = PLMF(u'${title} has been deleted.',
                         mapping={u'title' : title})
             transaction_note('Deleted %s' % self.context.absolute_url())
 
@@ -249,7 +247,7 @@ class SFJsonEventCopy(BaseActionView):
         title = safe_unicode(self.context.title_or_id())
         mtool = getToolByName(self.context, 'portal_membership')
         if not mtool.checkPermission('Copy or Move', self.context):
-            message = plMF(u'Permission denied to copy ${title}.',
+            message = PLMF(u'Permission denied to copy ${title}.',
                     mapping={u'title' : title})
             status = 'error'
             raise json.dumps({'status':status, 'message':self.context.translate(message)})
@@ -260,11 +258,11 @@ class SFJsonEventCopy(BaseActionView):
             status = 'copied'
         except CopyError:
             status = 'error'
-            message = plMF(u'${title} is not copyable.',
+            message = PLMF(u'${title} is not copyable.',
                         mapping={u'title' : title})
             return json.dumps({'status':status, 'message':parent.translate(message)})
 
-        message = plMF(u'${title} copied.',
+        message = PLMF(u'${title} copied.',
                     mapping={u'title' : title})
         transaction_note('Copied object %s' % self.context.absolute_url())
         contextId = 'UID_'+self.context.UID()
@@ -278,7 +276,7 @@ class SFJsonEventCut(BaseActionView):
 
         mtool = getToolByName(self.context, 'portal_membership')
         if not mtool.checkPermission('Copy or Move', self.context):
-            message = plMF(u'Permission denied to copy ${title}.',
+            message = PLMF(u'Permission denied to copy ${title}.',
                     mapping={u'title' : title})
             status = 'error'
             raise json.dumps({'status':status, 'message':self.context.translate(message)})
@@ -291,7 +289,7 @@ class SFJsonEventCut(BaseActionView):
         parent = aq_parent(aq_inner(self.context))
         if lock_info is not None and lock_info.is_locked():
             status = 'error'
-            message = plMF(u'${title} is locked and cannot be cut.',
+            message = PLMF(u'${title} is locked and cannot be cut.',
                         mapping={u'title' : title})
             return json.dumps({'status': status,
                                'message': parent.translate(message)})
@@ -301,11 +299,11 @@ class SFJsonEventCut(BaseActionView):
             status = 'copied'
         except CopyError:
             status = 'error'
-            message = plMF(u'${title} is not copyable.',
+            message = PLMF(u'${title} is not copyable.',
                         mapping={u'title' : title})
             return json.dumps({'status':status, 'message':parent.translate(message)})
 
-        message = plMF(u'${title} copied.',
+        message = PLMF(u'${title} copied.',
                     mapping={u'title' : title})
         transaction_note('Copied object %s' % self.context.absolute_url())
         contextId = 'UID_'+self.context.UID()
@@ -327,7 +325,7 @@ class SFJsonEventPaste(BaseActionView):
 
     def __call__(self):
 
-        msg=plMF(u'Copy or cut one or more items to paste.')
+        msg=PLMF(u'Copy or cut one or more items to paste.')
         if self.context.cb_dataValid:
             try:
                 baseObject = self.portal.restrictedTraverse(self.copyDict['url'])
@@ -352,11 +350,11 @@ class SFJsonEventPaste(BaseActionView):
             except ConflictError:
                 raise
             except ValueError:
-                msg=plMF(u'Disallowed to paste item(s).')
+                msg=PLMF(u'Disallowed to paste item(s).')
             except (Unauthorized, 'Unauthorized'):
-                msg=plMF(u'Unauthorized to paste item(s).')
+                msg=PLMF(u'Unauthorized to paste item(s).')
             except: # fallback
-                msg=plMF(u'Paste could not find clipboard content.')
+                msg=PLMF(u'Paste could not find clipboard content.')
 
         return json.dumps({'status':'failure',
                            'message':self.context.translate(msg)})

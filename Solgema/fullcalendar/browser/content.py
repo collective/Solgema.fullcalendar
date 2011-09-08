@@ -1,9 +1,7 @@
-from zope.i18nmessageid import MessageFactory
-
 from z3c.form.interfaces import INPUT_MODE
 from z3c.form import form as z3cform, field as z3cfield
 from z3c.form import button
-from z3c.form import field, group as z3cgroup
+from z3c.form import group as z3cgroup
 from z3c.formwidget.query.widget import QuerySourceFieldRadioWidget
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.widget import FieldWidget
@@ -12,10 +10,9 @@ from z3c.form.browser import widget
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as plMF
 from plone.z3cform.layout import wrap_form
-from plone.z3cform.fieldsets import group, extensible
+from plone.z3cform.fieldsets import extensible
 
 from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
-from Solgema.fullcalendar.widgets.widgets import ColorDictInputFieldWidget
 from Solgema.fullcalendar.config import _
 
 
