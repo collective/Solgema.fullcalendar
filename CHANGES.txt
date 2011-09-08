@@ -4,6 +4,11 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- API: If event do not have a 'type-x' class,
+  it is not displayed with a SF_x_light view in a popup,
+  but a new window is open.
+  [thomasdesvenain]
+
 - UI: query criterion labels are clickable.
   [thomasdesvenain]
 

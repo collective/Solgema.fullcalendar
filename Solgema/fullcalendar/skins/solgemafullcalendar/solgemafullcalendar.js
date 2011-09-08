@@ -268,24 +268,27 @@ function readCookie(name) {
           var portalType = eventClasses[x].substring(5, eventClasses[x].length).toLowerCase();
         }
       }
-      var extra = '/SFLight_'+portalType+'_view';
-      var data = {};
-      jq('#kss-spinner').show();
-      var $dialogContent = jq("#event_edit_container");
-      $dialogContent.empty();
-      $dialogContent.dialog( "destroy" );
-      jq.get(url+extra, data,
-        function (msg) {
-          $dialogContent.append(msg);
-          $dialogContent.dialog({
-            width: 600,
-            autoOpen: true,
-            modal: true,
-            title: fcevent['title']
-          });
-          jq('#kss-spinner').hide();
-        }
-      );
+      if(portalType != undefined){
+    	  var extra = '/SFLight_' + portalType + '_view';
+          jq('#kss-spinner').show();
+          var $dialogContent = jq("#event_edit_container");
+          $dialogContent.empty();
+          $dialogContent.dialog( "destroy" );
+          jq.get(url + extra, {}, function(msg){
+              $dialogContent.append(msg);
+              $dialogContent.dialog({
+                width: 600,
+                autoOpen: true,
+                modal: true,
+                title: fcevent['title']
+              });
+              jq('#kss-spinner').hide();
+           });
+
+      }
+      else{
+    	  window.open(url)
+      }
     }
   };
 
