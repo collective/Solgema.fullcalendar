@@ -34,10 +34,12 @@
           <input type="checkbox"
             tal:attributes="name field;
                             value item;
-                            checked python:item in selectedItems and 'checked' or None"/>
+                            checked python:item in selectedItems and 'checked' or None;
+                            id string:criterion-$field-$item;"/>
           <label tal:define="reviewclass python:criteria.Field()=='review_state' and ' state-'+item or '';"
-                 tal:attributes="for field;
-                                 class string:${field}colorIndex-${repeat/item/index} colorIndex-${repeat/item/index}${reviewclass}" tal:content="item"/>
+                 tal:attributes="for string:criterion-$field-$item;
+                                 class string:${field}colorIndex-${repeat/item/index} colorIndex-${repeat/item/index}${reviewclass}"
+                 tal:content="item"/>
         </div>
         <div class="SFQuery_input" tal:condition="python:field != 'review_state' and view.displayUndefined()">
           <input type="checkbox"

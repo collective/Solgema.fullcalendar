@@ -4,12 +4,15 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- UI: query criterion labels are clickable.
+  [thomasdesvenain]
+
 - Fixed: we needed 'Modify portal content' on calendar
   to change the transition of an event.
   Transition permission on event itself is enough.
   [thomasdesvenain]
 
-- Huge optimization on calendar events getting.
+- Optimization: Huge optimization on calendar events getting.
   (More than 10 times faster)
   [thomasdesvenain]
 
@@ -26,11 +29,11 @@ Changelog
 - Refactor: remove solgemafullcalendar_ prefix from most module names.
   [thomasdesvenain]
 
-- Use collective.js.colorpicker and collective.js.fullcalendar package
+- Refactor: Use collective.js.colorpicker and collective.js.fullcalendar package
   instead of embedding code.
   [thomasdesvenain]
 
-- Fixed date formats in french.
+- Fixed: Fixed date formats in french.
   [thomasdesvenain]
 
 
