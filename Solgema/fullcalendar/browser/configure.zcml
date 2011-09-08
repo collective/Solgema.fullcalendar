@@ -170,10 +170,10 @@
        factory=".adapters.SolgemaFullcalendarEventDict" />
 
   <adapter
-       factory=".views.ColorIndexGetter" />
+       factory=".adapters.ColorIndexGetter" />
 
   <adapter
-       factory=".views.TopicEventSource" />
+       factory=".adapters.TopicEventSource" />
 
   <!-- Actions -->
   <browser:page

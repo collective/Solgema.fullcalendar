@@ -1,26 +1,20 @@
 import datetime
 from urllib import unquote
-from Products.ZCatalog.interfaces import ICatalogBrain
-from Products.ATContentTypes.interfaces.topic import IATTopic
 try:
     import json
 except:
     import simplejson as json
 
-from DateTime import DateTime
 from OFS import CopySupport
 from Acquisition import aq_inner, aq_parent
-from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.i18nmessageid import MessageFactory
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as plMF
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
-from Products.ATContentTypes import ATCTMessageFactory as ATMF
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
@@ -173,7 +167,7 @@ def getCookieItems(request, field):
 
 
 def getColorIndex(context, request, eventPath=None, brain=None):
-
+    undefined =  'colorIndex-undefined'
     if not brain:
         if not eventPath:
             raise ValueError(u'You must provide eventPath or brain')
@@ -182,50 +176,14 @@ def getColorIndex(context, request, eventPath=None, brain=None):
         brains = catalog.searchResults(path=eventPath)
         if len(brains) == 0:
             log.error("Error computing color index : no result for path %s", eventPath)
-            return colorIndex
+            return undefined
 
         brain = brains[0]
 
     adapter = getMultiAdapter((context, request, brain),
                               interfaces.IColorIndexGetter)
     colorIndex = adapter.getColorIndex()
-    return ' ' + (colorIndex or 'colorIndex-undefined')
-
-
-class ColorIndexGetter(object):
-
-    implements(interfaces.IColorIndexGetter)
-    adapts(Interface, Interface, ICatalogBrain)
-
-    def __init__(self, context, request, source):
-        self.context = context
-        self.request = request
-        self.source = source
-
-    def getColorIndex(self):
-        context, request, brain = self.context, self.request, self.source
-        criteriaItems = getCriteriaItems(context, request)
-        colorIndex = ''
-        if not criteriaItems:
-            return colorIndex
-
-        selectedItems = getCookieItems(request, criteriaItems['name'])
-        if not selectedItems:
-            selectedItems = criteriaItems['values']
-
-        if not isinstance(selectedItems, list):
-            selectedItems = [selectedItems,]
-
-        if criteriaItems:
-            brainVal = getattr(brain, criteriaItems['name'])
-            brainVal = isinstance(brainVal, (tuple, list)) and brainVal or [brainVal,]
-            for val in brainVal:
-                if criteriaItems['values'].count(val) != 0 and val in selectedItems:
-                    colorIndex = 'colorIndex-'+str(criteriaItems['values'].index(val))
-                    colorIndex += ' '+criteriaItems['name']+'colorIndex-'+str(criteriaItems['values'].index(val))
-                    break
-
-        return colorIndex
+    return ' ' + (colorIndex or undefined)
 
 
 class SolgemaFullcalendarView(BrowserView):
@@ -394,85 +352,6 @@ class SolgemaFullcalendarJS(BrowserView):
         return super(SolgemaFullcalendarJS, self).__call__()
 
 
-class TopicEventSource(object):
-    """Event source that get events from the topic
-    """
-    implements(interfaces.IEventSource)
-    adapts(IATTopic, Interface)
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
-
-    def convertAsList(self, items):
-        if isinstance(items, str):
-            return [items,]
-
-        return items
-
-    def getEvents(self):
-        context = self.context
-        request = self.request
-        response = request.response
-
-        query = context.buildQuery()
-        topicCriteria = listQueryTopicCriteria(context)
-        args = {}
-        if not query:
-            return json.dumps([])
-
-        if 'Type' in query.keys():
-            items = getCookieItems(request, 'Type')
-            if items:
-                args['Type'] = items
-            else:
-                args['Type'] = query['Type']
-        filters = []
-        #reinit cookies if criterions are no more there
-        for criteria in context.listCriteria():
-            if criteria not in listQueryTopicCriteria(context):
-                response.expireCookie(criteria.Field())
-
-        if request.cookies.get('sfqueryDisplay', None) not in [a.Field() for a in topicCriteria]:
-            response.expireCookie('sfqueryDisplay')
-
-        for criteria in self.context.listCriteria():
-            if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteria.Field():
-                args[criteria.Field()] = query[criteria.Field()]
-            elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
-                items = getCookieItems(request, criteria.Field())
-                if items and criteria in topicCriteria:
-                    if 'undefined' in items:
-                        filters.append({'name':criteria.Field(), 'values':items})
-                    else:
-                        args[criteria.Field()] = items
-                else:
-                    args[criteria.Field()] = query[criteria.Field()]
-        args['start'] = {'query': DateTime(request.get('end')), 'range':'max'}
-        args['end'] = {'query': DateTime(request.get('start')), 'range':'min'}
-        if getattr(self.calendar, 'overrideStateForAdmin', True) and args.has_key('review_state'):
-            pm = getToolByName(context,'portal_membership')
-            user = pm.getAuthenticatedMember()
-            if user and user.has_permission('Modify portal content', context):
-                del args['review_state']
-
-        searchMethod = getMultiAdapter((context,),
-                                       interfaces.ISolgemaFullcalendarCatalogSearch)
-        brains = searchMethod.searchResults(args)
-
-        for filt in filters:
-            if isinstance(filt['values'], str):
-                brains = [ a for a in brains if not getattr(a, filt['name']) ]
-            else:
-                brains = [ a for a in brains if not getattr(a, filt['name']) or len([b for b in self.convertAsList(getattr(a, filt['name'])) if b in filt['values']])>0 ]
-
-        topicEventsDict = getMultiAdapter((context, self.request),
-                                          interfaces.ISolgemaFullcalendarTopicEventDict)
-        result = topicEventsDict.createDict(brains, args)
-        return result
-
-
 class SolgemaFullcalendarEvents(BrowserView):
     """Solgema Fullcalendar Update browser view"""
 
@@ -485,7 +364,6 @@ class SolgemaFullcalendarEvents(BrowserView):
     def __call__(self, *args, **kw):
         """Render JS Initialization code"""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
-        context = self.context
         source = getMultiAdapter((self.context, self.request),
                                  interfaces.IEventSource)
         events = source.getEvents()
