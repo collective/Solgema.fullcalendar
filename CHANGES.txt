@@ -21,9 +21,11 @@ Changelog
   (More than 10 times faster)
   [thomasdesvenain]
 
-- API: Source of events is now an adapter that can be customized.
+- API: Source of events are now adapters that can be customized.
   Provide an IEventSource adapter for a specific layer or context
   to get the list of events to display.
+  Adapter without a name will replace default source event.
+  Adapter with a name will add a source event to default one.
   [thomasdesvenain]
 
 - API: Code cleanup to make color management easier to customize.

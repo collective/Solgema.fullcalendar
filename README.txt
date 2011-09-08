@@ -21,6 +21,11 @@ In addition to the calendar, there is a small query form you can display in the 
 the calendar to choose which event you want to display. The fields in this query form are
 taken from the Topic's Criterions.
 
+As a developer, you can add event sources to default one.
+You just have to define named IEventSource adapters which provides each a list of dictionaries
+needed by fullcalendar.js API.
+You can also replace the default event source providing an unnamed IEventSource
+adapter for your specific context or layer.
 
 Changelog for Solgema.fullcalendar
 --------
@@ -112,6 +117,6 @@ Customizing the skin
 --------
 You can easyly customize de calendar skin:
 Go to http://jquieryui.com and click on the Themes tab.
-There you can create or choose an existing theme. After that, download it to your computer by selecting only: 
+There you can create or choose an existing theme. After that, download it to your computer by selecting only:
 All UI Core, all UI Interactions and Dialog in UI Widgets. Unzip and copy the css file and all images in you
 portal_skins/custom folder.

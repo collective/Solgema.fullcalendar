@@ -8,7 +8,7 @@ except:
 from OFS import CopySupport
 from Acquisition import aq_inner, aq_parent
 from zope.interface import implements
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getAdapters
 from zope.i18nmessageid import MessageFactory
 
 from Products.Five import BrowserView
@@ -364,9 +364,12 @@ class SolgemaFullcalendarEvents(BrowserView):
     def __call__(self, *args, **kw):
         """Render JS Initialization code"""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
-        source = getMultiAdapter((self.context, self.request),
+        sources = getAdapters((self.context, self.request),
                                  interfaces.IEventSource)
-        events = source.getEvents()
+        events = []
+        for name, source in sources:
+            events.extend(source.getEvents())
+
         return json.dumps(events, sort_keys=True)
 
 
