@@ -162,6 +162,7 @@ def getCookieItems(request, field):
             pass
 
         items = items.encode('utf-8')
+        items = [items]
 
     return items
 

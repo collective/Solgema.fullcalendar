@@ -281,10 +281,16 @@ class IColorIndexGetter(Interface):
         """Get color class
         """
 
+
 class IEventSource(Interface):
     """Adapter that provides a list of events to display in calendar
     """
 
     def getEvents(self):
         """List of event objects to display in calendar
+           (takes account of 'start' and 'end' values in request
+        """
+
+    def getIcal(self):
+        """Ical export of events
         """

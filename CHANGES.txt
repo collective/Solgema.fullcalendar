@@ -4,6 +4,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- ICal export of future events.
+  [thomasdesvenain]
+
 - API: If event do not have a 'type-x' class,
   it is not displayed with a SF_x_light view in a popup,
   but a new window is open.
@@ -23,7 +26,7 @@ Changelog
 
 - API: Source of events are now adapters that can be customized.
   Provide an IEventSource adapter for a specific layer or context
-  to get the list of events to display.
+  to get the list of events to display (or to export under ical).
   Adapter without a name will replace default source event.
   Adapter with a name will add a source event to default one.
   [thomasdesvenain]

@@ -184,4 +184,21 @@
       permission="zope.Public"
       />
 
+  <!-- ICAL export -->
+
+   <browser:viewlet
+        name="Solgema.fullcalendar.icalexport"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+        class=".icalexport.ICalExportButton"
+        permission="zope2.View"
+     />
+
+  <browser:page
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
+      name="ics_export"
+      class=".icalexport.ICalExport"
+      permission="zope2.View"
+      />
+
 </configure>

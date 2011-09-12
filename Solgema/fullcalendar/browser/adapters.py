@@ -267,9 +267,25 @@ class TopicEventSource(object):
 
         return items
 
-    def getEvents(self):
-        context = self.context
-        request = self.request
+    def _getBrains(self, args, filters):
+
+        searchMethod = getMultiAdapter((self.context,),
+                                       interfaces.ISolgemaFullcalendarCatalogSearch)
+        brains = searchMethod.searchResults(args)
+
+        for filt in filters:
+            if isinstance(filt['values'], str):
+                brains = [ a for a in brains if not getattr(a, filt['name']) ]
+            else:
+                brains = [ a for a in brains
+                            if not getattr(a, filt['name'])
+                            or len([b for b in self.convertAsList(getattr(a, filt['name']))
+                                    if b in filt['values']])>0 ]
+
+        return brains
+
+    def _getCriteriaArgs(self):
+        context, request = self.context, self.request
         response = request.response
 
         query = context.buildQuery()
@@ -306,6 +322,13 @@ class TopicEventSource(object):
                 else:
                     args[criteria.Field()] = query[criteria.Field()]
 
+        return args, filters
+
+    def getEvents(self):
+        context = self.context
+        request = self.request
+        response = request.response
+        args, filters = self._getCriteriaArgs()
         args['start'] = {'query': DateTime(request.get('end')), 'range':'max'}
         args['end'] = {'query': DateTime(request.get('start')), 'range':'min'}
         if getattr(self.calendar, 'overrideStateForAdmin', True) and args.has_key('review_state'):
@@ -314,17 +337,13 @@ class TopicEventSource(object):
             if user and user.has_permission('Modify portal content', context):
                 del args['review_state']
 
-        searchMethod = getMultiAdapter((context,),
-                                       interfaces.ISolgemaFullcalendarCatalogSearch)
-        brains = searchMethod.searchResults(args)
-
-        for filt in filters:
-            if isinstance(filt['values'], str):
-                brains = [ a for a in brains if not getattr(a, filt['name']) ]
-            else:
-                brains = [ a for a in brains if not getattr(a, filt['name']) or len([b for b in self.convertAsList(getattr(a, filt['name'])) if b in filt['values']])>0 ]
-
+        brains = self._getBrains(args, filters)
         topicEventsDict = getMultiAdapter((context, self.request),
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
         result = topicEventsDict.createDict(brains, args)
         return result
+
+    def getICal(self):
+        args, filters = self._getCriteriaArgs()
+        brains = self._getBrains(args, filters)
+        return [b.getIcal() for b in brains]
