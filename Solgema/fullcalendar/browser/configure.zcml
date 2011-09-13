@@ -187,6 +187,7 @@
   <!-- ICAL export -->
 
    <browser:viewlet
+        for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
         name="Solgema.fullcalendar.icalexport"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
         class=".icalexport.ICalExportButton"
