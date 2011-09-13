@@ -17,7 +17,7 @@ class ICalExportButton(ViewletBase):
 
     def render(self):
         msg = translate(_('title_add_to_ical',
-                          default=u"Download this calendar in vCal format"),
+                          default=u"Download this calendar in iCal format"),
                         context=self.request)
         title = PMF(u"iCal export")
         url = self.context.absolute_url()
@@ -25,7 +25,7 @@ class ICalExportButton(ViewletBase):
         return """
                 <a id="sfc-ical-export"
                    title="%(msg)s"
-                   href="%(url)s/ics_export">
+                   href="%(url)s/ics_view">
                     <img width="16" height="16" title="%(title)s" alt="%(title)s"
                          src="%(portal_url)s/icon_export_ical.png">
                 <span>iCal</span></a>
@@ -36,19 +36,29 @@ class ICalExportButton(ViewletBase):
 
 class ICalExport(CalendarView):
 
+    @property
+    def iscalendarlayout(self):
+        return True
+
     def update(self):
-        self.sources = [source for name, source
+        if self.iscalendarlayout:
+            self.sources = [source for name, source
                                 in getAdapters((self.context, self.request),
                                                IEventSource)]
+        else:
+            super(ICalExport, self).update()
 
     def feeddata(self):
-        context = self.context
-        data = calendarsupport.ICS_HEADER % dict(prodid=calendarsupport.PRODID)
-        data += 'X-WR-CALNAME:%s\n' % context.Title()
-        data += 'X-WR-CALDESC:%s\n' % context.Description()
-        for source in self.sources:
-            if hasattr(source, 'getICal'):
-                data += source.getICal()
+        if self.iscalendarlayout:
+            context = self.context
+            data = calendarsupport.ICS_HEADER % dict(prodid=calendarsupport.PRODID)
+            data += 'X-WR-CALNAME:%s\n' % context.Title()
+            data += 'X-WR-CALDESC:%s\n' % context.Description()
+            for source in self.sources:
+                if hasattr(source, 'getICal'):
+                    data += source.getICal()
 
-        data += calendarsupport.ICS_FOOTER
-        return data
+            data += calendarsupport.ICS_FOOTER
+            return data
+        else:
+            return super(ICalExport, self).feeddata()

@@ -196,9 +196,9 @@
      />
 
   <browser:page
-      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      for="Products.ATContentTypes.interfaces.topic.IATTopic"
       layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
-      name="ics_export"
+      name="ics_view"
       class=".icalexport.ICalExport"
       permission="zope2.View"
       />
