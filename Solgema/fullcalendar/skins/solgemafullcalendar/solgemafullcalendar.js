@@ -398,7 +398,9 @@ function readCookie(name) {
             return false;
           }
         });
-        jq(element).bind("contextmenu", SolgemaFullcalendar.openSFContextualContentMenu);
+        if(jq(element).hasClass('contextualContentMenuEnabled')){
+        	jq(element).bind("contextmenu", SolgemaFullcalendar.openSFContextualContentMenu);
+        }
       },
       eventClick: function(fcevent, event) {
         SolgemaFullcalendar.openDisplayForm(fcevent, event);
