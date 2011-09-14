@@ -24,6 +24,7 @@ class ICalExportButton(ViewletBase):
         portal_url = getToolByName(self.context, 'portal_url')()
         return """
                 <a id="sfc-ical-export"
+                   class="visualNoPrint"
                    title="%(msg)s"
                    href="%(url)s/ics_view">
                     <img width="16" height="16" title="%(title)s" alt="%(title)s"
@@ -36,11 +37,9 @@ class ICalExportButton(ViewletBase):
 
 class ICalExport(CalendarView):
 
-    @property
-    def iscalendarlayout(self):
-        return True
-
     def update(self):
+        context = self.context
+        self.iscalendarlayout = context.unrestrictedTraverse('iscalendarlayout')()
         if self.iscalendarlayout:
             self.sources = [source for name, source
                                 in getAdapters((self.context, self.request),
