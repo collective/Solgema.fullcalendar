@@ -1,7 +1,6 @@
 from zope.i18n import translate
 from zope.component import getAdapters
 
-from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.ATContentTypes.lib import calendarsupport
 from Products.ATContentTypes.browser.calendar import CalendarView
