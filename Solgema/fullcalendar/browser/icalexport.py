@@ -18,7 +18,7 @@ class ICalExportButton(ViewletBase):
         msg = translate(_('title_add_to_ical',
                           default=u"Download this calendar in iCal format"),
                         context=self.request)
-        title = PMF(u"iCal export")
+        title = translate(_(u"iCal export"), context=self.request)
         url = self.context.absolute_url()
         portal_url = getToolByName(self.context, 'portal_url')()
         return """
@@ -28,7 +28,7 @@ class ICalExportButton(ViewletBase):
                    href="%(url)s/ics_view">
                     <img width="16" height="16" title="%(title)s" alt="%(title)s"
                          src="%(portal_url)s/icon_export_ical.png">
-                <span>iCal</span></a>
+                <span>%(title)s</span></a>
                """ % {'msg': msg, 'title': title,
                       'url': url, 'portal_url': portal_url}
 

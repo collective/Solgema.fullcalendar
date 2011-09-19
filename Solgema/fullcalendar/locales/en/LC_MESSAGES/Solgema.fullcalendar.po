@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2011-09-13 14:30+0000\n"
+"POT-Creation-Date: 2011-09-18 10:36+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
 "Last-Translator: Martronic SA <martronic@martronic.ch>\n"
 "Language-Team: EDF\n"
@@ -180,6 +180,10 @@ msgstr "Choose the folder where the content will be created. If this field is no
 #: ../interfaces.py:168
 msgid "help_weekends"
 msgstr "Display Saturday and Sunday"
+
+#: ../browser/icalexport.py:22
+msgid "iCal export"
+msgstr ""
 
 #. Default: "Display All day option"
 #: ../interfaces.py:262

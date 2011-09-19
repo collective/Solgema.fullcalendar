@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-09-13 14:30+0000\n"
+"POT-Creation-Date: 2011-09-18 10:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,6 +181,10 @@ msgstr ""
 
 #: ../interfaces.py:168
 msgid "help_weekends"
+msgstr ""
+
+#: ../browser/icalexport.py:22
+msgid "iCal export"
 msgstr ""
 
 #. Default: "Display All day option"
