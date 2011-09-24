@@ -4,6 +4,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- UI: a lock icon in displayed on private events.
+  [thomasdesvenain]
+
 - ICal export of future events.
   [thomasdesvenain]
 
