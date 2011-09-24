@@ -17,7 +17,7 @@ from zope.i18nmessageid import MessageFactory
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
+from Products.CMFPlone import PloneMessageFactory as PLMF
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.utils import safe_unicode
 from plone.i18n.normalizer.interfaces import IIDNormalizer
