@@ -3,6 +3,9 @@ Changelog
 
 2.0 (unreleased)
 ----------------
+- Fixed: Changed static CSS selectors (for undefined colors) so colors
+  get applied correctly.
+  [thomasdesvenain]
 
 - UI: a lock icon in displayed on private events.
   [thomasdesvenain]

@@ -192,111 +192,121 @@ label.colorIndex-0 {
     color: #4ca9ff;
 }
 
-#calendar div.fc-event.colorIndex-1 {
+#calendar a.colorIndex-1 {
     border:1px solid #96d510;
 }
-#calendar div.fc-event.colorIndex-1 a,
-#calendar div.fc-event.colorIndex-1 a .fc-event-time {
+#calendar a.colorIndex-1 .fc-event-time,
+#calendar a.colorIndex-1 .fc-event-skin {
     background-color: #96d510;
+    border-color: #96d510;
 }
 label.colorIndex-1 {
     color: #96d510;
 }
 
-#calendar div.fc-event.colorIndex-2 {
+#calendar a.colorIndex-2 {
     border:1px solid #ff1942;
 }
-#calendar div.fc-event.colorIndex-2 a,
-#calendar div.fc-event.colorIndex-2 a .fc-event-time {
+#calendar a.colorIndex-2 .fc-event-time,
+#calendar a.colorIndex-2 .fc-event-skin {
     background-color: #ff1942;
+    border-color: #ff1942;
 }
 label.colorIndex-2 {
     color: #ff1942;
 }
 
-#calendar div.fc-event.colorIndex-3 {
+#calendar a.colorIndex-3 {
     border:1px solid #ff8900;
 }
-#calendar div.fc-event.colorIndex-3 a,
-#calendar div.fc-event.colorIndex-3 a .fc-event-time {
+#calendar a.colorIndex-3 .fc-event-time,
+#calendar a.colorIndex-3 .fc-event-skin {
     background-color: #ff8900;
+    border-color: #ff8900;
 }
 label.colorIndex-3 {
     color: #ff8900;
 }
 
-#calendar div.fc-event.colorIndex-4 {
+#calendar a.colorIndex-4 {
     border:1px solid #1e4ae6;
 }
-#calendar div.fc-event.colorIndex-4 a,
-#calendar div.fc-event.colorIndex-4 a .fc-event-time {
+#calendar a.colorIndex-4 .fc-event-time,
+#calendar a.colorIndex-4 .fc-event-skin {
     background-color: #1e4ae6;
+    border-color: #1e4ae6;
 }
 label.colorIndex-4 {
     color: #1e4ae6;
 }
 
-#calendar div.fc-event.colorIndex-5 {
+#calendar a.colorIndex-5 {
     border:1px solid #009934;
 }
-#calendar div.fc-event.colorIndex-5 a,
-#calendar div.fc-event.colorIndex-5 a .fc-event-time {
+#calendar a.colorIndex-5 .fc-event-time,
+#calendar a.colorIndex-5 .fc-event-skin {
     background-color: #009934;
+    border-color: #009934;
 }
 label.colorIndex-5 {
     color: #009934;
 }
 
-#calendar div.fc-event.colorIndex-6 {
+#calendar a.colorIndex-6 {
     border:1px solid #8a0dec;
 }
-#calendar div.fc-event.colorIndex-6 a,
-#calendar div.fc-event.colorIndex-6 a .fc-event-time {
+#calendar a.colorIndex-6 .fc-event-time,
+#calendar a.colorIndex-6 .fc-event-skin {
     background-color: #8a0dec;
+    border-color: #8a0dec;
 }
 label.colorIndex-6 {
     color: #8a0dec;
 }
 
-#calendar div.fc-event.colorIndex-7 {
+#calendar a.colorIndex-7 {
     border:1px solid #e01e9e;
 }
-#calendar div.fc-event.colorIndex-7 a,
-#calendar div.fc-event.colorIndex-7 a .fc-event-time {
+#calendar a.colorIndex-7 .fc-event-time,
+#calendar a.colorIndex-7 .fc-event-skin {
     background-color: #e01e9e;
+    border-color: #e01e9e;
 }
 label.colorIndex-7 {
     color: #e01e9e;
 }
 
-#calendar div.fc-event.colorIndex-8 {
+#calendar a.colorIndex-8 {
     border:1px solid #32ccc2;
 }
-#calendar div.fc-event.colorIndex-8 a,
-#calendar div.fc-event.colorIndex-8 a .fc-event-time {
+#calendar a.colorIndex-8 .fc-event-time,
+#calendar a.colorIndex-8 .fc-event-skin {
     background-color: #32ccc2;
+    border-color: #32ccc2;
 }
 label.colorIndex-8 {
     color: #32ccc2;
 }
 
-#calendar div.fc-event.colorIndex-9 {
+#calendar a.colorIndex-9 {
     border:1px solid #c7d42a;
 }
-#calendar div.fc-event.colorIndex-9 a,
-#calendar div.fc-event.colorIndex-9 a .fc-event-time {
+#calendar a.colorIndex-9 .fc-event-time,
+#calendar a.colorIndex-9 .fc-event-skin {
     background-color: #c7d42a;
+    border-color: #c7d42a;
 }
 label.colorIndex-9 {
     color: #c7d42a;
 }
 
-#calendar div.fc-event.colorIndex-10 {
+#calendar a.colorIndex-10 {
     border:1px solid #cd6031;
 }
-#calendar div.fc-event.colorIndex-10 a,
-#calendar div.fc-event.colorIndex-10 a .fc-event-time {
+#calendar a.colorIndex-10 .fc-event-time,
+#calendar a.colorIndex-10 .fc-event-skin {
     background-color: #cd6031;
+    border-color: #cd6031;
 }
 label.colorIndex-10 {
     color: #cd6031;
