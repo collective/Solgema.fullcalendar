@@ -411,11 +411,11 @@ class SolgemaFullcalendarColorsCss(BrowserView):
 
                 color = colorsDict[fieldid][cValName]
                 if color:
-                    css += '#calendar a.fc-event.%scolorIndex-%s {\n' % (fieldid, str(i))
+                    css += '#calendar .%scolorIndex-%s {\n' % (fieldid, str(i))
                     css += '    border:1px solid %s;\n' % (str(color))
                     css += '}\n\n'
-                    css += '#calendar a.fc-event.%scolorIndex-%s .fc-event-skin,\n' % (fieldid, str(i))
-                    css += '#calendar a.fc-event.%scolorIndex-%s .fc-event-time {\n' % (fieldid, str(i))
+                    css += '#calendar .%scolorIndex-%s .fc-event-skin,\n' % (fieldid, str(i))
+                    css += '#calendar .%scolorIndex-%s .fc-event-time {\n' % (fieldid, str(i))
                     css += '    background-color: %s;\n' % (str(color))
                     css += '    border-color: %s;\n' % (str(color))
                     css += '}\n\n'
