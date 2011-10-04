@@ -325,8 +325,10 @@ label.state-private {
     color: Red;
 }
 
-.state-private .fc-event-head .fc-event-time{
-    background: url(&dtml-portal_url;/lock_icon.gif) no-repeat right;
+.state-private .fc-event-head .fc-event-time,
+.state-private .fc-event-inner .fc-event-time{
+    background: url("http://localhost:9880/extranetPRIVR/lock_icon.gif") no-repeat scroll left center transparent;
+    padding-left: 15px;
 }
 
 #calendar.query-review_state div.fc-event.state-visible {
