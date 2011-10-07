@@ -327,7 +327,7 @@ label.state-private {
 
 .state-private .fc-event-head .fc-event-time,
 .state-private .fc-event-inner .fc-event-time{
-    background: url("http://localhost:9880/extranetPRIVR/lock_icon.gif") no-repeat scroll left center transparent;
+    background: url("lock_icon.gif") no-repeat scroll left center transparent;
     padding-left: 15px;
 }
 
