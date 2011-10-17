@@ -3,6 +3,18 @@ Changelog
 
 2.0 (unreleased)
 ----------------
+- Dependencies: Added collective.js.fullcalendar to product dependencies
+  so that it installs automatically.
+  [fmoret]
+  
+- Fixed: Event adding/editing popupu is now resized on scroll to get the
+  correct height.
+  [fmoret]
+  
+- Added: Extra css class added on events in calendar are now queries by
+  adapters.
+  [fmoret]
+
 - Fixed: Changed static CSS selectors (for undefined colors) so colors
   get applied correctly.
   [thomasdesvenain]
