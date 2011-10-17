@@ -253,6 +253,12 @@ class ISolgemaFullcalendarEventDict(Interface):
 class ISolgemaFullcalendarTopicEventDict(Interface):
     """Return a friendly calendar dict for events in topic query"""
 
+class ISolgemaFullcalendarExtraClass(Interface):
+    """Adapter for extra class"""
+    
+    def extraClass(self):
+        """return particular css class for item"""
+
 class ISolgemaFullcalendarMarker(Interface):
     """A marker for items that can be displayed as solgemafullcalendar_view"""
 
