@@ -66,8 +66,18 @@ class SolgemaFullcalendarTopicEventDict(object):
         self.request = request
         self.copyDict = getCopyObjectsUID(request)
 
-    def getExtraClass(self, item):
+    def getBrainExtraClass(self, item):
         return ''
+        
+    def getObjectExtraClass(self, item):
+        extraclasses = getAdapters((item, self.request),
+                                 interfaces.ISolgemaFullcalendarExtraClass)
+        classes = []
+        for name, source in extraclasses:
+            classes.append(source.extraClass())
+        if not classes:
+            return ''
+        return ' '.join(classes)
 
     def dictFromBrain(self, brain, editableEvents=[]):
 
@@ -89,7 +99,7 @@ class SolgemaFullcalendarTopicEventDict(object):
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
         typeClass = ' type-'+brain.portal_type
         colorIndex = getColorIndex(self.context, self.request, brain=brain)
-        extraClass = self.getExtraClass(brain)
+        extraClass = self.getBrainExtraClass(brain)
         if HAS_RECCURENCE_SUPPORT:
             occurences = IRecurrenceSupport(brain.getObject()).occurences()
         else:
@@ -131,7 +141,7 @@ class SolgemaFullcalendarTopicEventDict(object):
 
         typeClass = ' type-' + item.portal_type
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
-        extraClass = self.getExtraClass(item)
+        extraClass = self.getObjectExtraClass(item)
         if HAS_RECCURENCE_SUPPORT:
             occurences = IRecurrenceSupport(item).occurences()
         else:
@@ -178,7 +188,14 @@ class SolgemaFullcalendarEventDict(object):
         self.copyDict = getCopyObjectsUID(request)
 
     def getExtraClass(self):
-        return ''
+        extraclasses = getAdapters((self.context, self.request),
+                                 interfaces.ISolgemaFullcalendarExtraClass)
+        classes = []
+        for name, source in extraclasses:
+            classes.append(source.extraClass())
+        if not classes:
+            return ''
+        return ' '.join(classes)
 
     def __call__(self):
         context = self.context
