@@ -1,7 +1,7 @@
 __author__ = """Martronic SA"""
 __docformat__ = 'plaintext'
 
-PRODUCT_DEPENDENCIES = ['collective.js.jqueryui']
+PRODUCT_DEPENDENCIES = ['collective.js.jqueryui', 'collective.js.fullcalendar']
 
 
 from zope.i18nmessageid import MessageFactory
