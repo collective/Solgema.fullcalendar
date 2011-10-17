@@ -216,8 +216,11 @@
             </div>
 
       <script type="text/javascript">
-        jq(document).ready(function(){
+        function setHeight() {
             jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height(jq('body.ajax_edition').height()+30)
+        };
+        jq(document).ready(function(){
+            jq("#event_edit_container", window.parent.document).bind("scroll", setHeight);
         });
       </script>
 </body>
