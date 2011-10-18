@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0 (unreleased)
+2.0 (2011-10-18)
 ----------------
 - Dependencies: Added collective.js.fullcalendar to product dependencies
   so that it installs automatically.
