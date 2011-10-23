@@ -2,8 +2,13 @@ from zope.i18n import translate
 from zope.component import getAdapters
 
 from Products.CMFCore.utils import getToolByName
-from Products.ATContentTypes.lib import calendarsupport
-from Products.ATContentTypes.browser.calendar import CalendarView
+from Products.Five.browser import BrowserView
+try:
+    from Products.ATContentTypes.lib import calendarsupport as calendarconstants
+except ImportError:
+    from plone.app.event.interfaces import ICalendarSupport
+    from plone.event import constants as calendarconstants
+
 from plone.app.layout.viewlets.common import ViewletBase
 
 from Solgema.fullcalendar.config import _
@@ -34,7 +39,7 @@ class ICalExportButton(ViewletBase):
 
 
 
-class ICalExport(CalendarView):
+class ICalExport(BrowserView):
 
     def update(self):
         context = self.context
@@ -44,19 +49,44 @@ class ICalExport(CalendarView):
                                 in getAdapters((self.context, self.request),
                                                IEventSource)]
         else:
-            super(ICalExport, self).update()
+            catalog = getToolByName(context, 'portal_catalog')
+            if 'object_provides' in catalog.indexes():
+                query = {'object_provides': ICalendarSupport.__identifier__}
+            else:
+                query = {'portal_type': 'Event'}
+            self.events = context.queryCatalog(**query)
+
+    def render(self):
+        self.update()       # collect events
+        context = self.context
+        request = self.request
+        name = '%s.ics' % context.getId()
+        request.RESPONSE.setHeader('Content-Type', 'text/calendar')
+        request.RESPONSE.setHeader('Content-Disposition', 'attachment; filename="%s"' % name)
+        request.RESPONSE.write(self.feeddata())
 
     def feeddata(self):
+        context = self.context
+
         if self.iscalendarlayout:
-            context = self.context
-            data = calendarsupport.ICS_HEADER % dict(prodid=calendarsupport.PRODID)
+            data = calendarconstants.ICS_HEADER % dict(prodid=calendarconstants.PRODID)
             data += 'X-WR-CALNAME:%s\n' % context.Title()
             data += 'X-WR-CALDESC:%s\n' % context.Description()
             for source in self.sources:
                 if hasattr(source, 'getICal'):
                     data += source.getICal()
 
-            data += calendarsupport.ICS_FOOTER
-            return data
+            data += calendarconstants.ICS_FOOTER
+            return str(data)
         else:
-            return super(ICalExport, self).feeddata()
+            data = calendarconstants.ICS_HEADER % dict(prodid=calendarconstants.PRODID)
+            data += 'X-WR-CALNAME:%s\n' % context.Title()
+            data += 'X-WR-CALDESC:%s\n' % context.Description()
+            for brain in self.events:
+                data += brain.getObject().getICal()
+
+            data += calendarconstants.ICS_FOOTER
+            return str(data)
+
+    __call__ = render
+

@@ -15,6 +15,7 @@ from Solgema.fullcalendar.browser.views import listQueryTopicCriteria,\
 
 try:
     from plone.event.interfaces import IRecurrenceSupport
+    from plone.event.interfaces import IICalEventExporter
     HAS_RECCURENCE_SUPPORT = True
 except ImportError:
     HAS_RECCURENCE_SUPPORT = False
@@ -68,7 +69,7 @@ class SolgemaFullcalendarTopicEventDict(object):
 
     def getBrainExtraClass(self, item):
         return ''
-        
+
     def getObjectExtraClass(self, item):
         extraclasses = getAdapters((item, self.request),
                                  interfaces.ISolgemaFullcalendarExtraClass)
@@ -363,4 +364,9 @@ class TopicEventSource(object):
     def getICal(self):
         args, filters = self._getCriteriaArgs()
         brains = self._getBrains(args, filters)
-        return [b.getIcal() for b in brains]
+        if HAS_RECCURENCE_SUPPORT:
+            return ''.join([IICalEventExporter(b.getObject()).feed()
+                                    for b in brains])
+        else:
+            return ''.join([b.getObject().getICal() for b in brains])
+
