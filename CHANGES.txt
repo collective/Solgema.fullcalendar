@@ -1,6 +1,10 @@
 Changelog
 =========
 
+- Fixed a bug on SFAllowedRolesAndUsersModify index
+  that could make cut/paste actions fail on whole site.
+  [thomasdesvenain]
+
 - Fixed ical export.
   [thomasdesvenain]
 
