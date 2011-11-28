@@ -2,7 +2,7 @@ from DateTime import DateTime
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
-from zope.component import queryAdapter, adapts, getMultiAdapter
+from zope.component import queryAdapter, adapts, getMultiAdapter, getAdapters
 from Products.ZCatalog.interfaces import ICatalogBrain
 
 from Products.CMFCore.utils import getToolByName
