@@ -1,5 +1,7 @@
 Changelog
 =========
+2.0.2 (2011-11-28)
+------------------
 
 - Fixed a bug on SFAllowedRolesAndUsersModify index
   that could make cut/paste actions fail on whole site.
@@ -13,6 +15,7 @@ Changelog
 
 2.0 (2011-10-18)
 ----------------
+
 - Dependencies: Added collective.js.fullcalendar to product dependencies
   so that it installs automatically.
   [fmoret]
