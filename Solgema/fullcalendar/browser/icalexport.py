@@ -6,7 +6,7 @@ from Products.Five.browser import BrowserView
 try:
     from Products.ATContentTypes.lib import calendarsupport as calendarconstants
 except ImportError:
-    from plone.app.event.interfaces import ICalendarSupport
+    from plone.app.event.interfaces import IEvent
     from plone.event import constants as calendarconstants
 
 from plone.app.layout.viewlets.common import ViewletBase
@@ -51,7 +51,7 @@ class ICalExport(BrowserView):
         else:
             catalog = getToolByName(context, 'portal_catalog')
             if 'object_provides' in catalog.indexes():
-                query = {'object_provides': ICalendarSupport.__identifier__}
+                query = {'object_provides': IEvent.__identifier__}
             else:
                 query = {'portal_type': 'Event'}
             self.events = context.queryCatalog(**query)
