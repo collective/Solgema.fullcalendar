@@ -14,11 +14,16 @@ from Solgema.fullcalendar.browser.views import listQueryTopicCriteria,\
     getCriteriaItems, getCookieItems
 
 try:
-    from plone.event.interfaces import IRecurrenceSupport
     from plone.event.interfaces import IICalEventExporter
-    HAS_RECCURENCE_SUPPORT = True
+    HAS_CALEXPORT_SUPPORT = True
 except ImportError:
-    HAS_RECCURENCE_SUPPORT = False
+    HAS_CALEXPORT_SUPPORT = False
+
+try:
+    hasPloneAppEvent = True
+    from plone.app.event.interfaces import IEvent
+except ImportError:
+    hasPloneAppEvent = False
 
 
 class SolgemaFullcalendarCatalogSearch(object):
@@ -101,8 +106,9 @@ class SolgemaFullcalendarTopicEventDict(object):
         typeClass = ' type-'+brain.portal_type
         colorIndex = getColorIndex(self.context, self.request, brain=brain)
         extraClass = self.getBrainExtraClass(brain)
-        if HAS_RECCURENCE_SUPPORT:
-            occurences = IRecurrenceSupport(brain.getObject()).occurences()
+        if hasPloneAppEvent:
+            event = brain.getObject()
+            occurences = event.occurrences()
         else:
             occurences = [(brain.start.rfc822(), brain.end.rfc822())]
         events = []
@@ -111,8 +117,8 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (brain.UID),
                 "title": brain.Title,
                 "description": brain.Description,
-                "start": HAS_RECCURENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECCURENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": hasPloneAppEvent and occurence_start.isoformat() or occurence_start,
+                "end": hasPloneAppEvent and occurence_end.isoformat() or occurence_end,
                 "url": brain.getURL(),
                 "editable": editable,
                 "allDay": allday,
@@ -143,8 +149,8 @@ class SolgemaFullcalendarTopicEventDict(object):
         typeClass = ' type-' + item.portal_type
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getObjectExtraClass(item)
-        if HAS_RECCURENCE_SUPPORT:
-            occurences = IRecurrenceSupport(item).occurences()
+        if hasPloneAppEvent:
+            item.occurrences()
         else:
             occurences = [(item.start().rfc822(), item.end().rfc822())]
 
@@ -155,8 +161,8 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (item.UID()),
                 "title": item.Title(),
                 "description": item.Description(),
-                "start": HAS_RECCURENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECCURENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": hasPloneAppEvent and occurence_start.isoformat() or occurence_start,
+                "end": hasPloneAppEvent and occurence_end.isoformat() or occurence_end,
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
@@ -361,10 +367,15 @@ class TopicEventSource(object):
         result = topicEventsDict.createDict(brains, args)
         return result
 
+    def getICalObjects(self):
+        args, filters = self._getCriteriaArgs()
+        brains = self._getBrains(args, filters)
+        return [a.getObject() for a in brains]
+
     def getICal(self):
         args, filters = self._getCriteriaArgs()
         brains = self._getBrains(args, filters)
-        if HAS_RECCURENCE_SUPPORT:
+        if HAS_CALEXPORT_SUPPORT:
             return ''.join([IICalEventExporter(b.getObject()).feed()
                                     for b in brains])
         else:
