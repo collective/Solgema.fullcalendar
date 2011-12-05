@@ -24,11 +24,12 @@ function readCookie(name) {
             var data = new Object;
             var startMonth = start.getMonth()+1;
             var endMonth = end.getMonth()+1;
-            data['startDate'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
+            data['startDate:date'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
             if (!allDay) {
-              data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
+              data['endDate:date'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
             } else {
-              data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' 23:55';
+              data['endDate:date'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' 23:55';
+              data['wholeDay:boolean'] = '1';
             }
             data['EventAllDay'] = allDay;
             openContextualContentMenu(event, this, '@@SFAddMenu', SolgemaFullcalendar.initAddContextualContentMenu, '.', data);
@@ -85,11 +86,12 @@ function readCookie(name) {
       var data = new Object;
       var startMonth = start.getMonth()+1;
       var endMonth = end.getMonth()+1;
-      data['startDate'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
+      data['startDate:date'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
       if (!allDay) {
-        data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
+        data['endDate:date'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' '+end.getHours()+':'+end.getMinutes();
       } else {
-        data['endDate'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' 23:55';
+        data['endDate:date'] = end.getFullYear()+'-'+endMonth+'-'+end.getDate()+' 23:55';
+        data['wholeDay:boolean'] = '1';
       }
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
