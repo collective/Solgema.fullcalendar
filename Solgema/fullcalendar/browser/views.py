@@ -353,7 +353,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     implements(interfaces.ISolgemaFullcalendarJS)
 
     def __init__(self, context, request):
-        super(SolgemaFullcalendarJS, self).__init__(context, request)
+        super(SolgemaFullcalendarTopicJS, self).__init__(context, request)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
 
     def getFirstDay(self):
