@@ -73,7 +73,7 @@ class SFDisplayAddMenu(BaseActionView):
     def __call__(self):
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
         context = aq_inner(self.context)
-        target_folder = interfaces.ISolgemaFullcalendarProperties(context, None).target_folder
+        target_folder = getattr(interfaces.ISolgemaFullcalendarProperties(context, None), 'target_folder', None)
         target_folder = target_folder \
                     and portal.unrestrictedTraverse('/'+ portal.id + target_folder) \
                     or aq_parent(context)
