@@ -14,9 +14,11 @@ from Solgema.fullcalendar.browser.views import listQueryTopicCriteria,\
     getCriteriaItems, getCookieItems
 
 try:
-    from plone.event.interfaces import IICalEventExporter
+    from plone.app.event.ical import EventsICal
+    from plone.event.interfaces import IEvent
     HAS_CALEXPORT_SUPPORT = True
 except ImportError:
+    from Products.ATContentTypes.interfaces.event import IATEvent as IEvent
     HAS_CALEXPORT_SUPPORT = False
 
 try:
@@ -62,8 +64,7 @@ class SolgemaFullcalendarEditableFilter(object):
         catalog = getToolByName(self.context, 'portal_catalog')
         editargs['SFAllowedRolesAndUsersModify'] = self._listSFAllowedRolesAndUsersModify()
         return [a.UID for a in catalog.searchResults(**editargs)]
-
-
+        
 class SolgemaFullcalendarTopicEventDict(object):
     implements(interfaces.ISolgemaFullcalendarTopicEventDict)
 
@@ -150,10 +151,9 @@ class SolgemaFullcalendarTopicEventDict(object):
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getObjectExtraClass(item)
         if hasPloneAppEvent:
-            item.occurrences()
+            occurences = item.occurrences()
         else:
             occurences = [(item.start().rfc822(), item.end().rfc822())]
-
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
@@ -376,8 +376,66 @@ class TopicEventSource(object):
         args, filters = self._getCriteriaArgs()
         brains = self._getBrains(args, filters)
         if HAS_CALEXPORT_SUPPORT:
-            return ''.join([IICalEventExporter(b.getObject()).feed()
+            return ''.join([EventsICal(b.getObject())()
                                     for b in brains])
         else:
             return ''.join([b.getObject().getICal() for b in brains])
+
+class StandardEventSource(object):
+    """Event source that display an event
+    """
+    implements(interfaces.IEventSource)
+    adapts(IEvent, Interface)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def getObjectExtraClass(self):
+        extraclasses = getAdapters((self.context, self.request),
+                                 interfaces.ISolgemaFullcalendarExtraClass)
+        classes = []
+        for name, source in extraclasses:
+            classes.append(source.extraClass())
+        if not classes:
+            return ''
+        return ' '.join(classes)
+
+    def getEvents(self):
+        context = self.context
+        eventPhysicalPath = '/'.join(context.getPhysicalPath())
+        wft = getToolByName(context, 'portal_workflow')
+        state = wft.getInfoFor(context, 'review_state')
+        member = context.portal_membership.getAuthenticatedMember()
+        editable = bool(member.has_permission('Modify portal content', context))
+        allday = (context.end() - context.start()) > 1.0
+
+        adapted = interfaces.ISFBaseEventFields(context, None)
+        if adapted:
+            allday = adapted.allDay
+        if hasattr(context, 'whole_day'):
+            allday = context.whole_day
+        extraClass = self.getObjectExtraClass()
+        typeClass = ' type-' + context.portal_type
+        
+        if hasPloneAppEvent:
+            occurences = context.occurrences()
+        else:
+            occurences = [(context.start().rfc822(), context.end().rfc822())]
+        events = []
+        for occurence_start, occurence_end in occurences:
+            events.append({
+                "status": "ok",
+                "id": "UID_%s" % (context.UID()),
+                "title": context.Title(),
+                "description": context.Description(),
+                "start": hasPloneAppEvent and occurence_start.isoformat() or occurence_start,
+                "end": hasPloneAppEvent and occurence_end.isoformat() or occurence_end,
+                "url": context.absolute_url(),
+                "editable": editable,
+                "allDay": allday,
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+typeClass+extraClass
+                })
+        return events
+
 

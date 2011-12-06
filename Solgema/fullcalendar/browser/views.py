@@ -211,8 +211,7 @@ class SolgemaFullcalendarView(BrowserView):
     def displayNoscriptList(self):
         return getattr(self.calendar, 'displayNoscriptList', True)
 
-
-class SolgemaFullcalendarJS(BrowserView):
+class SolgemaFullcalendarEventJS(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
 
     implements(interfaces.ISolgemaFullcalendarJS)
@@ -220,7 +219,6 @@ class SolgemaFullcalendarJS(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
         self.portal = getToolByName(self.context, 'portal_url').getPortalObject()
         self._ts = getToolByName(context, 'translation_service')
         self.portal_language = self.getPortalLanguage()
@@ -232,40 +230,20 @@ class SolgemaFullcalendarJS(BrowserView):
         return lang
 
     def getFirstDay(self):
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return self.calendar.firstDay
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
-            return newdate.isoweekday() - 1
+        now = datetime.datetime.now()
+        return now.isoweekday() - 1
 
     def getYear(self):
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().year
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
-            return int(newdate.year)
+        now = datetime.datetime.now()
+        return int(now.year)
 
     def getMonthNumber(self):
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().month
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
-            return int(newdate.month)
+        now = datetime.datetime.now()
+        return int(now.month)
 
     def getDate(self):
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().day
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
-            return int(newdate.day)
+        now = datetime.datetime.now()
+        return int(now.day)
 
     def getMonthsNames(self):
         return [PLMF(self._ts.month_msgid(m), default=self._ts.month_english(m)) for m in [a+1 for a in range(12)]]
@@ -277,8 +255,7 @@ class SolgemaFullcalendarJS(BrowserView):
         return [PLMF(self._ts.day_msgid(d), default=self._ts.weekday_english(d)) for d in range(7)]
 
     def getWeekdaysNamesAbbr(self):
-        format = getattr(self.calendar, 'shortDayNameFormat', 'a')
-        return [PLMF(self._ts.day_msgid(d, format=format), default=self._ts.weekday_english(d, format='a')) for d in range(7)]
+        return [PLMF(self._ts.day_msgid(d, format='a'), default=self._ts.weekday_english(d, format='a')) for d in range(7)]
 
     def getTodayTranslation(self):
         return DTMF('Today', 'Today')
@@ -324,13 +301,10 @@ class SolgemaFullcalendarJS(BrowserView):
             return "{month: 'ddd', week: 'ddd M/d', day: 'dddd M/d'}"
 
     def getTargetFolder(self):
-        target_folder = getattr(self.calendar, 'target_folder', None)
-        addContext = target_folder and self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder) or aq_parent(aq_inner(self.context))
-        return addContext.absolute_url()
+        return aq_parent(aq_inner(self.context)).absolute_url()
 
     def getHeaderRight(self):
-        headerRight = getattr(self.calendar, 'headerRight', ['month', 'agendaWeek', 'agendaDay'])
-        return ','.join(headerRight)
+        return ['month', 'agendaWeek', 'agendaDay']
 
     def getPloneVersion(self):
         portal_migration = getToolByName(self.context, 'portal_migration')
@@ -338,6 +312,94 @@ class SolgemaFullcalendarJS(BrowserView):
             return portal_migration.getSoftwareVersion()
         except:
             return portal_migration.getInstanceVersion()
+    
+    def slotMinutes(self):
+        return '30'
+
+    def defaultCalendarView(self):
+        return 'agendaWeek'
+
+    def calendarWeekends(self):
+        return 'true'
+
+    def firstHour(self):
+        return '-1'
+
+    def minTime(self):
+        return '0'
+
+    def maxTime(self):
+        return '24'
+
+    def allDaySlot(self):
+        return 'false'
+
+    def calendarHeight(self):
+        return None
+
+    def getTopicRelativeUrl(self):
+        return '/'+self.context.absolute_url(relative=1)
+
+    def getTopicAbsoluteUrl(self):
+        return self.context.absolute_url()
+
+    def __call__(self):
+        self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
+        return super(SolgemaFullcalendarEventJS, self).__call__()
+        
+class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
+    """Solgema Fullcalendar Javascript variables"""
+
+    implements(interfaces.ISolgemaFullcalendarJS)
+
+    def __init__(self, context, request):
+        super(SolgemaFullcalendarJS, self).__init__(context, request)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+
+    def getFirstDay(self):
+        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
+            return self.calendar.firstDay
+        else:
+            now = datetime.datetime.now()
+            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
+            newdate = now+delta
+            return newdate.isoweekday() - 1
+
+    def getYear(self):
+        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
+            return datetime.datetime.now().year
+        else:
+            now = datetime.datetime.now()
+            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
+            newdate = now+delta
+            return int(newdate.year)
+
+    def getMonthNumber(self):
+        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
+            return datetime.datetime.now().month
+        else:
+            now = datetime.datetime.now()
+            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
+            newdate = now+delta
+            return int(newdate.month)
+
+    def getDate(self):
+        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
+            return datetime.datetime.now().day
+        else:
+            now = datetime.datetime.now()
+            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
+            newdate = now+delta
+            return int(newdate.day)
+
+    def getTargetFolder(self):
+        target_folder = getattr(self.calendar, 'target_folder', None)
+        addContext = target_folder and self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder) or aq_parent(aq_inner(self.context))
+        return addContext.absolute_url()
+
+    def getHeaderRight(self):
+        headerRight = getattr(self.calendar, 'headerRight', ['month', 'agendaWeek', 'agendaDay'])
+        return ','.join(headerRight)
 
     def getTopicRelativeUrl(self):
         if CMFPloneUtils.isDefaultPage(self.context, self.request):
@@ -347,10 +409,30 @@ class SolgemaFullcalendarJS(BrowserView):
 
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
+    
+    def slotMinutes(self):
+        return getattr(self.calendar, 'slotMinutes', '30')
 
-    def __call__(self):
-        self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
-        return super(SolgemaFullcalendarJS, self).__call__()
+    def defaultCalendarView(self):
+        return getattr(self.calendar, 'defaultCalendarView', 'agendaWeek')
+
+    def calendarWeekends(self):
+        return getattr(self.calendar, 'weekends', True) and 'true' or 'false'
+
+    def firstHour(self):
+        return getattr(self.calendar, 'firstHour', '-1')
+
+    def minTime(self):
+        return getattr(self.calendar, 'minTime', '0')
+
+    def maxTime(self):
+        return getattr(self.calendar, 'maxTime', '24')
+
+    def allDaySlot(self):
+        return getattr(self.calendar, 'allDaySlot', False) and 'true' or 'false'
+
+    def calendarHeight(self):
+        return getattr(self.calendar, 'calendarHeight', '600')
 
 
 class SolgemaFullcalendarEvents(BrowserView):

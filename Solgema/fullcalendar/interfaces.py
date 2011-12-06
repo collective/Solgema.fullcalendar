@@ -300,3 +300,4 @@ class IEventSource(Interface):
     def getIcal(self):
         """Ical export of events
         """
+

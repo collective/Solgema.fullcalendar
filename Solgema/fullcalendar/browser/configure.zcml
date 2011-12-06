@@ -3,6 +3,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:gs="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="Solgema.fullcalendar">
 
    <include package="Products.CMFCore" file="configure.zcml" />
@@ -12,7 +13,28 @@
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_view"
       class=".views.SolgemaFullcalendarView"
-      template="view.pt"
+      template="topicview.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR VIEW FOR ATEVENT-->
+  <browser:page
+      for="Products.ATContentTypes.interfaces.event.IATEvent"
+      name="solgemafullcalendar_view"
+      class=".views.SolgemaFullcalendarView"
+      template="eventview.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR VIEW FOR ATEVENT-->
+  <browser:page
+      zcml:condition="installed plone.app.events"
+      for="plone.app.events.interfaces.IEvent"
+      name="solgemafullcalendar_view"
+      class=".views.SolgemaFullcalendarView"
+      template="eventview.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
@@ -21,7 +43,26 @@
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_vars.js"
-      class=".views.SolgemaFullcalendarJS"
+      class=".views.SolgemaFullcalendarTopicJS"
+      template="vars.js.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="Products.ATContentTypes.interfaces.event.IATEvent"
+      name="solgemafullcalendar_vars.js"
+      class=".views.SolgemaFullcalendarEventJS"
+      template="vars.js.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      zcml:condition="installed plone.app.events"
+      for="plone.app.events.interfaces.IEvent"
+      name="solgemafullcalendar_vars.js"
+      class=".views.SolgemaFullcalendarEventJS"
       template="vars.js.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
       permission="zope.Public"
@@ -39,6 +80,23 @@
   <!-- THE CALENDAR EVENT QUERY AND RENDERED AS JSON -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      name="solgemafullcalendarevents"
+      class=".views.SolgemaFullcalendarEvents"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="Products.ATContentTypes.interfaces.event.IATEvent"
+      name="solgemafullcalendarevents"
+      class=".views.SolgemaFullcalendarEvents"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      zcml:condition="installed plone.app.events"
+      for="plone.app.events.interfaces.IEvent"
       name="solgemafullcalendarevents"
       class=".views.SolgemaFullcalendarEvents"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
@@ -174,6 +232,9 @@
 
   <adapter
        factory=".adapters.TopicEventSource" />
+
+  <adapter
+       factory=".adapters.StandardEventSource" />
 
   <!-- Actions -->
   <browser:page
