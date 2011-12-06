@@ -20,7 +20,7 @@
 
   <!-- THE CALENDAR VIEW FOR ATEVENT-->
   <browser:page
-      for="Products.ATContentTypes.interfaces.event.IATEvent"
+      for="Products.ATContentTypes.interfaces.IATEvent"
       name="solgemafullcalendar_view"
       class=".views.SolgemaFullcalendarView"
       template="eventview.pt"
