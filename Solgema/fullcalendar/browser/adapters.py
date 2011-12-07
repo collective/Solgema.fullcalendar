@@ -419,7 +419,9 @@ class StandardEventSource(object):
         typeClass = ' type-' + context.portal_type
         
         if hasPloneAppEvent:
-            occurences = context.occurrences()
+            start  = DateTime(self.request.get('start'))
+            end = DateTime(self.request.get('end'))
+            occurences = context.occurrences(limit_start=start, limit_end=end)
         else:
             occurences = [(context.start().rfc822(), context.end().rfc822())]
         events = []
