@@ -84,15 +84,20 @@ class SFDisplayAddMenu(BaseActionView):
         query = self.context.buildQuery()
         copyDict = getCopyObjectsUID(self.request)
 
-        #Check whether our context actually has a query and if so, whether
-        #it has a Type criterion specified.
-        if query and query.has_key('Type'):
-            if isinstance(query['Type'], (list, tuple)) and len(query['Type'])>1:
+        # The 'Item Type' criteria uses the 'Type' index while the 'Item Type
+        # (internal)' criteria uses the 'portal_type' index.
+        #
+        # We need to check for both, portal_type first, because it's more
+        # specific than 'Type', which just indexes the content type's Title
+        # property (which can be non-unique).
+        index = query and query.get('portal_type') or query.get('Type') 
+        if index:
+            if isinstance(index, (list, tuple)) and len(index) > 1:
                 return json.dumps({'display': True})
-            else:
-                portal_type = isinstance(query['Type'], (tuple, list)) and query['Type'][0] or query['Type']
-                if copyDict and portal.restrictedTraverse(copyDict['url']).portal_type == portal_type:
-                    return json.dumps({'display': True})
+
+            portal_type = isinstance(index, (tuple, list)) and index[0] or index
+            if copyDict and portal.restrictedTraverse(copyDict['url']).portal_type == portal_type:
+                return json.dumps({'display': True})
         else:
             portal_type = 'Event'
 
@@ -123,7 +128,7 @@ class SFAddMenu(BaseActionView):
         self.startDate = self.request.get('startDate', '')
         self.endDate = self.request.get('endDate', '')
         self.query = self.context.buildQuery()
-        self.addableTypes = isinstance(self.query.get('Type', ['Event',]), (tuple, list)) and self.query.get('Type', ['Event',]) or [self.query.get('Type'),'Event']
+        self.addableTypes = self.query and self.query.get('portal_type') or self.query.get('Type') or ['Event',]
 
     def getMenuFactory(self):
         idnormalizer = queryUtility(IIDNormalizer)
@@ -168,7 +173,7 @@ class SFAddMenu(BaseActionView):
         """Return menu item entries in a TAL-friendly form."""
         copyDict = getCopyObjectsUID(self.request)
         query = self.context.buildQuery()
-        portal_type = query.get('Type', None)
+        portal_type = query and query.get('portal_type') or query.get('Type', None)
         portal_types = []
         if not copyDict:
             return []
@@ -324,7 +329,6 @@ class SFJsonEventPaste(BaseActionView):
                                interfaces.ISolgemaFullcalendarEventDict)()
 
     def __call__(self):
-
         msg=PLMF(u'Copy or cut one or more items to paste.')
         if self.context.cb_dataValid:
             try:
@@ -336,7 +340,7 @@ class SFJsonEventPaste(BaseActionView):
                 newObject = getattr(self.context, pasteList[0]['new_id'])
                 startDate = self.startDate
                 if self.EventAllDay:
-                    startDate = DateTime(self.start()).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
+                    startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
 
                 newObject.setStartDate(DateTime(startDate))
                 newObject.setEndDate(newObject.start() + intervalle)
@@ -481,3 +485,4 @@ class SolgemaFullcalendarActionGuards(BaseActionView):
     def is_calendar_layout(self):
         selected_layout = getattr(self.context, 'layout', '')
         return selected_layout == 'solgemafullcalendar_view'
+
