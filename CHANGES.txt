@@ -1,5 +1,12 @@
 Changelog
 =========
+
+(unreleased)
+-------------
+
+- Add Italian translation
+  [giacomos]
+
 2.0.2 (2011-11-28)
 ------------------
 
