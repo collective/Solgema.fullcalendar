@@ -316,7 +316,7 @@ class TopicEventSource(object):
         topicCriteria = listQueryTopicCriteria(context)
         args = {}
         if not query:
-            return []
+            return ({}, [])
 
         if 'Type' in query.keys():
             items = getCookieItems(request, 'Type')
