@@ -56,6 +56,7 @@ function readCookie(name) {
           title: jq(this).html(),
           close: function () {
             jq('#calendar').fullCalendar('unselect');
+            jq('#kss-spinner').hide();
           }
         });
         jq(closeContextualContentMenu);
@@ -104,6 +105,7 @@ function readCookie(name) {
         title: title,
         close: function () {
           jq('#calendar').fullCalendar('unselect');
+          jq('#kss-spinner').hide();
         }
       });
     },
@@ -123,6 +125,7 @@ function readCookie(name) {
         title: SolgemaFullcalendarVars.editEventText,
         close: function () {
           jq('#calendar').fullCalendar('unselect');
+          jq('#kss-spinner').hide();
         }
       });
       jq(closeContextualContentMenu);
