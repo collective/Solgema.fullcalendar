@@ -8,6 +8,15 @@
 
    <include package="Products.CMFCore" file="configure.zcml" />
 
+  <browser:menuItem
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      menu="plone_displayviews"
+      title="Solgema Fullcalendar"
+      action="@@solgemafullcalendar_view"
+      description=""
+      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
+      />
+
   <!-- THE CALENDAR VIEW -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
