@@ -1,8 +1,19 @@
 Changelog
 =========
 
-(unreleased)
+2.0.3 (unreleased)
 -------------
+- Check also for portal_type in the Topic query (not just 'Type').
+  [jcbrand]
+
+- Hide the spinner after closing the add/edit event dialogs.
+  [jcbrand]
+
+- Add a zcml browser:menuItem entry to give the dynamic view a human readable title.
+  [jcbrand]
+
+- Add collective.js.fullcalendar as dependency in  metadata.xml
+  [jcbrand]
 
 - Add Italian translation
   [giacomos]
