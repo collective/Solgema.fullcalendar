@@ -205,7 +205,7 @@
 
   <adapter
        provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEditableFilter"
-       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+       for="*"
        factory=".adapters.SolgemaFullcalendarEditableFilter" />
 
   <adapter
