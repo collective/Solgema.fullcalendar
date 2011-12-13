@@ -230,8 +230,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         return lang
 
     def getFirstDay(self):
-        now = datetime.datetime.now()
-        return now.isoweekday() - 1
+        return 1
 
     def getYear(self):
         now = datetime.datetime.now()
@@ -304,7 +303,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         return aq_parent(aq_inner(self.context)).absolute_url()
 
     def getHeaderRight(self):
-        return ['month', 'agendaWeek', 'agendaDay']
+        return 'month, agendaWeek, agendaDay'
 
     def getPloneVersion(self):
         portal_migration = getToolByName(self.context, 'portal_migration')
