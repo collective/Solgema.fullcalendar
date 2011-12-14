@@ -1,4 +1,5 @@
 from DateTime import DateTime
+import datetime
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
@@ -109,7 +110,9 @@ class SolgemaFullcalendarTopicEventDict(object):
         extraClass = self.getBrainExtraClass(brain)
         if hasPloneAppEvent:
             event = brain.getObject()
-            occurences = event.occurrences()
+            start = DateTime(self.request.get('start'))
+            end = DateTime(self.request.get('end'))
+            occurences = event.occurrences(limit_start=start, limit_end=end)
         else:
             occurences = [(brain.start.rfc822(), brain.end.rfc822())]
         events = []
@@ -126,7 +129,7 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass})
         return events
 
-    def dictFromObject(self, item):
+    def dictFromObject(self, item, args={}):
         eventPhysicalPath = '/'.join(item.getPhysicalPath())
         wft = getToolByName(self.context, 'portal_workflow')
         state = wft.getInfoFor(self.context, 'review_state')
@@ -151,7 +154,9 @@ class SolgemaFullcalendarTopicEventDict(object):
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getObjectExtraClass(item)
         if hasPloneAppEvent:
-            occurences = item.occurrences()
+            start = DateTime(self.request.get('start'))
+            end = DateTime(self.request.get('end'))
+            occurences = item.occurrences(limit_start=start, limit_end=end)
         else:
             occurences = [(item.start().rfc822(), item.end().rfc822())]
         events = []
@@ -170,7 +175,7 @@ class SolgemaFullcalendarTopicEventDict(object):
 
         return events
 
-    def createDict(self, itemsList=[], args={}):
+    def createDict(self, itemsList=[]):
         li = []
 
         eventsFilter = queryAdapter(self.context,
@@ -364,7 +369,7 @@ class TopicEventSource(object):
         brains = self._getBrains(args, filters)
         topicEventsDict = getMultiAdapter((context, self.request),
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
-        result = topicEventsDict.createDict(brains, args)
+        result = topicEventsDict.createDict(brains)
         return result
 
     def getICalObjects(self):
