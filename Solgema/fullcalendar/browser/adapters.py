@@ -1,5 +1,4 @@
 from DateTime import DateTime
-import datetime
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
@@ -175,7 +174,7 @@ class SolgemaFullcalendarTopicEventDict(object):
 
         return events
 
-    def createDict(self, itemsList=[]):
+    def createDict(self, itemsList=[], args={}):
         li = []
 
         eventsFilter = queryAdapter(self.context,
@@ -369,7 +368,7 @@ class TopicEventSource(object):
         brains = self._getBrains(args, filters)
         topicEventsDict = getMultiAdapter((context, self.request),
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
-        result = topicEventsDict.createDict(brains)
+        result = topicEventsDict.createDict(brains, args)
         return result
 
     def getICalObjects(self):
