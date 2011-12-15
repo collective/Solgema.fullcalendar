@@ -210,7 +210,8 @@ class SFAddMenu(BaseActionView):
         pasteAction = [a for a in actions_tool.listActionInfos(object=aq_inner(self.addContext), categories=('object_buttons',)) if a['id'] == 'paste']
 
         plone_utils = getToolByName(self.portal, 'plone_utils')
-
+        
+        context_url = self.addContext.absolute_url()
         for action in pasteAction:
             if action['allowed']:
                 cssClass = 'actionicon-object_buttons-%s' % action['id']
@@ -220,7 +221,7 @@ class SFAddMenu(BaseActionView):
 
                 results.append({ 'title'       : action['title'],
                                  'description' : '',
-                                 'action'      : self.addContext.absolute_url()+'/SFJsonEventPaste?startDate='+self.startDate+self.ReqAllDay,
+                                 'action'      : '%s/SFJsonEventPaste?startDate=%s%s' % (context_url, self.startDate, self.ReqAllDay),
                                  'selected'    : False,
                                  'icon'        : icon,
                                  'extra'       : {'id': action['id'], 'separator': None, 'class': cssClass},
