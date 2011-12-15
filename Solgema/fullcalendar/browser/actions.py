@@ -158,7 +158,8 @@ class SFAddMenu(BaseActionView):
                queryMultiAdapter((addingview, self.request), name=factory) is not None:
                 url = '%s/+/%s' % (baseUrl, factory,)
             else:
-                url = '%s/createSFEvent?type_name=%s&startDate=%s&endDate=%s' % (baseUrl, quote_plus(typeId), self.startDate, self.endDate)
+                url = '%s/createSFEvent?type_name=%s&startDate=%s&endDate=%s' % (baseUrl, 
+                       quote_plus(typeId), quote_plus(str(self.startDate)), self.endDate)
 
             icon = t.getIcon()
             if icon:
@@ -218,10 +219,11 @@ class SFAddMenu(BaseActionView):
                 icon = plone_utils.getIconFor('object_buttons', action['id'], None)
                 if icon:
                     icon = '%s/%s' % (self.addContext.absolute_url(), icon)
-
+                
+                start_date = quote_plus(str(self.startDate))
                 results.append({ 'title'       : action['title'],
                                  'description' : '',
-                                 'action'      : '%s/SFJsonEventPaste?startDate=%s%s' % (context_url, self.startDate, self.ReqAllDay),
+                                 'action'      : '%s/SFJsonEventPaste?startDate=%s%s' % (context_url, start_date, self.ReqAllDay),
                                  'selected'    : False,
                                  'icon'        : icon,
                                  'extra'       : {'id': action['id'], 'separator': None, 'class': cssClass},
