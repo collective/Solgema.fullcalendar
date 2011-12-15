@@ -3,6 +3,9 @@ Changelog
 
 2.0.3 (unreleased)
 -------------
+- Add z3c.autoinclude to target plone. No more need to include zcml in buildout
+  [toutpt]
+
 - Check also for portal_type in the Topic query (not just 'Type').
   [jcbrand]
 
