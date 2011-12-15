@@ -1,5 +1,5 @@
 Solgema.fullcalendar Package Readme
-=========================
+===================================
 
 Overview
 --------
@@ -28,15 +28,21 @@ You can also replace the default event source providing an unnamed IEventSource
 adapter for your specific context or layer.
 
 Installation Note
---------
+-----------------
 You might encounter a conflict error with a wrong version of zope.i18n when buildout.
 If so, edit your buildout.cfg and in the [version] part, ping the zope.i18n version to 3.6
 zope.i18n = 3.6
 
 Customizing the skin
---------
+--------------------
 You can easyly customize de calendar skin:
+
 Go to http://jquieryui.com and click on the Themes tab.
 There you can create or choose an existing theme. After that, download it to your computer by selecting only:
 All UI Core, all UI Interactions and Dialog in UI Widgets. Unzip and copy the css file and all images in you
 portal_skins/custom folder.
+
+You can also try collective.jqueryuithememanager_
+
+.. _collective.jqueryuithememanager: http://plone.org/products/collective.jqueryuithememanager
+
