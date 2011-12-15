@@ -343,7 +343,7 @@ class SFJsonEventPaste(BaseActionView):
 
     def __call__(self):
         msg=PLMF(u'Copy or cut one or more items to paste.')
-        if self.context.cb_dataValid:
+        if self.context.cb_dataValid():
             try:
                 baseObject = self.portal.restrictedTraverse(self.copyDict['url'])
                 baseId = 'UID_' + baseObject.UID()
