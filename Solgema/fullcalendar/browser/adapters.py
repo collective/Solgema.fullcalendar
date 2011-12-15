@@ -15,17 +15,22 @@ from Solgema.fullcalendar.browser.views import listQueryTopicCriteria,\
 
 try:
     from plone.app.event.ical import EventsICal
-    from plone.event.interfaces import IEvent
     HAS_CALEXPORT_SUPPORT = True
 except ImportError:
-    from Products.ATContentTypes.interfaces.event import IATEvent as IEvent
     HAS_CALEXPORT_SUPPORT = False
 
 try:
-    hasPloneAppEvent = True
     from plone.app.event.interfaces import IEvent
+    hasPloneAppEvent = True
 except ImportError:
+    from Products.ATContentTypes.interfaces.event import IATEvent as IEvent
     hasPloneAppEvent = False
+
+try:
+    from plone.app.event.interfaces import IRecurrence
+    HAS_RECURRENCE_SUPPORT = True
+except ImportError:
+    HAS_RECURRENCE_SUPPORT = False
 
 
 class SolgemaFullcalendarCatalogSearch(object):
@@ -107,11 +112,11 @@ class SolgemaFullcalendarTopicEventDict(object):
         typeClass = ' type-'+brain.portal_type
         colorIndex = getColorIndex(self.context, self.request, brain=brain)
         extraClass = self.getBrainExtraClass(brain)
-        if hasPloneAppEvent:
+        if HAS_RECURRENCE_SUPPORT:
             event = brain.getObject()
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = event.occurrences(limit_start=start, limit_end=end)
+            occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
         else:
             occurences = [(brain.start.rfc822(), brain.end.rfc822())]
         events = []
@@ -120,8 +125,8 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (brain.UID),
                 "title": brain.Title,
                 "description": brain.Description,
-                "start": hasPloneAppEvent and occurence_start.isoformat() or occurence_start,
-                "end": hasPloneAppEvent and occurence_end.isoformat() or occurence_end,
+                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
+                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
                 "url": brain.getURL(),
                 "editable": editable,
                 "allDay": allday,
@@ -152,10 +157,10 @@ class SolgemaFullcalendarTopicEventDict(object):
         typeClass = ' type-' + item.portal_type
         colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
         extraClass = self.getObjectExtraClass(item)
-        if hasPloneAppEvent:
+        if HAS_RECURRENCE_SUPPORT:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = item.occurrences(limit_start=start, limit_end=end)
+            occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
         else:
             occurences = [(item.start().rfc822(), item.end().rfc822())]
         events = []
@@ -165,8 +170,8 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (item.UID()),
                 "title": item.Title(),
                 "description": item.Description(),
-                "start": hasPloneAppEvent and occurence_start.isoformat() or occurence_start,
-                "end": hasPloneAppEvent and occurence_end.isoformat() or occurence_end,
+                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
+                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
@@ -355,7 +360,6 @@ class TopicEventSource(object):
     def getEvents(self):
         context = self.context
         request = self.request
-        response = request.response
         args, filters = self._getCriteriaArgs()
         args['start'] = {'query': DateTime(request.get('end')), 'range':'max'}
         args['end'] = {'query': DateTime(request.get('start')), 'range':'min'}
@@ -422,10 +426,10 @@ class StandardEventSource(object):
         extraClass = self.getObjectExtraClass()
         typeClass = ' type-' + context.portal_type
         
-        if hasPloneAppEvent:
+        if HAS_RECURRENCE_SUPPORT:
             start  = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = context.occurrences(limit_start=start, limit_end=end)
+            occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
         else:
             occurences = [(context.start().rfc822(), context.end().rfc822())]
         events = []
@@ -435,8 +439,8 @@ class StandardEventSource(object):
                 "id": "UID_%s" % (context.UID()),
                 "title": context.Title(),
                 "description": context.Description(),
-                "start": hasPloneAppEvent and occurence_start.isoformat() or occurence_start,
-                "end": hasPloneAppEvent and occurence_end.isoformat() or occurence_end,
+                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
+                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
                 "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,

@@ -3,6 +3,10 @@ Changelog
 
 2.0.3 (unreleased)
 -------------
+
+- Reccurence support uses adapter.
+  [thomasdesvenain]
+
 - Add z3c.autoinclude to target plone. No more need to include zcml in buildout
   [toutpt]
 
