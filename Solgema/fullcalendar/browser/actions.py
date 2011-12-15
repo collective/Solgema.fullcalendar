@@ -370,7 +370,7 @@ class SFJsonEventPaste(BaseActionView):
                 msg=PLMF(u'Disallowed to paste item(s).')
             except (Unauthorized, 'Unauthorized'):
                 msg=PLMF(u'Unauthorized to paste item(s).')
-            except: # fallback
+            except CopyError: # fallback
                 msg=PLMF(u'Paste could not find clipboard content.')
 
         return json.dumps({'status':'failure',
