@@ -10,6 +10,10 @@ Changelog
 - Reccurence support uses adapter.
   [thomasdesvenain]
 
+- Added solgemafullcalendar_view for events also. (very useful with
+  recurring events with a lot of occurrences)
+  [fmoret]
+
 - Add z3c.autoinclude to target plone. No more need to include zcml in buildout
   [toutpt]
 
