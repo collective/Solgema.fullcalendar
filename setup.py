@@ -30,7 +30,7 @@ setup(name='Solgema.fullcalendar',
           'z3c.form',
           'collective.js.colorpicker',
           'collective.js.fullcalendar>=1.5.2.1',
-          'collective.js.jqueryui',
+          'collective.js.jqueryui>=1.8.16.4',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

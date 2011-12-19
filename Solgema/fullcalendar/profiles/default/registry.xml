@@ -1,0 +1,13 @@
+<registry>
+    <records interface="collective.js.jqueryui.controlpanel.IJQueryUIPlugins">
+      <value key="ui_core">True</value>
+      <value key="ui_widget">True</value>
+      <value key="ui_draggable">True</value>
+      <value key="ui_droppable">True</value>
+      <value key="ui_dialog">True</value>
+    </records>
+    <records interface="collective.js.jqueryui.controlpanel.IJQueryUICSS">
+      <value key="css">True</value>
+      <value key="patch">True</value>
+    </records>
+</registry>

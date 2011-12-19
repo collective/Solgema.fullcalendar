@@ -32,6 +32,9 @@ Changelog
 - Add Italian translation
   [giacomos]
 
+- Add needed jqueryui plugins explicitly using registry.xml step
+  [toutpt]
+
 2.0.2 (2011-11-28)
 ------------------
 
