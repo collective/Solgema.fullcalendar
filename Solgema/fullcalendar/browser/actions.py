@@ -159,7 +159,7 @@ class SFAddMenu(BaseActionView):
                 url = '%s/+/%s' % (baseUrl, factory,)
             else:
                 url = '%s/createSFEvent?type_name=%s&startDate=%s&endDate=%s' % (baseUrl, 
-                       quote_plus(typeId), quote_plus(str(self.startDate)), self.endDate)
+                       quote_plus(typeId), quote_plus(str(self.startDate)), quote_plus(str(self.endDate)))
 
             icon = t.getIcon()
             if icon:
