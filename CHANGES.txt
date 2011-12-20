@@ -35,6 +35,9 @@ Changelog
 - Add needed jqueryui plugins explicitly using registry.xml step
   [toutpt]
 
+_ Add Nederlands translation
+  [cirb] 
+
 2.0.2 (2011-11-28)
 ------------------
 

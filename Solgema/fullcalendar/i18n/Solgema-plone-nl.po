@@ -1,0 +1,278 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2010-08-06 20:01+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Plone Netherlands <plone-nl@lists.plone.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language-Code: nl\n"
+"Language-Name: Nederlands\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+
+msgid "solgemafullcalendar_view"
+msgstr "Kalender"
+
+#. Default: "all-day"
+#: ../browser/views.py:296
+msgid "Allday"
+msgstr "Hele dag"
+
+#. Default: "Calendar"
+#: ../browser/content.py:39
+msgid "Calendar"
+msgstr "Kalender"
+
+#: ../profiles/default/actions.xml
+#: ../upgrades/profiles/upgrade16/actions.xml
+#: ../upgrades/profiles/upgrade19/actions.xml
+msgid "Calendar properties"
+msgstr "Eigenschappen van het kalender"
+
+#. Default: "Colors"
+#: ../browser/content.py:68
+msgid "Colors"
+msgstr "Kleuren"
+
+#. Default: "Day"
+#: ../browser/views.py:293
+msgid "Day"
+msgstr "Dag"
+
+#. Default: "Month"
+#: ../browser/views.py:287
+#: ../vocabularies.py:29
+msgid "Month"
+msgstr "Maand"
+
+#: ../skins/solgemafullcalendar/SFValidate_integrity.cpy:19
+msgid "Please correct the indicated errors."
+msgstr "Gelieve de aangeduide fouten te corrigeren."
+
+#. Default: "Query"
+#: ../browser/content.py:59
+msgid "Query"
+msgstr "Website doorzoeken"
+
+#: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
+msgid "Reschedule"
+msgstr "Opnieuw plannen"
+
+#: ../widgets/widgets.py:93
+msgid "The entered value is not a valid dict."
+msgstr "De ingevoerde waarde is geen geldig woordenboek."
+
+#: ../skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
+msgid "Versioning for this file has been disabled because it is too large"
+msgstr "Het bijhouden van versies voor dit bestand werd uitgeschakeld omdat het te groot is."
+
+#. Default: "Week"
+#: ../browser/views.py:290
+msgid "Week"
+msgstr "Week"
+
+#. Default: "abbreviated"
+#: ../vocabularies.py:59
+msgid "abbreviated"
+msgstr "afgekort"
+
+#. Default: "Add New Event"
+#: ../browser/views.py:299
+msgid "addNewEvent"
+msgstr "Een nieuw evenement toevoegen"
+
+#. Default: "agendaDay"
+#: ../vocabularies.py:33
+msgid "agendaDay"
+msgstr "Agenda dag"
+
+#. Default: "agendaWeek"
+#: ../vocabularies.py:32
+msgid "agendaWeek"
+msgstr "Agenda week"
+
+#. Default: "basicDay"
+#: ../vocabularies.py:31
+msgid "basicDay"
+msgstr "Basis dag"
+
+#. Default: "basicWeek"
+#: ../vocabularies.py:30
+msgid "basicWeek"
+msgstr "Basis week"
+
+#. Default: "Edit Event"
+#: ../browser/views.py:302
+msgid "editEvent"
+msgstr "Evenement wijzigen"
+
+#. Default: "Check this box to display All day option"
+#: ../interfaces.py:263
+msgid "help_allDay"
+msgstr "Dit veld aanvinken om de optie \"Volledige dag\" te tonen"
+
+#: ../interfaces.py:208
+msgid "help_availableCriterias"
+msgstr "Kies de criteria van de verzameling welke onderaan de kalender getoond zullen worden."
+
+#: ../interfaces.py:203
+msgid "help_calendarHeight"
+msgstr "Voer de hoogte van de kalender in, in pixels. (voorbeeld: 600)"
+
+#: ../interfaces.py:152
+msgid "help_defaultCalendarView"
+msgstr "Standaardweergave van de kalender"
+
+#: ../interfaces.py:229
+msgid "help_displayNoscriptList"
+msgstr "Indien aangevinkt, en wanneer javascript niet actiev is, zal een lijst van evenementen getoond worden in plaats van de kalender. Te gebruiken wanneer de inhoud van de kalender dvor zoekmotoren beschikbaar moet zijn (vb. googlebot)."
+
+#: ../interfaces.py:219
+msgid "help_displayUndefined"
+msgstr "Toon het veld \"Niet gedefinieerd\" bij het zoeken onderaan de kalender. Dit laat toe om te zoeken naar inhoud van niet aangegeven velden."
+
+#: ../interfaces.py:173
+msgid "help_firstDay"
+msgstr "Toon kalender vanaf vandaag"
+
+#: ../interfaces.py:184
+msgid "help_firstHour"
+msgstr "Bepaalt het eerste uur dat in de kalender wordt weergegeven (bijvoorbeeld '5', een cijfer van 0 tot 23). Als dit cijfer voorafgegaan wordt door een \"+\" of een \"-\", dan zal het lopende uur vermeerderd of verminderd worden met het opgegeven aantal."
+
+#: ../interfaces.py:163
+msgid "help_headerRight"
+msgstr "Inhoud van het opschrift rechts van de kalender"
+
+#: ../interfaces.py:189
+msgid "help_minTime"
+msgstr "Bepaalt het eerste zichtbaar uur in de kalender (bijvoorbeeld '5' of '5:30')."
+
+#: ../interfaces.py:224
+msgid "help_overrideStateForAdmin"
+msgstr "Houd geen rekening met het status-criterium voor de beheerders."
+
+#: ../interfaces.py:214
+msgid "help_queryColors"
+msgstr "U kunt een kleur toekennen aan elke waarde van de zoekcriteria."
+
+#: ../interfaces.py:179
+msgid "help_relativeFirstDay"
+msgstr "Toon de kalender vanaf een aantal dagen voor of na de huidige datum. (gebruik het formaat '+1' of '-1')"
+
+#: ../interfaces.py:158
+msgid "help_shortDayNameFormat"
+msgstr "Kies het formaat van de korte naam van de dag (afgekort = 3 karakters, kort = 2 karakters)."
+
+#: ../interfaces.py:145
+msgid "help_slotMinutes"
+msgstr "Bepaalt, in minuten, de onderverdeling van een weergegeven uur"
+
+#: ../interfaces.py:197
+msgid "help_target_folder"
+msgstr "Kies in welke map de nieuwe inhoud die aan de kalender werd toegevoegd gecreëerd zal worden. Als u niets aanduidt worden de evenementen gecreëerd in de map waarin deze verzameling zit."
+
+#: ../interfaces.py:168
+msgid "help_weekends"
+msgstr "Zaterdag en Zondag weergeven"
+
+#: ../browser/icalexport.py:22
+msgid "iCal export"
+msgstr "Export iCal"
+
+#. Default: "Display All day option"
+#: ../interfaces.py:262
+msgid "label_allDay"
+msgstr "Hele dag"
+
+#: ../interfaces.py:148
+msgid "label_allDaySlot"
+msgstr "Het vakje \"Hele dag\" weergeven"
+
+#: ../interfaces.py:206
+msgid "label_availableCriterias"
+msgstr "Zoekcriteria"
+
+#: ../interfaces.py:201
+msgid "label_calendarHeight"
+msgstr "Hoogte van de kalender"
+
+#: ../interfaces.py:150
+msgid "label_defaultCalendarView"
+msgstr "Standaardweergave"
+
+#: ../interfaces.py:227
+msgid "label_displayNoscriptList"
+msgstr "Lijst van evenementen zonder javascript"
+
+#: ../interfaces.py:217
+msgid "label_displayUndefined"
+msgstr "Niet gedefinieerd"
+
+#: ../interfaces.py:171
+msgid "label_firstDay"
+msgstr "Eerste dag van de week"
+
+#: ../interfaces.py:182
+msgid "label_firstHour"
+msgstr "Eerste weergegeven uur"
+
+#: ../interfaces.py:162
+msgid "label_headerRight"
+msgstr "Opschrift rechts"
+
+#: ../interfaces.py:192
+msgid "label_maxTime"
+msgstr "Laatste zichtbaar uur"
+
+#: ../interfaces.py:187
+msgid "label_minTime"
+msgstr "Eerste zichtbaar uur"
+
+#: ../interfaces.py:222
+msgid "label_overrideStateForAdmin"
+msgstr "Overschrijf het status-criterium"
+
+#: ../interfaces.py:212
+msgid "label_queryColors"
+msgstr "kleuren"
+
+#: ../interfaces.py:177
+msgid "label_relativeFirstDay"
+msgstr "Eerste relatieve dag"
+
+#: ../interfaces.py:156
+msgid "label_shortDayNameFormat"
+msgstr "Formaat van de korte naam van de dagen"
+
+#: ../interfaces.py:143
+msgid "label_slotMinutes"
+msgstr "Onderverdeling"
+
+#: ../interfaces.py:196
+msgid "label_target_folder"
+msgstr "creatiemap"
+
+#: ../browser/query.pt:48
+msgid "label_undefined"
+msgstr "Niet gedefinieerd"
+
+#: ../interfaces.py:167
+msgid "label_weekends"
+msgstr "Weekends"
+
+#. Default: "short"
+#: ../vocabularies.py:60
+msgid "short"
+msgstr "Kort"
+
+#. Default: "Download this calendar in iCal format"
+#: ../browser/icalexport.py:19
+msgid "title_add_to_ical"
+msgstr "Exporter de kalender in iCal-formaat"
+
+
+
