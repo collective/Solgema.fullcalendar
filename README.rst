@@ -27,11 +27,15 @@ needed by fullcalendar.js API.
 You can also replace the default event source providing an unnamed IEventSource
 adapter for your specific context or layer.
 
-Installation Note
------------------
-You might encounter a conflict error with a wrong version of zope.i18n when buildout.
-If so, edit your buildout.cfg and in the [version] part, ping the zope.i18n version to 3.6
+Installation Note for Plone 3.x
+-------------------------------
+You might encounter a conflict error with a wrong version of zope.i18n and zope.schema when buildout.
+If so, edit your buildout.cfg and in the [version] part like that:
+
+[versions]
+...
 zope.i18n = 3.6
+zope.schema = 3.8.1
 
 Customizing the skin
 --------------------
