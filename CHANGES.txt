@@ -4,6 +4,9 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
+- Fixed ical export on collection.
+  [vincentfretin]
+
 - Prevent that all pages become non-cacheable.
   SolgemaFullcalendarActionGuards wrongly inherited from BaseActionView which
   sets "Pragma: no-cache".

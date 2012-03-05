@@ -75,7 +75,7 @@ class ICalExport(BrowserView):
                 events = []
                 for source in self.sources:
                     events += source.getICalObjects()
-                return construct_calendar(context, self.sources).as_string()
+                return construct_calendar(context, events).as_string()
             else:
                 events = [a.getObject() for a in self.events]
                 return construct_calendar(context, events).as_string()
