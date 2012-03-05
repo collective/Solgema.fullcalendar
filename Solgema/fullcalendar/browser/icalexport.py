@@ -16,7 +16,6 @@ from plone.app.layout.viewlets.common import ViewletBase
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.interfaces import IEventSource
 
-from Products.CMFPlone import PloneMessageFactory as PMF
 
 class ICalExportButton(ViewletBase):
 
@@ -67,7 +66,7 @@ class ICalExport(BrowserView):
         request.RESPONSE.setHeader('Content-Disposition', 'attachment; filename="%s"' % name)
         request.RESPONSE.write(self.feeddata())
 
-    
+
     def feeddata(self):
         context = self.context
         if hasPloneAppEvent:
@@ -99,5 +98,5 @@ class ICalExport(BrowserView):
 
                 data += calendarconstants.ICS_FOOTER
                 return str(data)
-            
+
     __call__ = render
