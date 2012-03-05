@@ -4,7 +4,7 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Fixed ical export on collection.
+- Fixed ical export on collection with plone.app.event installed.
   [vincentfretin]
 
 - Prevent that all pages become non-cacheable.
