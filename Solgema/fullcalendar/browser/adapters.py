@@ -264,7 +264,9 @@ class ColorIndexGetter(object):
         if not criteriaItems:
             return colorIndex
 
-        selectedItems = getCookieItems(request, criteriaItems['name'])
+        props = getToolByName(self.context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+        selectedItems = getCookieItems(request, criteriaItems['name'], charset)
         if not selectedItems:
             selectedItems = criteriaItems['values']
 
@@ -327,8 +329,11 @@ class TopicEventSource(object):
         if not query:
             return ({}, [])
 
+        props = getToolByName(self.context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+
         if 'Type' in query.keys():
-            items = getCookieItems(request, 'Type')
+            items = getCookieItems(request, 'Type', charset)
             if items:
                 args['Type'] = items
             else:
@@ -346,7 +351,7 @@ class TopicEventSource(object):
             if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteria.Field():
                 args[criteria.Field()] = query[criteria.Field()]
             elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
-                items = getCookieItems(request, criteria.Field())
+                items = getCookieItems(request, criteria.Field(), charset)
                 if items and criteria in topicCriteria:
                     if 'undefined' in items:
                         filters.append({'name':criteria.Field(), 'values':items})

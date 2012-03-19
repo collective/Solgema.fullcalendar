@@ -15,10 +15,12 @@ from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
+from Products.CMFPlone.utils import safe_unicode 
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
+
 
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
@@ -131,41 +133,20 @@ def getCriteriaItems(context, request):
     return False
 
 
-def getCookieItems(request, field):
+def getCookieItems(request, field, charset):
     item = request.cookies.get(field, False)
     if not item:
         return False
 
     items = item.find('+') == -1 and item or item.split('+')
-    #it seems that sometimes it's utf-8 encoded and sometimes iso-8859-1.....
+
     if isinstance(items, (list, tuple)):
-        try:
-            items = [a.decode('iso-8859-1') for a in items]
-        except:
-            pass
-
-        try:
-            items = [a.decode('utf-8') for a in items]
-        except:
-            pass
-
-        items = [a.encode('utf-8') for a in items]
+        items = [safe_unicode(a).encode(charset) for a in items]
     else:
-        try:
-            items = items.decode('iso-8859-1')
-        except:
-            pass
-
-        try:
-            items = items.decode('utf-8')
-        except:
-            pass
-
-        items = items.encode('utf-8')
+        items = safe_unicode(items).encode(charset)
         items = [items]
 
     return items
-
 
 def getColorIndex(context, request, eventPath=None, brain=None):
     undefined =  'colorIndex-undefined'

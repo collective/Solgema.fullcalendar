@@ -441,11 +441,28 @@ function readCookie(name) {
         });
         cook.push({'name':keys[x], 'value':value});
       }
+      var form = new Array;
+      var formData = new Array;
+      jq.each(jq('#SFQuery form').find('input, textarea, checkbox'), function(i, elem){ form.push(elem.name); });
+      jq.each(data, function(i, elem){ formData.push(elem.name) });
+      form = form.filter(function(itm,i,form){return i==form.indexOf(itm);});
+      formData = formData.filter(function(itm,i,formData){return i==formData.indexOf(itm);});
+
       jq.each(cook, function(i,elem){
         var path = SolgemaFullcalendarVars.topicRelativeUrl;
+        document.cookie = elem.name+"="+elem.value+'; path='+path;
         if (path.substring(path.length-1,path.length)!='/') path =path+'/';
         document.cookie = elem.name+"="+elem.value+'; path='+path;
       });
+      jq.each(form, function(i,elem){
+        if(jq.inArray(elem, formData) == -1){
+            var path = SolgemaFullcalendarVars.topicRelativeUrl;
+            document.cookie = elem+"="+"'azertyuiop'"+'; path='+path;       // Must have a value, otherwise the portal_catalog can ignore this criterion
+            if (path.substring(path.length-1,path.length)!='/') path =path+'/';
+            document.cookie = elem+"="+"'azertyuiop'"+'; path='+path;
+        }
+      });
+
       if (event.which) calendar.fullCalendar( 'refetchEvents' );
     });
     jq('.fc-header-right a').click( function() {
