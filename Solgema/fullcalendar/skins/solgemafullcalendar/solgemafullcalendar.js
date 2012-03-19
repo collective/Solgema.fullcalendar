@@ -159,7 +159,7 @@ function readCookie(name) {
         jq("#contextualContentMenu a[href*='delete_confirmation']").click( function(event) {
           event.preventDefault();
           jq(closeContextualContentMenu);
-          if (window.confirm("Voulez-vous supprimer cet événement ?")) {
+          if (window.confirm("Voulez-vous supprimer cet événement ?")) {   // TODO: French ui-text in js, is this a joke?
             var href = jq(this).attr('href');
             var eventurl = href.substring(0, href.length-19);
             jq.ajax({
