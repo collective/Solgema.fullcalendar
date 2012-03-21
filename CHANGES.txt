@@ -4,6 +4,9 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
+- Fix infinite recursion error in SolgemaFullcalendarEventJS's __init__ method.
+  [pbauer] 
+
 - Fixed ical export on collection with plone.app.event installed.
   [vincentfretin]
 

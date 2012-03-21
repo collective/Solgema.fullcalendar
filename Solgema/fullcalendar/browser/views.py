@@ -200,15 +200,10 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
+        self.portal = portal_state.portal() 
         self._ts = getToolByName(context, 'translation_service')
-        self.portal_language = self.getPortalLanguage()
-
-    def getPortalLanguage(self):
-        ltool = getToolByName(self.context, 'portal_languages')
-        lang = ltool.getPreferredLanguage()
-        lang = lang[:2]
-        return lang
+        self.portal_language = portal_state.language()
 
     def getFirstDay(self):
         return 1
@@ -331,6 +326,8 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     """Solgema Fullcalendar Javascript variables"""
 
     implements(interfaces.ISolgemaFullcalendarJS)
+    
+    
 
     def __init__(self, context, request):
         super(SolgemaFullcalendarTopicJS, self).__init__(context, request)
