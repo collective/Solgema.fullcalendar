@@ -51,7 +51,7 @@ class ICalExport(BrowserView):
                                                IEventSource)]
         else:
             catalog = getToolByName(context, 'portal_catalog')
-            if 'object_provides' in catalog.indexes():
+            if 'object_provides' in catalog.indexes() and hasPloneAppEvent:
                 query = {'object_provides': IEvent.__identifier__}
             else:
                 query = {'portal_type': 'Event'}
