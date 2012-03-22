@@ -4,14 +4,14 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Fix height of iframe in the popup for adding events in IE.
+  [pbauer] 
+
 - Created New 2.1.0 version as fullcalendar will no more be compatible with Plone under 4.x
   [fmoret]
 
 2.0.3 (unreleased)
 ------------------
-
-- Fix height of iframe in the popup for adding events in IE.
-  [pbauer] 
 
 - Fix infinite recursion error in SolgemaFullcalendarEventJS's __init__ method.
   [pbauer] 
