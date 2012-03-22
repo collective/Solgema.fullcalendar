@@ -10,6 +10,9 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
+- Fix height of iframe in the popup for adding events in IE.
+  [pbauer] 
+
 - Fix infinite recursion error in SolgemaFullcalendarEventJS's __init__ method.
   [pbauer] 
 
