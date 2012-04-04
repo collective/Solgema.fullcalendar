@@ -139,14 +139,23 @@ def getCookieItems(request, field, charset):
         return False
 
     items = item.find('+') == -1 and item or item.split('+')
-
+    final = []
     if isinstance(items, (list, tuple)):
-        items = [safe_unicode(a).encode(charset) for a in items]
+        for item in items:
+            try:
+                item = item.decode('latin1')
+            except:
+                pass
+            final.append( safe_unicode(item).encode(charset) )
     else:
-        items = safe_unicode(items).encode(charset)
-        items = [items]
+        try:
+            items = items.decode('latin1')
+        except:
+            pass
+        final = [safe_unicode(items).encode(charset)]
 
-    return items
+    return final
+
 
 def getColorIndex(context, request, eventPath=None, brain=None):
     undefined =  'colorIndex-undefined'
