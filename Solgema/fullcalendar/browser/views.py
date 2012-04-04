@@ -134,6 +134,9 @@ def getCriteriaItems(context, request):
 
 
 def getCookieItems(request, field, charset):
+    item = request.get(field)
+    if item:
+        return item
     item = request.cookies.get(field, False)
     if not item:
         return False
