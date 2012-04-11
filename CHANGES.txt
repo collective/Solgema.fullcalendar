@@ -4,6 +4,12 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Added DaySplit View which shows the events in seperate columns regarding the selected collection criteria.
+  [fmoret]
+
+- Use eventSources instead of events to get Events. Delegate the event's color attribution to fullcalendar.
+  [fmoret]
+
 - Fix height of iframe in the popup for adding events in IE.
   [pbauer] 
 
