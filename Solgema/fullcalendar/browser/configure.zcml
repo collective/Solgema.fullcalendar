@@ -48,7 +48,7 @@
       />
 
   <browser:page
-      for="Products.ATContentTypes.interfaces.event.IATEvent"
+      for="Products.ATContentTypes.interfaces.IATEvent"
       name="solgemafullcalendar_vars.js"
       class=".views.SolgemaFullcalendarEventJS"
       template="vars.js.pt"
