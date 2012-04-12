@@ -30,9 +30,16 @@ setup(name='Solgema.fullcalendar',
           'z3c.form',
           'collective.js.colorpicker',
           'collective.js.fullcalendar>=1.5.2.1',
-          'collective.js.jqueryui>=1.8.16.4',
+          'collective.js.jqueryui',
           # -*- Extra requirements: -*-
       ],
+      # if you're using Plone 3.3.x
+      # Add Solgema.fullcalendar [Plone3] in the eggs part of your buildout
+      extras_require={
+          'Plone3':[
+              'collective.js.jqueryui<=1.8'
+              ],
+          },
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
