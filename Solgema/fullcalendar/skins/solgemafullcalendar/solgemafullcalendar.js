@@ -589,7 +589,8 @@ function calendarOptions() {
       options['startParam'] = "start:int";
       options['endParam'] = "end:int";
       options['ignoreTimezone'] = false;
-      // we need both eventSources and solgemaSources to be able to swith between views
+      // we need both eventSources and solgemaSources to be able to switch between
+      // normal view and daysplit view
       options['solgemaSources'] = SolgemaFullcalendar.getEventSources();
       options['eventSources'] = options['solgemaSources'];
       options['axisFormat'] = SolgemaFullcalendarVars.axisFormat;
@@ -695,42 +696,54 @@ jq(document).ready(function() {
       jq.each(data, function(i, elem){ formData.push(elem.name) });
       form = form.filter(function(itm,i,form){return i==form.indexOf(itm);});
       formData = formData.filter(function(itm,i,formData){return i==formData.indexOf(itm);});
-
       jq.each(cook, function(i,elem){
         var path = SolgemaFullcalendarVars.topicRelativeUrl;
         document.cookie = elem.name+"="+elem.value+'; path='+path;
         if (path.substring(path.length-1,path.length)!='/') path =path+'/';
         document.cookie = elem.name+"="+elem.value+'; path='+path;
       });
+
       jq.each(form, function(i,elem){
         if(jq.inArray(elem, formData) == -1){
             var path = SolgemaFullcalendarVars.topicRelativeUrl;
-            document.cookie = elem+"="+"'azertyuiop'"+'; path='+path;       // Must have a value, otherwise the portal_catalog can ignore this criterion
+            document.cookie = elem+"="+"'azertyuiop'"+'; path='+path; // Must have a value, otherwise the portal_catalog can ignore this criterion
             if (path.substring(path.length-1,path.length)!='/') path =path+'/';
             document.cookie = elem+"="+"'azertyuiop'"+'; path='+path;
         }
       });
 
-      if (event.which){
-        var curView = calendar.fullCalendar('getView');
-        if (curView.name == 'agendaDaySplit') {
-            var date = jq('#calendar').fullCalendar('getDate');
-            jq('#calendar').fullCalendar('destroy');
-            var options = calendarOptions();
-            options['year'] = date.getFullYear();
-            options['month'] = date.getMonth();
-            options['date'] = date.getDate();
-            options['defaultView'] = 'agendaDaySplit';
-            jq('#calendar').fullCalendar(options);
-        } else {
-          calendar.fullCalendar( 'removeEvents' );
-          calendar.fullCalendar( 'removeEventSource' );
-          calendar.fullCalendar( 'eventSources', []);
-          eventSources = SolgemaFullcalendar.getEventSources();
-          for (var i=0; i<eventSources.length; i++) {
-            calendar.fullCalendar( 'addEventSource', eventSources[i] );
-          }        
+      if (event.which) {
+        var inputs = new Array;
+        var topicAbsoluteUrl = SolgemaFullcalendarVars.topicAbsoluteUrl;
+        jq('#SFQuery input').each( function(i, elem) {
+            inputs.push({'name':jq(elem).attr('name'),
+                         'value':jq(elem).attr('value')});
+        });
+
+        var uncheckeds = new Array;
+        for (var i=0; i<inputs.length; i++) {
+            var found = false;
+            for (var j=0; j<data.length; j++) {
+                if (inputs[i]['name']==data[j]['name'] && inputs[i]['value']==data[j]['value']) found = true;
+            }
+            if (!found) uncheckeds.push(inputs[i]);
         }
+        for (var i=0; i<uncheckeds.length; i++) {
+            var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+uncheckeds[i]['name']+'='+uncheckeds[i]['value'];
+            console.debug(url);
+            calendar.fullCalendar('removeEventSource', {'url':url});
+        }
+
+        var eventSources = SolgemaFullcalendar.getEventSources();
+        calendar.data('fullCalendar').options['solgemaSources'] = eventSources;
+        if (jq(this).attr('name')) {
+            if(jq(this).attr('checked')) {
+                var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+jq(this).attr('name')+'='+jq(this).val();
+                for (var i=0;i<eventSources.length;i++) {
+                    if (eventSources[i]['url']==url) calendar.fullCalendar( 'addEventSource', eventSources[i] );
+                }
+            }
+        }      
       }
       jq('#kss-spinner').hide();
     });
