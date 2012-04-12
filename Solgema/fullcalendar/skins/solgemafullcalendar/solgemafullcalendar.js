@@ -733,7 +733,7 @@ jq(document).ready(function() {
             console.debug(url);
             calendar.fullCalendar('removeEventSource', {'url':url});
         }
-
+        var curView = calendar.fullCalendar('getView');
         var eventSources = SolgemaFullcalendar.getEventSources();
         calendar.data('fullCalendar').options['solgemaSources'] = eventSources;
         if (jq(this).attr('name')) {
@@ -743,7 +743,17 @@ jq(document).ready(function() {
                     if (eventSources[i]['url']==url) calendar.fullCalendar( 'addEventSource', eventSources[i] );
                 }
             }
-        }      
+        }
+        if (curView.name == 'agendaDaySplit') {
+            var date = jq('#calendar').fullCalendar('getDate');
+            var options = calendar.data('fullCalendar').options;
+            jq('#calendar').fullCalendar('destroy');
+            options['year'] = date.getFullYear();
+            options['month'] = date.getMonth();
+            options['date'] = date.getDate();
+            options['defaultView'] = 'agendaDaySplit';
+            jq('#calendar').fullCalendar(options);
+        }
       }
       jq('#kss-spinner').hide();
     });
