@@ -23,14 +23,14 @@ setup(name='Solgema.fullcalendar',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
-          # -*- Extra requirements: -*-
-          'Solgema.ContextualContentMenu',
-          'plone.app.z3cform',
-          'plone.z3cform',
-          'z3c.form',
-          'collective.js.fullcalendar>=1.5.2.1',
-          ],
+            'setuptools',
+            # -*- Extra requirements: -*-
+            'Solgema.ContextualContentMenu',
+            'plone.app.z3cform',
+            'plone.z3cform',
+            'z3c.form',
+            'collective.js.fullcalendar>=1.5.2.1',
+      ],
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
