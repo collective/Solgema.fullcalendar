@@ -33,7 +33,7 @@ setup(name='Solgema.fullcalendar',
           ],
       extra_requires={
           'Plone3':[
-              'collective.js.jqueryui<1.8',
+              'collective.js.jqueryui<=1.8',
               ],
           'Plone4':[
               'collective.js.colorpicker',
