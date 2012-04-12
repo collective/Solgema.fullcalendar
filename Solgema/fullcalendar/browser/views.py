@@ -8,8 +8,10 @@ except:
 from OFS import CopySupport
 from Acquisition import aq_inner, aq_parent
 from zope.interface import implements
+from zope import component
 from zope.component import getMultiAdapter, getAdapters
 from zope.i18nmessageid import MessageFactory
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
@@ -134,14 +136,14 @@ def getCriteriaItems(context, request):
 
 
 def getCookieItems(request, field, charset):
-    item = request.get(field)
-    if item:
-        return item
-    item = request.cookies.get(field, False)
-    if not item:
-        return False
-
-    items = item.find('+') == -1 and item or item.split('+')
+    items = request.form.get(field)
+    if items:
+        return items
+    items = request.cookies.get(field)
+    if not items:
+        return None
+    if isinstance(items, (str, unicode)):
+        items = items.find('+') == -1 and items or items.split('+')
     final = []
     if isinstance(items, (list, tuple)):
         for item in items:
@@ -158,7 +160,6 @@ def getCookieItems(request, field, charset):
         final = [safe_unicode(items).encode(charset)]
 
     return final
-
 
 def getColorIndex(context, request, eventPath=None, brain=None):
     undefined =  'colorIndex-undefined'
@@ -255,6 +256,9 @@ class SolgemaFullcalendarEventJS(BrowserView):
 
     def getDayTranslation(self):
         return _('Day', 'Day')
+
+    def getDaySplitTranslation(self):
+        return _('DaySplit', 'DaySplit')
 
     def getAllDayText(self):
         return _('Allday', 'all-day')
@@ -423,15 +427,49 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     def calendarHeight(self):
         return getattr(self.calendar, 'calendarHeight', '600')
 
+class SFEventSources(SolgemaFullcalendarView):
+
+    implements(interfaces.ISolgemaFullcalendarEventsSources)
+
+    def getColor(self, fieldid, value):
+        colorsDict = self.calendar.queryColors
+        if not colorsDict or not colorsDict.get(fieldid):
+            return None
+        value = str(component.queryUtility(IURLNormalizer).normalize(value))
+        return colorsDict[fieldid].get(value)
+                
+    def __call__(self, *args, **kw):
+        """Render JS eventSources. Separate cookie request in different sources."""
+        self.request.response.setHeader('Content-Type', 'application/x-javascript')
+        criteria = self.getCriteriaClass()
+        props = getToolByName(self.context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+        values = getCookieItems(self.request, criteria, charset)
+        fromCookie = True
+        if values == None:
+            fromCookie = False
+            CriteriaItems = getCriteriaItems(self.context, self.request)
+            values = CriteriaItems and [a for a in CriteriaItems['values'] if a] or []
+            criteria = CriteriaItems['name']
+        eventSources = []
+        if values:
+            for value in values:
+                d = {}
+                if fromCookie:
+                    value = value.decode('utf-8')
+                d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents?'+criteria+'='+value
+                d['color'] = self.getColor(criteria, value)
+                d['title'] = value
+                eventSources.append(d.copy())
+        else:
+            eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
+
+        return json.dumps(eventSources, sort_keys=True)
 
 class SolgemaFullcalendarEvents(BrowserView):
     """Solgema Fullcalendar Update browser view"""
 
     implements(interfaces.ISolgemaFullcalendarEvents)
-
-    def __init__(self, context, request):
-        super(SolgemaFullcalendarEvents, self).__init__(context, request)
-        #self.copyDict = getCopyObjectsUID(request)
 
     def __call__(self, *args, **kw):
         """Render JS Initialization code"""
@@ -476,20 +514,12 @@ class SolgemaFullcalendarColorsCss(BrowserView):
                 selectedItems = criteria.getCriteriaItems()[0][1]
 
             for i in range(len(selectedItems)):
-                cValName = selectedItems[i]
+                cValName = str(component.queryUtility(IURLNormalizer).normalize(selectedItems[i]))
                 if not colorsDict[fieldid].has_key(cValName):
                     continue
 
                 color = colorsDict[fieldid][cValName]
                 if color:
-                    css += '#calendar .%scolorIndex-%s {\n' % (fieldid, str(i))
-                    css += '    border:1px solid %s;\n' % (str(color))
-                    css += '}\n\n'
-                    css += '#calendar .%scolorIndex-%s .fc-event-skin,\n' % (fieldid, str(i))
-                    css += '#calendar .%scolorIndex-%s .fc-event-time {\n' % (fieldid, str(i))
-                    css += '    background-color: %s;\n' % (str(color))
-                    css += '    border-color: %s;\n' % (str(color))
-                    css += '}\n\n'
                     css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
                     css += '    color: %s;\n' % (str(color))
                     css += '}\n\n'
