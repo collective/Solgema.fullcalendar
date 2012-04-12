@@ -129,6 +129,13 @@
 
   <browser:page
       for="*"
+      name="SFEventSources"
+      class=".views.SFEventSources"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="*"
       name="SFJsonEvent"
       class=".actions.SFJsonEvent"
       permission="cmf.ModifyPortalContent"
