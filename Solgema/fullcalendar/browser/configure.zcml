@@ -8,7 +8,7 @@
 
    <include package="Products.CMFCore" file="configure.zcml" />
 
-  <browser:menuItem
+  <browser:menuItem zcml:condition="have plone-4"
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       menu="plone_displayviews"
       title="Solgema Fullcalendar"
@@ -29,7 +29,7 @@
 
   <!-- THE CALENDAR VIEW FOR ATEVENT-->
   <browser:page
-      for="Products.ATContentTypes.interfaces.IATEvent"
+      for="Products.ATContentTypes.interface.IATEvent"
       name="solgemafullcalendar_view"
       class=".views.SolgemaFullcalendarView"
       template="eventview.pt"
@@ -48,7 +48,7 @@
       />
 
   <browser:page
-      for="Products.ATContentTypes.interfaces.IATEvent"
+      for="Products.ATContentTypes.interface.IATEvent"
       name="solgemafullcalendar_vars.js"
       class=".views.SolgemaFullcalendarEventJS"
       template="vars.js.pt"
@@ -85,7 +85,7 @@
       />
 
   <browser:page
-      for="Products.ATContentTypes.interfaces.IATEvent"
+      for="Products.ATContentTypes.interface.IATEvent"
       name="solgemafullcalendarevents"
       class=".views.SolgemaFullcalendarEvents"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
@@ -255,7 +255,7 @@
      />
 
   <browser:page
-      for="Products.ATContentTypes.interfaces.topic.IATTopic"
+      for="Products.ATContentTypes.interface.IATTopic"
       layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
       name="ics_view"
       class=".icalexport.ICalExport"
