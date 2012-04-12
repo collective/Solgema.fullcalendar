@@ -3,10 +3,12 @@ from Acquisition import aq_inner
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
 from zope.component import queryAdapter, adapts, getMultiAdapter, getAdapters
-from Products.ZCatalog.interfaces import ICatalogBrain
-
+try:
+    from Products.ZCatalog.interfaces import ICatalogBrain
+except:
+    ICatalogBrain = Interface
 from Products.CMFCore.utils import getToolByName
-from Products.ATContentTypes.interfaces.topic import IATTopic
+from Products.ATContentTypes.interface import IATTopic
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
@@ -23,7 +25,7 @@ try:
     from plone.app.event.interfaces import IEvent
     hasPloneAppEvent = True
 except ImportError:
-    from Products.ATContentTypes.interfaces.event import IATEvent as IEvent
+    from Products.ATContentTypes.interface import IATEvent as IEvent
     hasPloneAppEvent = False
 
 try:
