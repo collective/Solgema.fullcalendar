@@ -22,7 +22,7 @@ setup(name='Solgema.fullcalendar',
       namespace_packages=['Solgema'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=install_requires=[
+      install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
           'Solgema.ContextualContentMenu',
