@@ -30,7 +30,8 @@ def availableViews( context ):
            ('basicWeek', _('basicWeek', default='basicWeek')),
            ('basicDay', _('basicDay', default='basicDay')),
            ('agendaWeek', _('agendaWeek', default='agendaWeek')),
-           ('agendaDay', _('agendaDay', default='agendaDay'))
+           ('agendaDay', _('agendaDay', default='agendaDay')),
+           ('agendaDaySplit', _('agendaDaySplit', default='Day Split'))
           ]
     return TitledVocabulary.fromTitles( voc )
 
