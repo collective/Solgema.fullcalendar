@@ -235,6 +235,9 @@ class ISolgemaFullcalendarProperties(Interface):
 class ISolgemaFullcalendarEvents(Interface):
     """Solgema Fullcalendar update view interface"""
 
+class ISolgemaFullcalendarEventsSources(Interface):
+    """Solgema Fullcalendar get Events Sources"""
+
 class ISolgemaFullcalendarEditableFilter(Interface):
     """Solgema Fullcalendar update view interface"""
 
@@ -300,4 +303,3 @@ class IEventSource(Interface):
     def getIcal(self):
         """Ical export of events
         """
-
