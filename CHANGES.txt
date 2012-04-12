@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.3 (unreleased)
+2.0.3 (2012-04-12)
 ------------------
 
 - Fix infinite recursion error in SolgemaFullcalendarEventJS's __init__ method.
