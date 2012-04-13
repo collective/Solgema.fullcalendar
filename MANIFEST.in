@@ -1,7 +1,7 @@
-include *
+include *.txt *.rst
 
 recursive-include docs *
-recursive-include Products *
+recursive-include Solgema *
 
 global-exclude *pyc
 exclude .gitignore
