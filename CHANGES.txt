@@ -16,7 +16,7 @@ Changelog
 - Created New 2.1.0 version as fullcalendar will no more be compatible with Plone under 4.x
   [fmoret]
 
-2.0.3 (unreleased)
+2.0.3 (2012-04-12)
 ------------------
 
 - Fix infinite recursion error in SolgemaFullcalendarEventJS's __init__ method.
