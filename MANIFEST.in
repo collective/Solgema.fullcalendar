@@ -1,3 +1,7 @@
-recursive-include Solgema *
+include *
+
+recursive-include docs *
+recursive-include Products *
+
 global-exclude *pyc
-global-include *.mo
+exclude .gitignore
