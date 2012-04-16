@@ -29,7 +29,24 @@ adapter for your specific context or layer.
 
 Installation Note for Plone 3.x
 -------------------------------
-Solgema.fullcalendar is no longer compatible with Plone under version 4.x. Please use Solgema.fullcalendar 2.0.x instead.
+Add this line in the eggs section of your buildout.cfg
+
+eggs=
+    ...
+    collective.js.jquieryui<1.8
+
+You will also have to ping the versions for plone.app.z3cform
+
+[versions]
+...
+z3c.form = 1.9.0
+zope.i18n = 3.4.0
+zope.testing = 3.4.0
+zope.component = 3.4.0
+zope.securitypolicy = 3.4.0
+zope.app.zcmlfiles = 3.4.3
+plone.app.z3cform = 0.4.6
+plone.z3cform = 0.5.5
 
 Customizing the skin
 --------------------
