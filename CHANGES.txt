@@ -4,6 +4,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Restored Plone 3.3.x compatibility
+  [fmoret]
+
 - Added DaySplit View which shows the events in seperate columns regarding the selected collection criteria.
   [fmoret]
 
