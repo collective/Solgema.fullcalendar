@@ -298,6 +298,9 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def getHeaderRight(self):
         return 'month, agendaWeek, agendaDay'
 
+    def getHeaderLeft(self):
+        return 'prev,next today calendar'
+
     def getPloneVersion(self):
         portal_migration = getToolByName(self.context, 'portal_migration')
         try:
@@ -391,9 +394,17 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         addContext = target_folder and self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder) or aq_parent(aq_inner(self.context))
         return addContext.absolute_url()
 
+    def getHeaderLeft(self):
+        headerLeft = getattr(self.calendar, 'headerLeft', 'prev,next today calendar')
+        if isinstance(headerLeft, list):
+            return ','.join(headerLeft)
+        return headerLeft
+
     def getHeaderRight(self):
-        headerRight = getattr(self.calendar, 'headerRight', ['month', 'agendaWeek', 'agendaDay'])
-        return ','.join(headerRight)
+        headerRight = getattr(self.calendar, 'headerRight', 'month,agendaWeek,agendaDay')
+        if isinstance(headerRight, list):
+            return ','.join(headerRight)
+        return headerRight
 
     def getTopicRelativeUrl(self):
         if CMFPloneUtils.isDefaultPage(self.context, self.request):
