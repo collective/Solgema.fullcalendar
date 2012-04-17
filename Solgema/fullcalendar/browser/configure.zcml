@@ -6,7 +6,8 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="Solgema.fullcalendar">
 
-   <include package="Products.CMFCore" file="configure.zcml" />
+  <include package="Products.CMFCore" file="configure.zcml" />
+  <include package="plone.app.contentmenu" zcml:condition="installed plone.app.contentmenu" />
 
   <browser:menuItem zcml:condition="have plone-4"
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
