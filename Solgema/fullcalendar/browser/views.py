@@ -437,9 +437,10 @@ class SFEventSources(SolgemaFullcalendarView):
         
         if not colorsDict or not colorsDict.get(fieldid):
             return None
-        value = str(component.queryUtility(IURLNormalizer).normalize(value))
+        value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
         newColorsDict = {}
         for k,v in colorsDict.get(fieldid, {}).items():
+            k = safe_unicode(k)
             if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
                 return v
         return None
@@ -520,10 +521,11 @@ class SolgemaFullcalendarColorsCss(BrowserView):
                 selectedItems = criteria.getCriteriaItems()[0][1]
 
             for i in range(len(selectedItems)):
-                cValName = str(component.queryUtility(IURLNormalizer).normalize(selectedItems[i]))
+                cValName = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(selectedItems[i])))
 
                 color = None
                 for k,v in colorsDict.get(fieldid, {}).items():
+                    k = safe_unicode(k)
                     if k == cValName or str(component.queryUtility(IURLNormalizer).normalize(k)) == cValName:
                         color = v
                         break
