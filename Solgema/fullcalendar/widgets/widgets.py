@@ -2,6 +2,7 @@ import zope.schema
 from zope import component
 from zope.interface import implements
 from plone.i18n.normalizer.interfaces import IURLNormalizer
+from Products.CMFPlone.utils import safe_unicode
 
 from z3c.form.widget import Widget, FieldWidget
 from z3c.form import interfaces
@@ -55,7 +56,8 @@ class ColorDictInputWidget(Widget):
             if selectedItems:
                 html += '<br/><b>%s</b><br/><table>' % (fieldname)
                 for item in selectedItems:
-                    item = str(component.queryUtility(IURLNormalizer).normalize(item))
+                    name = safe_unicode(item)
+                    item = str(component.queryUtility(IURLNormalizer).normalize(name))
                     value = ''
                     if fieldid in currentValues \
                       and item in currentValues[fieldid]:
@@ -65,7 +67,7 @@ class ColorDictInputWidget(Widget):
                     <input type="text" size="10" name="%s:record" value="%s"
                            class="colorinput" style="background-color:%s;" />
                     </td></tr>""" % (
-                        item,
+                        name,
                         self.name+'.'+fieldid+'.'+item,
                         value, value)
 
