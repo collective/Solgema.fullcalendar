@@ -25,6 +25,7 @@
     allDayText: "<p tal:replace="view/getAllDayText"/>",
     editEventText: "<p tal:replace="view/getEditEventText"/>",
     target_folder: "<p tal:replace="view/getTargetFolder"/>",
+    headerLeft: "<p tal:replace="view/getHeaderLeft"/>",
     headerRight: "<p tal:replace="view/getHeaderRight"/>",
     ploneVersion: "<p tal:replace="view/getPloneVersion"/>",
     calendarHeight: "<p tal:replace="view/calendarHeight|nothing"/>",
