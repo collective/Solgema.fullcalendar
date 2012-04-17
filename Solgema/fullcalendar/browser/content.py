@@ -43,6 +43,7 @@ class CalendarGroup(z3cgroup.Group):
         'allDaySlot',
         'defaultCalendarView',
         'shortDayNameFormat',
+        'headerLeft',
         'headerRight',
         'weekends',
         'firstDay',
@@ -96,4 +97,3 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
         self.request.RESPONSE.redirect( self.context.absolute_url() )
 
 SolgemaFullcalendarForm = wrap_form(SolgemaFullcalendarFormBase)
-
