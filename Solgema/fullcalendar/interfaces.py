@@ -159,10 +159,13 @@ class ISolgemaFullcalendarProperties(Interface):
                                   source = "solgemafullcalendar.shortNameFormats",
                                   default = 'a' )
 
-    headerRight = schema.List( title = _(u"label_headerRight"),
+    headerLeft = schema.TextLine( title = _(u"label_headerLeft"),
+                                  description = _(u"help_headerLeft"),
+                                  default = u'prev,next today calendar' )
+
+    headerRight = schema.TextLine( title = _(u"label_headerRight"),
                                   description = _(u"help_headerRight"),
-                                  value_type = schema.Choice( title = _(u"label_headerRight"), source = "solgemafullcalendar.availableViews"),
-                                  default = ['month', 'agendaWeek', 'agendaDay'] )
+                                  default = u'month,agendaWeek,agendaDay' )
 
     weekends = schema.Bool( title=_(u"label_weekends"),
                                   description = _(u"help_weekends"),
