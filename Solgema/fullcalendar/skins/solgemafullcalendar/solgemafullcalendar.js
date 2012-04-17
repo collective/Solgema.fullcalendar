@@ -11,6 +11,11 @@ function readCookie(name) {
 	return null;
 };
 
+jq.fullCalendar.views.calendar = switchCalendarDay;
+
+function switchCalendarDay(element, calendar) {
+};
+
 jq.fullCalendar.views.agendaDaySplit = AgendaDaySplitView;
 
 function AgendaDaySplitView(element, calendar) {
@@ -566,7 +571,7 @@ function calendarOptions() {
       options['maxTime'] = SolgemaFullcalendarVars.maxTime;
       options['height'] = SolgemaFullcalendarVars.calendarHeight;
       options['header'] = {
-        left: 'prev,next today calendar',
+        left: SolgemaFullcalendarVars.headerLeft,
         center: 'title',
         right: SolgemaFullcalendarVars.headerRight
       };
@@ -652,13 +657,39 @@ function calendarOptions() {
         SolgemaFullcalendar.openDisplayForm(fcevent, event);
       };
       options['buttonIcons'] = {
-        calendar: 'ui-icon-calendar'
+        calendar: 'calendar'
+      };
+      options['loading'] = function(value, view) {
+        if (value) {
+          jq('#kss-spinner').show();
+        } else {
+          jq('#kss-spinner').hide();
+        }
       };
       return options;
 };
 
 jq(document).ready(function() {
     var calendar = jq('#calendar').fullCalendar(calendarOptions());
+    if (jq('.fc-button-calendar').length != 0) {
+      jq('.fc-button-calendar').unbind('click');
+      jq('.fc-button-calendar').append('<div id="datePicker"/>');
+      jq('.fc-button-calendar #datePicker').datepicker({
+        onSelect: function(date, inst) {
+          jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
+        }
+      });
+      jq('.fc-button-calendar').removeClass('ui-state-hover');
+      jq('.fc-button-calendar #datePicker').css('display', 'none');
+      jq('.fc-button-calendar').click( function() {
+        if (jq('.fc-button-calendar #datePicker').css('display') != 'block') {
+          jq('.fc-button-calendar #datePicker').css('display', 'block');
+        } else {
+          jq('.fc-button-calendar #datePicker').css('display', 'none');
+          jq('.fc-button-calendar').removeClass('ui-state-hover');
+        }
+      });
+    }
     jq('#SFQuery input, #SFQuery a').click( function(event){
       jq('#kss-spinner').show();
       if (jq(this).attr('href')) {
