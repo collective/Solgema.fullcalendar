@@ -1,6 +1,7 @@
 import zope.schema
 from zope import component
 from zope.interface import implements
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 
 from z3c.form.widget import Widget, FieldWidget
 from z3c.form import interfaces
@@ -54,17 +55,18 @@ class ColorDictInputWidget(Widget):
             if selectedItems:
                 html += '<br/><b>%s</b><br/><table>' % (fieldname)
                 for item in selectedItems:
+                    item = str(component.queryUtility(IURLNormalizer).normalize(item))
                     value = ''
                     if fieldid in currentValues \
-                      and item.decode('utf-8') in currentValues[fieldid]:
-                        value = currentValues[fieldid][item.decode('utf-8')]
+                      and item in currentValues[fieldid]:
+                        value = currentValues[fieldid][item]
 
                     html += """<tr><td>%s&nbsp;</td><td>
                     <input type="text" size="10" name="%s:record" value="%s"
                            class="colorinput" style="background-color:%s;" />
                     </td></tr>""" % (
-                        item.decode('utf-8'),
-                        self.name+'.'+fieldid+'.'+item.decode('utf-8'),
+                        item,
+                        self.name+'.'+fieldid+'.'+item,
                         value, value)
 
                 html+='</table>'
@@ -105,4 +107,3 @@ class ColorDictDataConverter( BaseDataConverter ):
         if not value or len([a for a in value.values() if a]) == 0:
             return self.field.missing_value
         return value
-
