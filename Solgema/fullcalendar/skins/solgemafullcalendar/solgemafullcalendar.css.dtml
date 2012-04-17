@@ -1,6 +1,12 @@
 /* <dtml-with base_properties> (do not remove this :) */
 /* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
 
+.fc-button-calendar .ui-datepicker {
+    position:absolute;
+    left:100%;
+    z-index:100;
+}
+
 #sfc-ical-export {
     float: right;
 }
