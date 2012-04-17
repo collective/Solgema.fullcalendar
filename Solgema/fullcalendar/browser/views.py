@@ -1,3 +1,4 @@
+import logging
 import datetime
 from urllib import unquote
 try:
@@ -23,7 +24,7 @@ from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
 
-
+LOG = logging.getLogger('Solgema.fullcalendar')
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 
@@ -433,10 +434,15 @@ class SFEventSources(SolgemaFullcalendarView):
 
     def getColor(self, fieldid, value):
         colorsDict = self.calendar.queryColors
+        
         if not colorsDict or not colorsDict.get(fieldid):
             return None
         value = str(component.queryUtility(IURLNormalizer).normalize(value))
-        return colorsDict[fieldid].get(value)
+        newColorsDict = {}
+        for k,v in colorsDict.get(fieldid, {}).items():
+            if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
+                return v
+        return None
                 
     def __call__(self, *args, **kw):
         """Render JS eventSources. Separate cookie request in different sources."""
@@ -515,10 +521,12 @@ class SolgemaFullcalendarColorsCss(BrowserView):
 
             for i in range(len(selectedItems)):
                 cValName = str(component.queryUtility(IURLNormalizer).normalize(selectedItems[i]))
-                if not colorsDict[fieldid].has_key(cValName):
-                    continue
 
-                color = colorsDict[fieldid][cValName]
+                color = None
+                for k,v in colorsDict.get(fieldid, {}).items():
+                    if k == cValName or str(component.queryUtility(IURLNormalizer).normalize(k)) == cValName:
+                        color = v
+                        break
                 if color:
                     css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
                     css += '    color: %s;\n' % (str(color))
