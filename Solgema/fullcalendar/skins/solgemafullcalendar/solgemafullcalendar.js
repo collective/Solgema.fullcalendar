@@ -143,6 +143,7 @@ function AgendaDaySplitView(element, calendar) {
 };
 
 function DaySplitColumnRenderEvents() {
+    var t = this;
     var baseRenderEvents = t.renderEvents;
     t.renderEvents = renderEvents;
 
