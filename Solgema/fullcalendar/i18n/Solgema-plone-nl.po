@@ -173,7 +173,7 @@ msgstr "Bepaalt, in minuten, de onderverdeling van een weergegeven uur"
 
 #: ../interfaces.py:197
 msgid "help_target_folder"
-msgstr "Kies in welke map de nieuwe inhoud die aan de kalender werd toegevoegd gecreëerd zal worden. Als u niets aanduidt worden de evenementen gecreëerd in de map waarin deze verzameling zit."
+msgstr "Kies in welke map de nieuwe inhoud die aan de kalender werd toegevoegd gecreÃ«erd zal worden. Als u niets aanduidt worden de evenementen gecreÃ«erd in de map waarin deze verzameling zit."
 
 #: ../interfaces.py:168
 msgid "help_weekends"
