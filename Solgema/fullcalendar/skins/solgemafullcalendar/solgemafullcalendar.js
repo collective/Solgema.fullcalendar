@@ -28,29 +28,10 @@ function AgendaDaySplitView(element, calendar) {
 	var formatDate = calendar.formatDate;
 	var suggestedViewHeight;
 	var options = t.calendar['options'];
-	var baseRenderEvents = t.renderEvents;
         var baseRender = t.render;
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplit';
-	t.renderEvents = renderEvents;
-
-    function renderEvents(events, modifiedEventId) {
-            baseRenderEvents(events, modifiedEventId);
-	    var allDayHeight = 0;
-	    jq('.fc-day-content').each( function(i, elem) {
-	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
-	    });
-	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
-	    var columnHeight = 0;
-            jq('div.fc-content').each( function(i,elem) {
-                col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
-                if (col.height()>columnHeight)columnHeight=col.height();
-            });
-            jq('div.fc-content').each( function(i,elem) {
-                jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
-            });
-        }
         
     function vsides(element, includeMargins) {
 	    return vpadding(element) +  vborders(element) + (includeMargins ? vmargins(element) : 0);
@@ -161,6 +142,28 @@ function AgendaDaySplitView(element, calendar) {
 	}
 };
 
+function DaySplitColumnRenderEvents() {
+    var baseRenderEvents = t.renderEvents;
+    t.renderEvents = renderEvents;
+
+    function renderEvents(events, modifiedEventId) {
+            baseRenderEvents(events, modifiedEventId);
+	    var allDayHeight = 0;
+	    jq('.fc-day-content').each( function(i, elem) {
+	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+	    });
+	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
+	    var columnHeight = 0;
+            jq('div.fc-content').each( function(i,elem) {
+                col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
+                if (col.height()>columnHeight)columnHeight=col.height();
+            });
+            jq('div.fc-content').each( function(i,elem) {
+                jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
+            });
+        }
+}
+
 jq.fullCalendar.views.agendaDaySplitColumn = AgendaDaySplitColumn;
 
 function AgendaDaySplitColumn(element, calendar) {
@@ -171,7 +174,8 @@ function AgendaDaySplitColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+        var baseRender = t.render;
+        DaySplitColumnRenderEvents.call(t);
 
 	// exports
 	t.render = render;
@@ -200,7 +204,8 @@ function AgendaDaySplitFirstColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+    	var baseRender = t.render;
+        DaySplitColumnRenderEvents.call(t);
 	
 	// exports
 	t.render = render;
@@ -230,6 +235,7 @@ function AgendaDaySplitLastColumn(element, calendar) {
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
     	var baseRender = t.render;
+        DaySplitColumnRenderEvents.call(t);
 
 	// exports
 	t.render = render;
@@ -257,7 +263,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+    	var baseRender = t.render;
 
 	// exports
 	t.render = render;
