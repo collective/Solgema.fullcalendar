@@ -395,7 +395,7 @@ var SolgemaFullcalendar = {
         jq("#contextualContentMenu a[href*='delete_confirmation']").click( function(event) {
           event.preventDefault();
           jq(closeContextualContentMenu);
-          if (window.confirm("Voulez-vous supprimer cet événement ?")) {   // TODO: French ui-text in js, is this a joke?
+          if (window.confirm("Are you sure you want to delete this event?")) {   // TODO: This should trigger the standard plone "do you want to delete" overlay
             var href = jq(this).attr('href');
             var eventurl = href.substring(0, href.length-19);
             jq.ajax({
