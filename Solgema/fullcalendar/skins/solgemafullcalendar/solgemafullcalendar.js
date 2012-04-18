@@ -672,21 +672,20 @@ function calendarOptions() {
 function initCalendar(date) {
   if (jq('.fc-button-calendar').length != 0) {
     jq('.fc-button-calendar').unbind('click');
-    jq('.fc-button-calendar').append('<div id="datePicker"/>');
-    jq('.fc-button-calendar #datePicker').datepicker({
+    jq('.fc-button-calendar').append('<span style="position:relative" id="datePickerWrapper"><div id="datePicker"/></span>');
+    jq('#datePickerWrapper').insertAfter('.fc-button-calendar');
+    jq('#datePicker').datepicker({
       onSelect: function(date, inst) {
         jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
+        jq('#datePicker').css('display', 'none');
       }
     });
-    if (date) jq('.fc-button-calendar #datePicker').datepicker('setDate',date);
+    if (date) jq('#datePicker').datepicker('setDate',date);
     jq('.fc-button-calendar').removeClass('ui-state-hover');
-    jq('.fc-button-calendar #datePicker').css('display', 'none');
+    jq('#datePicker').css('display', 'none');
     jq('.fc-button-calendar').click( function() {
-      if (jq('.fc-button-calendar #datePicker').css('display') != 'block') {
-        jq('.fc-button-calendar #datePicker').css('display', 'block');
-      } else {
-        jq('.fc-button-calendar #datePicker').css('display', 'none');
-        jq('.fc-button-calendar').removeClass('ui-state-hover');
+      if (jq('#datePicker').css('display') != 'block') {
+        jq('#datePicker').css('display', 'block');
       }
     });
   }
