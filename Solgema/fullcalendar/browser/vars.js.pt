@@ -19,6 +19,7 @@
     month: "<p tal:replace="view/getMonthTranslation"/>",
     week: "<p tal:replace="view/getWeekTranslation"/>",
     day: "<p tal:replace="view/getDayTranslation"/>",
+    daySplit: "<p tal:replace="view/getDaySplitTranslation"/>",
     titleFormat: <p tal:replace="view/getCustomTitleFormat"/>,
     axisFormat: "<p tal:replace="view/getHourFormat"/>",
     allDaySlot: <p tal:replace="view/allDaySlot"/>,
