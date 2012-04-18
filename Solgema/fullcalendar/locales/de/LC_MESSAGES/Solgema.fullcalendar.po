@@ -161,7 +161,7 @@ msgstr "Optionen im links Kopfbereiches. Mögliche Werte: prev, next, prevYear, 
 
 #: ../interfaces.py:167
 msgid "help_headerRight"
-msgstr "Optionen im rechten Kopfbereiches. Mögliche Werte: month, basicWeek, basicDay, agendaWeek, agendaDay, agendaDaySplit. Separate Werte durch Kommas Tasten, um miteinander mit Ausnahme hängen bleiben oder von Räumen."
+msgstr "Optionen im rechten Kopfbereiches."
 
 #: ../interfaces.py:192
 msgid "help_minTime"
