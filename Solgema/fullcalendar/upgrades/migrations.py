@@ -134,9 +134,4 @@ def upgrade20(context):
 
 
 def upgrade210(context):
-    portal_catalog = getToolByName(context, 'portal_catalog')
-    topics = [a.getObject() for a in portal_catalog.searchResults(portal_type='Topic')]
-    for topic in topics:
-        headerRight = getattr(interfaces.ISolgemaFullcalendarProperties(aq_inner(topic), None), 'headerRight', '')
-        if isinstance(headerRight, list):
-            interfaces.ISolgemaFullcalendarProperties(aq_inner(topic)).headerRight = ','.join(headerRight)
+    pass
