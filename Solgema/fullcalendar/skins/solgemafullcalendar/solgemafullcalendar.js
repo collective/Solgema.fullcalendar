@@ -210,12 +210,31 @@ function AgendaDaySplitLastColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+    	var baseRender = t.render;
+    	var baseRenderEvents = t.renderEvents;
 
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitLastColumn';
+	t.renderEvents = renderEvents;
 
+        function renderEvents(events, modifiedEventId) {
+            baseRenderEvents(events, modifiedEventId);
+	    var allDayHeight = 0;
+	    jq('.fc-day-content').each( function(i, elem) {
+	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+	    });
+	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
+	    var columnHeight = 0;
+            jq('div.fc-content').each( function(i,elem) {
+                col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
+                if (col.height()>columnHeight)columnHeight=col.height();
+            });
+            jq('div.fc-content').each( function(i,elem) {
+                jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
+            });
+        }
+        
 	function render(date, delta) {
 		baseRender(date, delta);
 		corrAgenda();
@@ -700,7 +719,6 @@ function initCalendar(date) {
 
 jq(document).ready(function() {
     var calendar = jq('#calendar').fullCalendar(calendarOptions());
-    jq('#calendar').css('height', jq('#calendar').height());
     initCalendar();
     jq('#SFQuery input, #SFQuery a').click( function(event){
       jq('#kss-spinner').show();
@@ -788,6 +806,7 @@ jq(document).ready(function() {
             }
         }
         if (curView.name == 'agendaDaySplit') {
+            jq('#calendar').css('height', jq('#calendar').height());
             var date = jq('#calendar').fullCalendar('getDate');
             var options = calendar.data('fullCalendar').options;
             jq('#calendar').fullCalendar('destroy');
@@ -799,6 +818,7 @@ jq(document).ready(function() {
             jq('#calendar').fullCalendar(options);
             jq('#calendar').css('height', jq('#calendar').height());
             initCalendar(date);
+            jq('#calendar').css('height', 'auto');
         }
       }
       jq('#kss-spinner').hide();
