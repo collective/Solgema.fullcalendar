@@ -1,10 +1,15 @@
 /* <dtml-with base_properties> (do not remove this :) */
 /* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
 
-.fc-button-calendar .ui-datepicker {
+table.fc-header td {
+    position:relative;
+}
+
+#datePicker {
     position:absolute;
-    left:100%;
+    left:0;
     z-index:100;
+    top:0;
 }
 
 #sfc-ical-export {
@@ -386,5 +391,4 @@ label.syndicated {
 
 /* </dtml-with> */
 /* @end */
-
 
