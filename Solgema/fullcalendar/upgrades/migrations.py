@@ -1,7 +1,7 @@
 import transaction
-
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
-
+from Solgema.fullcalendar import interfaces
 
 PRODUCT_DEPENDENCIES = ['Solgema.ContextualContentMenu', 'plone.app.z3cform', 'collective.js.jqueryui']
 
@@ -119,7 +119,9 @@ def upgrade19(context):
     checkPortalTypes(context)
     updateRegistries(context)
 
+
 def upgrade20(context):
+
     context.runAllImportStepsFromProfile(
               'profile-collective.js.colorpicker:default',
               purge_old=False)
@@ -130,3 +132,11 @@ def upgrade20(context):
               'profile-Solgema.fullcalendar.upgrades:upgrade2',
               purge_old=False)
 
+
+def upgrade210(context):
+    portal_catalog = getToolByName(context, 'portal_catalog')
+    topics = [a.getObject() for a in portal_catalog.searchResults(portal_type='Topic')]
+    for topic in topics:
+        headerRight = getattr(interfaces.ISolgemaFullcalendarProperties(aq_inner(topic), None), 'headerRight', '')
+        if isinstance(headerRight, list):
+            interfaces.ISolgemaFullcalendarProperties(aq_inner(topic)).headerRight = ','.join(headerRight)
