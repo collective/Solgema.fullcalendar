@@ -28,11 +28,30 @@ function AgendaDaySplitView(element, calendar) {
 	var formatDate = calendar.formatDate;
 	var suggestedViewHeight;
 	var options = t.calendar['options'];
-    var baseRender = t.render;
+	var baseRenderEvents = t.renderEvents;
+        var baseRender = t.render;
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplit';
+	t.renderEvents = renderEvents;
 
+    function renderEvents(events, modifiedEventId) {
+            baseRenderEvents(events, modifiedEventId);
+	    var allDayHeight = 0;
+	    jq('.fc-day-content').each( function(i, elem) {
+	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+	    });
+	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
+	    var columnHeight = 0;
+            jq('div.fc-content').each( function(i,elem) {
+                col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
+                if (col.height()>columnHeight)columnHeight=col.height();
+            });
+            jq('div.fc-content').each( function(i,elem) {
+                jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
+            });
+        }
+        
     function vsides(element, includeMargins) {
 	    return vpadding(element) +  vborders(element) + (includeMargins ? vmargins(element) : 0);
     }
@@ -211,29 +230,10 @@ function AgendaDaySplitLastColumn(element, calendar) {
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
     	var baseRender = t.render;
-    	var baseRenderEvents = t.renderEvents;
 
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitLastColumn';
-	t.renderEvents = renderEvents;
-
-        function renderEvents(events, modifiedEventId) {
-            baseRenderEvents(events, modifiedEventId);
-	    var allDayHeight = 0;
-	    jq('.fc-day-content').each( function(i, elem) {
-	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
-	    });
-	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
-	    var columnHeight = 0;
-            jq('div.fc-content').each( function(i,elem) {
-                col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
-                if (col.height()>columnHeight)columnHeight=col.height();
-            });
-            jq('div.fc-content').each( function(i,elem) {
-                jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
-            });
-        }
         
 	function render(date, delta) {
 		baseRender(date, delta);
