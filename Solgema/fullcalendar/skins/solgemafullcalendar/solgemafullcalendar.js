@@ -131,6 +131,13 @@ function AgendaDaySplitView(element, calendar) {
 			        jq('#cal'+i).find('.fc-agenda-slots').parent().parent().scrollTop(st);
 			    }
 		    });
+		    var allDayHeight = 0;
+		    jq('fc-agenda-allday').each( function(i, elem) {
+		        if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+		    });
+		    jq('fc-agenda-allday').each( function(i, elem) {
+		        jq(elem).height(allDayHeight);
+		    });
         }
 	}
 };
