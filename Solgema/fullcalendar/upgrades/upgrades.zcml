@@ -1,9 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="extranetprivr">
-
-
+    i18n_domain="Solgema.fullcalendar">
 
   <genericsetup:upgradeStep
       title="Upgrade Solgema.fullcalendar to 0.2"
@@ -171,6 +169,14 @@
       source="1.9"
       destination="2"
       handler=".migrations.upgrade20"
+      profile="Solgema.fullcalendar:default" />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Solgema.fullcalendar to 2.1"
+      description="Update to 2.1"
+      source="2.0"
+      destination="2.1.0"
+      handler=".migrations.upgrade210"
       profile="Solgema.fullcalendar:default" />
 
 </configure>

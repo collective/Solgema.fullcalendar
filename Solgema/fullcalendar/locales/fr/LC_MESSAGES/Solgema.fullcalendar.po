@@ -161,7 +161,7 @@ msgstr "Contenu de l'en-tête gauche du calendrier. Valeurs possibles: prev, nex
 
 #: ../interfaces.py:167
 msgid "help_headerRight"
-msgstr "Contenu de l'en-tête droite du calendrier. Valeurs possibles: month, basicWeek, basicDay, agendaWeek, agendaDay, agendaDaySplit. Séparez les valeurs par des virgules pour obtenir des boutons collés les uns aux autres sinon par des espaces."
+msgstr "Contenu de l'en-tête droite du calendrier."
 
 #: ../interfaces.py:192
 msgid "help_minTime"

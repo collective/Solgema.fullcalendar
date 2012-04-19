@@ -4,6 +4,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Added Calendar widget to easily change the fullcalendar date.
+  [fmoret]
+
 - Restored Plone 3.3.x compatibility
   [fmoret]
 

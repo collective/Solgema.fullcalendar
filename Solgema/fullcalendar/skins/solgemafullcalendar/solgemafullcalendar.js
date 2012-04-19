@@ -28,11 +28,11 @@ function AgendaDaySplitView(element, calendar) {
 	var formatDate = calendar.formatDate;
 	var suggestedViewHeight;
 	var options = t.calendar['options'];
-    var baseRender = t.render;
+        var baseRender = t.render;
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplit';
-
+        
     function vsides(element, includeMargins) {
 	    return vpadding(element) +  vborders(element) + (includeMargins ? vmargins(element) : 0);
     }
@@ -131,9 +131,39 @@ function AgendaDaySplitView(element, calendar) {
 			        jq('#cal'+i).find('.fc-agenda-slots').parent().parent().scrollTop(st);
 			    }
 		    });
+		    var allDayHeight = 0;
+		    jq('fc-agenda-allday').each( function(i, elem) {
+		        if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+		    });
+		    jq('fc-agenda-allday').each( function(i, elem) {
+		        jq(elem).height(allDayHeight);
+		    });
         }
 	}
 };
+
+function DaySplitColumnRenderEvents() {
+    var t = this;
+    var baseRenderEvents = t.renderEvents;
+    t.renderEvents = renderEvents;
+
+    function renderEvents(events, modifiedEventId) {
+            baseRenderEvents(events, modifiedEventId);
+	    var allDayHeight = 0;
+	    jq('.fc-day-content').each( function(i, elem) {
+	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+	    });
+	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
+	    var columnHeight = 0;
+            jq('div.fc-content').each( function(i,elem) {
+                col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
+                if (col.height()>columnHeight)columnHeight=col.height();
+            });
+            jq('div.fc-content').each( function(i,elem) {
+                jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
+            });
+        }
+}
 
 jq.fullCalendar.views.agendaDaySplitColumn = AgendaDaySplitColumn;
 
@@ -145,7 +175,8 @@ function AgendaDaySplitColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+        var baseRender = t.render;
+        DaySplitColumnRenderEvents.call(t);
 
 	// exports
 	t.render = render;
@@ -174,7 +205,8 @@ function AgendaDaySplitFirstColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+    	var baseRender = t.render;
+        DaySplitColumnRenderEvents.call(t);
 	
 	// exports
 	t.render = render;
@@ -203,12 +235,13 @@ function AgendaDaySplitLastColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+    	var baseRender = t.render;
+        DaySplitColumnRenderEvents.call(t);
 
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitLastColumn';
-
+        
 	function render(date, delta) {
 		baseRender(date, delta);
 		corrAgenda();
@@ -231,7 +264,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    var baseRender = t.render;
+    	var baseRender = t.render;
 
 	// exports
 	t.render = render;
@@ -587,7 +620,7 @@ function calendarOptions() {
         week: SolgemaFullcalendarVars.week,
         day: SolgemaFullcalendarVars.day,
         calendar: '&nbsp;Cal&nbsp;',
-        agendaDaySplit: 'DaySplit',
+        agendaDaySplit: SolgemaFullcalendarVars.daySplit,
       };
       options['titleFormat'] = SolgemaFullcalendarVars.titleFormat;
       options['editable'] = true;
@@ -669,27 +702,31 @@ function calendarOptions() {
       return options;
 };
 
+function initCalendar(date) {
+  if (jq('.fc-button-calendar').length != 0) {
+    jq('.fc-button-calendar').unbind('click');
+    jq('.fc-button-calendar').append('<span style="position:relative" id="datePickerWrapper"><div id="datePicker"/></span>');
+    jq('#datePickerWrapper').insertAfter('.fc-button-calendar');
+    jq('#datePicker').datepicker({
+      onSelect: function(date, inst) {
+        jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
+        jq('#datePicker').css('display', 'none');
+      }
+    });
+    if (date) jq('#datePicker').datepicker('setDate',date);
+    jq('.fc-button-calendar').removeClass('ui-state-hover');
+    jq('#datePicker').css('display', 'none');
+    jq('.fc-button-calendar').click( function() {
+      if (jq('#datePicker').css('display') != 'block') {
+        jq('#datePicker').css('display', 'block');
+      }
+    });
+  }
+};
+
 jq(document).ready(function() {
     var calendar = jq('#calendar').fullCalendar(calendarOptions());
-    if (jq('.fc-button-calendar').length != 0) {
-      jq('.fc-button-calendar').unbind('click');
-      jq('.fc-button-calendar').append('<div id="datePicker"/>');
-      jq('.fc-button-calendar #datePicker').datepicker({
-        onSelect: function(date, inst) {
-          jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
-        }
-      });
-      jq('.fc-button-calendar').removeClass('ui-state-hover');
-      jq('.fc-button-calendar #datePicker').css('display', 'none');
-      jq('.fc-button-calendar').click( function() {
-        if (jq('.fc-button-calendar #datePicker').css('display') != 'block') {
-          jq('.fc-button-calendar #datePicker').css('display', 'block');
-        } else {
-          jq('.fc-button-calendar #datePicker').css('display', 'none');
-          jq('.fc-button-calendar').removeClass('ui-state-hover');
-        }
-      });
-    }
+    initCalendar();
     jq('#SFQuery input, #SFQuery a').click( function(event){
       jq('#kss-spinner').show();
       if (jq(this).attr('href')) {
@@ -776,6 +813,7 @@ jq(document).ready(function() {
             }
         }
         if (curView.name == 'agendaDaySplit') {
+            jq('#calendar').css('height', jq('#calendar').height());
             var date = jq('#calendar').fullCalendar('getDate');
             var options = calendar.data('fullCalendar').options;
             jq('#calendar').fullCalendar('destroy');
@@ -783,7 +821,11 @@ jq(document).ready(function() {
             options['month'] = date.getMonth();
             options['date'] = date.getDate();
             options['defaultView'] = 'agendaDaySplit';
+            options['eventSources'] = options['solgemaSources'];
             jq('#calendar').fullCalendar(options);
+            jq('#calendar').css('height', jq('#calendar').height());
+            initCalendar(date);
+            jq('#calendar').css('height', 'auto');
         }
       }
       jq('#kss-spinner').hide();

@@ -161,7 +161,7 @@ msgstr "Contents of the left header of the calendar. Possible values: prev, next
 
 #: ../interfaces.py:167
 msgid "help_headerRight"
-msgstr "Contents of the right header of the calendar. Possible values: month, basicWeek, basicDay, agendaWeek, agendaDay, agendaDaySplit. Separate values ​​by commas to get buttons glued one against the other or by spaces."
+msgstr "Contents of the right header of the calendar."
 
 #: ../interfaces.py:192
 msgid "help_minTime"
