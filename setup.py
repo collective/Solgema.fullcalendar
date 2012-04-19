@@ -4,7 +4,7 @@ version = '2.0.3.3'
 
 setup(name='Solgema.fullcalendar',
       version=version,
-      description="Solgema",
+      description="Full calendar for Plone",
       long_description=open("README.rst").read() + "\n" +
                        open("CHANGES.txt").read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -30,7 +30,7 @@ setup(name='Solgema.fullcalendar',
           'z3c.form',
           'collective.js.colorpicker',
           'collective.js.fullcalendar>=1.5.2.1',
-          'collective.js.jqueryui<1.8',
+          'collective.js.jqueryui',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
