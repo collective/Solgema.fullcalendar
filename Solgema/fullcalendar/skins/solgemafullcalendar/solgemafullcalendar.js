@@ -101,6 +101,8 @@ function AgendaDaySplitView(element, calendar) {
 			element.append('<div id="cal'+i+'" style="display:table-cell;"></div>');
 			calOptions['eventSources'] = [solgemaSources[i]];
 			calOptions['title'] = solgemaSources[i]['title'];
+			calOptions['extraData'] = solgemaSources[i]['data'];
+			calOptions['eventSources']
             if (sourcesNubmer == 1) {
 				calOptions['defaultView'] = 'agendaDaySplitMonoColumn';
 			} else if (i==0) {
@@ -281,7 +283,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 };
 
 var SolgemaFullcalendar = {
-    openAddMenu: function (start, end, allDay, event) {
+    openAddMenu: function (start, end, allDay, event, extraData) {
       jq.ajax({
         type :      'POST',
         url :       './@@SFDisplayAddMenu',
@@ -301,9 +303,10 @@ var SolgemaFullcalendar = {
               data['wholeDay:boolean'] = '1';
             }
             data['EventAllDay'] = allDay;
+            if (extraData) jQuery.extend(true, data, extraData);
             openContextualContentMenu(event, this, '@@SFAddMenu', SolgemaFullcalendar.initAddContextualContentMenu, '.', data);
           } else {
-            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title']);
+            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title'], extraData);
           }
         }
       });
@@ -347,7 +350,7 @@ var SolgemaFullcalendar = {
         jq(closeContextualContentMenu);
       });
     },
-    openFastAddForm: function (start, end, allDay, type_name, title) {
+    openFastAddForm: function (start, end, allDay, type_name, title, extraData) {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
@@ -365,6 +368,7 @@ var SolgemaFullcalendar = {
       }
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
+      if (extraData) jQuery.extend(true, data, extraData);
       $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
         width: 700,
@@ -674,7 +678,8 @@ function calendarOptions() {
       options['selectable'] = true;
       options['selectHelper'] = true;
       options['select'] = function(start, end, allDay, event, view) {
-        SolgemaFullcalendar.openAddMenu(start, end, allDay, event);
+        var extraData = view.calendar.options.extraData;
+        SolgemaFullcalendar.openAddMenu(start, end, allDay, event, extraData);
       };
       options['eventAfterRender'] = function(fcevent, element, view) {
         jq(element).click(function(event) {
