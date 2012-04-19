@@ -591,9 +591,29 @@ function calendarOptions() {
     } else {
         var firstHour = shour;
     }
+
+
+    // use the fragment if a valid view
+    // otherwise use the readCookie value or Vars object
+    var defaultView = null;
+    var validViews = [ 'month', 'basicWeek', 'basicDay', 
+        'agendaWeek', 'agendaDay', 'agendaDaySplit'];
+
+    var fragment = document.location.hash.slice(1);
+    if (validViews.indexOf(fragment) >= 0) {
+        defaultView = fragment;
+    } else {
+        var cookieSFView = readCookie('SFView');
+        if (cookieSFView) {
+            defaultView = cookieSFView;
+        } else {
+            defaultView = SolgemaFullcalendarVars.defaultView;
+        }
+    }
+
     var options = {};
       options['slotMinutes'] = SolgemaFullcalendarVars.slotMinutes;
-      options['defaultView'] = (readCookie('SFView')) ? readCookie('SFView') : SolgemaFullcalendarVars.defaultView;
+      options['defaultView'] = defaultView;
       options['firstDay'] = SolgemaFullcalendarVars.firstDay;
       options['weekends'] = SolgemaFullcalendarVars.weekends;
       options['year'] = SolgemaFullcalendarVars.year;
