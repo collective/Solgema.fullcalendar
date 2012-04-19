@@ -2,6 +2,8 @@ include *.txt *.rst
 
 recursive-include docs *
 recursive-include Solgema *
+recursive-include Solgema/fullcalendar/profiles
+recursive-include Solgema/fullcalendar/locales
 
 global-exclude *pyc
 exclude .gitignore
