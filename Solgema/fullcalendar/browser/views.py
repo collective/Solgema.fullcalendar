@@ -478,6 +478,12 @@ class SFEventSources(SolgemaFullcalendarView):
                 d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents?'+criteria+'='+value
                 d['color'] = self.getColor(criteria, value)
                 d['title'] = value
+                if criteria == 'Subject':
+                    d['data'] = {'subject:list':value}
+                elif criteria in ['Creator', 'Contributor']:#How to get the right field name?
+                    d['data'] = {criteria.lower()+'s:lines':value}
+                else:
+                    d['data'] = {criteria:value}
                 eventSources.append(d.copy())
         else:
             eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
