@@ -11,7 +11,7 @@ from z3c.form.converter import BaseDataConverter
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.browser.views import listBaseQueryTopicCriteria
-from Solgema.fullcalendar.interfaces import ICustomUpdatingDict
+from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties
 
 
 class IColorDictInputWidget(interfaces.IWidget):
@@ -72,6 +72,27 @@ class ColorDictInputWidget(Widget):
                         value, value)
 
                 html+='</table>'
+        calendar = ISolgemaFullcalendarProperties(self.context, None)
+        gcalSources = getattr(calendar, 'gcalSources', '').split('\n')
+        if gcalSources:
+            html += '<br/><b>%s</b><br/><table>' % (_('Google Calendar Sources'))
+            fieldid = 'gcalSources'
+            for i in range(len(gcalSources)):
+                url = gcalSources[i]
+                item = 'source'+str(i)
+                value = ''
+                if fieldid in currentValues \
+                    and item in currentValues[fieldid]:
+                    value = currentValues[fieldid][item]
+                        
+                html += """<tr><td>%s&nbsp;</td><td>
+                    <input type="text" size="10" name="%s:record" value="%s"
+                           class="colorinput" style="background-color:%s;" />
+                    </td></tr>""" % (
+                        'Source '+str(i+1),
+                        self.name+'.'+fieldid+'.'+item,
+                        value, value)
+            html+='</table>'
 
         return html
 
@@ -81,6 +102,11 @@ class ColorDictInputWidget(Widget):
         for key in self.getCriteriaKeys():
             if self.request.get(key, ''):
                 Dict[key.split('.')[-1]] = self.request.get(key)
+
+        key = self.name+'.gcalSources'
+        if self.request.get(key, ''):
+            Dict['gcalSources'] = self.request.get(key)
+                
         if len([a for a in Dict.values() if a]) != 0:
             return Dict
         return default
