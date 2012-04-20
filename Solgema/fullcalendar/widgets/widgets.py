@@ -85,10 +85,11 @@ class ColorDictInputWidget(Widget):
                     and item in currentValues[fieldid]:
                     value = currentValues[fieldid][item]
                         
-                html += """<tr><td>%s&nbsp;</td><td>
+                html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
                     <input type="text" size="10" name="%s:record" value="%s"
                            class="colorinput" style="background-color:%s;" />
                     </td></tr>""" % (
+                        str(url),
                         'Source '+str(i+1),
                         self.name+'.'+fieldid+'.'+item,
                         value, value)
