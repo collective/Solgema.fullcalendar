@@ -490,10 +490,14 @@ class SFEventSources(SolgemaFullcalendarView):
         else:
             eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
             
-        for url in getattr(self.calendar, 'gcalSources', '').split('\n'):
+        gcalSources = getattr(self.calendar, 'gcalSources', '').split('\n')
+        for i in range(len(gcalSources)):
+            url = gcalSources[i]
+            gcalColors = self.calendar.queryColors.get('gcalSources', {})
             eventSources.append({'url':url,
                                  'dataType':'gcal',
-                                 'className':'gcal-event'})
+                                 'className':'gcal-event',
+                                 'color':gcalColors.get('source'+str(i), '')})
 
         return json.dumps(eventSources, sort_keys=True)
 
