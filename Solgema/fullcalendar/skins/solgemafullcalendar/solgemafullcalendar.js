@@ -101,7 +101,7 @@ function AgendaDaySplitView(element, calendar) {
 			element.append('<div id="cal'+i+'" style="display:table-cell;"></div>');
 			calOptions['eventSources'] = [solgemaSources[i]];
 			calOptions['title'] = solgemaSources[i]['title'];
-			calOptions['extraData'] = solgemaSources[i]['data'];
+			calOptions['extraData'] = solgemaSources[i]['extraData'];
 			calOptions['eventSources']
             if (sourcesNubmer == 1) {
 				calOptions['defaultView'] = 'agendaDaySplitMonoColumn';
