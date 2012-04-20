@@ -4,6 +4,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Added the ability to add Google Calendar Sources to the fullcalendar in addition to Plone standard source.
+  [fmoret]
+
 - Added Calendar widget to easily change the fullcalendar date.
   [fmoret]
 
