@@ -8,6 +8,8 @@
         </style>
   </metal:slot>
     <metal:slot fill-slot="javascript_head_slot" tal:omit-tag="">
+        <script type="text/javascript" tal:condition="view/calendar/gcalSources | nothing"
+            tal:attributes="src string:${context/portal_url}/++resource++collective.js.fullcalendar/fullcalendar.gcal.js"></script>
         <script type="text/javascript"
             tal:attributes="src string:${context/absolute_url}/solgemafullcalendar_vars.js"></script>
         <script type="text/javascript"
