@@ -51,6 +51,7 @@ class CalendarGroup(z3cgroup.Group):
         'firstHour',
         'minTime',
         'maxTime',
+        'gcalSources',
         'target_folder',
         'calendarHeight',
         'displayNoscriptList')
