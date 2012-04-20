@@ -494,10 +494,11 @@ class SFEventSources(SolgemaFullcalendarView):
         for i in range(len(gcalSources)):
             url = gcalSources[i]
             gcalColors = self.calendar.queryColors.get('gcalSources', {})
-            eventSources.append({'url':url,
-                                 'dataType':'gcal',
-                                 'className':'gcal-event',
-                                 'color':gcalColors.get('source'+str(i), '')})
+            eventSources.append({'url':       url,
+                                 'dataType':  'gcal',
+                                 'className': 'gcal-event gcal-source'+str(i+1),
+                                 'color':     gcalColors.get('source'+str(i), ''),
+                                 'title':     'GCAL '+str(i+1)})
 
         return json.dumps(eventSources, sort_keys=True)
 
