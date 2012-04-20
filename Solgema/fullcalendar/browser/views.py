@@ -475,18 +475,25 @@ class SFEventSources(SolgemaFullcalendarView):
                 d = {}
                 if fromCookie:
                     value = value.decode('utf-8')
-                d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents?'+criteria+'='+value
+                d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents'
+                d['type'] = 'POST'
                 d['color'] = self.getColor(criteria, value)
                 d['title'] = value
+                d['data'] = {criteria:value}
                 if criteria == 'Subject':
-                    d['data'] = {'subject:list':value}
+                    d['extraData'] = {'subject:list':value}
                 elif criteria in ['Creator', 'Contributor']:#How to get the right field name?
-                    d['data'] = {criteria.lower()+'s:lines':value}
+                    d['extraData'] = {criteria.lower()+'s:lines':value}
                 else:
-                    d['data'] = {criteria:value}
+                    d['extraData'] = {criteria:value}
                 eventSources.append(d.copy())
         else:
             eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
+            
+        for url in getattr(self.calendar, 'gcalSources', '').split('\n'):
+            eventSources.append({'url':url,
+                                 'dataType':'gcal',
+                                 'className':'gcal-event'})
 
         return json.dumps(eventSources, sort_keys=True)
 
