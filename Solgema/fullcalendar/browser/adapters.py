@@ -368,8 +368,16 @@ class TopicEventSource(object):
         context = self.context
         request = self.request
         args, filters = self._getCriteriaArgs()
-        args['start'] = {'query': DateTime(request.get('end')), 'range':'max'}
-        args['end'] = {'query': DateTime(request.get('start')), 'range':'min'}
+        try:
+            end = int(request.get('end'))
+        except:
+            end = request.get('end')
+        try:
+            start = int(request.get('start'))
+        except:
+            start = request.get('start')
+        args['start'] = {'query': DateTime(end), 'range':'max'}
+        args['end'] = {'query': DateTime(start), 'range':'min'}
         if getattr(self.calendar, 'overrideStateForAdmin', True) and args.has_key('review_state'):
             pm = getToolByName(context,'portal_membership')
             user = pm.getAuthenticatedMember()
