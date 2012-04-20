@@ -197,6 +197,10 @@ class ISolgemaFullcalendarProperties(Interface):
                                   description = _(u"help_minTime"),
                                   default = u'24')
 
+    gcalSources = schema.Text( title=_(u"label_gcalSources", default="Google Calendar Sources"),
+                                  description = _(u"help_gcalSources", default="Enter your Google Calendar feeds url here. the syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."),
+                                  default = u'')
+                                  
     target_folder = schema.Choice(title=_(u"label_target_folder"),
                                   description=_(u"help_target_folder"),
                                   required=False,
