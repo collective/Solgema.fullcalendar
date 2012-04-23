@@ -160,6 +160,7 @@ class ISolgemaFullcalendarProperties(Interface):
                                   default = 'a' )
 
     headerLeft = schema.TextLine( title = _(u"label_headerLeft"),
+                                  required = False,
                                   description = _(u"help_headerLeft"),
                                   default = u'prev,next today calendar' )
 
