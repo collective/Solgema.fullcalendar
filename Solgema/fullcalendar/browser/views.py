@@ -87,7 +87,8 @@ def getTopic(context, request):
 
         portal_url = portal.absolute_url()
         topic_url = referer.replace(portal_url, '')
-        topic = portal.restrictedTraverse('/'+portal.id+topic_url)
+        topic_path = '/'.join(portal.getPhysicalPath()) + topic_url
+        topic = portal.restrictedTraverse(topic_path)
         if utils.getDefaultPage(topic, request):
             page = utils.getDefaultPage(topic, request)
             topic_url = topic_url+'/'+page
