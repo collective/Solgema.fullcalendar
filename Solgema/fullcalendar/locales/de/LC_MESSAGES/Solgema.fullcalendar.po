@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2012-04-17 15:46+0000\n"
+"POT-Creation-Date: 2012-04-24 08:20+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
 "Last-Translator: Philip Bauer <bauer@starzel.de>\n"
 "Language-Team: EDF\n"
@@ -36,7 +36,7 @@ msgid "Calendar properties"
 msgstr "Kalender Einstellungen"
 
 #. Default: "Colors"
-#: ../browser/content.py:69
+#: ../browser/content.py:70
 msgid "Colors"
 msgstr "Farben"
 
@@ -50,6 +50,10 @@ msgstr "Tag"
 msgid "DaySplit"
 msgstr "Getrennt"
 
+#: ../widgets/widgets.py:78
+msgid "Google Calendar Sources"
+msgstr "Google Calendar Sources"
+
 #. Default: "Month"
 #: ../browser/views.py:253
 #: ../vocabularies.py:29
@@ -61,7 +65,7 @@ msgid "Please correct the indicated errors."
 msgstr "Bitte korrigierten Sie die angezeigten Fehler."
 
 #. Default: "Query"
-#: ../browser/content.py:60
+#: ../browser/content.py:61
 msgid "Query"
 msgstr "Abfrage"
 
@@ -69,7 +73,7 @@ msgstr "Abfrage"
 msgid "Reschedule"
 msgstr "Neu ansetzen"
 
-#: ../widgets/widgets.py:97
+#: ../widgets/widgets.py:124
 msgid "The entered value is not a valid dict."
 msgstr "Der eigegebene Wert ist kein gültiges dictionary."
 
@@ -123,15 +127,15 @@ msgid "editEvent"
 msgstr "Termin bearbeiten"
 
 #. Default: "Check this box to display All day option"
-#: ../interfaces.py:275
+#: ../interfaces.py:280
 msgid "help_allDay"
 msgstr "Klicken Sie hier um die Zeile 'ganzer Tag' anzuzeigen."
 
-#: ../interfaces.py:211
+#: ../interfaces.py:216
 msgid "help_availableCriterias"
 msgstr "Wählen Sie die Kriterien der Kollektion, die am Ende des Kalenders angezeigt werden sollen."
 
-#: ../interfaces.py:206
+#: ../interfaces.py:211
 msgid "help_calendarHeight"
 msgstr "Geben sie die Höhe des Kalenders in Pixeln ein (z.B. 600)."
 
@@ -139,21 +143,26 @@ msgstr "Geben sie die Höhe des Kalenders in Pixeln ein (z.B. 600)."
 msgid "help_defaultCalendarView"
 msgstr "Default view in which the calendar will be displayed"
 
-#: ../interfaces.py:232
+#: ../interfaces.py:237
 msgid "help_displayNoscriptList"
 msgstr "Wenn ausgewählt wird - sofern javascript nicht aktiviert ist - eine Liste vo Terminen statt dem Kelender angezeigt. Verwenden Sie diese Option, wenn der Kalender z.B. durch Suchmaschinen ausgelesen werden soll."
 
-#: ../interfaces.py:222
+#: ../interfaces.py:227
 msgid "help_displayUndefined"
 msgstr "Zeige die Checkbox \"Undefined\" in dem Abfragen-Feld am Ende des Kalenders. Das ermöglicht die Suche nach Inhalten bei denen das gewählte Feld leer ist."
 
-#: ../interfaces.py:176
+#: ../interfaces.py:177
 msgid "help_firstDay"
 msgstr "Erster Tag der Woche"
 
-#: ../interfaces.py:187
+#: ../interfaces.py:188
 msgid "help_firstHour"
 msgstr "Legen Sie die erste Stunden der Kalender-Tagesansicht fest (eine Zahl zwischen 0 und 23). Wenn vor dieser Zahl ein  \"+\" oder \"-\" steht, wird die Zahl von der aktuellen Zeit addiert bzw. substrahiert."
+
+#. Default: "Enter your Google Calendar feeds url here. the syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."
+#: ../interfaces.py:201
+msgid "help_gcalSources"
+msgstr "Enter your Google Calendar feeds url here, one url per line. The syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/..."
 
 #: ../interfaces.py:163
 msgid "help_headerLeft"
@@ -163,19 +172,19 @@ msgstr "Optionen im links Kopfbereiches. Mögliche Werte: prev, next, prevYear, 
 msgid "help_headerRight"
 msgstr "Optionen im rechten Kopfbereiches."
 
-#: ../interfaces.py:192
+#: ../interfaces.py:193
 msgid "help_minTime"
 msgstr "Wählen Sie die erste sichtbare Stunde des Kalenders (z.B. '5' oder '5:30')."
 
-#: ../interfaces.py:227
+#: ../interfaces.py:232
 msgid "help_overrideStateForAdmin"
 msgstr "Workflow-Status-Kriterium für Administratoren überschreiben."
 
-#: ../interfaces.py:217
+#: ../interfaces.py:222
 msgid "help_queryColors"
 msgstr "Sie können jedem der Kriterien der Kollektion eine eigene Farbe geben. "
 
-#: ../interfaces.py:182
+#: ../interfaces.py:183
 msgid "help_relativeFirstDay"
 msgstr "Kalender ab einer bestimmten Anzahl von Tagen vor dem aktuellen Datum anzeigen (Format: '+1' oder '-1' )"
 
@@ -187,11 +196,11 @@ msgstr "Wählen Sie einen kurzen Namen Format des Tages (= 3 caratère kurz, kur
 msgid "help_slotMinutes"
 msgstr "Länge (in Minuten) von einzelnen Slots in einer Stunde."
 
-#: ../interfaces.py:200
+#: ../interfaces.py:205
 msgid "help_target_folder"
 msgstr "Wählen Sie einen Ordner in dem in dem neue Termine angelegt werden. Wenn nichts ausgewählt ist werden neue Termine in dem Ordner angelegt in dem auch die Kollektion liegt."
 
-#: ../interfaces.py:171
+#: ../interfaces.py:172
 msgid "help_weekends"
 msgstr "Samstage und Sonntage anzeigen"
 
@@ -200,7 +209,7 @@ msgid "iCal export"
 msgstr "iCal export"
 
 #. Default: "Display All day option"
-#: ../interfaces.py:274
+#: ../interfaces.py:279
 msgid "label_allDay"
 msgstr "'Ganztags'-Spalte anzeigen"
 
@@ -208,11 +217,11 @@ msgstr "'Ganztags'-Spalte anzeigen"
 msgid "label_allDaySlot"
 msgstr "'Ganztags'-Spalte anzeigen"
 
-#: ../interfaces.py:209
+#: ../interfaces.py:214
 msgid "label_availableCriterias"
 msgstr "Suchkriterien"
 
-#: ../interfaces.py:204
+#: ../interfaces.py:209
 msgid "label_calendarHeight"
 msgstr "Höhe des Kalenders"
 
@@ -220,21 +229,26 @@ msgstr "Höhe des Kalenders"
 msgid "label_defaultCalendarView"
 msgstr "Standard-Ansicht"
 
-#: ../interfaces.py:230
+#: ../interfaces.py:235
 msgid "label_displayNoscriptList"
 msgstr "Termine ohne Javascript auflisten"
 
-#: ../interfaces.py:220
+#: ../interfaces.py:225
 msgid "label_displayUndefined"
 msgstr "nicht definiert"
 
-#: ../interfaces.py:174
+#: ../interfaces.py:175
 msgid "label_firstDay"
 msgstr "Erster Wochentag"
 
-#: ../interfaces.py:185
+#: ../interfaces.py:186
 msgid "label_firstHour"
 msgstr "Erste angezeigte Stunde"
+
+#. Default: "Google Calendar Sources"
+#: ../interfaces.py:200
+msgid "label_gcalSources"
+msgstr "Google Calendar Sources"
 
 #: ../interfaces.py:162
 msgid "label_headerLeft"
@@ -244,23 +258,23 @@ msgstr "Kopfbereich links"
 msgid "label_headerRight"
 msgstr "Kopfbereich rechts"
 
-#: ../interfaces.py:195
+#: ../interfaces.py:196
 msgid "label_maxTime"
 msgstr "Letzte sichtbare Stunde"
 
-#: ../interfaces.py:190
+#: ../interfaces.py:191
 msgid "label_minTime"
 msgstr "Erste sichtbare Stunde"
 
-#: ../interfaces.py:225
+#: ../interfaces.py:230
 msgid "label_overrideStateForAdmin"
 msgstr "Status-Kriterium überschreiben"
 
-#: ../interfaces.py:215
+#: ../interfaces.py:220
 msgid "label_queryColors"
 msgstr "Farben"
 
-#: ../interfaces.py:180
+#: ../interfaces.py:181
 msgid "label_relativeFirstDay"
 msgstr "Relativer erster Wochentag"
 
@@ -272,7 +286,7 @@ msgstr "Kurzname Format für Tage"
 msgid "label_slotMinutes"
 msgstr "Slots"
 
-#: ../interfaces.py:199
+#: ../interfaces.py:204
 msgid "label_target_folder"
 msgstr "Zielordner für neue Termine"
 
@@ -280,7 +294,7 @@ msgstr "Zielordner für neue Termine"
 msgid "label_undefined"
 msgstr "nicht definiert"
 
-#: ../interfaces.py:170
+#: ../interfaces.py:171
 msgid "label_weekends"
 msgstr "Wochenenden"
 
