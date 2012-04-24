@@ -101,8 +101,6 @@ function AgendaDaySplitView(element, calendar) {
 			element.append('<div id="cal'+i+'" style="display:table-cell;"></div>');
 			calOptions['eventSources'] = [solgemaSources[i]];
 			calOptions['title'] = solgemaSources[i]['title'];
-			calOptions['extraData'] = solgemaSources[i]['extraData'];
-			calOptions['eventSources']
             if (sourcesNubmer == 1) {
 				calOptions['defaultView'] = 'agendaDaySplitMonoColumn';
 			} else if (i==0) {
@@ -144,7 +142,7 @@ function AgendaDaySplitView(element, calendar) {
 	}
 };
 
-function DaySplitColumnRenderEvents() {
+function AgendaDaySplitColumnGeneral() {
     var t = this;
     var baseRenderEvents = t.renderEvents;
     t.renderEvents = renderEvents;
@@ -165,7 +163,7 @@ function DaySplitColumnRenderEvents() {
                 jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
             });
         }
-}
+};
 
 jq.fullCalendar.views.agendaDaySplitColumn = AgendaDaySplitColumn;
 
@@ -177,9 +175,8 @@ function AgendaDaySplitColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-        var baseRender = t.render;
-        DaySplitColumnRenderEvents.call(t);
-
+    var baseRender = t.render;
+        AgendaDaySplitColumnGeneral.call(t);
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitColumn';
@@ -207,8 +204,8 @@ function AgendaDaySplitFirstColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    	var baseRender = t.render;
-        DaySplitColumnRenderEvents.call(t);
+    var baseRender = t.render;
+        AgendaDaySplitColumnGeneral.call(t);
 	
 	// exports
 	t.render = render;
@@ -238,7 +235,7 @@ function AgendaDaySplitLastColumn(element, calendar) {
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
     	var baseRender = t.render;
-        DaySplitColumnRenderEvents.call(t);
+        AgendaDaySplitColumnGeneral.call(t);
 
 	// exports
 	t.render = render;
@@ -266,7 +263,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 	var opt = t.opt;
 	var renderAgenda = t.renderAgenda;
 	var formatDate = calendar.formatDate;
-    	var baseRender = t.render;
+    var baseRender = t.render;
 
 	// exports
 	t.render = render;
@@ -283,7 +280,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 };
 
 var SolgemaFullcalendar = {
-    openAddMenu: function (start, end, allDay, event, extraData) {
+    openAddMenu: function (start, end, allDay, event) {
       jq.ajax({
         type :      'POST',
         url :       './@@SFDisplayAddMenu',
@@ -303,10 +300,9 @@ var SolgemaFullcalendar = {
               data['wholeDay:boolean'] = '1';
             }
             data['EventAllDay'] = allDay;
-            if (extraData) jQuery.extend(true, data, extraData);
             openContextualContentMenu(event, this, '@@SFAddMenu', SolgemaFullcalendar.initAddContextualContentMenu, '.', data);
           } else {
-            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title'], extraData);
+            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title']);
           }
         }
       });
@@ -350,7 +346,7 @@ var SolgemaFullcalendar = {
         jq(closeContextualContentMenu);
       });
     },
-    openFastAddForm: function (start, end, allDay, type_name, title, extraData) {
+    openFastAddForm: function (start, end, allDay, type_name, title) {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
@@ -368,7 +364,6 @@ var SolgemaFullcalendar = {
       }
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
-      if (extraData) jQuery.extend(true, data, extraData);
       $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
         width: 700,
@@ -678,8 +673,7 @@ function calendarOptions() {
       options['selectable'] = true;
       options['selectHelper'] = true;
       options['select'] = function(start, end, allDay, event, view) {
-        var extraData = view.calendar.options.extraData;
-        SolgemaFullcalendar.openAddMenu(start, end, allDay, event, extraData);
+        SolgemaFullcalendar.openAddMenu(start, end, allDay, event);
       };
       options['eventAfterRender'] = function(fcevent, element, view) {
         jq(element).click(function(event) {
@@ -741,6 +735,8 @@ jq(document).ready(function() {
         var sfqueryDisplay = href.substring(16, href.length);
         jq('#calendar').addClass('query-'+sfqueryDisplay);
         jq("#SFQuery input[name=sfqueryDisplay]").attr('value', sfqueryDisplay);
+      } else {
+        var sfqueryDisplay = jq(this).attr('name');
       }
       var data = jq('#SFQuery form').serializeArray();
       var cook = new Array;
@@ -786,36 +782,47 @@ jq(document).ready(function() {
       });
 
       if (event.which) {
-        var inputs = new Array;
-        var topicAbsoluteUrl = SolgemaFullcalendarVars.topicAbsoluteUrl;
-        jq('#SFQuery input').each( function(i, elem) {
-            inputs.push({'name':jq(elem).attr('name'),
-                         'value':jq(elem).attr('value')});
-        });
-
-        var uncheckeds = new Array;
-        for (var i=0; i<inputs.length; i++) {
+        solgemaSources = calendar.data('fullCalendar').options['solgemaSources'];
+        if (jq(this).attr('href')) {
+          for (var i=0; i<solgemaSources.length; i++) {
+            var url = solgemaSources[i]['url'];
+            calendar.fullCalendar('removeEventSource', {'url':url});
+          }
+          var eventSources = SolgemaFullcalendar.getEventSources();
+          calendar.data('fullCalendar').options['solgemaSources'] = eventSources;
+          for (var i=0; i<eventSources.length; i++) {
+            calendar.fullCalendar( 'addEventSource', eventSources[i] );
+          }
+        } else {
+          var inputs = new Array;
+          var topicAbsoluteUrl = SolgemaFullcalendarVars.topicAbsoluteUrl;
+          jq('#SFQuery input').each( function(i, elem) {
+              inputs.push({'name':jq(elem).attr('name'),
+                           'value':jq(elem).attr('value')});
+          });
+          var uncheckeds = new Array;
+          for (var i=0; i<inputs.length; i++) {
             var found = false;
             for (var j=0; j<data.length; j++) {
-                if (inputs[i]['name']==data[j]['name'] && inputs[i]['value']==data[j]['value']) found = true;
+              if (inputs[i]['name']==data[j]['name'] && inputs[i]['value']==data[j]['value']) found = true;
             }
             if (!found) uncheckeds.push(inputs[i]);
-        }
-        for (var i=0; i<uncheckeds.length; i++) {
+          }
+          for (var i=0; i<uncheckeds.length; i++) {
             var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+uncheckeds[i]['name']+'='+uncheckeds[i]['value'];
-            console.debug(url);
             calendar.fullCalendar('removeEventSource', {'url':url});
-        }
-        var curView = calendar.fullCalendar('getView');
-        var eventSources = SolgemaFullcalendar.getEventSources();
-        calendar.data('fullCalendar').options['solgemaSources'] = eventSources;
-        if (jq(this).attr('name')) {
+          }
+          var curView = calendar.fullCalendar('getView');
+          var eventSources = SolgemaFullcalendar.getEventSources();
+          calendar.data('fullCalendar').options['solgemaSources'] = eventSources;
+          if (jq(this).attr('name')) {
             if(jq(this).attr('checked')) {
-                var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+jq(this).attr('name')+'='+jq(this).val();
-                for (var i=0;i<eventSources.length;i++) {
-                    if (eventSources[i]['url']==url) calendar.fullCalendar( 'addEventSource', eventSources[i] );
-                }
+              var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+jq(this).attr('name')+'='+jq(this).val();
+              for (var i=0;i<eventSources.length;i++) {
+                if (eventSources[i]['url']==url) calendar.fullCalendar( 'addEventSource', eventSources[i] );
+              }
             }
+          }
         }
         if (curView.name == 'agendaDaySplit') {
             jq('#calendar').css('height', jq('#calendar').height());
