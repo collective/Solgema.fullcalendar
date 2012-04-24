@@ -140,8 +140,12 @@ def upgrade210(context):
     catalog = getToolByName(context, 'portal_catalog')
     for topic in [a.getObject() for a in catalog.searchResults(portal_type="Topic")]:
         calendar = interfaces.ISolgemaFullcalendarProperties(topic, None)
+        newColors = {}
         if calendar:
-            for k,v in queryColors.items():
+            for k,v in calendar.queryColors.items():
+                colDict = {}
                 for l,w in v.items():
-                    w = safe_unicode(w)
-                    v[l] = str(component.queryUtility(IURLNormalizer).normalize(w))
+                    l = safe_unicode(l)
+                    colDict[str(component.queryUtility(IURLNormalizer).normalize(l))] = w
+                newColors[k] = colDict.copy()
+            calendar.queryColors = newColors.copy()
