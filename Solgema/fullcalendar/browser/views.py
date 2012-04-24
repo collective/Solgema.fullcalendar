@@ -27,6 +27,7 @@ from Solgema.fullcalendar import log
 LOG = logging.getLogger('Solgema.fullcalendar')
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
+pMF = MessageFactory('plone')
 
 def getCopyObjectsUID(REQUEST):
     if REQUEST is not None and REQUEST.has_key('__cp'):
@@ -270,6 +271,9 @@ class SolgemaFullcalendarEventJS(BrowserView):
 
     def getEditEventText(self):
         return _('editEvent', 'Edit Event')
+    
+    def getDeleteConfirmationText(self):
+        return pMF('alert_really_delete', 'Do you really want to delete this item?')
 
     def getCustomTitleFormat(self):
         if self.portal_language in ['fr']:
