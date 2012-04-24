@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-04-17 15:46+0000\n"
+"POT-Creation-Date: 2012-04-24 08:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgid "Calendar properties"
 msgstr ""
 
 #. Default: "Colors"
-#: ../browser/content.py:69
+#: ../browser/content.py:70
 msgid "Colors"
 msgstr ""
 
@@ -52,6 +52,10 @@ msgstr ""
 msgid "DaySplit"
 msgstr ""
 
+#: ../widgets/widgets.py:78
+msgid "Google Calendar Sources"
+msgstr ""
+
 #. Default: "Month"
 #: ../browser/views.py:253
 #: ../vocabularies.py:29
@@ -63,7 +67,7 @@ msgid "Please correct the indicated errors."
 msgstr ""
 
 #. Default: "Query"
-#: ../browser/content.py:60
+#: ../browser/content.py:61
 msgid "Query"
 msgstr ""
 
@@ -71,7 +75,7 @@ msgstr ""
 msgid "Reschedule"
 msgstr ""
 
-#: ../widgets/widgets.py:97
+#: ../widgets/widgets.py:124
 msgid "The entered value is not a valid dict."
 msgstr ""
 
@@ -125,15 +129,15 @@ msgid "editEvent"
 msgstr ""
 
 #. Default: "Check this box to display All day option"
-#: ../interfaces.py:275
+#: ../interfaces.py:280
 msgid "help_allDay"
 msgstr ""
 
-#: ../interfaces.py:211
+#: ../interfaces.py:216
 msgid "help_availableCriterias"
 msgstr ""
 
-#: ../interfaces.py:206
+#: ../interfaces.py:211
 msgid "help_calendarHeight"
 msgstr ""
 
@@ -141,20 +145,25 @@ msgstr ""
 msgid "help_defaultCalendarView"
 msgstr ""
 
-#: ../interfaces.py:232
+#: ../interfaces.py:237
 msgid "help_displayNoscriptList"
 msgstr ""
 
-#: ../interfaces.py:222
+#: ../interfaces.py:227
 msgid "help_displayUndefined"
 msgstr ""
 
-#: ../interfaces.py:176
+#: ../interfaces.py:177
 msgid "help_firstDay"
 msgstr ""
 
-#: ../interfaces.py:187
+#: ../interfaces.py:188
 msgid "help_firstHour"
+msgstr ""
+
+#. Default: "Enter your Google Calendar feeds url here. the syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."
+#: ../interfaces.py:201
+msgid "help_gcalSources"
 msgstr ""
 
 #: ../interfaces.py:163
@@ -165,19 +174,19 @@ msgstr ""
 msgid "help_headerRight"
 msgstr ""
 
-#: ../interfaces.py:192
+#: ../interfaces.py:193
 msgid "help_minTime"
 msgstr ""
 
-#: ../interfaces.py:227
+#: ../interfaces.py:232
 msgid "help_overrideStateForAdmin"
 msgstr ""
 
-#: ../interfaces.py:217
+#: ../interfaces.py:222
 msgid "help_queryColors"
 msgstr ""
 
-#: ../interfaces.py:182
+#: ../interfaces.py:183
 msgid "help_relativeFirstDay"
 msgstr ""
 
@@ -189,11 +198,11 @@ msgstr ""
 msgid "help_slotMinutes"
 msgstr ""
 
-#: ../interfaces.py:200
+#: ../interfaces.py:205
 msgid "help_target_folder"
 msgstr ""
 
-#: ../interfaces.py:171
+#: ../interfaces.py:172
 msgid "help_weekends"
 msgstr ""
 
@@ -202,7 +211,7 @@ msgid "iCal export"
 msgstr ""
 
 #. Default: "Display All day option"
-#: ../interfaces.py:274
+#: ../interfaces.py:279
 msgid "label_allDay"
 msgstr ""
 
@@ -210,11 +219,11 @@ msgstr ""
 msgid "label_allDaySlot"
 msgstr ""
 
-#: ../interfaces.py:209
+#: ../interfaces.py:214
 msgid "label_availableCriterias"
 msgstr ""
 
-#: ../interfaces.py:204
+#: ../interfaces.py:209
 msgid "label_calendarHeight"
 msgstr ""
 
@@ -222,20 +231,25 @@ msgstr ""
 msgid "label_defaultCalendarView"
 msgstr ""
 
-#: ../interfaces.py:230
+#: ../interfaces.py:235
 msgid "label_displayNoscriptList"
 msgstr ""
 
-#: ../interfaces.py:220
+#: ../interfaces.py:225
 msgid "label_displayUndefined"
 msgstr ""
 
-#: ../interfaces.py:174
+#: ../interfaces.py:175
 msgid "label_firstDay"
 msgstr ""
 
-#: ../interfaces.py:185
+#: ../interfaces.py:186
 msgid "label_firstHour"
+msgstr ""
+
+#. Default: "Google Calendar Sources"
+#: ../interfaces.py:200
+msgid "label_gcalSources"
 msgstr ""
 
 #: ../interfaces.py:162
@@ -246,23 +260,23 @@ msgstr ""
 msgid "label_headerRight"
 msgstr ""
 
-#: ../interfaces.py:195
+#: ../interfaces.py:196
 msgid "label_maxTime"
 msgstr ""
 
-#: ../interfaces.py:190
+#: ../interfaces.py:191
 msgid "label_minTime"
 msgstr ""
 
-#: ../interfaces.py:225
+#: ../interfaces.py:230
 msgid "label_overrideStateForAdmin"
 msgstr ""
 
-#: ../interfaces.py:215
+#: ../interfaces.py:220
 msgid "label_queryColors"
 msgstr ""
 
-#: ../interfaces.py:180
+#: ../interfaces.py:181
 msgid "label_relativeFirstDay"
 msgstr ""
 
@@ -274,7 +288,7 @@ msgstr ""
 msgid "label_slotMinutes"
 msgstr ""
 
-#: ../interfaces.py:199
+#: ../interfaces.py:204
 msgid "label_target_folder"
 msgstr ""
 
@@ -282,7 +296,7 @@ msgstr ""
 msgid "label_undefined"
 msgstr ""
 
-#: ../interfaces.py:170
+#: ../interfaces.py:171
 msgid "label_weekends"
 msgstr ""
 
