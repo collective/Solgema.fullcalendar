@@ -94,13 +94,19 @@ class SolgemaFullcalendarTopicEventDict(object):
         return ' '.join(classes)
 
     def dictFromBrain(self, brain, editableEvents=[]):
+        if type(brain.end) != DateTime:
+            brainend = DateTime(brain.end)
+            brainstart = DateTime(brain.start)
+        else:
+            brainend = brain.end
+            brainstart = brain.start
 
         if brain.UID in editableEvents:
             editable = True
         else:
             editable = False
 
-        if brain.end - brain.start > 1.0:
+        if brainend - brainstart > 1.0:
             allday = True
         else:
             allday = False
@@ -120,7 +126,7 @@ class SolgemaFullcalendarTopicEventDict(object):
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
         else:
-            occurences = [(brain.start.rfc822(), brain.end.rfc822())]
+            occurences = [(brainstart.rfc822(), brainend.rfc822())]
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
