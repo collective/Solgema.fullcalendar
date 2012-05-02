@@ -32,6 +32,10 @@
     ploneVersion: "<p tal:replace="view/getPloneVersion"/>",
     calendarHeight: "<p tal:replace="view/calendarHeight|nothing"/>",
     topicRelativeUrl: "<p tal:replace="view/getTopicRelativeUrl|nothing"/>",
-    topicAbsoluteUrl :"<p tal:replace="view/getTopicAbsoluteUrl|nothing"/>"
+    topicAbsoluteUrl: "<p tal:replace="view/getTopicAbsoluteUrl|nothing"/>",
+    disableAJAX: <p tal:replace="view/disableAJAX"/>,
+    editable: <p tal:replace="view/caleditable"/>,
+    disableDragging: <p tal:replace="view/disableDragging"/>,
+    disableResizing: <p tal:replace="view/disableResizing"/>,
   }
 </metal:javascript>
