@@ -54,7 +54,11 @@ class CalendarGroup(z3cgroup.Group):
         'gcalSources',
         'target_folder',
         'calendarHeight',
-        'displayNoscriptList')
+        'displayNoscriptList',
+        'disableAJAX',
+        'caleditable',
+        'disableDragging',
+        'disableResizing')
     fields['target_folder'].widgetFactory[INPUT_MODE] = QuerySourceFieldRadioWidget
 
 class QueryGroup(z3cgroup.Group):
