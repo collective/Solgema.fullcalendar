@@ -12,7 +12,7 @@ def handleProfileImportedEvent(event):
     topic_type = ttool.Topic
     topic_methods = topic_type.view_methods
     if 'solgemafullcalendar_view' not in topic_methods:
-        topic_type.manage_changeProperties(view_methods=topic_methods+tuple(['solgemafullcalendar_view',]))
+        topic_type.view_methods=topic_methods+tuple(['solgemafullcalendar_view',])
     event_type = ttool.Event
     event_methods = event_type.view_methods
     if 'solgemafullcalendar_view' not in event_methods:
