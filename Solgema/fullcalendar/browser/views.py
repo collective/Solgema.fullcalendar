@@ -343,6 +343,18 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
 
+    def disableAJAX(self):
+        return 'false'
+
+    def caleditable(self):
+        return 'true'
+
+    def disableDragging(self):
+        return 'false'
+
+    def disableResizing(self):
+        return 'false'
+
     def __call__(self):
         self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
         return super(SolgemaFullcalendarEventJS, self).__call__()
@@ -443,6 +455,18 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
 
     def calendarHeight(self):
         return getattr(self.calendar, 'calendarHeight', '600')
+
+    def disableAJAX(self):
+        return getattr(self.calendar, 'disableAJAX', 'false')
+
+    def caleditable(self):
+        return getattr(self.calendar, 'editable', 'true')
+
+    def disableDragging(self):
+        return getattr(self.calendar, 'disableDragging', 'false')
+
+    def disableResizing(self):
+        return getattr(self.calendar, 'disableResizing', 'false')
 
 class SFEventSources(SolgemaFullcalendarView):
 
