@@ -73,27 +73,29 @@ class ColorDictInputWidget(Widget):
 
                 html+='</table>'
         calendar = ISolgemaFullcalendarProperties(self.context, None)
-        gcalSources = getattr(calendar, 'gcalSources', '').split('\n')
-        if gcalSources:
-            html += '<br/><b>%s</b><br/><table>' % (_('Google Calendar Sources'))
-            fieldid = 'gcalSources'
-            for i in range(len(gcalSources)):
-                url = gcalSources[i]
-                item = 'source'+str(i)
-                value = ''
-                if fieldid in currentValues \
-                    and item in currentValues[fieldid]:
-                    value = currentValues[fieldid][item]
-                        
-                html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
-                    <input type="text" size="10" name="%s:record" value="%s"
-                           class="colorinput" style="background-color:%s;" />
-                    </td></tr>""" % (
-                        str(url),
-                        'Source '+str(i+1),
-                        self.name+'.'+fieldid+'.'+item,
-                        value, value)
-            html+='</table>'
+        gcalSourcesAttr = getattr(calendar, 'gcalSources', '')
+        if gcalSourcesAttr != None:
+            gcalSources = gcalSourcesAttr.split('\n')
+            if gcalSources:
+                html += '<br/><b>%s</b><br/><table>' % (_('Google Calendar Sources'))
+                fieldid = 'gcalSources'
+                for i in range(len(gcalSources)):
+                    url = gcalSources[i]
+                    item = 'source'+str(i)
+                    value = ''
+                    if fieldid in currentValues \
+                        and item in currentValues[fieldid]:
+                        value = currentValues[fieldid][item]
+                            
+                    html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
+                        <input type="text" size="10" name="%s:record" value="%s"
+                               class="colorinput" style="background-color:%s;" />
+                        </td></tr>""" % (
+                            str(url),
+                            'Source '+str(i+1),
+                            self.name+'.'+fieldid+'.'+item,
+                            value, value)
+                html+='</table>'
 
         return html
 

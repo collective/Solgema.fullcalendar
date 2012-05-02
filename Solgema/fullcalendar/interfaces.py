@@ -239,6 +239,30 @@ class ISolgemaFullcalendarProperties(Interface):
                                   description = _(u"help_displayNoscriptList"),
                                   default=True)
 
+    disableAJAX = schema.Bool(
+                      title=_(u"label_disableAJAX"),
+                      required=False,
+                      description=_(u"help_disableAJAX"),
+                      default=False)
+
+    caleditable = schema.Bool(
+                      title=_(u"label_caleditable"),
+                      required=False,
+                      description=_(u"help_caleditable"),
+                      default=True)
+
+    disableDragging = schema.Bool(
+                      title=_(u"label_disableDragging"),
+                      required=False,
+                      description=_(u"help_disableDragging"),
+                      default=False)
+
+    disableResizing = schema.Bool(
+                      title=_(u"label_disableResizing"),
+                      required=False,
+                      description=_(u"help_disableResizing"),
+                      default=False)
+
     def isSolgemaFullcalendar(self):
         """get name of days"""
 

@@ -20,7 +20,7 @@ jq.fullCalendar.views.agendaDaySplit = AgendaDaySplitView;
 
 function AgendaDaySplitView(element, calendar) {
 	var t = this;
-	
+
 	// imports
 	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
 	var opt = t.opt;
@@ -32,7 +32,7 @@ function AgendaDaySplitView(element, calendar) {
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplit';
-        
+
     function vsides(element, includeMargins) {
 	    return vpadding(element) +  vborders(element) + (includeMargins ? vmargins(element) : 0);
     }
@@ -68,7 +68,7 @@ function AgendaDaySplitView(element, calendar) {
 			suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, .5));
 		}
 	}
-	
+
 	function render(date, delta) {
 		// base rendering
 		baseRender(date, delta);
@@ -169,7 +169,7 @@ jq.fullCalendar.views.agendaDaySplitColumn = AgendaDaySplitColumn;
 
 function AgendaDaySplitColumn(element, calendar) {
 	var t = this;
-	
+
 	// imports
 	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
 	var opt = t.opt;
@@ -180,7 +180,7 @@ function AgendaDaySplitColumn(element, calendar) {
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitColumn';
-	
+
 	function render(date, delta) {
 		baseRender(date, delta);
 		corrAgenda();
@@ -198,7 +198,7 @@ jq.fullCalendar.views.agendaDaySplitFirstColumn = AgendaDaySplitFirstColumn;
 
 function AgendaDaySplitFirstColumn(element, calendar) {
 	var t = this;
-	
+
 	// imports
 	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
 	var opt = t.opt;
@@ -206,11 +206,11 @@ function AgendaDaySplitFirstColumn(element, calendar) {
 	var formatDate = calendar.formatDate;
     var baseRender = t.render;
         AgendaDaySplitColumnGeneral.call(t);
-	
+
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitFirstColumn';
-	
+
 	function render(date, delta) {
 		baseRender(date, delta);
 		corrAgenda();
@@ -240,7 +240,7 @@ function AgendaDaySplitLastColumn(element, calendar) {
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitLastColumn';
-        
+
 	function render(date, delta) {
 		baseRender(date, delta);
 		corrAgenda();
@@ -257,7 +257,7 @@ jq.fullCalendar.views.agendaDaySplitMonoColumn = AgendaDaySplitMonoColumn;
 
 function AgendaDaySplitMonoColumn(element, calendar) {
 	var t = this;
-	
+
 	// imports
 	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
 	var opt = t.opt;
@@ -268,7 +268,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 	// exports
 	t.render = render;
 	t.name = 'agendaDaySplitMonoColumn';
-	
+
 	function render(date, delta) {
 		baseRender(date, delta);
 		corrAgenda();
@@ -281,6 +281,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 
 var SolgemaFullcalendar = {
     openAddMenu: function (start, end, allDay, event) {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq.ajax({
         type :      'POST',
         url :       './@@SFDisplayAddMenu',
@@ -308,6 +309,7 @@ var SolgemaFullcalendar = {
       });
     },
     initAddContextualContentMenu: function () {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
@@ -347,6 +349,7 @@ var SolgemaFullcalendar = {
       });
     },
     openFastAddForm: function (start, end, allDay, type_name, title) {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
@@ -378,6 +381,7 @@ var SolgemaFullcalendar = {
       });
     },
     openEditForm: function (eventurl) {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       jq("#event_edit_container").dialog( "destroy" );
@@ -399,6 +403,7 @@ var SolgemaFullcalendar = {
       jq(closeContextualContentMenu);
     },
     openSFContextualContentMenu: function (event) {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
       afterContextualContentMenuOpened = function (event) {
         var $calendar = jq('#calendar');
         var $dialogContent = jq("#event_edit_container");
@@ -533,6 +538,7 @@ var SolgemaFullcalendar = {
       openContextualContentMenu(event, this, 'contextualContentMenu', afterContextualContentMenuOpened);
     },
     openDisplayForm: function (fcevent, event) {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
       event.preventDefault();
       var url = fcevent['url'];
       var eventClasses = fcevent['className'];
@@ -591,6 +597,9 @@ function calendarOptions() {
         var firstHour = shour;
     }
     var options = {};
+      options['editable'] = SolgemaFullcalendarVars.editable;
+      options['disableDragging'] = SolgemaFullcalendarVars.disableDragging;
+      options['disableResizing'] = SolgemaFullcalendarVars.disableResizing;
       options['slotMinutes'] = SolgemaFullcalendarVars.slotMinutes;
       options['defaultView'] = (readCookie('SFView')) ? readCookie('SFView') : SolgemaFullcalendarVars.defaultView;
       options['firstDay'] = SolgemaFullcalendarVars.firstDay;
@@ -622,7 +631,6 @@ function calendarOptions() {
         agendaDaySplit: SolgemaFullcalendarVars.daySplit,
       };
       options['titleFormat'] = SolgemaFullcalendarVars.titleFormat;
-      options['editable'] = true;
       options['startParam'] = "start:int";
       options['endParam'] = "end:int";
       options['ignoreTimezone'] = false;
@@ -648,6 +656,7 @@ function calendarOptions() {
         });
       };
       options['eventResize'] = function(event,dayDelta,minuteDelta,revertFunc) {
+        if(SolgemaFullcalendarVars.disableAJAX) { return; }
         jq('#kss-spinner').show();
         var data = {event: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta};
         jq.ajax({
