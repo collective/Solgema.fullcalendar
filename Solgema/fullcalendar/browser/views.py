@@ -507,11 +507,12 @@ class SFEventSources(SolgemaFullcalendarView):
                 d = {}
                 if fromCookie:
                     value = value.decode('utf-8')
-                d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents'
+                d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents?'+criteria+'='+value
                 d['type'] = 'POST'
                 d['color'] = self.getColor(criteria, value)
                 d['title'] = value
-                d['data'] = {criteria:value}
+                #d['data'] = {criteria:value} Unfortunately this is not possible to remove an eventSource with data from fullcalendar
+                #it recognises only eventSource by url....
                 if criteria == 'Subject':
                     d['extraData'] = {'subject:list':value}
                 elif criteria in ['Creator', 'Contributor']:#How to get the right field name?
