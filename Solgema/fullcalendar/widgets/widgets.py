@@ -75,7 +75,7 @@ class ColorDictInputWidget(Widget):
         calendar = ISolgemaFullcalendarProperties(self.context, None)
         gcalSources = getattr(calendar, 'gcalSources', None)
         if gcalSources:
-            gcalSources = getattr(calendar, 'gcalSources', '').split('\n')
+            gcalSources = gcalSources.split('\n')
             html += '<br/><b>%s</b><br/><table>' % (_('Google Calendar Sources'))
             fieldid = 'gcalSources'
             for i in range(len(gcalSources)):
