@@ -240,27 +240,27 @@ class ISolgemaFullcalendarProperties(Interface):
                                   default=True)
 
     disableAJAX = schema.Bool(
-                      title=_(u"label_disableAJAX"),
+                      title=_(u"label_disableAJAX", default="Dsiable AJAX"),
                       required=False,
-                      description=_(u"help_disableAJAX"),
+                      description=_(u"help_disableAJAX", default="Disables contextual adding menu."),
                       default=False)
 
     caleditable = schema.Bool(
-                      title=_(u"label_caleditable"),
+                      title=_(u"label_caleditable", default="Editable"),
                       required=False,
-                      description=_(u"help_caleditable"),
+                      description=_(u"help_caleditable", default="Check this box if you want the events in the calendar to be editable."),
                       default=True)
 
     disableDragging = schema.Bool(
-                      title=_(u"label_disableDragging"),
+                      title=_(u"label_disableDragging", default="Disable Dragging"),
                       required=False,
-                      description=_(u"help_disableDragging"),
+                      description=_(u"help_disableDragging", default="Disables all event dragging, even when events are editable."),
                       default=False)
 
     disableResizing = schema.Bool(
-                      title=_(u"label_disableResizing"),
+                      title=_(u"label_disableResizing", default="Disable Resizing"),
                       required=False,
-                      description=_(u"help_disableResizing"),
+                      description=_(u"help_disableResizing", default="Disables all event resizing, even when events are editable."),
                       default=False)
 
     def isSolgemaFullcalendar(self):
