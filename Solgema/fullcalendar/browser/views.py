@@ -343,6 +343,18 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
 
+    def disableAJAX(self):
+        return 'false'
+
+    def caleditable(self):
+        return 'true'
+
+    def disableDragging(self):
+        return 'false'
+
+    def disableResizing(self):
+        return 'false'
+
     def __call__(self):
         self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
         return super(SolgemaFullcalendarEventJS, self).__call__()
@@ -444,6 +456,21 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     def calendarHeight(self):
         return getattr(self.calendar, 'calendarHeight', '600')
 
+    def disableAJAX(self):
+        return getattr(self.calendar, 'disableAJAX', False) \
+                    and 'true' or 'false'
+
+    def caleditable(self):
+        return getattr(self.calendar, 'editable', True) and 'true' or 'false'
+
+    def disableDragging(self):
+        return getattr(self.calendar, 'disableDragging', False) \
+                    and 'true' or 'false'
+
+    def disableResizing(self):
+        return getattr(self.calendar, 'disableResizing', False) \
+                    and 'true' or 'false'
+
 class SFEventSources(SolgemaFullcalendarView):
 
     implements(interfaces.ISolgemaFullcalendarEventsSources)
@@ -494,17 +521,19 @@ class SFEventSources(SolgemaFullcalendarView):
                 eventSources.append(d.copy())
         else:
             eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
-            
-        gcalSources = getattr(self.calendar, 'gcalSources', '').split('\n')
-        for i in range(len(gcalSources)):
-            url = gcalSources[i]
-            if url:
-                gcalColors = self.calendar.queryColors.get('gcalSources', {})
-                eventSources.append({'url':       url,
-                                    'dataType':  'gcal',
-                                    'className': 'gcal-event gcal-source'+str(i+1),
-                                    'color':     gcalColors.get('source'+str(i), ''),
-                                    'title':     'GCAL '+str(i+1)})
+        
+        gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
+        if gcalSourcesAttr != None:
+            gcalSources = gcalSourcesAttr.split('\n')
+            for i in range(len(gcalSources)):
+                url = gcalSources[i]
+                if url:
+                    gcalColors = self.calendar.queryColors.get('gcalSources', {})
+                    eventSources.append({'url':       url,
+                                        'dataType':  'gcal',
+                                        'className': 'gcal-event gcal-source'+str(i+1),
+                                        'color':     gcalColors.get('source'+str(i), ''),
+                                        'title':     'GCAL '+str(i+1)})
 
         return json.dumps(eventSources, sort_keys=True)
 
