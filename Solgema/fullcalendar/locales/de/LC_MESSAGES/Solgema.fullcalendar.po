@@ -138,7 +138,7 @@ msgstr "Wählen Sie die Kriterien der Kollektion, die am Ende des Kalenders ange
 #. Default: "Check this box if you want the events in the calendar to be editable."
 #: ../interfaces.py:251
 msgid "help_caleditable"
-msgstr ""
+msgstr "Termine im Kalender bearbeitbar zu machen."
 
 #: ../interfaces.py:213
 msgid "help_calendarHeight"
@@ -151,17 +151,17 @@ msgstr "Default view in which the calendar will be displayed"
 #. Default: "Disables contextual adding menu."
 #: ../interfaces.py:245
 msgid "help_disableAJAX"
-msgstr ""
+msgstr "Deaktiviert das context-menü"
 
 #. Default: "Disables all event dragging, even when events are editable."
 #: ../interfaces.py:257
 msgid "help_disableDragging"
-msgstr ""
+msgstr "Termine verschieben deaktiviert."
 
 #. Default: "Disables all event resizing, even when events are editable."
 #: ../interfaces.py:263
 msgid "help_disableResizing"
-msgstr ""
+msgstr "Termine vergrößern/verkleinern deaktiviert."
 
 #: ../interfaces.py:239
 msgid "help_displayNoscriptList"
@@ -226,7 +226,7 @@ msgstr "Samstage und Sonntage anzeigen"
 
 #: ../browser/icalexport.py:27
 msgid "iCal export"
-msgstr "iCal export"
+msgstr "iCal Export"
 
 #. Default: "Display All day option"
 #: ../interfaces.py:305
@@ -244,7 +244,7 @@ msgstr "Suchkriterien"
 #. Default: "Editable"
 #: ../interfaces.py:249
 msgid "label_caleditable"
-msgstr ""
+msgstr "Bearbeitung von Terminen erlauben"
 
 #: ../interfaces.py:211
 msgid "label_calendarHeight"
@@ -257,17 +257,17 @@ msgstr "Standard-Ansicht"
 #. Default: "Dsiable AJAX"
 #: ../interfaces.py:243
 msgid "label_disableAJAX"
-msgstr ""
+msgstr "AJAX deaktivieren"
 
 #. Default: "Disable Dragging"
 #: ../interfaces.py:255
 msgid "label_disableDragging"
-msgstr ""
+msgstr "Verschieben deaktivieren"
 
 #. Default: "Disable Resizing"
 #: ../interfaces.py:261
 msgid "label_disableResizing"
-msgstr ""
+msgstr "Vergrößern deaktivieren"
 
 #: ../interfaces.py:237
 msgid "label_displayNoscriptList"
@@ -320,7 +320,7 @@ msgstr "Relativer erster Wochentag"
 
 #: ../interfaces.py:156
 msgid "label_shortDayNameFormat"
-msgstr "Kurzname Format für Tage"
+msgstr "Kurzname für Tage (Sa-So)"
 
 #: ../interfaces.py:143
 msgid "label_slotMinutes"
@@ -346,5 +346,5 @@ msgstr "kurz"
 #. Default: "Download this calendar in iCal format"
 #: ../browser/icalexport.py:24
 msgid "title_add_to_ical"
-msgstr ""
+msgstr "Kalender im ical-Format herunterladen"
 
