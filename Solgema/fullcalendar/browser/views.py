@@ -208,6 +208,23 @@ class SolgemaFullcalendarView(BrowserView):
     def displayNoscriptList(self):
         return getattr(self.calendar, 'displayNoscriptList', True)
 
+class SolgemaFullcalendarEventView(BrowserView):
+    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+
+    implements(interfaces.ISolgemaFullcalendarView)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
+                                                                  None)
+
+    def getCriteriaClass(self):
+        return []
+
+    def displayNoscriptList(self):
+        return True
+
 class SolgemaFullcalendarEventJS(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
 
@@ -474,7 +491,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         return getattr(self.calendar, 'disableResizing', False) \
                     and 'true' or 'false'
 
-class SFEventSources(SolgemaFullcalendarView):
+class SFTopicSources(SolgemaFullcalendarView):
 
     implements(interfaces.ISolgemaFullcalendarEventsSources)
 
@@ -540,6 +557,13 @@ class SFEventSources(SolgemaFullcalendarView):
                                         'title':     'GCAL '+str(i+1)})
 
         return json.dumps(eventSources, sort_keys=True)
+
+class SFEventSources(SolgemaFullcalendarEventView):
+
+    implements(interfaces.ISolgemaFullcalendarEventsSources)
+                
+    def __call__(self, *args, **kw):
+        return json.dumps([self.context.absolute_url()+'/@@solgemafullcalendarevents',])
 
 class SolgemaFullcalendarEvents(BrowserView):
     """Solgema Fullcalendar Update browser view"""

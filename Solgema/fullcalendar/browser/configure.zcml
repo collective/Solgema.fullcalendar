@@ -32,7 +32,7 @@
   <browser:page
       for="Products.ATContentTypes.interface.IATEvent"
       name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarView"
+      class=".views.SolgemaFullcalendarEventView"
       template="eventview.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
@@ -77,25 +77,9 @@
       />
 
   <!-- THE CALENDAR EVENT QUERY AND RENDERED AS JSON -->
-  <browser:page
-      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
-      name="solgemafullcalendarevents"
-      class=".views.SolgemaFullcalendarEvents"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
-      permission="zope.Public"
-      />
 
   <browser:page
-      for="Products.ATContentTypes.interface.IATEvent"
-      name="solgemafullcalendarevents"
-      class=".views.SolgemaFullcalendarEvents"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
-      permission="zope.Public"
-      />
-
-  <browser:page
-      zcml:condition="installed plone.app.events"
-      for="plone.app.events.interfaces.IEvent"
+      for="*"
       name="solgemafullcalendarevents"
       class=".views.SolgemaFullcalendarEvents"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
@@ -132,6 +116,13 @@
       for="*"
       name="SFEventSources"
       class=".views.SFEventSources"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="Products.ATContentTypes.interface.IATTopic"
+      name="SFEventSources"
+      class=".views.SFTopicSources"
       permission="zope2.View"
       />
 
