@@ -24,7 +24,6 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from Solgema.fullcalendar import interfaces
 
-
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 
 # Check for Plone versions
@@ -455,17 +454,13 @@ class SolgemaFullcalendarDropView(BaseActionView):
             event_uid = event_uid.split('UID_')[1]
 
         brains = self.context.portal_catalog(UID=event_uid)
-
         obj = brains[0].getObject()
-        startDate, endDate = obj.start(), obj.end()
+        startDate, endDate = obj.getField('startDate').get(obj), obj.getField('endDate').get(obj)
         dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
-
         startDate = startDate + dayDelta + minuteDelta / 1440.0
         endDate = endDate + dayDelta + minuteDelta / 1440.0
-
         obj.setStartDate(startDate)
         obj.setEndDate(endDate)
-
         adapted = interfaces.ISFBaseEventFields(obj, None)
         if adapted:
             if request.get('allDay', None) == 'true':
@@ -484,10 +479,9 @@ class SolgemaFullcalendarResizeView(BaseActionView):
         event_uid = request.get('event')
         if event_uid:
             event_uid = event_uid.split('UID_')[1]
-
         brains = self.context.portal_catalog(UID=event_uid)
         obj = brains[0].getObject()
-        endDate = obj.end()
+        endDate = obj.getField('endDate').get(obj)
         dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
         endDate = endDate + dayDelta + minuteDelta / 1440.0
         obj.setEndDate(endDate)
