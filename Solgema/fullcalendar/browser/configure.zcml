@@ -229,7 +229,7 @@
 
   <adapter
        provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEventDict"
-       for="Products.ATContentTypes.content.event.ATEvent
+       for="Products.ATContentTypes.interface.IATEvent
             zope.publisher.interfaces.browser.IBrowserRequest"
        factory=".adapters.SolgemaFullcalendarEventDict" />
 

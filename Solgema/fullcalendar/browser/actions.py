@@ -357,7 +357,7 @@ class SFJsonEventPaste(BaseActionView):
                     startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
 
                 newObject.setStartDate(DateTime(startDate))
-                newObject.setEndDate(newObject.start() + intervalle)
+                newObject.setEndDate(newObject.getField('startDate').get(newObject) + intervalle)
                 newObject.reindexObject()
                 transaction_note('Pasted content to %s' % (self.context.absolute_url()))
                 return json.dumps({'status':'pasted',

@@ -125,8 +125,10 @@ class SolgemaFullcalendarTopicEventDict(object):
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
+            occurenceClass = ' occurence'
         else:
             occurences = [(brainstart.rfc822(), brainend.rfc822())]
+            occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
@@ -138,7 +140,7 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "url": brain.getURL(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass})
+                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
         return events
 
     def dictFromObject(self, item, args={}):
@@ -169,8 +171,10 @@ class SolgemaFullcalendarTopicEventDict(object):
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
+            occurenceClass = ' occurence'
         else:
             occurences = [(item.start().rfc822(), item.end().rfc822())]
+            occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
@@ -183,7 +187,7 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass})
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
 
         return events
 
@@ -242,17 +246,30 @@ class SolgemaFullcalendarEventDict(object):
         typeClass = ' type-' + context.portal_type
         colorIndex = getColorIndex(context, self.request, eventPhysicalPath)
         extraClass = self.getExtraClass()
-        return {"status": "ok",
-                "id": "UID_%s" % context.UID(),
+
+        if HAS_RECURRENCE_SUPPORT:
+            start = DateTime(self.request.get('start'))
+            end = DateTime(self.request.get('end'))
+            occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
+            occurenceClass = ' occurence'
+        else:
+            occurences = [(context.start().rfc822(), context.end().rfc822())]
+            occurenceClass = ''
+        events = []
+        for occurence_start, occurence_end in occurences:
+            events.append({
+                "status": "ok",
+                "id": "UID_%s" % (context.UID()),
                 "title": context.Title(),
                 "description": context.Description(),
-                "start": context.start().rfc822(),
-                "end": context.end().rfc822(),
+                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
+                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
                 "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass}
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
 
+        return events
 
 
 class ColorIndexGetter(object):
@@ -451,8 +468,10 @@ class StandardEventSource(object):
             start  = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
+            occurenceClass = ' occurence'
         else:
             occurences = [(context.start().rfc822(), context.end().rfc822())]
+            occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
@@ -465,7 +484,7 @@ class StandardEventSource(object):
                 "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+typeClass+extraClass
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+typeClass+extraClass+occurenceClass
                 })
         return events
 
