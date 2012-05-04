@@ -46,7 +46,6 @@ zope.component = 3.4.0
 zope.securitypolicy = 3.4.0
 zope.app.zcmlfiles = 3.4.3
 plone.app.z3cform = 0.4.6
-plone.z3cform = 0.5.5
 
 Customizing the skin
 --------------------
