@@ -240,7 +240,7 @@ class ISolgemaFullcalendarProperties(Interface):
                                   default=True)
 
     disableAJAX = schema.Bool(
-                      title=_(u"label_disableAJAX", default="Dsiable AJAX"),
+                      title=_(u"label_disableAJAX", default="Disable AJAX"),
                       required=False,
                       description=_(u"help_disableAJAX", default="Disables contextual adding menu."),
                       default=False)
