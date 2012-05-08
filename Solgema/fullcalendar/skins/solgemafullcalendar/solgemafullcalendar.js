@@ -723,6 +723,7 @@ function initCalendar(date) {
     jq('.fc-button-calendar').append('<span style="position:relative" id="datePickerWrapper"><div id="datePicker"/></span>');
     jq('#datePickerWrapper').insertAfter('.fc-button-calendar');
     jq('#datePicker').datepicker({
+      dateFormat: "dd/mm/yy",
       onSelect: function(date, inst) {
         jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
         jq('#datePicker').css('display', 'none');
