@@ -18,11 +18,21 @@
       layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
       />
 
-  <!-- THE CALENDAR VIEW -->
+  <!-- THE CALENDAR VIEW FOR FOLDER -->
   <browser:page
-      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      for="Products.ATContentTypes.interface.IATFolder"
       name="solgemafullcalendar_view"
       class=".views.SolgemaFullcalendarView"
+      template="folderview.pt"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR VIEW FOR TOPIC -->
+  <browser:page
+      for="Products.ATContentTypes.interface.IATTopic"
+      name="solgemafullcalendar_view"
+      class=".views.SolgemaFullcalendarTopicView"
       template="topicview.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
@@ -32,7 +42,7 @@
   <browser:page
       for="Products.ATContentTypes.interface.IATEvent"
       name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarEventView"
+      class=".views.SolgemaFullcalendarView"
       template="eventview.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
@@ -67,11 +77,20 @@
       permission="zope.Public"
       />
 
-  <!-- THE CALENDAR COLORS CSS GENERATED -->
+  <!-- THE CALENDAR COLORS CSS GENERATED FOR FOLDER-->
   <browser:page
-      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      for="Products.ATContentTypes.interface.IATFolder"
       name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCss"
+      class=".views.SolgemaFullcalendarColorsCssFolder"
+      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
+      permission="zope.Public"
+      />
+
+  <!-- THE CALENDAR COLORS CSS GENERATED FOR TOPIC -->
+  <browser:page
+      for="Products.ATContentTypes.interface.IATTopic"
+      name="solgemafullcalendar_colors.css"
+      class=".views.SolgemaFullcalendarColorsCssTopic"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />
@@ -88,9 +107,18 @@
 
   <!-- FORM FOR CALENDAR PROPERTIES -->
   <browser:page
-      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
+      for="Products.ATContentTypes.interface.IATFolder"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarForm"
+      class=".content.SolgemaFullcalendarFormFolder"
+      permission="cmf.ModifyPortalContent"
+      template="layout.pt"
+      />
+
+  <!-- FORM FOR CALENDAR PROPERTIES -->
+  <browser:page
+      for="Products.ATContentTypes.interface.IATTopic"
+      name="solgemafullcalendar_properties"
+      class=".content.SolgemaFullcalendarFormTopic"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
@@ -123,6 +151,13 @@
       for="Products.ATContentTypes.interface.IATTopic"
       name="SFEventSources"
       class=".views.SFTopicSources"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="Products.ATContentTypes.interface.IATFolder"
+      name="SFEventSources"
+      class=".views.SFFolderSources"
       permission="zope2.View"
       />
 
@@ -193,10 +228,20 @@
       />
 
    <browser:viewlet
+        for="Products.ATContentTypes.interface.IATTopic"
         name="Solgema.fullcalendar.query"
         manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-        class=".query.SolgemaFullcalendarQuery"
-        template="query.pt"
+        class=".query.SolgemaFullcalendarTopicQuery"
+        template="topicquery.pt"
+        permission="zope2.View"
+     />
+
+   <browser:viewlet
+        for="Products.ATContentTypes.interface.IATFolder"
+        name="Solgema.fullcalendar.query"
+        manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
+        class=".query.SolgemaFullcalendarFolderQuery"
+        template="folderquery.pt"
         permission="zope2.View"
      />
 
@@ -225,7 +270,13 @@
        factory=".adapters.SolgemaFullcalendarEventDict" />
 
   <adapter
-       factory=".adapters.ColorIndexGetter" />
+       factory=".adapters.FolderColorIndexGetter" />
+
+  <adapter
+       factory=".adapters.TopicColorIndexGetter" />
+
+  <adapter
+       factory=".adapters.FolderEventSource" />
 
   <adapter
        factory=".adapters.TopicEventSource" />

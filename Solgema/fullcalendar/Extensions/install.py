@@ -3,6 +3,24 @@ from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
 from Solgema.fullcalendar.config import PRODUCT_DEPENDENCIES
 
+def checkViews(context):
+    ttool = getToolByName(context, 'portal_types')
+    topic_type = getattr(ttool, 'Topic', None)
+    if topic_type:
+        topic_methods = topic_type.view_methods
+        if 'solgemafullcalendar_view' not in topic_methods:
+            topic_type.view_methods=topic_methods+tuple(['solgemafullcalendar_view',])
+    event_type = getattr(ttool, 'Event', None)
+    if event_type:
+        event_methods = event_type.view_methods
+        if 'solgemafullcalendar_view' not in event_methods:
+            event_type.view_methods=event_methods+tuple(['solgemafullcalendar_view',])
+    folder_type = getattr(ttool, 'Folder', None)
+    if folder_type:
+        folder_methods = folder_type.view_methods
+        if 'solgemafullcalendar_view' not in folder_methods:
+            folder_type.view_methods=folder_methods+tuple(['solgemafullcalendar_view',])
+
 def install(self, reinstall=False):
 
     portal_quickinstaller = getToolByName(self, 'portal_quickinstaller')

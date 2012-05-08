@@ -28,6 +28,12 @@
       />
 
   <utility
+      component=".vocabularies.availableSubFolders" 
+      name="solgemafullcalendar.availableSubFolders"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       component=".vocabularies.shortNameFormats" 
       name="solgemafullcalendar.shortNameFormats"
       provides="zope.schema.interfaces.IVocabularyFactory"

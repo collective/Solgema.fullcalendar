@@ -8,7 +8,7 @@ from z3c.form.widget import Widget, FieldWidget
 from z3c.form import interfaces
 
 from z3c.form.converter import BaseDataConverter
-
+from Products.ATContentTypes.interface import IATTopic, IATFolder
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.browser.views import listBaseQueryTopicCriteria
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties
@@ -27,17 +27,19 @@ class ColorDictInputWidget(Widget):
     _missing = u'(no value)'
 
     def getCriteriaKeys(self):
-        criteria = listBaseQueryTopicCriteria(self.context)
         li = []
-        for criterion in criteria:
-            field = criterion.Field()
-            fieldid = str(field)
-            li.append(self.name+'.'+fieldid)
-
+        if IATTopic.providedBy(self.context):
+            criteria = listBaseQueryTopicCriteria(self.context)
+            for criterion in criteria:
+                field = criterion.Field()
+                fieldid = str(field)
+                li.append(self.name+'.'+fieldid)
         return li
 
     def getCriteria(self):
-        return listBaseQueryTopicCriteria(self.context)
+        if IATTopic.providedBy(self.context):
+            return listBaseQueryTopicCriteria(self.context)
+        return []
 
     def render(self):
         currentValues = self.value or {}
@@ -96,6 +98,25 @@ class ColorDictInputWidget(Widget):
                             self.name+'.'+fieldid+'.'+item,
                             value, value)
                 html+='</table>'
+        availableSubFolders = getattr(calendar, 'availableSubFolders', [])
+        if IATFolder.providedBy(self.context) and availableSubFolders:
+            html += '<br/><b>%s</b><br/><table>' % (_('Sub-Folders'))
+            fieldid = 'subFolders'
+            for folderId in availableSubFolders:
+                value = ''
+                if fieldid in currentValues \
+                    and folderId in currentValues[fieldid]:
+                    value = currentValues[fieldid][folderId]
+                            
+                html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
+                    <input type="text" size="10" name="%s:record" value="%s"
+                           class="colorinput" style="background-color:%s;" />
+                    </td></tr>""" % (
+                        folderId,
+                        folderId,
+                        self.name+'.'+fieldid+'.'+folderId,
+                        value, value)
+            html+='</table>'
 
         return html
 
@@ -109,7 +130,11 @@ class ColorDictInputWidget(Widget):
         key = self.name+'.gcalSources'
         if self.request.get(key, ''):
             Dict['gcalSources'] = self.request.get(key)
-                
+
+        key = self.name+'.subFolders'
+        if self.request.get(key, ''):
+            Dict['subFolders'] = self.request.get(key)
+
         if len([a for a in Dict.values() if a]) != 0:
             return Dict
         return default

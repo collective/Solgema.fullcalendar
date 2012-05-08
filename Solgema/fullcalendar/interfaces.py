@@ -219,6 +219,12 @@ class ISolgemaFullcalendarProperties(Interface):
                                   value_type = schema.Choice( title = _(u"label_availableCriterias"), source = "solgemafullcalendar.availableCriterias"),
                                   default = [] )
 
+    availableSubFolders = schema.List( title = _(u"label_availableSubFolders"),
+                                  required = False,
+                                  description = _(u"help_availableSubFolders"),
+                                  value_type = schema.Choice( title = _(u"label_availableSubFolders"), source = "solgemafullcalendar.availableSubFolders"),
+                                  default = [] )
+
     queryColors = CustomUpdatingDict( title = _(u"label_queryColors"),
                                   required = False,
                                   description = _(u"help_queryColors"),
@@ -240,7 +246,7 @@ class ISolgemaFullcalendarProperties(Interface):
                                   default=True)
 
     disableAJAX = schema.Bool(
-                      title=_(u"label_disableAJAX", default="Dsiable AJAX"),
+                      title=_(u"label_disableAJAX", default="Disable AJAX"),
                       required=False,
                       description=_(u"help_disableAJAX", default="Disables contextual adding menu."),
                       default=False)

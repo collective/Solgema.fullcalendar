@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2012-05-03 07:45+0000\n"
+"POT-Creation-Date: 2012-05-08 14:33+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
 "Last-Translator: Martronic SA <martronic@martronic.ch>\n"
 "Language-Team: EDF\n"
@@ -20,7 +20,7 @@ msgid "${tname} has been created."
 msgstr "${tname} a été créé."
 
 #. Default: "all-day"
-#: ../browser/views.py:267
+#: ../browser/views.py:278
 msgid "Allday"
 msgstr "Jour entier"
 
@@ -36,26 +36,26 @@ msgid "Calendar properties"
 msgstr "Propriétés du calendrier"
 
 #. Default: "Colors"
-#: ../browser/content.py:74
+#: ../browser/content.py:81
 msgid "Colors"
 msgstr "Couleurs"
 
 #. Default: "Day"
-#: ../browser/views.py:261
+#: ../browser/views.py:272
 msgid "Day"
 msgstr "Jour"
 
 #. Default: "DaySplit"
-#: ../browser/views.py:264
+#: ../browser/views.py:275
 msgid "DaySplit"
 msgstr "Séparé"
 
-#: ../widgets/widgets.py:80
+#: ../widgets/widgets.py:82
 msgid "Google Calendar Sources"
 msgstr "Sources Google Calendar"
 
 #. Default: "Month"
-#: ../browser/views.py:255
+#: ../browser/views.py:266
 #: ../vocabularies.py:29
 msgid "Month"
 msgstr "Mois"
@@ -73,7 +73,13 @@ msgstr "Recherche"
 msgid "Reschedule"
 msgstr "Replanifier"
 
-#: ../widgets/widgets.py:126
+#. Default: "Sub-Folders"
+#: ../browser/content.py:74
+#: ../widgets/widgets.py:103
+msgid "Sub-Folders"
+msgstr "Sous-Dossiers"
+
+#: ../widgets/widgets.py:151
 msgid "The entered value is not a valid dict."
 msgstr "La valeur saisie n'est pas un dictionnaire valide."
 
@@ -82,17 +88,17 @@ msgid "Versioning for this file has been disabled because it is too large"
 msgstr "Le versionnement de ce fichier a été désactivé car il est trop volumineux."
 
 #. Default: "Week"
-#: ../browser/views.py:258
+#: ../browser/views.py:269
 msgid "Week"
 msgstr "Semaine"
 
 #. Default: "abbreviated"
-#: ../vocabularies.py:60
+#: ../vocabularies.py:64
 msgid "abbreviated"
 msgstr "abrégé"
 
 #. Default: "Add New Event"
-#: ../browser/views.py:270
+#: ../browser/views.py:281
 msgid "addNewEvent"
 msgstr "Ajouter un nouvel événement"
 
@@ -122,12 +128,12 @@ msgid "basicWeek"
 msgstr "Semaine basic"
 
 #. Default: "Edit Event"
-#: ../browser/views.py:273
+#: ../browser/views.py:284
 msgid "editEvent"
 msgstr "Modifier l'événement"
 
 #. Default: "Check this box to display All day option"
-#: ../interfaces.py:306
+#: ../interfaces.py:312
 msgid "help_allDay"
 msgstr "Cochez cette case pour afficher l'option \"Jour entier\""
 
@@ -135,8 +141,12 @@ msgstr "Cochez cette case pour afficher l'option \"Jour entier\""
 msgid "help_availableCriterias"
 msgstr "Choisissez les critères de la collection qui seront affichés en dessous du calendrier."
 
+#: ../interfaces.py:224
+msgid "help_availableSubFolders"
+msgstr "Choisissez les sous-dossiers qui seront affichés dans le calendrier."
+
 #. Default: "Check this box if you want the events in the calendar to be editable."
-#: ../interfaces.py:251
+#: ../interfaces.py:257
 msgid "help_caleditable"
 msgstr "Cochez cette case si vous voulez que les événements du calendrier soient éditables."
 
@@ -149,25 +159,25 @@ msgid "help_defaultCalendarView"
 msgstr "Vue par défaut dans laquelle sera affiché le calendrier"
 
 #. Default: "Disables contextual adding menu."
-#: ../interfaces.py:245
+#: ../interfaces.py:251
 msgid "help_disableAJAX"
 msgstr "Désactive le menu contextuel."
 
 #. Default: "Disables all event dragging, even when events are editable."
-#: ../interfaces.py:257
+#: ../interfaces.py:263
 msgid "help_disableDragging"
 msgstr "Désactive le glisser/déposer de tous les événement, même lorsque les événements sont éditables."
 
 #. Default: "Disables all event resizing, even when events are editable."
-#: ../interfaces.py:263
+#: ../interfaces.py:269
 msgid "help_disableResizing"
 msgstr "Désactive le redimmensionnement de tous les événement, même lorsque les événements sont éditables."
 
-#: ../interfaces.py:239
+#: ../interfaces.py:245
 msgid "help_displayNoscriptList"
 msgstr "Si coché, lorsque le javascript n'est pas activé, une liste des événements est affichée à la place du calendrier. A utiliser si le contenu du calendrier doit être référencé sur internet (p.e. googlebot)."
 
-#: ../interfaces.py:229
+#: ../interfaces.py:235
 msgid "help_displayUndefined"
 msgstr "Montrer la case \"Non défini\" dans la recerche en dessous du calendrier. Cela permet de rechercher également du contenu dont le champ recherché n'a pas été renseigné."
 
@@ -196,11 +206,11 @@ msgstr "Contenu de l'en-tête droite du calendrier."
 msgid "help_minTime"
 msgstr "Détermine la première heure visible dans le calendrier (doit être du type '5' ou '5:30')."
 
-#: ../interfaces.py:234
+#: ../interfaces.py:240
 msgid "help_overrideStateForAdmin"
 msgstr "Ne pas prendre en compte le critère d'état pour les administrateurs."
 
-#: ../interfaces.py:224
+#: ../interfaces.py:230
 msgid "help_queryColors"
 msgstr "Vous pouvez assigner une couleur à chaque valeur des critères de recherche."
 
@@ -229,7 +239,7 @@ msgid "iCal export"
 msgstr "Export iCal"
 
 #. Default: "Display All day option"
-#: ../interfaces.py:305
+#: ../interfaces.py:311
 msgid "label_allDay"
 msgstr "Jour entier"
 
@@ -241,8 +251,12 @@ msgstr "Afficher les cases \"Jour entier\""
 msgid "label_availableCriterias"
 msgstr "Critères de la recherche"
 
+#: ../interfaces.py:222
+msgid "label_availableSubFolders"
+msgstr "Sous-dossiers affichés"
+
 #. Default: "Editable"
-#: ../interfaces.py:249
+#: ../interfaces.py:255
 msgid "label_caleditable"
 msgstr "Éditable"
 
@@ -254,26 +268,26 @@ msgstr "Hauteur du calendrier"
 msgid "label_defaultCalendarView"
 msgstr "Vue par défaut"
 
-#. Default: "Dsiable AJAX"
-#: ../interfaces.py:243
+#. Default: "Disable AJAX"
+#: ../interfaces.py:249
 msgid "label_disableAJAX"
 msgstr "Désactiver AJAX"
 
 #. Default: "Disable Dragging"
-#: ../interfaces.py:255
+#: ../interfaces.py:261
 msgid "label_disableDragging"
 msgstr "Désactiver le glisser/déposer"
 
 #. Default: "Disable Resizing"
-#: ../interfaces.py:261
+#: ../interfaces.py:267
 msgid "label_disableResizing"
 msgstr "Désactiver le redimmensionnement"
 
-#: ../interfaces.py:237
+#: ../interfaces.py:243
 msgid "label_displayNoscriptList"
 msgstr "Liste des événements sans javascript"
 
-#: ../interfaces.py:227
+#: ../interfaces.py:233
 msgid "label_displayUndefined"
 msgstr "Non défini"
 
@@ -306,11 +320,11 @@ msgstr "Dernière heure visible"
 msgid "label_minTime"
 msgstr "Première heure visible"
 
-#: ../interfaces.py:232
+#: ../interfaces.py:238
 msgid "label_overrideStateForAdmin"
 msgstr "Surclasser Critère d'état"
 
-#: ../interfaces.py:222
+#: ../interfaces.py:228
 msgid "label_queryColors"
 msgstr "Couleurs"
 
@@ -330,7 +344,7 @@ msgstr "Subdivision"
 msgid "label_target_folder"
 msgstr "Dossier de création"
 
-#: ../browser/query.pt:48
+#: ../browser/topicquery.pt:48
 msgid "label_undefined"
 msgstr "Non défini"
 
@@ -339,7 +353,7 @@ msgid "label_weekends"
 msgstr "Weekends"
 
 #. Default: "short"
-#: ../vocabularies.py:61
+#: ../vocabularies.py:65
 msgid "short"
 msgstr "court"
 

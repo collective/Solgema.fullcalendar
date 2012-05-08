@@ -80,7 +80,7 @@ class SFDisplayAddMenu(BaseActionView):
         if not getSecurityManager().checkPermission('Add portal content', target_folder):
             raise Unauthorized, "You can't add an event on %s" % str(target_folder)
 
-        query = self.context.buildQuery()
+        query = hasattr(self.context, 'buildQuery') and self.context.buildQuery() or {}
         copyDict = getCopyObjectsUID(self.request)
 
         # The 'Item Type' criteria uses the 'Type' index while the 'Item Type

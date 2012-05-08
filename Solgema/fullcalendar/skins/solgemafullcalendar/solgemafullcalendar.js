@@ -98,9 +98,12 @@ function AgendaDaySplitView(element, calendar) {
 		element.empty();
 		for (var i=0; i<sourcesNubmer; i++) {
             var calOptions = jQuery.extend(true, {}, newOptions);
+            solgemaSource = solgemaSources[i];
 			element.append('<div id="cal'+i+'" style="display:table-cell;"></div>');
-			calOptions['eventSources'] = [solgemaSources[i]];
-			calOptions['title'] = solgemaSources[i]['title'];
+			calOptions['eventSources'] = [solgemaSource];
+			calOptions['title'] = solgemaSource['title'];
+			if (solgemaSource['target_folder']) calOptions['target_folder'] = solgemaSource['target_folder'];
+			if (solgemaSource['extraData'])calOptions['extraData'] = solgemaSource['extraData'];
             if (sourcesNubmer == 1) {
 				calOptions['defaultView'] = 'agendaDaySplitMonoColumn';
 			} else if (i==0) {
@@ -280,7 +283,7 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 };
 
 var SolgemaFullcalendar = {
-    openAddMenu: function (start, end, allDay, event) {
+    openAddMenu: function (start, end, allDay, event, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq.ajax({
         type :      'POST',
@@ -303,7 +306,7 @@ var SolgemaFullcalendar = {
             data['EventAllDay'] = allDay;
             openContextualContentMenu(event, this, '@@SFAddMenu', SolgemaFullcalendar.initAddContextualContentMenu, '.', data);
           } else {
-            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title']);
+            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title'], view);
           }
         }
       });
@@ -348,7 +351,7 @@ var SolgemaFullcalendar = {
         jq(closeContextualContentMenu);
       });
     },
-    openFastAddForm: function (start, end, allDay, type_name, title) {
+    openFastAddForm: function (start, end, allDay, type_name, title, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
@@ -367,7 +370,10 @@ var SolgemaFullcalendar = {
       }
       data['type_name'] = type_name;
       if (allDay) data['form.widgets.allDay'] = 1;
-      $dialogContent.append('<iframe src="'+SolgemaFullcalendarVars.target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+      target_folder = view['calendar']['options']['target_folder'];
+      extraData = view['calendar']['options']['extraData'];
+      if (extraData) jQuery.extend(true, data, extraData);
+      $dialogContent.append('<iframe src="'+target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
         width: 700,
         height: 500,
@@ -682,7 +688,7 @@ function calendarOptions() {
       options['selectable'] = true;
       options['selectHelper'] = true;
       options['select'] = function(start, end, allDay, event, view) {
-        SolgemaFullcalendar.openAddMenu(start, end, allDay, event);
+        SolgemaFullcalendar.openAddMenu(start, end, allDay, event, view);
       };
       options['eventAfterRender'] = function(fcevent, element, view) {
         jq(element).click(function(event) {
@@ -707,6 +713,7 @@ function calendarOptions() {
           jq('#kss-spinner').hide();
         }
       };
+      options['target_folder'] = SolgemaFullcalendarVars.target_folder;
       return options;
 };
 
@@ -834,14 +841,16 @@ jq(document).ready(function() {
               if (!found) uncheckeds.push(inputs[i]);
             }
             for (var i=0; i<uncheckeds.length; i++) {
-              var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+uncheckeds[i]['name']+'='+uncheckeds[i]['value'];
-              calendar.fullCalendar('removeEventSource', {'url':url});
+              for (var i=0;i<baseSources.length;i++) {
+                var url = baseSources[i]['url'];
+                if ( url.search( jq(this).val() ) != -1 ) calendar.fullCalendar( 'removeEventSource', {'url':url} );
+              }
             }
             if (jq(this).attr('name')) {
               if(jq(this).attr('checked')) {
-                var url = topicAbsoluteUrl+'/@@solgemafullcalendarevents?'+jq(this).attr('name')+'='+jq(this).val();
                 for (var i=0;i<eventSources.length;i++) {
-                  if (eventSources[i]['url']==url) calendar.fullCalendar( 'addEventSource', eventSources[i] );
+                  var url = eventSources[i]['url'];
+                  if ( url.search( jq(this).val() ) != -1 ) calendar.fullCalendar( 'addEventSource', eventSources[i] );
                 }
               }
             }

@@ -5,6 +5,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import getToolByName
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from Solgema.fullcalendar import interfaces
+from Solgema.fullcalendar.Extensions.install import checkViews
 
 PRODUCT_DEPENDENCIES = ['Solgema.ContextualContentMenu', 'plone.app.z3cform', 'collective.js.jqueryui']
 
@@ -137,6 +138,7 @@ def upgrade20(context):
 
 
 def upgrade210(context):
+    checkViews(context)
     catalog = getToolByName(context, 'portal_catalog')
     for topic in [a.getObject() for a in catalog.searchResults(portal_type="Topic")]:
         calendar = interfaces.ISolgemaFullcalendarProperties(topic, None)

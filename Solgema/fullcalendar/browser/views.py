@@ -12,6 +12,7 @@ from zope.interface import implements
 from zope import component
 from zope.component import getMultiAdapter, getAdapters
 from zope.i18nmessageid import MessageFactory
+from zope.schema.interfaces import IVocabularyFactory
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 
 from Products.Five import BrowserView
@@ -19,6 +20,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode 
+from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
@@ -183,7 +185,6 @@ def getColorIndex(context, request, eventPath=None, brain=None):
     colorIndex = adapter.getColorIndex()
     return ' ' + (colorIndex or undefined)
 
-
 class SolgemaFullcalendarView(BrowserView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
@@ -196,6 +197,15 @@ class SolgemaFullcalendarView(BrowserView):
                                                                   None)
 
     def getCriteriaClass(self):
+        return ''
+
+    def displayNoscriptList(self):
+        return getattr(self.calendar, 'displayNoscriptList', True)
+
+class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
+    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+
+    def getCriteriaClass(self):
         anon = self.context.portal_membership.isAnonymousUser()
         listCriteria = self.context.listCriteria()
         if not listCriteria:
@@ -204,26 +214,6 @@ class SolgemaFullcalendarView(BrowserView):
             return ''
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0].Field())
-
-    def displayNoscriptList(self):
-        return getattr(self.calendar, 'displayNoscriptList', True)
-
-class SolgemaFullcalendarEventView(BrowserView):
-    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
-
-    implements(interfaces.ISolgemaFullcalendarView)
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
-                                                                  None)
-
-    def getCriteriaClass(self):
-        return []
-
-    def displayNoscriptList(self):
-        return True
 
 class SolgemaFullcalendarEventJS(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
@@ -237,6 +227,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         self.portal = portal_state.portal() 
         self._ts = getToolByName(context, 'translation_service')
         self.portal_language = portal_state.language()
+        self.calendar = None
 
     def getFirstDay(self):
         return 1
@@ -318,7 +309,14 @@ class SolgemaFullcalendarEventJS(BrowserView):
             return "{month: 'ddd', week: 'ddd M/d', day: 'dddd M/d'}"
 
     def getTargetFolder(self):
-        return aq_parent(aq_inner(self.context)).absolute_url()
+        target_folder = getattr(self.calendar, 'target_folder', None)
+        if target_folder:
+            addContext = self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder)
+        elif IATFolder.providedBy(self.context):
+            addContext = self.context
+        else:
+            addContext = aq_parent(aq_inner(self.context))
+        return addContext.absolute_url()
 
     def getHeaderRight(self):
         return 'month, agendaWeek, agendaDay'
@@ -384,8 +382,6 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
 
     implements(interfaces.ISolgemaFullcalendarJS)
     
-    
-
     def __init__(self, context, request):
         super(SolgemaFullcalendarTopicJS, self).__init__(context, request)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
@@ -425,11 +421,6 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
             delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
             newdate = now+delta
             return int(newdate.day)
-
-    def getTargetFolder(self):
-        target_folder = getattr(self.calendar, 'target_folder', None)
-        addContext = target_folder and self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder) or aq_parent(aq_inner(self.context))
-        return addContext.absolute_url()
 
     def getHeaderLeft(self):
         headerLeft = getattr(self.calendar, 'headerLeft', 'prev,next today calendar')
@@ -558,7 +549,68 @@ class SFTopicSources(SolgemaFullcalendarView):
 
         return json.dumps(eventSources, sort_keys=True)
 
-class SFEventSources(SolgemaFullcalendarEventView):
+class SFFolderSources(SolgemaFullcalendarView):
+
+    implements(interfaces.ISolgemaFullcalendarEventsSources)
+                
+    def getColor(self, fieldid, value):
+        colorsDict = self.calendar.queryColors
+        
+        if not colorsDict or not colorsDict.get(fieldid):
+            return None
+        value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
+        newColorsDict = {}
+        for k,v in colorsDict.get(fieldid, {}).items():
+            k = safe_unicode(k)
+            if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
+                return v
+        return None
+                
+    def __call__(self, *args, **kw):
+        """Render JS eventSources. Separate cookie request in different sources."""
+        self.request.response.setHeader('Content-Type', 'application/x-javascript')
+        props = getToolByName(self.context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+        values = getCookieItems(self.request, 'subFolders', charset)
+        availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
+        fromCookie = True
+        if values == None:
+            fromCookie = False
+            values = getattr(self.calendar, 'availableSubFolders', [])
+        voc = component.getUtility(IVocabularyFactory, name=u'solgemafullcalendar.availableSubFolders', context=self.context)(self.context)
+        eventSources = []
+        if values:
+            for value in values:
+                if not value in availableSubFolders:
+                    continue
+                d = {}
+                if fromCookie:
+                    value = value.decode('utf-8')
+                d['url'] = self.context.absolute_url()+'/'+value+'/@@solgemafullcalendarevents'
+                d['type'] = 'POST'
+                d['color'] = self.getColor('subFolders', value)
+                d['title'] = voc.getTerm(value).title
+                d['target_folder'] = self.context.absolute_url()+'/'+value
+                eventSources.append(d.copy())
+        else:
+            eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
+        
+        gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
+        if gcalSourcesAttr != None:
+            gcalSources = gcalSourcesAttr.split('\n')
+            for i in range(len(gcalSources)):
+                url = gcalSources[i]
+                if url:
+                    gcalColors = self.calendar.queryColors.get('gcalSources', {})
+                    eventSources.append({'url':       url,
+                                        'dataType':  'gcal',
+                                        'className': 'gcal-event gcal-source'+str(i+1),
+                                        'color':     gcalColors.get('source'+str(i), ''),
+                                        'title':     'GCAL '+str(i+1)})
+
+        return json.dumps(eventSources, sort_keys=True)
+
+class SFEventSources(BrowserView):
 
     implements(interfaces.ISolgemaFullcalendarEventsSources)
                 
@@ -582,7 +634,43 @@ class SolgemaFullcalendarEvents(BrowserView):
         return json.dumps(events, sort_keys=True)
 
 
-class SolgemaFullcalendarColorsCss(BrowserView):
+class SolgemaFullcalendarColorsCssFolder(BrowserView):
+    """Solgema Fullcalendar Javascript variables"""
+
+    implements(interfaces.ISolgemaFullcalendarColorsCss)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+
+    def __call__(self):
+        colorsDict = self.calendar.queryColors
+        availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
+        css = ''
+        if not colorsDict or not availableSubFolders:
+            return css
+        folderIds = [a.getId for a in self.context.getFolderContents(contentFilter={'portal_type':'Folder'})]
+        if not folderIds:
+            return css
+        fieldid = 'subFolders'
+
+        for i in range(len(availableSubFolders)):
+            folderId = availableSubFolders[i]
+            color = None
+            for k,v in colorsDict.get(fieldid, {}).items():
+                k = safe_unicode(k)
+                if k == folderId:
+                    color = v
+                    break
+            if color:
+                css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
+                css += '    color: %s;\n' % (str(color))
+                css += '}\n\n'
+
+        return css
+
+class SolgemaFullcalendarColorsCssTopic(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
 
     implements(interfaces.ISolgemaFullcalendarColorsCss)

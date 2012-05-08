@@ -8,7 +8,7 @@ try:
 except:
     ICatalogBrain = Interface
 from Products.CMFCore.utils import getToolByName
-from Products.ATContentTypes.interface import IATTopic
+from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
@@ -271,11 +271,44 @@ class SolgemaFullcalendarEventDict(object):
 
         return events
 
-
-class ColorIndexGetter(object):
+class FolderColorIndexGetter(object):
 
     implements(interfaces.IColorIndexGetter)
-    adapts(Interface, Interface, ICatalogBrain)
+    adapts(IATFolder, Interface, ICatalogBrain)
+
+    def __init__(self, context, request, source):
+        self.context = context
+        self.request = request
+        self.source = source
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+
+    def getColorIndex(self):
+        context, request, brain = self.context, self.request, self.source
+        availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
+        colorIndex = ''
+        if not availableSubFolders:
+            return colorIndex
+
+        props = getToolByName(self.context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+        selectedItems = getCookieItems(request, 'subFolders', charset)
+        if not selectedItems:
+            selectedItems = availableSubFolders
+
+        if not isinstance(selectedItems, list):
+            selectedItems = [selectedItems,]
+
+        for val in availableSubFolders:
+            if val in selectedItems:
+                colorIndex = 'colorIndex-'+str(availableSubFolders.index(val))
+                colorIndex += ' subFolderscolorIndex-'+str(availableSubFolders.index(val))
+
+        return colorIndex
+
+class TopicColorIndexGetter(object):
+
+    implements(interfaces.IColorIndexGetter)
+    adapts(IATTopic, Interface, ICatalogBrain)
 
     def __init__(self, context, request, source):
         self.context = context
@@ -309,12 +342,11 @@ class ColorIndexGetter(object):
 
         return colorIndex
 
-
-class TopicEventSource(object):
+class FolderEventSource(object):
     """Event source that get events from the topic
     """
     implements(interfaces.IEventSource)
-    adapts(IATTopic, Interface)
+    adapts(IATFolder, Interface)
 
     def __init__(self, context, request):
         self.context = context
@@ -343,6 +375,61 @@ class TopicEventSource(object):
                                     if b in filt['values']])>0 ]
 
         return brains
+
+    def getTargetFolder(self):
+        target_folder = getattr(self.calendar, 'target_folder', None)
+        if target_folder:
+            addContext = self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder)
+        elif IATFolder.providedBy(self.context):
+            addContext = self.context
+        else:
+            addContext = aq_parent(aq_inner(self.context))
+        return addContext
+
+    def _getCriteriaArgs(self):
+        return ({'path':{'query':'/'.join(self.getTargetFolder().getPhysicalPath()), 'depth':1}}, [])
+
+    def getEvents(self):
+        context = self.context
+        request = self.request
+        args, filters = self._getCriteriaArgs()
+        try:
+            end = int(request.get('end'))
+        except:
+            end = request.get('end')
+        try:
+            start = int(request.get('start'))
+        except:
+            start = request.get('start')
+        args['start'] = {'query': DateTime(end), 'range':'max'}
+        args['end'] = {'query': DateTime(start), 'range':'min'}
+
+        brains = self._getBrains(args, filters)
+        topicEventsDict = getMultiAdapter((context, self.request),
+                                          interfaces.ISolgemaFullcalendarTopicEventDict)
+        result = topicEventsDict.createDict(brains, args)
+        return result
+
+    def getICalObjects(self):
+        args, filters = self._getCriteriaArgs()
+        brains = self._getBrains(args, filters)
+        return [a.getObject() for a in brains]
+
+    def getICal(self):
+        args, filters = self._getCriteriaArgs()
+        brains = self._getBrains(args, filters)
+        if HAS_CALEXPORT_SUPPORT:
+            return ''.join([EventsICal(b.getObject())()
+                                    for b in brains])
+        else:
+            return ''.join([b.getObject().getICal() for b in brains])
+
+
+class TopicEventSource(FolderEventSource):
+    """Event source that get events from the topic
+    """
+    implements(interfaces.IEventSource)
+    adapts(IATTopic, Interface)
 
     def _getCriteriaArgs(self):
         context, request = self.context, self.request
@@ -412,20 +499,6 @@ class TopicEventSource(object):
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
         result = topicEventsDict.createDict(brains, args)
         return result
-
-    def getICalObjects(self):
-        args, filters = self._getCriteriaArgs()
-        brains = self._getBrains(args, filters)
-        return [a.getObject() for a in brains]
-
-    def getICal(self):
-        args, filters = self._getCriteriaArgs()
-        brains = self._getBrains(args, filters)
-        if HAS_CALEXPORT_SUPPORT:
-            return ''.join([EventsICal(b.getObject())()
-                                    for b in brains])
-        else:
-            return ''.join([b.getObject().getICal() for b in brains])
 
 class StandardEventSource(object):
     """Event source that display an event

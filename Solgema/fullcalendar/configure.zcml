@@ -25,6 +25,10 @@
   <include package=".upgrades" />
   <i18n:registerTranslations directory="locales" />
 
+  <class class="Products.ATContentTypes.content.folder.ATFolder">
+      <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
+  </class>
+
   <class class="Products.ATContentTypes.content.topic.ATTopic">
       <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
   </class>

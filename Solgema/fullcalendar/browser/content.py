@@ -61,7 +61,7 @@ class CalendarGroup(z3cgroup.Group):
         'disableResizing')
     fields['target_folder'].widgetFactory[INPUT_MODE] = QuerySourceFieldRadioWidget
 
-class QueryGroup(z3cgroup.Group):
+class TopicQueryGroup(z3cgroup.Group):
     label = _(u'Query', default="Query")
 
     fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
@@ -69,6 +69,13 @@ class QueryGroup(z3cgroup.Group):
         'displayUndefined',
         'overrideStateForAdmin')
     fields['availableCriterias'].widgetFactory[INPUT_MODE] = CriteriasOrderedSelectFieldWidget
+
+class FolderQueryGroup(z3cgroup.Group):
+    label = _(u'Sub-Folders', default="Sub-Folders")
+
+    fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
+        'availableSubFolders',)
+    fields['availableSubFolders'].widgetFactory[INPUT_MODE] = CriteriasOrderedSelectFieldWidget
 
 class ColorsGroup(z3cgroup.Group):
     label = _(u'Colors', default="Colors")
@@ -78,8 +85,6 @@ class ColorsGroup(z3cgroup.Group):
 
 
 class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
-
-    groups = (CalendarGroup, QueryGroup, ColorsGroup)
 
     @button.buttonAndHandler(plMF('label_save', default=u'Save'), name='apply')
     def handleApply(self, action):
@@ -101,4 +106,11 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
     def handleCancel( self, action):
         self.request.RESPONSE.redirect( self.context.absolute_url() )
 
-SolgemaFullcalendarForm = wrap_form(SolgemaFullcalendarFormBase)
+class SolgemaFullcalendarFormBaseTopic(SolgemaFullcalendarFormBase):
+    groups = (CalendarGroup, TopicQueryGroup, ColorsGroup)
+    
+class SolgemaFullcalendarFormBaseFolder(SolgemaFullcalendarFormBase):
+    groups = (CalendarGroup, FolderQueryGroup, ColorsGroup)
+
+SolgemaFullcalendarFormTopic = wrap_form(SolgemaFullcalendarFormBaseTopic)
+SolgemaFullcalendarFormFolder = wrap_form(SolgemaFullcalendarFormBaseFolder)

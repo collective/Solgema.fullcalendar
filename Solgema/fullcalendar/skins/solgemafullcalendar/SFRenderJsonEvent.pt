@@ -4,7 +4,25 @@
 </head>
 <body>
 <script>
-  window.parent.jq('#calendar').fullCalendar( 'refetchEvents' );
+  var calendar = window.parent.jq('#calendar');
+  var curView = calendar.fullCalendar('getView');
+  if (curView.name == 'agendaDaySplit') {
+    calendar.css('height', calendar.height());
+    var date = calendar.fullCalendar('getDate');
+    var options = calendar.data('fullCalendar').options;
+    calendar.fullCalendar('destroy');
+    options['year'] = date.getFullYear();
+    options['month'] = date.getMonth();
+    options['date'] = date.getDate();
+    options['defaultView'] = 'agendaDaySplit';
+    options['eventSources'] = options['solgemaSources'];
+    calendar.fullCalendar(options);
+    calendar.css('height', calendar.height());
+    window.parent.initCalendar(date);
+    calendar.css('height', 'auto');
+  } else {
+      calendar.fullCalendar( 'refetchEvents' );
+  }
   window.parent.jq('#event_edit_container').dialog('close');
   window.parent.jq('#kss-spinner').hide();
 </script>
