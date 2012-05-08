@@ -1,0 +1,39 @@
+<div id="SFQuery"
+  i18n:domain="plone"
+  tal:define="availableSubFolders view/availableSubFolders"
+  tal:condition="availableSubFolders">
+  <tal:defs define="selectedCriteria python:here.REQUEST.cookies.get('sfqueryDisplay', availableSubFolders[0][0]);">
+
+  <form class="enableFormTabbing">
+
+  <input type="hidden" name="sfqueryDisplay" tal:attributes="value selectedCriteria"/>
+
+    <fieldset tal:define="field string:subFolders;
+                          selectedItems python:view.getCookieItems(field) or [a[0] for a in availableSubFolders]"
+              tal:attributes="id string:fieldset-${field}">
+
+
+      <legend tal:attributes="id string:fieldsetlegend-${field}"
+              class="selected"
+              i18n:translate="">Sub Folders</legend>
+
+        <div tal:repeat="item availableSubFolders" class="SFQuery_input">
+          <input type="checkbox"
+            tal:attributes="name field;
+                            value python:item[0];
+                            checked python:item[0] in selectedItems and 'checked' or None"/>
+          <label tal:attributes="for field;
+                                 class string:${field}colorIndex-${repeat/item/index} colorIndex-${repeat/item/index}"
+                 tal:content="python:item[1]" i18n:translate=""/>
+        </div>
+    </fieldset>
+
+  </form>
+  
+<tal:script replace="structure string:&lt;script&gt;" />
+jq(function() {
+  jq("#SFQuery .formTab a[href='#fieldsetlegend-<p tal:replace="selectedCriteria"/>']").click();
+});
+<tal:script replace="structure string:&lt;/script&gt;" />
+</tal:defs>
+</div>

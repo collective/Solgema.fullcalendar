@@ -1,0 +1,60 @@
+<div id="SFQuery"
+  i18n:domain="plone"
+  tal:condition="view/listQueryTopicCriteria">
+  <tal:defs define="selectedCriteria python:here.REQUEST.cookies.get('sfqueryDisplay', view.listQueryTopicCriteria()[0].Field());">
+  <form class="enableFormTabbing">
+  <input type="hidden" name="sfqueryDisplay" tal:attributes="value selectedCriteria"/>
+  <tal:criterias tal:repeat="criteria view/listQueryTopicCriteria">
+    <fieldset tal:condition="python:criteria.meta_type=='ATPortalTypeCriterion'"
+              tal:define="field criteria/Field;
+                          index python:here.portal_atct.getIndex(field);
+                          selectedItems python:view.getCookieItems(field) or criteria.getCriteriaItems()[0][1]"
+              tal:attributes="id string:fieldset-${field}">
+      <legend tal:attributes="id string:fieldsetlegend-${field};
+                              class python:selectedCriteria==field and 'selected' or None"
+              tal:content="python:index.friendlyName or index.index" i18n:translate=""/>
+        <div tal:repeat="item python:criteria.getCriteriaItems()[0][1]" class="SFQuery_input">
+          <input type="checkbox"
+            tal:attributes="name field;
+                            value item;
+                            checked python:item in selectedItems and 'checked' or None"/>
+          <label tal:attributes="for field;
+                                 class string:${field}colorIndex-${repeat/item/index} colorIndex-${repeat/item/index}"
+                 tal:content="item" i18n:translate=""/>
+        </div>
+    </fieldset>
+    <fieldset tal:condition="python:criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']"
+              tal:define="field criteria/Field;"
+              tal:attributes="id string:fieldset-${field}">
+      <tal:defines define="index python:here.portal_atct.getIndex(field);
+                           selectedItems python:view.getCookieItems(field) or criteria.getCriteriaItems()[0][1]['query']">
+      <legend tal:attributes="id string:fieldsetlegend-${field}"
+              tal:content="python:index.friendlyName or index.index" i18n:translate=""/>
+        <div tal:repeat="item python:criteria.getCriteriaItems()[0][1]['query']" class="SFQuery_input">
+          <input type="checkbox"
+            tal:attributes="name field;
+                            value item;
+                            checked python:item in selectedItems and 'checked' or None;
+                            id string:criterion-$field-$item;"/>
+          <label tal:define="reviewclass python:criteria.Field()=='review_state' and ' state-'+item or '';"
+                 tal:attributes="for string:criterion-$field-$item;
+                                 class string:${field}colorIndex-${repeat/item/index} colorIndex-${repeat/item/index}${reviewclass}"
+                 tal:content="item"/>
+        </div>
+        <div class="SFQuery_input" tal:condition="python:field != 'review_state' and view.displayUndefined()">
+          <input type="checkbox"
+            tal:attributes="name field;
+                            checked python:'undefined' in selectedItems and 'checked' or None" value="undefined"/>
+          <label tal:attributes="for field;" i18n:domain="Solgema.fullcalendar" i18n:translate="label_undefined"/>
+        </div>
+      </tal:defines>
+    </fieldset>
+  </tal:criterias>
+  </form>
+<tal:script replace="structure string:&lt;script&gt;" />
+jq(function() {
+  jq("#SFQuery .formTab a[href='#fieldsetlegend-<p tal:replace="selectedCriteria"/>']").click();
+});
+<tal:script replace="structure string:&lt;/script&gt;" />
+</tal:defs>
+</div>

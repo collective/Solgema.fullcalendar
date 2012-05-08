@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="Solgema.fullcalendar">
+<head>
+  <metal:slot fill-slot="style_slot">
+        <style media="all"  type="text/css" tal:content="structure python:path('here/solgemafullcalendar_colors.css')">
+        </style>
+  </metal:slot>
+    <metal:slot fill-slot="javascript_head_slot" tal:omit-tag="">
+        <script type="text/javascript" tal:condition="view/calendar/gcalSources | nothing"
+            tal:attributes="src string:${context/portal_url}/++resource++collective.js.fullcalendar/fullcalendar.gcal.js"></script>
+        <script type="text/javascript"
+            tal:attributes="src string:${context/absolute_url}/solgemafullcalendar_vars.js"></script>
+        <script type="text/javascript"
+            tal:attributes="src string:${context/absolute_url}/solgemafullcalendar.js"></script>
+    </metal:slot>
+</head>
+<body>
+    <div metal:fill-slot="main">
+        <tal:main-macro metal:define-macro="main">
+            <metal:body define-macro="body_macro"
+                tal:define="kssClassesView context/@@kss_field_decorator_view;
+                            getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
+                            templateId template/getId">
+
+                <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+                <h1 class="documentFirstHeading" tal:content="context/Title">
+                    Title
+                </h1>
+
+                <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+                <p class="documentDescription" tal:content="context/Description">
+                    Description
+                </p>
+
+                <div id="calendar" tal:attributes="class string:query-${view/getCriteriaClass}">
+                    <div id="event_edit_container"></div>
+                </div>
+                <noscript tal:condition="view/displayNoscriptList | python:True">
+                    <metal:list metal:use-macro="here/folder_listing/macros/listing"/>
+                </noscript>
+                <div tal:replace="structure provider:Solgema.fullcalendar.queryManager" />
+                <div tal:replace="structure provider:plone.belowcontentbody" />
+                <metal:body define-macro="folderlisting_macro">
+                    <tal:subtopics condition="here/hasSubtopics|nothing"
+                       define="folderContents here/getFolderContents">
+                        <h2 i18n:domain="atcontenttypes"
+                          i18n:translate="heading_contained_collections">
+                          Also in this section
+                        </h2>
+                    <metal:list metal:use-macro="here/base/macros/folderlisting"/>
+                    </tal:subtopics>
+                </metal:body>
+            </metal:body>
+        </tal:main-macro>
+    </div>
+</body>
+</html>
