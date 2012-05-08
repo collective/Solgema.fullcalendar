@@ -37,9 +37,6 @@
                     <div id="event_edit_container"></div>
                 </div>
 
-                <noscript tal:condition="view/displayNoscriptList | python:True">
-                    <metal:list metal:use-macro="here/event_view/macros/content-core"/>
-                </noscript>
         <div class="eventDetails vcard">
             <table class="vertical listing"
                    summary="Event details" i18n:attributes="summary summary_event_details;">
