@@ -11,15 +11,19 @@ This calendar allows you to display events type objects in a powerfull and fast 
 You will be also able to add, edit and more generally manage your events throught the Calendar
 with a strong AJAX framework.
 
-The calendar is a view you can choose on a Topic. The view is named "solgemafullcalendar_view".
+The calendar is a view you can choose on a Topic, on a Folder or on an Event.
+The view is named "solgemafullcalendar_view".
 After that, a new object action permits you to set up the basics parameters for the calendar.
 
-The calendar is strongly linked to the Topic as the events it displays are searched by the Topic and
+On a Topic, the calendar displays the events that are searched by the Topic and
 it's criterias.
+
+On a Folder, the calendar displays the events that are contained in the Folder itself or in 
+the sub-folders if they are selected in the calendar properties.
 
 In addition to the calendar, there is a small query form you can display in the bottom of
 the calendar to choose which event you want to display. The fields in this query form are
-taken from the Topic's Criterions.
+taken from the Topic's Criterions or from the subfolders of a Folder.
 
 As a developer, you can add event sources to default one.
 You just have to define named IEventSource adapters which provides each a list of dictionaries
