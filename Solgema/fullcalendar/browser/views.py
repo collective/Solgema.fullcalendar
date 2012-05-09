@@ -578,7 +578,7 @@ class SFFolderSources(SolgemaFullcalendarView):
             fromCookie = False
             values = getattr(self.calendar, 'availableSubFolders', [])
         voc = component.getUtility(IVocabularyFactory, name=u'solgemafullcalendar.availableSubFolders', context=self.context)(self.context)
-        eventSources = [{'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'}]
+        eventSources = []
         if values:
             for value in values:
                 if not value in availableSubFolders:
@@ -592,6 +592,8 @@ class SFFolderSources(SolgemaFullcalendarView):
                 d['title'] = voc.getTerm(value).title
                 d['target_folder'] = self.context.absolute_url()+'/'+value
                 eventSources.append(d.copy())
+        else:
+            eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
         
         gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
         if gcalSourcesAttr != None:
