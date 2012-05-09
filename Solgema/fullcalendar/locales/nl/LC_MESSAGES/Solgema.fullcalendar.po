@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2012-05-08 14:33+0000\n"
+"POT-Creation-Date: 2012-05-09 06:16+0000\n"
 "PO-Revision-Date: 2007-12-20 16:01+0100\n"
 "Last-Translator: YOUR NAME <your@email.com>\n"
 "Language-Team: Plone Netherlands <plone-nl@lists.plone.org>\n"
@@ -72,6 +72,10 @@ msgstr "Website doorzoeken"
 #: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
 msgid "Reschedule"
 msgstr "Opnieuw plannen"
+
+#: ../browser/folderquery.pt:16
+msgid "Sources"
+msgstr "Bronnen"
 
 #. Default: "Sub-Folders"
 #: ../browser/content.py:74

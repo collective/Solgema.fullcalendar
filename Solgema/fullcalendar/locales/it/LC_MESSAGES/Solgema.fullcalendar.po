@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-05-08 14:33+0000\n"
+"POT-Creation-Date: 2012-05-09 06:16+0000\n"
 "PO-Revision-Date: 2011-12-07 01:10+0200\n"
 "Last-Translator: Giacomo Spettoli <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
@@ -75,6 +75,10 @@ msgstr "Ricerca"
 #: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
 msgid "Reschedule"
 msgstr "Ri-pianificare"
+
+#: ../browser/folderquery.pt:16
+msgid "Sources"
+msgstr "Fonti"
 
 #. Default: "Sub-Folders"
 #: ../browser/content.py:74

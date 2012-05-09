@@ -14,8 +14,8 @@
 
 
       <legend tal:attributes="id string:fieldsetlegend-${field}"
-              class="selected"
-              i18n:translate="">Sub Folders</legend>
+              class="selected" i18n:domain="Solgema.fullcalendar"
+              i18n:translate="">Sources</legend>
 
         <div tal:repeat="item availableSubFolders" class="SFQuery_input">
           <input type="checkbox"

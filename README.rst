@@ -23,7 +23,7 @@ the sub-folders if they are selected in the calendar properties.
 
 In addition to the calendar, there is a small query form you can display in the bottom of
 the calendar to choose which event you want to display. The fields in this query form are
-taken from the Topic's Criterions or from the subfolders of a Folder.
+taken from the Topic's Criterions or from the subfolders of the Folder.
 
 As a developer, you can add event sources to default one.
 You just have to define named IEventSource adapters which provides each a list of dictionaries

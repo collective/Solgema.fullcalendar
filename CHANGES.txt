@@ -4,6 +4,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Added the fullcalendar_view for Folders. The view displays the events in the folder or use each subfolder as source.
+  [fmoret]
+
 - Added the ability to add Google Calendar Sources to the fullcalendar in addition to Plone standard source.
   [fmoret]
 
@@ -70,7 +73,7 @@ Changelog
 - Add needed jqueryui plugins explicitly using registry.xml step
   [toutpt]
 
-_ Add Nederlands translation
+- Add Nederlands translation
   [cirb] 
 
 2.0.2 (2011-11-28)
