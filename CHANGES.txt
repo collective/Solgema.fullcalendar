@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.0 (unreleased)
+2.1.0 (2012-05-15)
 ------------------
 
 - Added the fullcalendar_view for Folders. The view displays the events in the folder or use each subfolder as source.
