@@ -305,10 +305,10 @@ class FolderColorIndexGetter(object):
 
         return colorIndex
 
-class TopicColorIndexGetter(object):
+class ColorIndexGetter(object):
 
     implements(interfaces.IColorIndexGetter)
-    adapts(IATTopic, Interface, ICatalogBrain)
+    adapts(Interface, Interface, ICatalogBrain)
 
     def __init__(self, context, request, source):
         self.context = context
