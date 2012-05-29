@@ -273,7 +273,7 @@
        factory=".adapters.FolderColorIndexGetter" />
 
   <adapter
-       factory=".adapters.TopicColorIndexGetter" />
+       factory=".adapters.ColorIndexGetter" />
 
   <adapter
        factory=".adapters.FolderEventSource" />
