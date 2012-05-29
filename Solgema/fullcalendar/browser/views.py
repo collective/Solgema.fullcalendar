@@ -182,8 +182,9 @@ def getColorIndex(context, request, eventPath=None, brain=None):
 
     adapter = getMultiAdapter((context, request, brain),
                               interfaces.IColorIndexGetter)
-    colorIndex = adapter.getColorIndex()
-    return ' ' + (colorIndex or undefined)
+    return adapter.getColorIndex()
+#    return colorDict
+#    return ' ' + (colorIndex or undefined)
 
 class SolgemaFullcalendarView(BrowserView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""

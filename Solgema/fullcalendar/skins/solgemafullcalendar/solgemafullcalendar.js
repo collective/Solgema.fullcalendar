@@ -424,8 +424,15 @@ var SolgemaFullcalendar = {
             async:   false,
             data :      {event_path:href},
             success :   function(msg) {
-              $calendar.fullCalendar('removeEvents', [msg['id'],]);
-              $calendar.fullCalendar('renderEvent', msg, false);
+              if (typeof(msg)=='string') {
+                $calendar.fullCalendar('removeEvents', [msg['id'],]);
+                $calendar.fullCalendar('renderEvent', msg, false);
+              } else {
+                for (var i=0; i<msg.length; i++) {
+                  $calendar.fullCalendar('removeEvents', [msg[i]['id'],]);
+                  $calendar.fullCalendar('renderEvent', msg[i], false);
+                }
+              }
               jq(closeContextualContentMenu);
               jq('#kss-spinner').hide();
             },

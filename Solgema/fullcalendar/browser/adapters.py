@@ -34,7 +34,6 @@ try:
 except ImportError:
     HAS_RECURRENCE_SUPPORT = False
 
-
 class SolgemaFullcalendarCatalogSearch(object):
     implements(interfaces.ISolgemaFullcalendarCatalogSearch)
 
@@ -118,9 +117,12 @@ class SolgemaFullcalendarTopicEventDict(object):
         if self.copyDict and brain.getPath() == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
         typeClass = ' type-'+brain.portal_type
-        colorIndex = getColorIndex(self.context, self.request, brain=brain)
+        colorDict = getColorIndex(self.context, self.request, brain=brain)
+        colorIndex = colorDict.get('class', '')
+        color = colorDict.get('color', '')
         extraClass = self.getBrainExtraClass(brain)
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             event = brain.getObject()
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
@@ -135,12 +137,13 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (brain.UID),
                 "title": brain.Title,
                 "description": brain.Description,
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
                 "url": brain.getURL(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
+                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
+                "color": color})
         return events
 
     def dictFromObject(self, item, args={}):
@@ -165,9 +168,12 @@ class SolgemaFullcalendarTopicEventDict(object):
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
 
         typeClass = ' type-' + item.portal_type
-        colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
+        colorDict = getColorIndex(self.context, self.request, eventPhysicalPath)
+        colorIndex = colorDict.get('class', '')
+        color = colorDict.get('color', '')
         extraClass = self.getObjectExtraClass(item)
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
@@ -182,12 +188,13 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (item.UID()),
                 "title": item.Title(),
                 "description": item.Description(),
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
+                "color": color})
 
         return events
 
@@ -226,16 +233,21 @@ class SolgemaFullcalendarEventDict(object):
         return ' '.join(classes)
 
     def __call__(self):
+        event = self.context
         context = self.context
-
-        eventPhysicalPath = '/'.join(context.getPhysicalPath())
+        referer = self.request.get('HTTP_REFERER')
+        if referer:
+            portal = getToolByName(self.context, 'portal_url').getPortalObject()
+            url = '/'+portal.id+referer.replace(portal.absolute_url(), '')
+            context = portal.restrictedTraverse(url)
+        eventPhysicalPath = '/'.join(event.getPhysicalPath())
         wft = getToolByName(context, 'portal_workflow')
-        state = wft.getInfoFor(context, 'review_state')
+        state = wft.getInfoFor(event, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
-        editable = bool(member.has_permission('Modify portal content', context))
-        allday = (context.end() - context.start()) > 1.0
+        editable = bool(member.has_permission('Modify portal content', event))
+        allday = (event.end() - event.start()) > 1.0
 
-        adapted = interfaces.ISFBaseEventFields(context, None)
+        adapted = interfaces.ISFBaseEventFields(event, None)
         if adapted:
             allday = adapted.allDay
 
@@ -243,31 +255,35 @@ class SolgemaFullcalendarEventDict(object):
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
 
-        typeClass = ' type-' + context.portal_type
-        colorIndex = getColorIndex(context, self.request, eventPhysicalPath)
+        typeClass = ' type-' + event.portal_type
+        colorDict = getColorIndex(context, self.request, eventPhysicalPath)
+        colorIndex = colorDict.get('class', '')
+        color = colorDict.get('color', '')
         extraClass = self.getExtraClass()
 
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
+            occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(context.start().rfc822(), context.end().rfc822())]
+            occurences = [(event.start().rfc822(), event.end().rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (context.UID()),
-                "title": context.Title(),
-                "description": context.Description(),
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
-                "url": context.absolute_url(),
+                "id": "UID_%s" % (event.UID()),
+                "title": event.Title(),
+                "description": event.Description(),
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
+                "url": event.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
+                "color": color})
 
         return events
 
@@ -285,9 +301,11 @@ class FolderColorIndexGetter(object):
     def getColorIndex(self):
         context, request, brain = self.context, self.request, self.source
         availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
-        colorIndex = ''
+        final = {'color':'',
+                 'class':''}
         if not availableSubFolders:
-            return colorIndex
+            return final.copy()
+        colorsDict = self.calendar.queryColors
 
         props = getToolByName(self.context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
@@ -297,13 +315,16 @@ class FolderColorIndexGetter(object):
 
         if not isinstance(selectedItems, list):
             selectedItems = [selectedItems,]
-
         for val in availableSubFolders:
             if val in selectedItems:
-                colorIndex = 'colorIndex-'+str(availableSubFolders.index(val))
-                colorIndex += ' subFolderscolorIndex-'+str(availableSubFolders.index(val))
+                for parentid in brain.getPath().split('/'):
+                    if val == parentid:
+                        final['color'] = colorsDict.get('subFolders', {}).get(val, '')
+                        colorIndex = ' colorIndex-'+str(availableSubFolders.index(val))
+                        colorIndex += ' subFolderscolorIndex-'+str(availableSubFolders.index(val))
+                        final['class'] = colorIndex
 
-        return colorIndex
+        return final.copy()
 
 class ColorIndexGetter(object):
 
@@ -314,13 +335,16 @@ class ColorIndexGetter(object):
         self.context = context
         self.request = request
         self.source = source
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
 
     def getColorIndex(self):
         context, request, brain = self.context, self.request, self.source
         criteriaItems = getCriteriaItems(context, request)
-        colorIndex = ''
+        final = {'color':'',
+                 'class':''}
         if not criteriaItems:
-            return colorIndex
+            return final.copy()
+        colorsDict = self.calendar.queryColors
 
         props = getToolByName(self.context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
@@ -330,17 +354,18 @@ class ColorIndexGetter(object):
 
         if not isinstance(selectedItems, list):
             selectedItems = [selectedItems,]
-
+        final = {}
         if criteriaItems:
             brainVal = getattr(brain, criteriaItems['name'])
             brainVal = isinstance(brainVal, (tuple, list)) and brainVal or [brainVal,]
+            valColorsDict = colorsDict.get(criteriaItems['name'], {})
             for val in brainVal:
                 if criteriaItems['values'].count(val) != 0 and val in selectedItems:
-                    colorIndex = 'colorIndex-'+str(criteriaItems['values'].index(val))
+                    final['color'] = colorsDict.get(criteriaItems['name'], {}).get(val, '')
+                    colorIndex = ' colorIndex-'+str(criteriaItems['values'].index(val))
                     colorIndex += ' '+criteriaItems['name']+'colorIndex-'+str(criteriaItems['values'].index(val))
-                    break
-
-        return colorIndex
+                    final['class'] = colorIndex
+        return final.copy()
 
 class FolderEventSource(object):
     """Event source that get events from the topic
@@ -536,8 +561,8 @@ class StandardEventSource(object):
             allday = context.whole_day
         extraClass = self.getObjectExtraClass()
         typeClass = ' type-' + context.portal_type
-        
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             start  = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
@@ -552,8 +577,8 @@ class StandardEventSource(object):
                 "id": "UID_%s" % (context.UID()),
                 "title": context.Title(),
                 "description": context.Description(),
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
                 "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
