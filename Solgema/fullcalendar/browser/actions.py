@@ -89,7 +89,7 @@ class SFDisplayAddMenu(BaseActionView):
         # We need to check for both, portal_type first, because it's more
         # specific than 'Type', which just indexes the content type's Title
         # property (which can be non-unique).
-        index = query and query.get('portal_type') or query.get('Type') 
+        index = query.get('portal_type', query.get('Type') )
         if index:
             if isinstance(index, (list, tuple)) and len(index) > 1:
                 return json.dumps({'display': True})
@@ -97,7 +97,7 @@ class SFDisplayAddMenu(BaseActionView):
             portal_type = isinstance(index, (tuple, list)) and index[0] or index
             if copyDict and portal.restrictedTraverse(copyDict['url']).portal_type == portal_type:
                 return json.dumps({'display': True})
-            else:
+            elif query.get('Type'):
                 portal_type = isinstance(query['Type'], (tuple, list)) and query['Type'][0] or query['Type']
                 if copyDict and portal.restrictedTraverse(copyDict['url']).portal_type == portal_type:
                     return json.dumps({'display': True})
