@@ -33,6 +33,11 @@
       <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
   </class>
 
+  <class  zcml:condition="installed plone.app.collection"
+      class="plone.app.collection.collection.Collection">
+      <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
+  </class>
+
   <adapter
      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
      provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarProperties"

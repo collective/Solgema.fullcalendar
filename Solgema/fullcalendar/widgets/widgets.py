@@ -9,6 +9,14 @@ from z3c.form import interfaces
 
 from z3c.form.converter import BaseDataConverter
 from Products.ATContentTypes.interface import IATTopic, IATFolder
+
+try:
+    from plone.app.collection.interfaces import ICollection
+    hasPAC = True
+except:
+    ICollection = Interface
+    hasPAC = False
+
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.browser.views import listBaseQueryTopicCriteria
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties
@@ -28,7 +36,7 @@ class ColorDictInputWidget(Widget):
 
     def getCriteriaKeys(self):
         li = []
-        if IATTopic.providedBy(self.context):
+        if IATTopic.providedBy(self.context) or hasPAC:
             criteria = listBaseQueryTopicCriteria(self.context)
             for criterion in criteria:
                 field = criterion.Field()
@@ -37,7 +45,7 @@ class ColorDictInputWidget(Widget):
         return li
 
     def getCriteria(self):
-        if IATTopic.providedBy(self.context):
+        if IATTopic.providedBy(self.context) or hasPAC:
             return listBaseQueryTopicCriteria(self.context)
         return []
 

@@ -9,6 +9,8 @@
   <include package="Products.CMFCore" file="configure.zcml" />
   <include package="plone.app.contentmenu" zcml:condition="installed plone.app.contentmenu" />
 
+  <include file="ploneappcollection.zcml" zcml:condition="installed plone.app.collection" />
+
   <browser:menuItem zcml:condition="have plone-4"
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       menu="plone_displayviews"

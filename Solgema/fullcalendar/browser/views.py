@@ -20,7 +20,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode 
-from Products.ATContentTypes.interface import IATTopic, IATFolder
+from Products.ATContentTypes.interface import IATFolder
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
@@ -683,7 +683,10 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
 
     def __call__(self):
         colorsDict = self.calendar.queryColors
-        criterias = listBaseQueryTopicCriteria(self.context)
+        try:
+            criterias = listBaseQueryTopicCriteria(self.context)
+        except:
+            raise ValueError(str(self.context.query))
         css = ''
         if not colorsDict:
             return css

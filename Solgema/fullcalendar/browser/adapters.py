@@ -34,6 +34,11 @@ try:
 except ImportError:
     HAS_RECURRENCE_SUPPORT = False
 
+try:
+    from plone.app.collection.interfaces import ICollection
+except:
+    ICollection = Interface
+
 class SolgemaFullcalendarCatalogSearch(object):
     implements(interfaces.ISolgemaFullcalendarCatalogSearch)
 
@@ -524,6 +529,12 @@ class TopicEventSource(FolderEventSource):
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
         result = topicEventsDict.createDict(brains, args)
         return result
+
+class CollectionEventSource(TopicEventSource):
+    """Event source that get events from the plone.app.collection
+    """
+    implements(interfaces.IEventSource)
+    adapts(ICollection, Interface)
 
 class StandardEventSource(object):
     """Event source that display an event
