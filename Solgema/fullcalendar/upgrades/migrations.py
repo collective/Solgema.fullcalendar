@@ -143,7 +143,7 @@ def upgrade210(context):
     for topic in [a.getObject() for a in catalog.searchResults(portal_type="Topic")]:
         calendar = interfaces.ISolgemaFullcalendarProperties(topic, None)
         newColors = {}
-        if calendar:
+        if calendar and getattr(calendar, 'queryColors', None):
             for k,v in calendar.queryColors.items():
                 colDict = {}
                 for l,w in v.items():
