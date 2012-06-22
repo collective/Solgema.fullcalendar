@@ -482,7 +482,7 @@ class SolgemaFullcalendarResizeView(BaseActionView):
         brains = self.context.portal_catalog(UID=event_uid)
         obj = brains[0].getObject()
         endDate = obj.getField('endDate').get(obj)
-        dayDelta, minuteDelta = float(request.get('dayDelta')), float(request.get('minuteDelta'))
+        dayDelta, minuteDelta = float(request.get('dayDelta', 0)), float(request.get('minuteDelta', 0))
         endDate = endDate + dayDelta + minuteDelta / 1440.0
         obj.setEndDate(endDate)
         obj.reindexObject()
