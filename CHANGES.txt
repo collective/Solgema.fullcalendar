@@ -4,6 +4,12 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
+- Fixed bug with eventdropping in agenda
+  [fmoret]
+
+2.1.1 (2012-06-06)
+------------------
+
 - Fixed some bugs in the adapters and actions ("KeyError: Type" when adding event and "ComponentLookupError"
   when workflow transition.)
   [fmoret]
