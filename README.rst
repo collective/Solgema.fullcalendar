@@ -50,6 +50,7 @@ zope.component = 3.4.0
 zope.securitypolicy = 3.4.0
 zope.app.zcmlfiles = 3.4.3
 plone.app.z3cform = 0.4.6
+collective.js.jqueryui = 1.7.2.7
 
 Customizing the skin
 --------------------
