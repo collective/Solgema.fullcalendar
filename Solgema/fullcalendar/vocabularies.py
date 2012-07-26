@@ -3,7 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 
 from Solgema.fullcalendar.config import _
-
+from Solgema.fullcalendar import interfaces
 
 class TitledVocabulary(vocabulary.SimpleVocabulary):
     def fromTitles(cls, items, *interfaces):
@@ -42,17 +42,18 @@ def daysOfWeek( context ):
 def dayHours( context ):
     return TitledVocabulary.fromTitles([(a, a<10 and '0'+str(a)+':00' or str(a)+':00') for a in range(25)])
 
-def availableCriterias( topic ):
+def availableCriterias( context ):
+    criterias = interfaces.IListBaseQueryTopicCriteria(context)()
     li = []
-    portal_atct = getToolByName(topic, 'portal_atct')
-    for criteria in topic.listCriteria():
-        field = criteria.Field()
-        if criteria.meta_type=='ATPortalTypeCriterion' and len(criteria.getCriteriaItems()[0][1])>0:
+    portal_atct = getToolByName(context, 'portal_atct')
+    for criteria in criterias:
+        field = criteria['i']
+        if (criteria['o']=='ATPortalTypeCriterion' or criteria['i']=='portal_type') and len(criteria['v'])>0:
             index = portal_atct.getIndex(field).friendlyName or portal_atct.getIndex(field).index
-            li.append({'id':field, 'title':topic.translate(index)})
-        elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
+            li.append({'id':field, 'title':context.translate(index)})
+        elif criteria['o'] in ['ATSelectionCriterion', 'ATListCriterion', 'plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] and len(criteria['v'])>0:
             index = portal_atct.getIndex(field).friendlyName or portal_atct.getIndex(field).index
-            li.append({'id':field, 'title':topic.translate(index)})
+            li.append({'id':field, 'title':context.translate(index)})
 
     return TitledVocabulary.fromTitles([(crit['id'], crit['title']) for crit in li])
 

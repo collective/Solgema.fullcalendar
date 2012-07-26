@@ -343,3 +343,15 @@ class IEventSource(Interface):
     def getIcal(self):
         """Ical export of events
         """
+
+class IListCriterias(Interface):
+    """Adapter that lists criterias for topic and collections
+    """
+
+class ICriteriaItems(Interface):
+    """Adapter that returns the selected criteria in calendar
+    """
+
+class IListBaseQueryTopicCriteria(Interface):
+    """Adapter that lists criterias for topic and collections
+    """

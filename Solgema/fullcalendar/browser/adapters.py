@@ -12,8 +12,7 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.browser.views import listQueryTopicCriteria,\
-    getCriteriaItems, getCookieItems
+from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
     from plone.app.event.ical import EventsICal
@@ -344,7 +343,7 @@ class ColorIndexGetter(object):
 
     def getColorIndex(self):
         context, request, brain = self.context, self.request, self.source
-        criteriaItems = getCriteriaItems(context, request)
+        criteriaItems = getMultiAdapter((context, request),  interfaces.ICriteriaItems)()
         final = {'color':'',
                  'class':''}
         if not criteriaItems:
@@ -454,6 +453,190 @@ class FolderEventSource(object):
         else:
             return ''.join([b.getObject().getICal() for b in brains])
 
+class listBaseQueryTopicCriteria(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListBaseQueryTopicCriteria)
+    adapts(IATTopic)
+
+    def __init__(self, context):
+        self.context = context
+    
+    def __call__(self):
+        li = []
+        for criteria in self.context.listCriteria():
+            if criteria.meta_type == 'ATPortalTypeCriterion' \
+                    and len(criteria.getCriteriaItems()[0][1]) > 0:
+                li.append({'i':criteria.Field(), 'v':criteria.getCriteriaItems()[0][1], 'o':criteria.meta_type})
+            if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] \
+                    and criteria.getCriteriaItems() \
+                    and len(criteria.getCriteriaItems()[0]) > 1 \
+                    and len(criteria.getCriteriaItems()[0][1]['query']) > 0:
+                li.append({'i':criteria.Field(), 'v':criteria.getCriteriaItems()[0][1]['query'], 'o':criteria.meta_type})
+
+        return li
+
+class listBaseQueryCollectionCriteria(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListBaseQueryTopicCriteria)
+    adapts(ICollection)
+
+    def __init__(self, context):
+        self.context = context
+    
+    def __call__(self):
+        return self.context.getField('query').getRaw(self.context)
+
+class listCriteriasTopicAdapter(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListCriterias)
+    adapts(IATTopic)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context), None)
+        li = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        for criteria in li:
+            if criteria['o']=='ATPortalTypeCriterion' and len(criteria['v'])==1:
+                li.remove(criteria)
+
+        if hasattr(calendar, 'availableCriterias') and getattr(calendar, 'availableCriterias', None) != None:
+            li = [a for a in li if a['i'] in calendar.availableCriterias]
+
+        return dict([(a['i'], a['v']) for a in li])
+
+class listCriteriasCollectionAdapter(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListCriterias)
+    adapts(ICollection)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context), None)
+        li = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        for criteria in li:
+            if criteria['i']=='portal_type' and len(criteria['v'])==1:
+                li.remove(criteria)
+
+        if hasattr(calendar, 'availableCriterias') and getattr(calendar, 'availableCriterias', None) != None:
+            li = [a for a in li if a['i'] in calendar.availableCriterias]
+
+        return dict([(a['i'], a['v']) for a in li])
+    
+def getTopic(context, request):
+    if not interfaces.ISolgemaFullcalendarMarker.providedBy(context):
+        utils = getToolByName(context, 'plone_utils')
+        page = utils.getDefaultPage(context, request)
+        pageItem = page and getattr(context, page) or None
+        if interfaces.ISolgemaFullcalendarMarker.providedBy(pageItem):
+            return pageItem
+
+        portal = getToolByName(context, 'portal_url').getPortalObject()
+        referer = unquote(request.get('last_referer', request.get('HTTP_REFERER')))
+        if referer.find('?')!=-1:
+            referer = referer[:referer.index('?')]
+
+        if referer[-5:] == '/view':
+            referer = referer[:-5]
+
+        if referer[-1:] == '/':
+            referer = referer[:-1]
+
+        portal_url = portal.absolute_url()
+        topic_url = referer.replace(portal_url, '')
+        topic_path = '/'.join(portal.getPhysicalPath()) + topic_url
+        topic = portal.restrictedTraverse(topic_path)
+        if utils.getDefaultPage(topic, request):
+            page = utils.getDefaultPage(topic, request)
+            topic_url = topic_url+'/'+page
+            topic = getattr(topic, page)
+            if interfaces.ISolgemaFullcalendarMarker.providedBy(topic):
+                return topic
+        url = '/'+portal.id+topic_url
+        while not interfaces.ISolgemaFullcalendarMarker.providedBy(topic):
+            url = url[0:url.rindex('/')]
+            try:
+                topic = portal.restrictedTraverse(url)
+            except:
+                break
+                raise str(url)
+
+        return topic
+    else:
+        return context
+
+class CriteriaItemsTopic(object):
+
+    implements(interfaces.ICriteriaItems)
+    adapts(IATTopic, Interface)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        
+    def __call__(self):
+        topic = getTopic(self.context, self.request)
+        listCriteria = topic.listCriteria()
+        topicCriteria = interfaces.IListCriterias(topic)()
+        if topicCriteria:
+            selectedCriteria = self.request.cookies.get('sfqueryDisplay', topic.REQUEST.cookies.get('sfqueryDisplay', topicCriteria.keys()[0]))
+            criteria = [a for a in listCriteria if a.Field() == selectedCriteria]
+        else:
+            criteria = listCriteria
+
+        criteria = [a for a in criteria if a.meta_type in
+                   ['ATPortalTypeCriterion', 'ATSelectionCriterion', 'ATListCriterion']]
+        if not criteria:
+            return False
+
+        criteria = criteria[0]
+        if criteria.meta_type == 'ATPortalTypeCriterion':
+            return {'name': criteria.Field(),
+                    'values': list(criteria.getCriteriaItems()[0][1])}
+
+        if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
+            return {'name': criteria.Field(),
+                    'values': list(criteria.getCriteriaItems()[0][1]['query']) + ['']
+                    }
+
+        return False
+
+class CriteriaItemsCollection(object):
+
+    implements(interfaces.ICriteriaItems)
+    adapts(ICollection, Interface)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        
+    def __call__(self):
+        topic = getTopic(self.context, self.request)
+        listCriteria = self.context.getField('query').getRaw(self.context)
+        topicCriteria = interfaces.IListCriterias(topic)()
+        if topicCriteria:
+            selectedCriteria = self.request.cookies.get('sfqueryDisplay', topic.REQUEST.cookies.get('sfqueryDisplay', topicCriteria.keys()[0]))
+            criteria = [a for a in listCriteria if a['i'] == selectedCriteria]
+        else:
+            criteria = listCriteria
+
+        criteria = [a for a in criteria if a['o'] in
+                   ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] or 
+                   a['i'] == 'portal_type']
+        if not criteria:
+            return False
+
+        criteria = criteria[0]
+
+        return {'name': criteria['i'],
+                'values': criteria['v']}
 
 class TopicEventSource(FolderEventSource):
     """Event source that get events from the topic
@@ -466,12 +649,13 @@ class TopicEventSource(FolderEventSource):
         response = request.response
 
         query = context.buildQuery()
-        topicCriteria = listQueryTopicCriteria(context)
+        topicCriteria = interfaces.IListCriterias(context)()
+        listCriteria = context.listCriteria()
         args = {}
         if not query:
             return ({}, [])
 
-        props = getToolByName(self.context, 'portal_properties')
+        props = getToolByName(context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
 
         if 'Type' in query.keys():
@@ -482,25 +666,26 @@ class TopicEventSource(FolderEventSource):
                 args['Type'] = query['Type']
         filters = []
         #reinit cookies if criterions are no more there
-        for criteria in context.listCriteria():
-            if criteria not in listQueryTopicCriteria(context):
-                response.expireCookie(criteria.Field())
+        for cId in [c.Field() for c in listCriteria]:
+            if cId not in topicCriteria.keys():
+                response.expireCookie(cId)
 
-        if request.cookies.get('sfqueryDisplay', None) not in [a.Field() for a in topicCriteria]:
+        if request.cookies.get('sfqueryDisplay', None) not in topicCriteria.keys():
             response.expireCookie('sfqueryDisplay')
 
-        for criteria in self.context.listCriteria():
-            if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteria.Field():
-                args[criteria.Field()] = query[criteria.Field()]
+        for criteria in listCriteria:
+            criteriaId = criteria.Field()
+            if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteriaId:
+                args[criteriaId] = query[criteriaId]
             elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
-                items = getCookieItems(request, criteria.Field(), charset)
-                if items and criteria in topicCriteria:
+                items = getCookieItems(request, criteriaId, charset)
+                if items and criteriaId in topicCriteria.keys():
                     if 'undefined' in items:
-                        filters.append({'name':criteria.Field(), 'values':items})
+                        filters.append({'name':criteriaId, 'values':items})
                     else:
-                        args[criteria.Field()] = items
+                        args[criteriaId] = items
                 else:
-                    args[criteria.Field()] = query[criteria.Field()]
+                    args[criteriaId] = query[criteriaId]
 
         return args, filters
 
@@ -535,6 +720,53 @@ class CollectionEventSource(TopicEventSource):
     """
     implements(interfaces.IEventSource)
     adapts(ICollection, Interface)
+
+    def _getCriteriaArgs(self):
+        context, request = self.context, self.request
+        response = request.response
+    
+        queryField = context.getField('query')
+        listCriteria = queryField.getRaw(context)
+
+        query = dict([(a['i'], a['v']) for a in listCriteria])
+        topicCriteria = interfaces.IListCriterias(context)()
+        args = {}
+        if not query:
+            return ({}, [])
+
+        props = getToolByName(context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+
+        if 'Type' in query.keys():
+            items = getCookieItems(request, 'Type', charset)
+            if items:
+                args['Type'] = items
+            else:
+                args['Type'] = query['Type']
+        filters = []
+        #reinit cookies if criterions are no more there
+        for cId in [c['i'] for c in listCriteria]:
+            if cId not in topicCriteria.keys():
+                response.expireCookie(cId)
+
+        if request.cookies.get('sfqueryDisplay', None) not in topicCriteria.keys():
+            response.expireCookie('sfqueryDisplay')
+
+        for criteria in listCriteria:
+            criteriaId = criteria['i']
+            if criteria['o'] not in ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] and criteriaId != 'portal_type':
+                args[criteriaId] = query[criteriaId]
+            else:
+                items = getCookieItems(request, criteriaId, charset)
+                if items and criteriaId in topicCriteria.keys():
+                    if 'undefined' in items:
+                        filters.append({'name':criteriaId, 'values':items})
+                    else:
+                        args[criteriaId] = items
+                else:
+                    args[criteriaId] = query[criteriaId]
+
+        return args, filters
 
 class StandardEventSource(object):
     """Event source that display an event
