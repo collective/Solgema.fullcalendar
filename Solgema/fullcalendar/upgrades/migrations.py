@@ -151,3 +151,7 @@ def upgrade210(context):
                     colDict[str(component.queryUtility(IURLNormalizer).normalize(l))] = w
                 newColors[k] = colDict.copy()
             calendar.queryColors = newColors.copy()
+
+
+def upgrade212(context):
+    checkViews(context)

@@ -10,16 +10,24 @@ def checkViews(context):
         topic_methods = topic_type.view_methods
         if 'solgemafullcalendar_view' not in topic_methods:
             topic_type.view_methods=topic_methods+tuple(['solgemafullcalendar_view',])
+
     event_type = getattr(ttool, 'Event', None)
     if event_type:
         event_methods = event_type.view_methods
         if 'solgemafullcalendar_view' not in event_methods:
             event_type.view_methods=event_methods+tuple(['solgemafullcalendar_view',])
+
     folder_type = getattr(ttool, 'Folder', None)
     if folder_type:
         folder_methods = folder_type.view_methods
         if 'solgemafullcalendar_view' not in folder_methods:
             folder_type.view_methods=folder_methods+tuple(['solgemafullcalendar_view',])
+
+    collection_type = getattr(ttool, 'Collection', None)
+    if collection_type:
+        collection_methods = collection_type.view_methods
+        if 'solgemafullcalendar_view' not in collection_methods:
+            collection_type.view_methods=collection_methods+tuple(['solgemafullcalendar_view',])
 
 def install(self, reinstall=False):
 
