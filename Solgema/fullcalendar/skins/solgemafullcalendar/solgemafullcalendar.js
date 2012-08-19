@@ -755,9 +755,7 @@ function initCalendar(date) {
     jq('.fc-button-calendar').removeClass('ui-state-hover');
     jq('#datePicker').css('display', 'none');
     jq('.fc-button-calendar').click( function() {
-      if (jq('#datePicker').css('display') != 'block') {
-        jq('#datePicker').css('display', 'block');
-      }
+      jq('#datePicker').toggle();
     });
   }
 };
