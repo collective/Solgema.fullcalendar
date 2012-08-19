@@ -136,7 +136,7 @@
   jq(document).ready( function() {
     jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq('body').height()+30 );
     var $dialogContent = window.parent.jq('#event_edit_container');
-    if (jq('input[name=form.button.cancel]').attr('name')) {
+    if (jq("input[name='form.button.cancel']").attr('name')) {
         window.parent.jq('a.ui-dialog-titlebar-close').unbind('click').click(function(event){
           event.preventDefault();
           jq.ajax({

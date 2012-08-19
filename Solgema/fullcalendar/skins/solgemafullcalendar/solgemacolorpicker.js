@@ -3,8 +3,8 @@ function initColorpicker() {
         var name = jq(elem).attr('name')
         jq(elem).ColorPicker({
 	    onChange: function(hsb, hex, rgb, el) {
-		jq('input[name='+name+']').val('#' + hex);
-                jq('input[name='+name+']').css('backgroundColor', '#' + hex);
+		jq('input[name="'+name+'"]').val('#' + hex);
+                jq('input[name="'+name+'"]').css('backgroundColor', '#' + hex);
 	    },
 	    onSubmit: function(hsb, hex, rgb, el) {
 		jq(el).val('#' + hex);

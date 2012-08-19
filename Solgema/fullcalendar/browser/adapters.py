@@ -12,8 +12,7 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.browser.views import listQueryTopicCriteria,\
-    getCriteriaItems, getCookieItems
+from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
     from plone.app.event.ical import EventsICal
@@ -34,6 +33,10 @@ try:
 except ImportError:
     HAS_RECURRENCE_SUPPORT = False
 
+try:
+    from plone.app.collection.interfaces import ICollection
+except:
+    ICollection = Interface
 
 class SolgemaFullcalendarCatalogSearch(object):
     implements(interfaces.ISolgemaFullcalendarCatalogSearch)
@@ -118,9 +121,12 @@ class SolgemaFullcalendarTopicEventDict(object):
         if self.copyDict and brain.getPath() == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
         typeClass = ' type-'+brain.portal_type
-        colorIndex = getColorIndex(self.context, self.request, brain=brain)
+        colorDict = getColorIndex(self.context, self.request, brain=brain)
+        colorIndex = colorDict.get('class', '')
+        color = colorDict.get('color', '')
         extraClass = self.getBrainExtraClass(brain)
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             event = brain.getObject()
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
@@ -135,12 +141,13 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (brain.UID),
                 "title": brain.Title,
                 "description": brain.Description,
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
                 "url": brain.getURL(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
+                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
+                "color": color})
         return events
 
     def dictFromObject(self, item, args={}):
@@ -165,9 +172,12 @@ class SolgemaFullcalendarTopicEventDict(object):
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
 
         typeClass = ' type-' + item.portal_type
-        colorIndex = getColorIndex(self.context, self.request, eventPhysicalPath)
+        colorDict = getColorIndex(self.context, self.request, eventPhysicalPath)
+        colorIndex = colorDict.get('class', '')
+        color = colorDict.get('color', '')
         extraClass = self.getObjectExtraClass(item)
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
@@ -182,12 +192,13 @@ class SolgemaFullcalendarTopicEventDict(object):
                 "id": "UID_%s" % (item.UID()),
                 "title": item.Title(),
                 "description": item.Description(),
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
+                "color": color})
 
         return events
 
@@ -226,16 +237,21 @@ class SolgemaFullcalendarEventDict(object):
         return ' '.join(classes)
 
     def __call__(self):
+        event = self.context
         context = self.context
-
-        eventPhysicalPath = '/'.join(context.getPhysicalPath())
+        referer = self.request.get('HTTP_REFERER')
+        if referer:
+            portal = getToolByName(self.context, 'portal_url').getPortalObject()
+            url = '/'+portal.id+referer.replace(portal.absolute_url(), '')
+            context = portal.restrictedTraverse(url)
+        eventPhysicalPath = '/'.join(event.getPhysicalPath())
         wft = getToolByName(context, 'portal_workflow')
-        state = wft.getInfoFor(context, 'review_state')
+        state = wft.getInfoFor(event, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
-        editable = bool(member.has_permission('Modify portal content', context))
-        allday = (context.end() - context.start()) > 1.0
+        editable = bool(member.has_permission('Modify portal content', event))
+        allday = (event.end() - event.start()) > 1.0
 
-        adapted = interfaces.ISFBaseEventFields(context, None)
+        adapted = interfaces.ISFBaseEventFields(event, None)
         if adapted:
             allday = adapted.allDay
 
@@ -243,31 +259,35 @@ class SolgemaFullcalendarEventDict(object):
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
 
-        typeClass = ' type-' + context.portal_type
-        colorIndex = getColorIndex(context, self.request, eventPhysicalPath)
+        typeClass = ' type-' + event.portal_type
+        colorDict = getColorIndex(context, self.request, eventPhysicalPath)
+        colorIndex = colorDict.get('class', '')
+        color = colorDict.get('color', '')
         extraClass = self.getExtraClass()
 
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
+            occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(context.start().rfc822(), context.end().rfc822())]
+            occurences = [(event.start().rfc822(), event.end().rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (context.UID()),
-                "title": context.Title(),
-                "description": context.Description(),
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
-                "url": context.absolute_url(),
+                "id": "UID_%s" % (event.UID()),
+                "title": event.Title(),
+                "description": event.Description(),
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
+                "url": event.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass})
+                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
+                "color": color})
 
         return events
 
@@ -285,9 +305,11 @@ class FolderColorIndexGetter(object):
     def getColorIndex(self):
         context, request, brain = self.context, self.request, self.source
         availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
-        colorIndex = ''
+        final = {'color':'',
+                 'class':''}
         if not availableSubFolders:
-            return colorIndex
+            return final.copy()
+        colorsDict = self.calendar.queryColors
 
         props = getToolByName(self.context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
@@ -297,30 +319,36 @@ class FolderColorIndexGetter(object):
 
         if not isinstance(selectedItems, list):
             selectedItems = [selectedItems,]
-
         for val in availableSubFolders:
             if val in selectedItems:
-                colorIndex = 'colorIndex-'+str(availableSubFolders.index(val))
-                colorIndex += ' subFolderscolorIndex-'+str(availableSubFolders.index(val))
+                for parentid in brain.getPath().split('/'):
+                    if val == parentid:
+                        final['color'] = colorsDict.get('subFolders', {}).get(val, '')
+                        colorIndex = ' colorIndex-'+str(availableSubFolders.index(val))
+                        colorIndex += ' subFolderscolorIndex-'+str(availableSubFolders.index(val))
+                        final['class'] = colorIndex
 
-        return colorIndex
+        return final.copy()
 
-class TopicColorIndexGetter(object):
+class ColorIndexGetter(object):
 
     implements(interfaces.IColorIndexGetter)
-    adapts(IATTopic, Interface, ICatalogBrain)
+    adapts(Interface, Interface, ICatalogBrain)
 
     def __init__(self, context, request, source):
         self.context = context
         self.request = request
         self.source = source
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
 
     def getColorIndex(self):
         context, request, brain = self.context, self.request, self.source
-        criteriaItems = getCriteriaItems(context, request)
-        colorIndex = ''
+        criteriaItems = getMultiAdapter((context, request),  interfaces.ICriteriaItems)()
+        final = {'color':'',
+                 'class':''}
         if not criteriaItems:
-            return colorIndex
+            return final.copy()
+        colorsDict = self.calendar.queryColors
 
         props = getToolByName(self.context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
@@ -330,17 +358,18 @@ class TopicColorIndexGetter(object):
 
         if not isinstance(selectedItems, list):
             selectedItems = [selectedItems,]
-
+        final = {}
         if criteriaItems:
             brainVal = getattr(brain, criteriaItems['name'])
             brainVal = isinstance(brainVal, (tuple, list)) and brainVal or [brainVal,]
+            valColorsDict = colorsDict.get(criteriaItems['name'], {})
             for val in brainVal:
                 if criteriaItems['values'].count(val) != 0 and val in selectedItems:
-                    colorIndex = 'colorIndex-'+str(criteriaItems['values'].index(val))
+                    final['color'] = colorsDict.get(criteriaItems['name'], {}).get(val, '')
+                    colorIndex = ' colorIndex-'+str(criteriaItems['values'].index(val))
                     colorIndex += ' '+criteriaItems['name']+'colorIndex-'+str(criteriaItems['values'].index(val))
-                    break
-
-        return colorIndex
+                    final['class'] = colorIndex
+        return final.copy()
 
 class FolderEventSource(object):
     """Event source that get events from the topic
@@ -424,6 +453,190 @@ class FolderEventSource(object):
         else:
             return ''.join([b.getObject().getICal() for b in brains])
 
+class listBaseQueryTopicCriteria(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListBaseQueryTopicCriteria)
+    adapts(IATTopic)
+
+    def __init__(self, context):
+        self.context = context
+    
+    def __call__(self):
+        li = []
+        for criteria in self.context.listCriteria():
+            if criteria.meta_type == 'ATPortalTypeCriterion' \
+                    and len(criteria.getCriteriaItems()[0][1]) > 0:
+                li.append({'i':criteria.Field(), 'v':criteria.getCriteriaItems()[0][1], 'o':criteria.meta_type})
+            if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] \
+                    and criteria.getCriteriaItems() \
+                    and len(criteria.getCriteriaItems()[0]) > 1 \
+                    and len(criteria.getCriteriaItems()[0][1]['query']) > 0:
+                li.append({'i':criteria.Field(), 'v':criteria.getCriteriaItems()[0][1]['query'], 'o':criteria.meta_type})
+
+        return li
+
+class listBaseQueryCollectionCriteria(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListBaseQueryTopicCriteria)
+    adapts(ICollection)
+
+    def __init__(self, context):
+        self.context = context
+    
+    def __call__(self):
+        return self.context.getField('query').getRaw(self.context)
+
+class listCriteriasTopicAdapter(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListCriterias)
+    adapts(IATTopic)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context), None)
+        li = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        for criteria in li:
+            if criteria['o']=='ATPortalTypeCriterion' and len(criteria['v'])==1:
+                li.remove(criteria)
+
+        if hasattr(calendar, 'availableCriterias') and getattr(calendar, 'availableCriterias', None) != None:
+            li = [a for a in li if a['i'] in calendar.availableCriterias]
+
+        return dict([(a['i'], a['v']) for a in li])
+
+class listCriteriasCollectionAdapter(object):
+    """Get criterias dicts for topic and collections
+    """
+    implements(interfaces.IListCriterias)
+    adapts(ICollection)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context), None)
+        li = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        for criteria in li:
+            if criteria['i']=='portal_type' and len(criteria['v'])==1:
+                li.remove(criteria)
+
+        if hasattr(calendar, 'availableCriterias') and getattr(calendar, 'availableCriterias', None) != None:
+            li = [a for a in li if a['i'] in calendar.availableCriterias]
+
+        return dict([(a['i'], a['v']) for a in li])
+    
+def getTopic(context, request):
+    if not interfaces.ISolgemaFullcalendarMarker.providedBy(context):
+        utils = getToolByName(context, 'plone_utils')
+        page = utils.getDefaultPage(context, request)
+        pageItem = page and getattr(context, page) or None
+        if interfaces.ISolgemaFullcalendarMarker.providedBy(pageItem):
+            return pageItem
+
+        portal = getToolByName(context, 'portal_url').getPortalObject()
+        referer = unquote(request.get('last_referer', request.get('HTTP_REFERER')))
+        if referer.find('?')!=-1:
+            referer = referer[:referer.index('?')]
+
+        if referer[-5:] == '/view':
+            referer = referer[:-5]
+
+        if referer[-1:] == '/':
+            referer = referer[:-1]
+
+        portal_url = portal.absolute_url()
+        topic_url = referer.replace(portal_url, '')
+        topic_path = '/'.join(portal.getPhysicalPath()) + topic_url
+        topic = portal.restrictedTraverse(topic_path)
+        if utils.getDefaultPage(topic, request):
+            page = utils.getDefaultPage(topic, request)
+            topic_url = topic_url+'/'+page
+            topic = getattr(topic, page)
+            if interfaces.ISolgemaFullcalendarMarker.providedBy(topic):
+                return topic
+        url = '/'+portal.id+topic_url
+        while not interfaces.ISolgemaFullcalendarMarker.providedBy(topic):
+            url = url[0:url.rindex('/')]
+            try:
+                topic = portal.restrictedTraverse(url)
+            except:
+                break
+                raise str(url)
+
+        return topic
+    else:
+        return context
+
+class CriteriaItemsTopic(object):
+
+    implements(interfaces.ICriteriaItems)
+    adapts(IATTopic, Interface)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        
+    def __call__(self):
+        topic = getTopic(self.context, self.request)
+        listCriteria = topic.listCriteria()
+        topicCriteria = interfaces.IListCriterias(topic)()
+        if topicCriteria:
+            selectedCriteria = self.request.cookies.get('sfqueryDisplay', topic.REQUEST.cookies.get('sfqueryDisplay', topicCriteria.keys()[0]))
+            criteria = [a for a in listCriteria if a.Field() == selectedCriteria]
+        else:
+            criteria = listCriteria
+
+        criteria = [a for a in criteria if a.meta_type in
+                   ['ATPortalTypeCriterion', 'ATSelectionCriterion', 'ATListCriterion']]
+        if not criteria:
+            return False
+
+        criteria = criteria[0]
+        if criteria.meta_type == 'ATPortalTypeCriterion':
+            return {'name': criteria.Field(),
+                    'values': list(criteria.getCriteriaItems()[0][1])}
+
+        if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
+            return {'name': criteria.Field(),
+                    'values': list(criteria.getCriteriaItems()[0][1]['query']) + ['']
+                    }
+
+        return False
+
+class CriteriaItemsCollection(object):
+
+    implements(interfaces.ICriteriaItems)
+    adapts(ICollection, Interface)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        
+    def __call__(self):
+        topic = getTopic(self.context, self.request)
+        listCriteria = self.context.getField('query').getRaw(self.context)
+        topicCriteria = interfaces.IListCriterias(topic)()
+        if topicCriteria:
+            selectedCriteria = self.request.cookies.get('sfqueryDisplay', topic.REQUEST.cookies.get('sfqueryDisplay', topicCriteria.keys()[0]))
+            criteria = [a for a in listCriteria if a['i'] == selectedCriteria]
+        else:
+            criteria = listCriteria
+
+        criteria = [a for a in criteria if a['o'] in
+                   ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] or 
+                   a['i'] == 'portal_type']
+        if not criteria:
+            return False
+
+        criteria = criteria[0]
+
+        return {'name': criteria['i'],
+                'values': criteria['v']}
 
 class TopicEventSource(FolderEventSource):
     """Event source that get events from the topic
@@ -436,12 +649,13 @@ class TopicEventSource(FolderEventSource):
         response = request.response
 
         query = context.buildQuery()
-        topicCriteria = listQueryTopicCriteria(context)
+        topicCriteria = interfaces.IListCriterias(context)()
+        listCriteria = context.listCriteria()
         args = {}
         if not query:
             return ({}, [])
 
-        props = getToolByName(self.context, 'portal_properties')
+        props = getToolByName(context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
 
         if 'Type' in query.keys():
@@ -452,25 +666,26 @@ class TopicEventSource(FolderEventSource):
                 args['Type'] = query['Type']
         filters = []
         #reinit cookies if criterions are no more there
-        for criteria in context.listCriteria():
-            if criteria not in listQueryTopicCriteria(context):
-                response.expireCookie(criteria.Field())
+        for cId in [c.Field() for c in listCriteria]:
+            if cId not in topicCriteria.keys():
+                response.expireCookie(cId)
 
-        if request.cookies.get('sfqueryDisplay', None) not in [a.Field() for a in topicCriteria]:
+        if request.cookies.get('sfqueryDisplay', None) not in topicCriteria.keys():
             response.expireCookie('sfqueryDisplay')
 
-        for criteria in self.context.listCriteria():
-            if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteria.Field():
-                args[criteria.Field()] = query[criteria.Field()]
+        for criteria in listCriteria:
+            criteriaId = criteria.Field()
+            if criteria.meta_type not in ['ATSelectionCriterion', 'ATListCriterion', 'ATSortCriterion', 'ATPortalTypeCriterion'] and criteriaId:
+                args[criteriaId] = query[criteriaId]
             elif criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] and criteria.getCriteriaItems() and len(criteria.getCriteriaItems()[0])>1 and len(criteria.getCriteriaItems()[0][1]['query'])>0:
-                items = getCookieItems(request, criteria.Field(), charset)
-                if items and criteria in topicCriteria:
+                items = getCookieItems(request, criteriaId, charset)
+                if items and criteriaId in topicCriteria.keys():
                     if 'undefined' in items:
-                        filters.append({'name':criteria.Field(), 'values':items})
+                        filters.append({'name':criteriaId, 'values':items})
                     else:
-                        args[criteria.Field()] = items
+                        args[criteriaId] = items
                 else:
-                    args[criteria.Field()] = query[criteria.Field()]
+                    args[criteriaId] = query[criteriaId]
 
         return args, filters
 
@@ -499,6 +714,59 @@ class TopicEventSource(FolderEventSource):
                                           interfaces.ISolgemaFullcalendarTopicEventDict)
         result = topicEventsDict.createDict(brains, args)
         return result
+
+class CollectionEventSource(TopicEventSource):
+    """Event source that get events from the plone.app.collection
+    """
+    implements(interfaces.IEventSource)
+    adapts(ICollection, Interface)
+
+    def _getCriteriaArgs(self):
+        context, request = self.context, self.request
+        response = request.response
+    
+        queryField = context.getField('query')
+        listCriteria = queryField.getRaw(context)
+
+        query = dict([(a['i'], a['v']) for a in listCriteria])
+        topicCriteria = interfaces.IListCriterias(context)()
+        args = {}
+        if not query:
+            return ({}, [])
+
+        props = getToolByName(context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+
+        if 'Type' in query.keys():
+            items = getCookieItems(request, 'Type', charset)
+            if items:
+                args['Type'] = items
+            else:
+                args['Type'] = query['Type']
+        filters = []
+        #reinit cookies if criterions are no more there
+        for cId in [c['i'] for c in listCriteria]:
+            if cId not in topicCriteria.keys():
+                response.expireCookie(cId)
+
+        if request.cookies.get('sfqueryDisplay', None) not in topicCriteria.keys():
+            response.expireCookie('sfqueryDisplay')
+
+        for criteria in listCriteria:
+            criteriaId = criteria['i']
+            if criteria['o'] not in ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] and criteriaId != 'portal_type':
+                args[criteriaId] = query[criteriaId]
+            else:
+                items = getCookieItems(request, criteriaId, charset)
+                if items and criteriaId in topicCriteria.keys():
+                    if 'undefined' in items:
+                        filters.append({'name':criteriaId, 'values':items})
+                    else:
+                        args[criteriaId] = items
+                else:
+                    args[criteriaId] = query[criteriaId]
+
+        return args, filters
 
 class StandardEventSource(object):
     """Event source that display an event
@@ -536,8 +804,8 @@ class StandardEventSource(object):
             allday = context.whole_day
         extraClass = self.getObjectExtraClass()
         typeClass = ' type-' + context.portal_type
-        
-        if HAS_RECURRENCE_SUPPORT:
+        HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
+        if HANDLE_RECURRENCE:
             start  = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
@@ -552,8 +820,8 @@ class StandardEventSource(object):
                 "id": "UID_%s" % (context.UID()),
                 "title": context.Title(),
                 "description": context.Description(),
-                "start": HAS_RECURRENCE_SUPPORT and occurence_start.isoformat() or occurence_start,
-                "end": HAS_RECURRENCE_SUPPORT and occurence_end.isoformat() or occurence_end,
+                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
+                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
                 "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,

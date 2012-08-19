@@ -20,7 +20,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode 
-from Products.ATContentTypes.interface import IATTopic, IATFolder
+from Products.ATContentTypes.interface import IATFolder
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
@@ -54,90 +54,6 @@ def listBaseQueryTopicCriteria(topic):
             li.append(criteria)
 
     return li
-
-
-def listQueryTopicCriteria(topic):
-    calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(topic), None)
-    li = listBaseQueryTopicCriteria(topic)
-    for criteria in li:
-        if criteria.meta_type=='ATPortalTypeCriterion' and len(criteria.getCriteriaItems()[0][1])==1:
-            li.remove(criteria)
-
-    if hasattr(calendar, 'availableCriterias') and getattr(calendar, 'availableCriterias', None) != None:
-        li = [a for a in li if a.Field() in calendar.availableCriterias]
-
-    return li
-
-
-def getTopic(context, request):
-    if not interfaces.ISolgemaFullcalendarMarker.providedBy(context):
-        utils = getToolByName(context, 'plone_utils')
-        page = utils.getDefaultPage(context, request)
-        pageItem = page and getattr(context, page) or None
-        if interfaces.ISolgemaFullcalendarMarker.providedBy(pageItem):
-            return pageItem
-
-        portal = getToolByName(context, 'portal_url').getPortalObject()
-        referer = unquote(request.get('last_referer', request.get('HTTP_REFERER')))
-        if referer.find('?')!=-1:
-            referer = referer[:referer.index('?')]
-
-        if referer[-5:] == '/view':
-            referer = referer[:-5]
-
-        if referer[-1:] == '/':
-            referer = referer[:-1]
-
-        portal_url = portal.absolute_url()
-        topic_url = referer.replace(portal_url, '')
-        topic_path = '/'.join(portal.getPhysicalPath()) + topic_url
-        topic = portal.restrictedTraverse(topic_path)
-        if utils.getDefaultPage(topic, request):
-            page = utils.getDefaultPage(topic, request)
-            topic_url = topic_url+'/'+page
-            topic = getattr(topic, page)
-            if interfaces.ISolgemaFullcalendarMarker.providedBy(topic):
-                return topic
-        url = '/'+portal.id+topic_url
-        while not interfaces.ISolgemaFullcalendarMarker.providedBy(topic):
-            url = url[0:url.rindex('/')]
-            try:
-                topic = portal.restrictedTraverse(url)
-            except:
-                break
-                raise str(url)
-
-        return topic
-    else:
-        return context
-
-
-def getCriteriaItems(context, request):
-    topic = getTopic(context, request)
-    listCriteria = topic.listCriteria()
-    topicCriteria = listQueryTopicCriteria(topic)
-    if topicCriteria:
-        selectedCriteria = request.cookies.get('sfqueryDisplay', topic.REQUEST.cookies.get('sfqueryDisplay', topicCriteria[0].Field()))
-        criteria = [a for a in listCriteria if a.Field() == selectedCriteria]
-    else:
-        criteria = listCriteria
-
-    criteria = [a for a in criteria if a.meta_type in
-                   ['ATPortalTypeCriterion', 'ATSelectionCriterion', 'ATListCriterion']]
-    if not criteria:
-        return False
-
-    criteria = criteria[0]
-    if criteria.meta_type == 'ATPortalTypeCriterion':
-        return {'name': criteria.Field(),
-                'values': list(criteria.getCriteriaItems()[0][1])}
-
-    if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
-        return {'name': criteria.Field(),
-                'values': list(criteria.getCriteriaItems()[0][1]['query']) + ['']
-                }
-
-    return False
 
 
 def getCookieItems(request, field, charset):
@@ -182,8 +98,9 @@ def getColorIndex(context, request, eventPath=None, brain=None):
 
     adapter = getMultiAdapter((context, request, brain),
                               interfaces.IColorIndexGetter)
-    colorIndex = adapter.getColorIndex()
-    return ' ' + (colorIndex or undefined)
+    return adapter.getColorIndex()
+#    return colorDict
+#    return ' ' + (colorIndex or undefined)
 
 class SolgemaFullcalendarView(BrowserView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
@@ -214,6 +131,22 @@ class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
             return ''
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0].Field())
+
+class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
+    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+
+    def getCriteriaClass(self):
+        queryField = self.context.getField('query').getRaw(self.context)
+        listCriteria = []
+        for qField in queryField:
+            listCriteria.append(qField['i'])
+        anon = self.context.portal_membership.isAnonymousUser()
+        if not listCriteria:
+            return ''
+        if listCriteria[0] == 'review_state' and anon:
+            return ''
+
+        return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
 class SolgemaFullcalendarEventJS(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
@@ -509,7 +442,7 @@ class SFTopicSources(SolgemaFullcalendarView):
         fromCookie = True
         if values == None:
             fromCookie = False
-            CriteriaItems = getCriteriaItems(self.context, self.request)
+            CriteriaItems = getMultiAdapter((self.context, self.request),  interfaces.ICriteriaItems)()
             values = CriteriaItems and [a for a in CriteriaItems['values'] if a] or []
             criteria = CriteriaItems['name']
         eventSources = []
@@ -548,6 +481,9 @@ class SFTopicSources(SolgemaFullcalendarView):
                                         'title':     'GCAL '+str(i+1)})
 
         return json.dumps(eventSources, sort_keys=True)
+
+class SFCollectionSources(SFTopicSources):
+    """Sources for collection"""
 
 class SFFolderSources(SolgemaFullcalendarView):
 
@@ -682,23 +618,14 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
 
     def __call__(self):
         colorsDict = self.calendar.queryColors
-        criterias = listBaseQueryTopicCriteria(self.context)
+        criterias = interfaces.IListBaseQueryTopicCriteria(self.context)()
         css = ''
         if not colorsDict:
             return css
 
-        for criteria in criterias:
-            field = criteria.Field()
-
-            fieldid = str(field)
+        for fieldid, selectedItems in [(a['i'], a['v']) for a in criterias]:
             if not colorsDict.has_key(fieldid):
                 continue
-
-            selectedItems = []
-            if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
-                selectedItems = criteria.getCriteriaItems()[0][1]['query']
-            elif criteria.meta_type == 'ATPortalTypeCriterion':
-                selectedItems = criteria.getCriteriaItems()[0][1]
 
             for i in range(len(selectedItems)):
                 cValName = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(selectedItems[i])))
@@ -715,3 +642,8 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
                     css += '}\n\n'
 
         return css
+
+class SolgemaFullcalendarColorsCssCollection(SolgemaFullcalendarColorsCssTopic):
+    """Solgema Fullcalendar Javascript variables"""
+
+

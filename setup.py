@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.0'
+version = '2.1.2'
 
 setup(name='Solgema.fullcalendar',
       version=version,
@@ -30,7 +30,7 @@ setup(name='Solgema.fullcalendar',
           'z3c.form',
           'collective.js.colorpicker',
           'collective.js.fullcalendar>=1.5.2.1',
-          'collective.js.jqueryui',
+          'collective.js.jqueryui>=1.8.16.6',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

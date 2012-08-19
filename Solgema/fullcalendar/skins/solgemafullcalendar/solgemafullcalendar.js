@@ -99,7 +99,7 @@ function AgendaDaySplitView(element, calendar) {
 		for (var i=0; i<sourcesNubmer; i++) {
             var calOptions = jQuery.extend(true, {}, newOptions);
             solgemaSource = solgemaSources[i];
-			element.append('<div id="cal'+i+'" style="display:table-cell;"></div>');
+			element.append('<div id="cal'+i+'" style="display:table-cell;" class="DaySplitCalendar"></div>');
 			calOptions['eventSources'] = [solgemaSource];
 			calOptions['title'] = solgemaSource['title'];
 			if (solgemaSource['target_folder']) calOptions['target_folder'] = solgemaSource['target_folder'];
@@ -283,6 +283,18 @@ function AgendaDaySplitMonoColumn(element, calendar) {
 };
 
 var SolgemaFullcalendar = {
+    getCalendar: function () {
+      var calendar = jq('#calendar');
+      var event = jq('a.fc-event.contentmenu_selected');
+      var curView = calendar.fullCalendar('getView');
+      if (curView.name == 'agendaDaySplit') {
+        scalendar = jq(event).closest('.DaySplitCalendar');
+        if (scalendar.attr('class')) {
+          return scalendar
+        }
+      }
+      return calendar
+    },
     openAddMenu: function (start, end, allDay, event, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq.ajax({
@@ -411,7 +423,7 @@ var SolgemaFullcalendar = {
     openSFContextualContentMenu: function (event) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       afterContextualContentMenuOpened = function (event) {
-        var $calendar = jq('#calendar');
+        var $calendar = SolgemaFullcalendar.getCalendar();
         var $dialogContent = jq("#event_edit_container");
         jq("#contextualContentMenu a[href*='?workflow_action=']").click( function(event) {
           event.preventDefault();
@@ -424,8 +436,15 @@ var SolgemaFullcalendar = {
             async:   false,
             data :      {event_path:href},
             success :   function(msg) {
-              $calendar.fullCalendar('removeEvents', [msg['id'],]);
-              $calendar.fullCalendar('renderEvent', msg, false);
+              if (typeof(msg)=='string') {
+                $calendar.fullCalendar('removeEvents', [msg['id'],]);
+                $calendar.fullCalendar('renderEvent', msg, false);
+              } else {
+                for (var i=0; i<msg.length; i++) {
+                  $calendar.fullCalendar('removeEvents', [msg[i]['id'],]);
+                  $calendar.fullCalendar('renderEvent', msg[i], false);
+                }
+              }
               jq(closeContextualContentMenu);
               jq('#kss-spinner').hide();
             },
@@ -449,7 +468,8 @@ var SolgemaFullcalendar = {
               data :   {},
               success :function(json) {
                 if(json['status'] == 'ok') {
-                  $calendar.fullCalendar('removeEvents', [json['id'],]);
+                  var calendar = SolgemaFullcalendar.getCalendar();
+                  calendar.fullCalendar('removeEvents', [json['id'],]);
                 } else {
                   window.alert(json['message']);
                 }
@@ -485,7 +505,8 @@ var SolgemaFullcalendar = {
                   async:   false,
                   data :   {},
                   success :function(json) {
-                    $calendar.fullCalendar( 'refetchEvents' );
+                    var calendar = SolgemaFullcalendar.getCalendar();
+                    calendar.fullCalendar( 'refetchEvents' );
                     jq('#kss-spinner').hide();
                     jq(closeContextualContentMenu);
                   }
@@ -519,7 +540,8 @@ var SolgemaFullcalendar = {
                   async:   false,
                   data :   {},
                   success :function(json) {
-                    $calendar.fullCalendar( 'refetchEvents' );
+                    var calendar = SolgemaFullcalendar.getCalendar();
+                    calendar.fullCalendar( 'refetchEvents' );
                     jq('#kss-spinner').hide();
                     jq(closeContextualContentMenu);
                   }

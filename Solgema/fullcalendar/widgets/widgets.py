@@ -9,9 +9,16 @@ from z3c.form import interfaces
 
 from z3c.form.converter import BaseDataConverter
 from Products.ATContentTypes.interface import IATTopic, IATFolder
+
+try:
+    from plone.app.collection.interfaces import ICollection
+    hasPAC = True
+except:
+    ICollection = Interface
+    hasPAC = False
+
 from Solgema.fullcalendar.config import _
-from Solgema.fullcalendar.browser.views import listBaseQueryTopicCriteria
-from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties
+from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryTopicCriteria
 
 
 class IColorDictInputWidget(interfaces.IWidget):
@@ -28,33 +35,24 @@ class ColorDictInputWidget(Widget):
 
     def getCriteriaKeys(self):
         li = []
-        if IATTopic.providedBy(self.context):
-            criteria = listBaseQueryTopicCriteria(self.context)
-            for criterion in criteria:
-                field = criterion.Field()
-                fieldid = str(field)
-                li.append(self.name+'.'+fieldid)
+        if IATTopic.providedBy(self.context) or hasPAC:
+            criteria = IListBaseQueryTopicCriteria(self.context)()
+            for criterion in [a['i'] for a in criteria]:
+                li.append(self.name+'.'+criterion)
         return li
 
     def getCriteria(self):
-        if IATTopic.providedBy(self.context):
-            return listBaseQueryTopicCriteria(self.context)
+        if IATTopic.providedBy(self.context) or hasPAC:
+            return IListBaseQueryTopicCriteria(self.context)()
         return []
 
     def render(self):
         currentValues = self.value or {}
         criteria = self.getCriteria()
         html = ''
-        for criterion in criteria:
-            field = criterion.Field()
-            index = self.context.portal_atct.getIndex(field)
-            fieldid = str(field)
+        for fieldid, selectedItems in [(a['i'], a['v']) for a in criteria]:
+            index = self.context.portal_atct.getIndex(fieldid)
             fieldname = index.friendlyName or index.index
-            selectedItems = []
-            if criterion.meta_type in ['ATSelectionCriterion', 'ATListCriterion']:
-                selectedItems = criterion.getCriteriaItems()[0][1]['query']
-            elif criterion.meta_type == 'ATPortalTypeCriterion':
-                selectedItems = criterion.getCriteriaItems()[0][1]
             if selectedItems:
                 html += '<br/><b>%s</b><br/><table>' % (fieldname)
                 for item in selectedItems:
