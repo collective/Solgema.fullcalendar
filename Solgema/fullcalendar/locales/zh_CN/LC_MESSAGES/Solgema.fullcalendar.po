@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2012-05-09 06:16+0000\n"
-"PO-Revision-Date: 2012-05-16 06:18+0800\n"
+"PO-Revision-Date: 2012-08-19 08:18+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sf.net>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "天"
 #. Default: "DaySplit"
 #: ../browser/views.py:275
 msgid "DaySplit"
-msgstr ""
+msgstr "日拆分"
 
 #: ../widgets/widgets.py:82
 msgid "Google Calendar Sources"
@@ -73,7 +73,7 @@ msgstr "查询"
 
 #: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
 msgid "Reschedule"
-msgstr ""
+msgstr "重新编排"
 
 #: ../browser/folderquery.pt:16
 msgid "Sources"
@@ -242,7 +242,7 @@ msgstr ""
 
 #: ../browser/icalexport.py:27
 msgid "iCal export"
-msgstr ""
+msgstr "导出 iCal"
 
 #. Default: "Display All day option"
 #: ../interfaces.py:311
@@ -366,5 +366,5 @@ msgstr "短格式"
 #. Default: "Download this calendar in iCal format"
 #: ../browser/icalexport.py:24
 msgid "title_add_to_ical"
-msgstr "下载此 iCal 格式的日历"
+msgstr "下载 iCal 格式的日历"
 
