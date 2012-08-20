@@ -608,7 +608,7 @@ var SolgemaFullcalendar = {
             }
         });
         return sources
-    },
+    }
 };
 
 function calendarOptions() {
@@ -656,7 +656,7 @@ function calendarOptions() {
         week: SolgemaFullcalendarVars.week,
         day: SolgemaFullcalendarVars.day,
         calendar: '&nbsp;Cal&nbsp;',
-        agendaDaySplit: SolgemaFullcalendarVars.daySplit,
+        agendaDaySplit: SolgemaFullcalendarVars.daySplit
       };
       options['titleFormat'] = SolgemaFullcalendarVars.titleFormat;
       options['startParam'] = "start:int";
