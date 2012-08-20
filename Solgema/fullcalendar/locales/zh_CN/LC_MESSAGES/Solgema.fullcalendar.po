@@ -1,0 +1,370 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# Solgema.fullcalendar.
+# Jian Aijun <jianaijun@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-05-09 06:16+0000\n"
+"PO-Revision-Date: 2012-08-19 08:18+0800\n"
+"Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sf.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: zh_CN\n"
+"Language-Name: Simplified Chinese\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: Solgema.fullcalendar\n"
+
+#: ../skins/solgemafullcalendar/createSFEvent.cpy:44
+msgid "${tname} has been created."
+msgstr "${tname} 已创建。"
+
+#. Default: "all-day"
+#: ../browser/views.py:278
+msgid "Allday"
+msgstr "全天"
+
+#. Default: "Calendar"
+#: ../browser/content.py:39
+msgid "Calendar"
+msgstr "日历"
+
+#: ../profiles/default/actions.xml
+#: ../upgrades/profiles/upgrade16/actions.xml
+#: ../upgrades/profiles/upgrade19/actions.xml
+msgid "Calendar properties"
+msgstr "日历属性"
+
+#. Default: "Colors"
+#: ../browser/content.py:81
+msgid "Colors"
+msgstr "颜色"
+
+#. Default: "Day"
+#: ../browser/views.py:272
+msgid "Day"
+msgstr "天"
+
+#. Default: "DaySplit"
+#: ../browser/views.py:275
+msgid "DaySplit"
+msgstr "日拆分"
+
+#: ../widgets/widgets.py:82
+msgid "Google Calendar Sources"
+msgstr "谷歌日历源"
+
+#. Default: "Month"
+#: ../browser/views.py:266
+#: ../vocabularies.py:29
+msgid "Month"
+msgstr "月"
+
+#: ../skins/solgemafullcalendar/SFValidate_integrity.cpy:19
+msgid "Please correct the indicated errors."
+msgstr "请更正指出的错误。"
+
+#. Default: "Query"
+#: ../browser/content.py:65
+msgid "Query"
+msgstr "查询"
+
+#: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
+msgid "Reschedule"
+msgstr "重新编排"
+
+#: ../browser/folderquery.pt:16
+msgid "Sources"
+msgstr "源"
+
+#. Default: "Sub-Folders"
+#: ../browser/content.py:74
+#: ../widgets/widgets.py:103
+msgid "Sub-Folders"
+msgstr "子文件夹"
+
+#: ../widgets/widgets.py:151
+msgid "The entered value is not a valid dict."
+msgstr "输入的值不是有效的字典。"
+
+#: ../skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
+msgid "Versioning for this file has been disabled because it is too large"
+msgstr "对这个文件的版本控制已被禁用，因为它实在是太大了"
+
+#. Default: "Week"
+#: ../browser/views.py:269
+msgid "Week"
+msgstr "周"
+
+#. Default: "abbreviated"
+#: ../vocabularies.py:64
+msgid "abbreviated"
+msgstr "缩写"
+
+#. Default: "Add New Event"
+#: ../browser/views.py:281
+msgid "addNewEvent"
+msgstr "添加新事件"
+
+#. Default: "agendaDay"
+#: ../vocabularies.py:33
+msgid "agendaDay"
+msgstr ""
+
+#. Default: "Day Split"
+#: ../vocabularies.py:34
+msgid "agendaDaySplit"
+msgstr "日拆分"
+
+#. Default: "agendaWeek"
+#: ../vocabularies.py:32
+msgid "agendaWeek"
+msgstr "周议程"
+
+#. Default: "basicDay"
+#: ../vocabularies.py:31
+msgid "basicDay"
+msgstr ""
+
+#. Default: "basicWeek"
+#: ../vocabularies.py:30
+msgid "basicWeek"
+msgstr ""
+
+#. Default: "Edit Event"
+#: ../browser/views.py:284
+msgid "editEvent"
+msgstr "编辑事件"
+
+#. Default: "Check this box to display All day option"
+#: ../interfaces.py:312
+msgid "help_allDay"
+msgstr "选中此复选框以显示所有天的选项"
+
+#: ../interfaces.py:218
+msgid "help_availableCriterias"
+msgstr ""
+
+#: ../interfaces.py:224
+msgid "help_availableSubFolders"
+msgstr ""
+
+#. Default: "Check this box if you want the events in the calendar to be editable."
+#: ../interfaces.py:257
+msgid "help_caleditable"
+msgstr "选中此复选框，如果您想在日历中的事件是可编辑的。"
+
+#: ../interfaces.py:213
+msgid "help_calendarHeight"
+msgstr ""
+
+#: ../interfaces.py:152
+msgid "help_defaultCalendarView"
+msgstr ""
+
+#. Default: "Disables contextual adding menu."
+#: ../interfaces.py:251
+msgid "help_disableAJAX"
+msgstr "禁用上下文添加菜单。"
+
+#. Default: "Disables all event dragging, even when events are editable."
+#: ../interfaces.py:263
+msgid "help_disableDragging"
+msgstr "禁用所有事件的拖动功能，即使事件是可编辑的。"
+
+#. Default: "Disables all event resizing, even when events are editable."
+#: ../interfaces.py:269
+msgid "help_disableResizing"
+msgstr "禁用所有事件的调整功能，即使事件是可编辑的。"
+
+#: ../interfaces.py:245
+msgid "help_displayNoscriptList"
+msgstr ""
+
+#: ../interfaces.py:235
+msgid "help_displayUndefined"
+msgstr ""
+
+#: ../interfaces.py:178
+msgid "help_firstDay"
+msgstr ""
+
+#: ../interfaces.py:189
+msgid "help_firstHour"
+msgstr ""
+
+#. Default: "Enter your Google Calendar feeds url here. the syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."
+#: ../interfaces.py:203
+msgid "help_gcalSources"
+msgstr "在这里输入您的 Google 日历 feeds URL。格式应该是：http://www.google.com/calendar/feeds/yourmail@gmail.com/... 每行一个URL"
+
+#: ../interfaces.py:164
+msgid "help_headerLeft"
+msgstr ""
+
+#: ../interfaces.py:168
+msgid "help_headerRight"
+msgstr ""
+
+#: ../interfaces.py:194
+msgid "help_minTime"
+msgstr ""
+
+#: ../interfaces.py:240
+msgid "help_overrideStateForAdmin"
+msgstr ""
+
+#: ../interfaces.py:230
+msgid "help_queryColors"
+msgstr ""
+
+#: ../interfaces.py:184
+msgid "help_relativeFirstDay"
+msgstr ""
+
+#: ../interfaces.py:158
+msgid "help_shortDayNameFormat"
+msgstr ""
+
+#: ../interfaces.py:145
+msgid "help_slotMinutes"
+msgstr ""
+
+#: ../interfaces.py:207
+msgid "help_target_folder"
+msgstr ""
+
+#: ../interfaces.py:173
+msgid "help_weekends"
+msgstr ""
+
+#: ../browser/icalexport.py:27
+msgid "iCal export"
+msgstr "导出 iCal"
+
+#. Default: "Display All day option"
+#: ../interfaces.py:311
+msgid "label_allDay"
+msgstr "显示所有天的选项"
+
+#: ../interfaces.py:148
+msgid "label_allDaySlot"
+msgstr ""
+
+#: ../interfaces.py:216
+msgid "label_availableCriterias"
+msgstr ""
+
+#: ../interfaces.py:222
+msgid "label_availableSubFolders"
+msgstr ""
+
+#. Default: "Editable"
+#: ../interfaces.py:255
+msgid "label_caleditable"
+msgstr "可编辑"
+
+#: ../interfaces.py:211
+msgid "label_calendarHeight"
+msgstr ""
+
+#: ../interfaces.py:150
+msgid "label_defaultCalendarView"
+msgstr ""
+
+#. Default: "Disable AJAX"
+#: ../interfaces.py:249
+msgid "label_disableAJAX"
+msgstr "禁用 AJAX"
+
+#. Default: "Disable Dragging"
+#: ../interfaces.py:261
+msgid "label_disableDragging"
+msgstr "禁用拖动"
+
+#. Default: "Disable Resizing"
+#: ../interfaces.py:267
+msgid "label_disableResizing"
+msgstr "禁用调整大小"
+
+#: ../interfaces.py:243
+msgid "label_displayNoscriptList"
+msgstr ""
+
+#: ../interfaces.py:233
+msgid "label_displayUndefined"
+msgstr ""
+
+#: ../interfaces.py:176
+msgid "label_firstDay"
+msgstr ""
+
+#: ../interfaces.py:187
+msgid "label_firstHour"
+msgstr ""
+
+#. Default: "Google Calendar Sources"
+#: ../interfaces.py:201
+msgid "label_gcalSources"
+msgstr "谷歌日历源"
+
+#: ../interfaces.py:162
+msgid "label_headerLeft"
+msgstr ""
+
+#: ../interfaces.py:167
+msgid "label_headerRight"
+msgstr ""
+
+#: ../interfaces.py:197
+msgid "label_maxTime"
+msgstr ""
+
+#: ../interfaces.py:192
+msgid "label_minTime"
+msgstr ""
+
+#: ../interfaces.py:238
+msgid "label_overrideStateForAdmin"
+msgstr ""
+
+#: ../interfaces.py:228
+msgid "label_queryColors"
+msgstr ""
+
+#: ../interfaces.py:182
+msgid "label_relativeFirstDay"
+msgstr ""
+
+#: ../interfaces.py:156
+msgid "label_shortDayNameFormat"
+msgstr ""
+
+#: ../interfaces.py:143
+msgid "label_slotMinutes"
+msgstr ""
+
+#: ../interfaces.py:206
+msgid "label_target_folder"
+msgstr ""
+
+#: ../browser/topicquery.pt:48
+msgid "label_undefined"
+msgstr ""
+
+#: ../interfaces.py:172
+msgid "label_weekends"
+msgstr ""
+
+#. Default: "short"
+#: ../vocabularies.py:65
+msgid "short"
+msgstr "短格式"
+
+#. Default: "Download this calendar in iCal format"
+#: ../browser/icalexport.py:24
+msgid "title_add_to_ical"
+msgstr "下载 iCal 格式的日历"
+
