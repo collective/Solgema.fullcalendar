@@ -1,6 +1,6 @@
 import zope.schema
 from zope import component
-from zope.interface import implements
+from zope.interface import implements, Interface
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from Products.CMFPlone.utils import safe_unicode
 

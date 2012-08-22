@@ -36,6 +36,6 @@
     disableAJAX: <p tal:replace="view/disableAJAX"/>,
     editable: <p tal:replace="view/caleditable"/>,
     disableDragging: <p tal:replace="view/disableDragging"/>,
-    disableResizing: <p tal:replace="view/disableResizing"/>,
+    disableResizing: <p tal:replace="view/disableResizing"/>
   }
 </metal:javascript>
