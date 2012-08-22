@@ -120,7 +120,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         copycut = ''
         if self.copyDict and brain.getPath() == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
-        typeClass = ' type-'+brain.portal_type
+        typeClass = ' type-' + brain.portal_type.replace(' ', '_')
         colorDict = getColorIndex(self.context, self.request, brain=brain)
         colorIndex = colorDict.get('class', '')
         color = colorDict.get('color', '')
@@ -171,7 +171,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
 
-        typeClass = ' type-' + item.portal_type
+        typeClass = ' type-' + item.portal_type.replace(' ', '_')
         colorDict = getColorIndex(self.context, self.request, eventPhysicalPath)
         colorIndex = colorDict.get('class', '')
         color = colorDict.get('color', '')
@@ -259,7 +259,7 @@ class SolgemaFullcalendarEventDict(object):
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
             copycut = self.copyDict['op'] == 1 and ' event_cutted' or ' event_copied'
 
-        typeClass = ' type-' + event.portal_type
+        typeClass = ' type-' + event.portal_type.replace(' ', '_')
         colorDict = getColorIndex(context, self.request, eventPhysicalPath)
         colorIndex = colorDict.get('class', '')
         color = colorDict.get('color', '')
@@ -803,7 +803,7 @@ class StandardEventSource(object):
         if hasattr(context, 'whole_day'):
             allday = context.whole_day
         extraClass = self.getObjectExtraClass()
-        typeClass = ' type-' + context.portal_type
+        typeClass = ' type-' + context.portal_type.replace(' ', '_')
         HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
         if HANDLE_RECURRENCE:
             start  = DateTime(self.request.get('start'))
