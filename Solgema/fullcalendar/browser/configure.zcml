@@ -59,6 +59,16 @@
       permission="zope.Public"
       />
 
+  <!-- THE CALENDAR VIEW FOR plone.app.event (conditional) -->
+  <browser:page
+    zcml:condition="installed plone.app.event"
+    name="SFLight_plone.app.event.dx.event_view"
+    for="plone.event.interfaces.IEvent"
+    class="plone.app.event.browser.event_view.EventView"
+    template="../skins/solgemafullcalendar/SFLight_event_view.pt"
+    permission="zope2.View"
+    />
+
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
