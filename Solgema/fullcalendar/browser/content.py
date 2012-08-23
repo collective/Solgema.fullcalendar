@@ -9,6 +9,7 @@ from z3c.form.browser import widget
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as plMF
+from plone.formwidget.contenttree import ContentTreeFieldWidget
 from plone.z3cform.layout import wrap_form
 from plone.z3cform.fieldsets import extensible
 
@@ -59,7 +60,7 @@ class CalendarGroup(z3cgroup.Group):
         'caleditable',
         'disableDragging',
         'disableResizing')
-    fields['target_folder'].widgetFactory[INPUT_MODE] = QuerySourceFieldRadioWidget
+    fields['target_folder'].widgetFactory[INPUT_MODE] = ContentTreeFieldWidget
 
 class TopicQueryGroup(z3cgroup.Group):
     label = _(u'Query', default="Query")
