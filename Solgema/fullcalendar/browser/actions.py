@@ -71,6 +71,7 @@ class SFDisplayAddMenu(BaseActionView):
 
     def __call__(self):
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        portal_types = getToolByName(portal, 'portal_types').listTypeInfo()
         context = aq_inner(self.context)
         target_folder = getattr(interfaces.ISolgemaFullcalendarProperties(context, None), 'target_folder', None)
         target_folder = target_folder \
@@ -81,6 +82,13 @@ class SFDisplayAddMenu(BaseActionView):
             raise Unauthorized, "You can't add an event on %s" % str(target_folder)
 
         query = hasattr(self.context, 'buildQuery') and self.context.buildQuery() or {}
+        if 'portal_type' not in query and 'Type' in query:
+            type_title = query.get('Type', 'Event')
+            if isinstance(type_title, tuple):
+                type_title = type_title[0]
+            typemap = dict((o.title,o.getId()) for o in portal_types)
+            query['portal_type'] = typemap.get(type_title, 'Event')
+            del(query['Type'])
         copyDict = getCopyObjectsUID(self.request)
 
         # The 'Item Type' criteria uses the 'Type' index while the 'Item Type
