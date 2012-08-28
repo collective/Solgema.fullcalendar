@@ -364,13 +364,14 @@ var SolgemaFullcalendar = {
       });
     },
     openFastAddForm: function (start, end, allDay, type_name, title, view) {
+      var data, dxdata;
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
       $dialogContent.dialog( "destroy" );
       var $calendar = jq('#calendar');
-      var data = new Object;
+      data = new Object;
       var startMonth = start.getMonth()+1;
       var endMonth = end.getMonth()+1;
       data['startDate:date'] = start.getFullYear()+'-'+startMonth+'-'+start.getDate()+' '+start.getHours()+':'+start.getMinutes();
@@ -385,8 +386,57 @@ var SolgemaFullcalendar = {
       target_folder = view['calendar']['options']['target_folder'];
       extraData = view['calendar']['options']['extraData'];
       if (extraData) jQuery.extend(true, data, extraData);
-      $dialogContent.append('<iframe src="'+target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+      if (type_name == 'plone.app.event.dx.event') {
+        dxdata = new Object();
+        /* whole day value, if whole day */
+        if (allDay) {
+            dxdata['form.widgets.IEventBasic.whole_day:list'] = 'selected';
+        }
+        dxdata['date_context'] = start.toISOString();
+        /* start date widget values for request */
+        dxdata['form.widgets.IEventBasic.start-day'] = start.getDate();
+        dxdata['form.widgets.IEventBasic.start-month'] = start.getMonth() + 1; //js Date zero-indexed month
+        dxdata['form.widgets.IEventBasic.start-year'] = start.getYear() + 1900;
+        if (!allDay) {
+            dxdata['form.widgets.IEventBasic.start-hour'] = start.getHours();
+            dxdata['form.widgets.IEventBasic.start-min'] = start.getMinutes();
+            dxdata['form.widgets.IEventBasic.end-hour'] = end.getHours();
+            dxdata['form.widgets.IEventBasic.end-min'] = end.getMinutes();
+        }
+        /* end date widget values for request */
+        dxdata['form.widgets.IEventBasic.end-day'] = end.getDate();
+        dxdata['form.widgets.IEventBasic.end-month'] = end.getMonth() + 1; //js Date zero-indexed month
+        dxdata['form.widgets.IEventBasic.end-year'] = end.getYear() + 1900;
+        $dialogContent.append('<iframe src="'+target_folder+'/SFAjax_add_dx_event?'+jq.param(dxdata)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+      } else {
+        $dialogContent.append('<iframe src="'+target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+      }
       $dialogContent.dialog({
+        width: 700,
+        height: 500,
+        autoOpen: true,
+        modal: true,
+        title: title,
+        close: function () {
+          jq('#calendar').fullCalendar('unselect');
+          jq('#kss-spinner').hide();
+        }
+      });
+    },
+    openEditForm: function (eventurl) {
+      if(SolgemaFullcalendarVars.disableAJAX) { return; }
+      jq('#kss-spinner').show();
+      var $dialogContent = jq("#event_edit_container");
+      jq("#event_edit_container").dialog( "destroy" );
+      $dialogContent.empty();
+      $dialogContent.dialog( "destroy" );
+      var $calendar = jq('#calendar');
+      $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+      $dialogContent.dialog({
+        width: 700,
+        height: 500,
+        autoOpen: true,
+        modal: true,
         width: 700,
         height: 500,
         autoOpen: true,

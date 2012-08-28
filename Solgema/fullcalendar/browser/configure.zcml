@@ -74,10 +74,17 @@
     name="SFAjax_base_edit"
     for="plone.app.event.dx.interfaces.IDXEvent"
     class=".dx.InlineFrameEditForm"
-    template="edit_dx_event.pt"
     permission="cmf.ModifyPortalContent"
     />
-    
+  
+  <browser:page
+    zcml:condition="installed plone.app.event"
+    name="SFAjax_add_dx_event"
+    for="Products.CMFCore.interfaces.IFolderish"
+    class=".dx.InlineFrameAddView"
+    permission="cmf.AddPortalContent"
+    />
+  
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
