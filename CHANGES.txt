@@ -4,6 +4,9 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- fixed bug when CriteriaItems is False
+  [jensens, benniboy]
+ 
 - workaround for archetypes.querywidget bug see: https://dev.plone.org/ticket/13144
   [jensens, benniboy]
 
