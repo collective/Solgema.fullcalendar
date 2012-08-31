@@ -4,6 +4,9 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- workaround for archetypes.querywidget bug see: https://dev.plone.org/ticket/13144
+  [jensens, benniboy]
+
 - Added adapters and view to be compatible with plone.app.collection.
   [fmoret]
 

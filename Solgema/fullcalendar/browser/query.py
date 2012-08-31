@@ -1,3 +1,4 @@
+from copy import deepcopy
 from Acquisition import aq_inner
 from zope import component
 from plone.app.layout.viewlets.common import ViewletBase
@@ -39,9 +40,10 @@ class SolgemaFullcalendarCollectionQuery(SolgemaFullcalendarTopicQuery):
 
     def listQueryTopicCriteria(self):
         li = []
-        for a in self.context.getField('query').getRaw(self.context):
+        raw = deepcopy(self.context.getField('query').getRaw(self.context)) 
+        for a in raw:
             if a['o'] in ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] \
-                    and a['i'] != 'portal_type' and len(a['v'])>0:
+                    and a['i'] != 'portal_type' and len(a['v']) > 0:
                 li.append(a)
 
         if hasattr(self.calendar, 'availableCriterias') and getattr(self.calendar, 'availableCriterias', None) != None:
