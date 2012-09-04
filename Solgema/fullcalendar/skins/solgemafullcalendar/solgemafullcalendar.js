@@ -399,9 +399,9 @@ var SolgemaFullcalendar = {
         dxdata['form.widgets.IEventBasic.start-year'] = start.getYear() + 1900;
         if (!allDay) {
             dxdata['form.widgets.IEventBasic.start-hour'] = start.getHours();
-            dxdata['form.widgets.IEventBasic.start-min'] = start.getMinutes();
+            dxdata['form.widgets.IEventBasic.start-minute'] = start.getMinutes();
             dxdata['form.widgets.IEventBasic.end-hour'] = end.getHours();
-            dxdata['form.widgets.IEventBasic.end-min'] = end.getMinutes();
+            dxdata['form.widgets.IEventBasic.end-minute'] = end.getMinutes();
         }
         /* end date widget values for request */
         dxdata['form.widgets.IEventBasic.end-day'] = end.getDate();
