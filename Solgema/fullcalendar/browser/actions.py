@@ -41,6 +41,16 @@ except ImportError:
        HAS_PLONE30 = True
 
 
+# Check for plone.(app.)uuid, conditional uid getter with fallback
+try:
+    from plone.uuid.interfaces import IUUID
+    import plone.app.uuid
+    get_uid = lambda o: IUUID(o, None)
+except ImportError:
+    get_uid = lambda o: o.UID()
+    
+
+
 def getCopyObjectsUID(REQUEST):
     if REQUEST is not None and REQUEST.has_key('__cp'):
         cp = REQUEST['__cp']
@@ -245,7 +255,7 @@ class SFAddMenu(BaseActionView):
 class SFJsonEventDelete(BaseActionView):
 
     def __call__(self):
-        eventid = 'UID_'+self.context.UID()
+        eventid = 'UID_' + get_uid(self.context)
         parent = self.context.aq_inner.aq_parent
         title = safe_unicode(self.context.title_or_id())
 
@@ -292,7 +302,7 @@ class SFJsonEventCopy(BaseActionView):
         message = PLMF(u'${title} copied.',
                     mapping={u'title' : title})
         transaction_note('Copied object %s' % self.context.absolute_url())
-        contextId = 'UID_'+self.context.UID()
+        contextId = 'UID_' + get_uid(self.context)
         return json.dumps({'status':status, 'message':self.context.translate(message), 'cp':cp, 'id':contextId})
 
 
@@ -333,7 +343,7 @@ class SFJsonEventCut(BaseActionView):
         message = PLMF(u'${title} copied.',
                     mapping={u'title' : title})
         transaction_note('Copied object %s' % self.context.absolute_url())
-        contextId = 'UID_'+self.context.UID()
+        contextId = 'UID_' + get_uid(self.context)
         return json.dumps({'status':status, 'message':self.context.translate(message), 'cp':cp, 'id':contextId})
 
 
@@ -355,7 +365,7 @@ class SFJsonEventPaste(BaseActionView):
         if self.context.cb_dataValid():
             try:
                 baseObject = self.portal.restrictedTraverse(self.copyDict['url'])
-                baseId = 'UID_' + baseObject.UID()
+                baseId = 'UID_' + get_uid(baseObject)
                 intervalle = baseObject.endDate - baseObject.startDate
                 cb_copy_data = self.request['__cp']
                 pasteList = self.context.manage_pasteObjects(cb_copy_data=cb_copy_data)
