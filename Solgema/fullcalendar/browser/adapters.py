@@ -12,6 +12,7 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
+from Solgema.fullcalendar.browser.actions import get_uid
 from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
@@ -37,6 +38,19 @@ try:
     from plone.app.collection.interfaces import ICollection
 except:
     ICollection = Interface
+
+
+def _field_value(context, name):
+    """Getter for field by name for AT/Dexterity contexts"""
+    v = getattr(context, name)
+    if hasattr(v, '__call__'):
+        return v()
+    return v
+
+
+starts = lambda o: DateTime(_field_value(o, 'start'))
+ends = lambda o: DateTime(_field_value(o, 'end'))
+
 
 class SolgemaFullcalendarCatalogSearch(object):
     implements(interfaces.ISolgemaFullcalendarCatalogSearch)
@@ -158,7 +172,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         if member.has_permission('Modify portal content', item):
             editable = True
 
-        if item.end() - item.start() > 1.0:
+        if ends(item) - starts(item) > 1.0:
             allday = True
         else:
             allday = False
@@ -183,13 +197,13 @@ class SolgemaFullcalendarTopicEventDict(object):
             occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(item.start().rfc822(), item.end().rfc822())]
+            occurences = [(starts(item).rfc822(), ends(item).rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (item.UID()),
+                "id": "UID_%s" % (get_uid(item)),
                 "title": item.Title(),
                 "description": item.Description(),
                 "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
@@ -249,7 +263,7 @@ class SolgemaFullcalendarEventDict(object):
         state = wft.getInfoFor(event, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', event))
-        allday = (event.end() - event.start()) > 1.0
+        allday = (ends(event) - starts(event)) > 1.0
 
         adapted = interfaces.ISFBaseEventFields(event, None)
         if adapted:
@@ -272,13 +286,13 @@ class SolgemaFullcalendarEventDict(object):
             occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(event.start().rfc822(), event.end().rfc822())]
+            occurences = [(starts(event).rfc822(), ends(event).rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (event.UID()),
+                "id": "UID_%s" % (get_uid(event)),
                 "title": event.Title(),
                 "description": event.Description(),
                 "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
@@ -795,7 +809,7 @@ class StandardEventSource(object):
         state = wft.getInfoFor(context, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', context))
-        allday = (context.end() - context.start()) > 1.0
+        allday = (ends(context) - starts(context)) > 1.0
 
         adapted = interfaces.ISFBaseEventFields(context, None)
         if adapted:
@@ -811,13 +825,13 @@ class StandardEventSource(object):
             occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(context.start().rfc822(), context.end().rfc822())]
+            occurences = [(starts(context).rfc822(), ends(context).rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (context.UID()),
+                "id": "UID_%s" % (get_uid(context)),
                 "title": context.Title(),
                 "description": context.Description(),
                 "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,

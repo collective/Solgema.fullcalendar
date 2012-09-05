@@ -351,6 +351,13 @@
        factory=".adapters.SolgemaFullcalendarEventDict" />
 
   <adapter
+    zcml:condition="installed plone.app.event"
+    provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEventDict"
+    for="plone.event.interfaces.IEvent
+         zope.publisher.interfaces.browser.IBrowserRequest"
+    factory=".adapters.SolgemaFullcalendarEventDict" />
+
+  <adapter
        factory=".adapters.FolderColorIndexGetter" />
 
   <adapter
