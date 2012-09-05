@@ -20,12 +20,12 @@ try:
 except ImportError:
     HAS_CALEXPORT_SUPPORT = False
 
+from Products.ATContentTypes.interface import IATEvent
 try:
     from plone.event.interfaces import IEvent, IEventAccessor, IOccurrence
     from plone.event.interfaces import IEvent as IEvent_GENERIC
     hasPloneAppEvent = True
 except ImportError:
-    from Products.ATContentTypes.interface import IATEvent
     from Products.ATContentTypes.interface import IATEvent as IEvent_GENERIC
     hasPloneAppEvent = False
 
@@ -63,7 +63,7 @@ def dict_from_events(events,
                 "editable": editable,
                 "allDay": acc.whole_day,
                 "className": "contextualContentMenuEnabled %s %s %s %s" % (
-                                state and "state-" % str(state) or "",
+                                state and "state-%s" % str(state) or "",
                                 editable and "editable" or "",
                                 css and css or "",
                                 is_occurrence and "occurrence" or ""),
@@ -86,11 +86,12 @@ def dict_from_events(events,
                 "editable": editable,
                 "allDay": allday,
                 "className": "contextualContentMenuEnabled %s %s %s" % (
-                                state and "state-" % str(state) or "",
+                                state and "state-%s" % str(state) or "",
                                 editable and "editable" or "",
                                 css and css or ""),
                 "color": color}]
         elif item:
+            import pdb; pdb.set_trace() 
             # TODO: better test for a brain needed!!
             # brain
 
@@ -117,12 +118,12 @@ def dict_from_events(events,
                 "editable": editable,
                 "allDay": allday,
                 "className": "contextualContentMenuEnabled %s %s %s" % (
-                                state and "state-" % str(state) or "",
+                                state and "state-%s" % str(state) or "",
                                 editable and "editable" or "",
                                 css and css or ""),
                 "color": color}]
 
-    if hasattr(events, '__iter__', False):
+    if not hasattr(events, '__iter__'):
         events = [events]
     ret = []
     for item in events:
@@ -210,8 +211,8 @@ class SolgemaFullcalendarTopicEventDict(object):
             event = brain.getObject()
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(event).occurrences(limit_start=start,
-                                                           limit_end=end)
+            events = IRecurrenceSupport(event).occurrences(range_start=start,
+                                                           range_end=end)
         else:
             events = brain
         return (dict_from_events(
@@ -245,7 +246,8 @@ class SolgemaFullcalendarTopicEventDict(object):
         if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(item).occurrences(limit_start=start, limit_end=end)
+            events = IRecurrenceSupport(item).occurrences(range_start=start,
+                                                          range_end=end)
         else:
             events = item
         return (dict_from_events(
@@ -304,11 +306,6 @@ class SolgemaFullcalendarEventDict(object):
         state = wft.getInfoFor(event, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', event))
-        allday = (event.end() - event.start()) > 1.0
-
-        adapted = interfaces.ISFBaseEventFields(event, None)
-        if adapted:
-            allday = adapted.allDay
 
         copycut = ''
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
@@ -325,7 +322,8 @@ class SolgemaFullcalendarEventDict(object):
         if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(event).occurrences(limit_start=start, limit_end=end)
+            events = IRecurrenceSupport(event).occurrences(range_start=start,
+                                                           range_end=end)
         else:
             events = event
         return (dict_from_events(
