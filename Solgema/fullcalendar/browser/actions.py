@@ -1,4 +1,4 @@
-from urllib import quote_plus
+from urllib import quote_plus, urlencode
 try:
     import json
 except:
@@ -22,7 +22,9 @@ from Products.CMFPlone.utils import safe_unicode
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.browser.views import getCopyObjectsUID
+from Solgema.fullcalendar.utils import get_uid
+from Solgema.fullcalendar.browser.adapters import starts, ends
+from Solgema.fullcalendar.browser.views import getCopyObjectsUID, HAS_PAE
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 
@@ -41,14 +43,18 @@ except ImportError:
        HAS_PLONE30 = True
 
 
-# Check for plone.(app.)uuid, conditional uid getter with fallback
-try:
-    from plone.uuid.interfaces import IUUID
-    import plone.app.uuid
-    get_uid = lambda o: IUUID(o, None)
-except ImportError:
-    get_uid = lambda o: o.UID()
-    
+def normalize_type_query(query, context):
+    portal_types = getToolByName(context, 'portal_types').listTypeInfo()
+    query = dict(query.items())  # copy
+    if 'portal_type' not in query and 'Type' in query:
+        type_title = query.get('Type', 'Event')
+        if isinstance(type_title, tuple):
+            type_title = type_title[0]
+        typemap = dict((o.title,o.getId()) for o in portal_types)
+        query['portal_type'] = typemap.get(type_title, 'Event')
+        del(query['Type'])
+    return query
+
 
 class BaseActionView(BrowserView):
 
@@ -81,13 +87,7 @@ class SFDisplayAddMenu(BaseActionView):
             raise Unauthorized, "You can't add an event on %s" % str(target_folder)
 
         query = hasattr(self.context, 'buildQuery') and self.context.buildQuery() or {}
-        if 'portal_type' not in query and 'Type' in query:
-            type_title = query.get('Type', 'Event')
-            if isinstance(type_title, tuple):
-                type_title = type_title[0]
-            typemap = dict((o.title,o.getId()) for o in portal_types)
-            query['portal_type'] = typemap.get(type_title, 'Event')
-            del(query['Type'])
+        query = normalize_type_query(query, portal)
         copyDict = getCopyObjectsUID(self.request)
 
         # The 'Item Type' criteria uses the 'Type' index while the 'Item Type
@@ -111,7 +111,7 @@ class SFDisplayAddMenu(BaseActionView):
         else:
             portal_type = 'Event'
 
-        pTypes = [a for a in getToolByName(context, 'portal_types').listTypeInfo() if a.id == portal_type]
+        pTypes = [a for a in portal_types.listTypeInfo() if a.id == portal_type]
         pTypeTitle = pTypes and pTypes[0].Title() or portal_type
         typeTitle = translate(pTypeTitle, context=self.request)
         if HAS_PLONE40:
@@ -137,7 +137,7 @@ class SFAddMenu(BaseActionView):
         self.ReqAllDay = self.EventAllDay and '&EventAllDay='+self.EventAllDay or ''
         self.startDate = self.request.get('startDate', '')
         self.endDate = self.request.get('endDate', '')
-        self.query = self.context.buildQuery()
+        self.query = normalize_type_query(self.context.buildQuery(), self.portal)
         self.addableTypes = self.getMenuAddableTypes(self.query)
 
     def getMenuAddableTypes(self, query=None):
@@ -163,6 +163,23 @@ class SFAddMenu(BaseActionView):
             if addingview is not None and \
                queryMultiAdapter((addingview, self.request), name=factory) is not None:
                 url = '%s/+/%s' % (baseUrl, factory,)
+            elif typeId == 'plone.app.event.dx.event':
+                qs = {}
+                start, end = self.startDate, self.endDate
+                qs['form.widgets.IEventBasic.start-day'] = start.day()
+                qs['form.widgets.IEventBasic.start-month'] = start.month()
+                qs['form.widgets.IEventBasic.start-year'] = start.year()
+                qs['form.widgets.IEventBasic.end-day'] = end.day()
+                qs['form.widgets.IEventBasic.end-month'] = end.month()
+                qs['form.widgets.IEventBasic.end-year'] = end.year()
+                if self.EventAllDay == 'true' or self.EventAllDay != 'false':
+                    qs['form.widgets.IEventBasic.whole_day:list'] = 'selected'
+                else:
+                    qs['form.widgets.IEventBasic.start-hour'] = start.hour()
+                    qs['form.widgets.IEventBasic.start-minute'] = start.minute()
+                    qs['form.widgets.IEventBasic.end-hour'] = end.hour()
+                    qs['form.widgets.IEventBasic.end-minute'] = end.minute()
+                url = '%s/SFAjax_add_dx_event?%s' % (baseUrl, urlencode(qs))
             else:
                 url = '%s/createSFEvent?type_name=%s&startDate=%s&endDate=%s' % (baseUrl, 
                        quote_plus(typeId), quote_plus(str(self.startDate)), quote_plus(str(self.endDate)))
@@ -191,8 +208,7 @@ class SFAddMenu(BaseActionView):
     def getMenuPaste(self):
         """Return menu item entries in a TAL-friendly form."""
         copyDict = getCopyObjectsUID(self.request)
-        query = self.context.buildQuery()
-        portal_type = query and query.get('portal_type') or query.get('Type', None)
+        portal_type = self.query and self.query.get('portal_type') or self.query.get('Type', None)
         portal_types = []
         if not copyDict:
             return []
@@ -355,16 +371,27 @@ class SFJsonEventPaste(BaseActionView):
             try:
                 baseObject = self.portal.restrictedTraverse(self.copyDict['url'])
                 baseId = 'UID_' + get_uid(baseObject)
-                intervalle = baseObject.endDate - baseObject.startDate
+                intervalle = ends(baseObject) - starts(baseObject)
                 cb_copy_data = self.request['__cp']
                 pasteList = self.context.manage_pasteObjects(cb_copy_data=cb_copy_data)
                 newObject = getattr(self.context, pasteList[0]['new_id'])
                 startDate = self.startDate
                 if self.EventAllDay:
-                    startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+baseObject.startDate.strftime('%H:%M')
-
-                newObject.setStartDate(DateTime(startDate))
-                newObject.setEndDate(newObject.getField('startDate').get(newObject) + intervalle)
+                    startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+starts(baseObject).strftime('%H:%M')
+                
+                if HAS_PAE and not hasattr(newObject, 'setStartDate'):
+                    import pdb; pdb.set_trace()
+                    # non-Archetypes duck type: use properties for start/end,
+                    # along with UTC-normalized datetime.datetime values
+                    from plone.event.utils import pydt
+                    import pytz
+                    local_start = DateTime(startDate)
+                    _utc = lambda dt: pytz.UTC.normalize(dt)
+                    newObject.start = _utc(pydt(local_start))
+                    newObject.end = _utc(pydt(local_start + intervalle))
+                else: 
+                    newObject.setStartDate(DateTime(startDate))
+                    newObject.setEndDate(newObject.getField('startDate').get(newObject) + intervalle)
                 newObject.reindexObject()
                 transaction_note('Pasted content to %s' % (self.context.absolute_url()))
                 return json.dumps({'status':'pasted',

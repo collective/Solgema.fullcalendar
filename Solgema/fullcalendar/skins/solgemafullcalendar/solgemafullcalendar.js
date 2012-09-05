@@ -324,12 +324,15 @@ var SolgemaFullcalendar = {
       });
     },
     initAddContextualContentMenu: function () {
+      var menulinks;
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
       $dialogContent.dialog( "destroy" );
-      jq("#contextualContentMenu a[href*='createSFEvent']").click( function(event) {
+      menulinks = jq("#contextualContentMenu a[href*='createSFEvent']");
+      menulinks = menulinks.add("#contextualContentMenu a[href*='SFAjax_add_dx_event']");
+      menulinks.click( function(event) {
         event.preventDefault();
         var href = jq(this).attr('href');
         $dialogContent.append('<iframe src="'+href+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');

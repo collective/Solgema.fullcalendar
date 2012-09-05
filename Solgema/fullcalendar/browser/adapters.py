@@ -12,7 +12,7 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.browser.actions import get_uid
+from Solgema.fullcalendar.utils import get_uid
 from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
