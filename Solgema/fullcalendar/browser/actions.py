@@ -380,7 +380,6 @@ class SFJsonEventPaste(BaseActionView):
                     startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+starts(baseObject).strftime('%H:%M')
                 
                 if HAS_PAE and not hasattr(newObject, 'setStartDate'):
-                    import pdb; pdb.set_trace()
                     # non-Archetypes duck type: use properties for start/end,
                     # along with UTC-normalized datetime.datetime values
                     from plone.event.utils import pydt
@@ -515,10 +514,16 @@ class SolgemaFullcalendarResizeView(BaseActionView):
             event_uid = event_uid.split('UID_')[1]
         brains = self.context.portal_catalog(UID=event_uid)
         obj = brains[0].getObject()
-        endDate = obj.getField('endDate').get(obj)
+        endDate = ends(obj)
         dayDelta, minuteDelta = float(request.get('dayDelta', 0)), float(request.get('minuteDelta', 0))
         endDate = endDate + dayDelta + minuteDelta / 1440.0
-        obj.setEndDate(endDate)
+
+        if HAS_PAE and not hasattr(obj, 'setEndDate'):
+            # duck-typed: dexterity-based plone.app.event type UTC datetime
+            from plone.event.utils import pydt
+            obj.end = pydt(endDate)  # endDate is already in UTC
+        else:
+            obj.setEndDate(endDate)
         obj.reindexObject()
         return True
 
