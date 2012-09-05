@@ -388,6 +388,7 @@ class SFJsonEventPaste(BaseActionView):
                     _utc = lambda dt: pytz.UTC.normalize(dt)
                     newObject.start = _utc(pydt(local_start))
                     newObject.end = _utc(pydt(local_start + intervalle))
+                    newObject.whole_day = self.EventAllDay
                 else: 
                     newObject.setStartDate(DateTime(startDate))
                     newObject.setEndDate(newObject.getField('startDate').get(newObject) + intervalle)
