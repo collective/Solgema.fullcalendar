@@ -5,7 +5,6 @@ except:
     import simplejson as json
 
 from DateTime import DateTime
-from OFS import CopySupport
 from OFS.CopySupport import CopyError
 from zExceptions import Unauthorized
 from ZODB.POSException import ConflictError
@@ -23,6 +22,7 @@ from Products.CMFPlone.utils import safe_unicode
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from Solgema.fullcalendar import interfaces
+from Solgema.fullcalendar.browser.views import getCopyObjectsUID
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 
@@ -49,17 +49,6 @@ try:
 except ImportError:
     get_uid = lambda o: o.UID()
     
-
-
-def getCopyObjectsUID(REQUEST):
-    if REQUEST is not None and REQUEST.has_key('__cp'):
-        cp = REQUEST['__cp']
-    else:
-        return []
-
-    op, mdatas = CopySupport._cb_decode(cp)
-    return {'op':op, 'url': ['/'.join(a) for a in mdatas][0]}
-
 
 class BaseActionView(BrowserView):
 
