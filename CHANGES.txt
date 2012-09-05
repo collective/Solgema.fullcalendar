@@ -4,6 +4,9 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- Restored compatibility with plone.app.event and recurring events.
+  [thet]
+
 - fixed bug when CriteriaItems is False
   [jensens, benniboy]
  
