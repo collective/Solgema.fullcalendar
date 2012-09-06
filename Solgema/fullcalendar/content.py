@@ -28,15 +28,28 @@ class SFBaseEventAdapter(SFBaseEventStorage):
 
     def __init__( self, context ):
         self.context = context
+        self._all_day = None
     
-    @property
-    def allDay(self):
+    def _allDay(self):
         if HAS_PAE:
             if IEvent.providedBy(self.context):
                 acc = IEventAccessor(self.context)
                 return acc.whole_day or False
+        if self._all_day is not None:
+            return bool(self._all_day)
         return False
-    
+        
+    def set_allDay(self, v):
+        v = bool(v)
+        if HAS_PAE:
+            if IEvent.providedBy(self.context):
+                acc = IEventAccessor(self.context)
+                acc.whole_day = v
+                return
+        self._all_day = v
+
+    allDay = property(_allDay, set_allDay)
+
     @property
     def isSolgemaFullcalendar(self):
         return getattr(self.context, 'layout', None) == 'solgemafullcalendar_view'
