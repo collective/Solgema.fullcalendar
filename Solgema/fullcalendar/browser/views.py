@@ -11,6 +11,7 @@ from Acquisition import aq_inner, aq_parent
 from zope.interface import implements
 from zope import component
 from zope.component import getMultiAdapter, getAdapters
+from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabularyFactory
 from plone.i18n.normalizer.interfaces import IURLNormalizer
@@ -25,6 +26,15 @@ from Products.ATContentTypes.interface import IATFolder
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
+
+
+# detect plone.app.event
+try:
+    import plone.app.event
+    HAS_PAE = True
+except ImportError:
+    HAS_PAE = False
+
 
 LOG = logging.getLogger('Solgema.fullcalendar')
 
@@ -119,6 +129,7 @@ class SolgemaFullcalendarView(BrowserView):
     def displayNoscriptList(self):
         return getattr(self.calendar, 'displayNoscriptList', True)
 
+
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
@@ -131,6 +142,17 @@ class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
             return ''
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0].Field())
+    
+    def tzaware(self):
+        """is calendar working with timezone-aware events?"""
+        if not HAS_PAE:
+            return False
+        qi = getSite().portal_quickinstaller
+        products = [d['id'] for d in qi.listInstalledProducts()]
+        if 'plone.app.event' in products:
+            return True  # assume true if plone.app.event is installed.
+        return False
+ 
 
 class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""

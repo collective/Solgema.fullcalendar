@@ -50,20 +50,6 @@
      factory=".content.SFBaseEventAdapter"
      />
 
-  <adapter
-      for=".interfaces.CustomSearchableTextSource
-           zope.publisher.interfaces.browser.IBrowserRequest"
-      factory="plone.app.vocabularies.catalog.QuerySearchableTextSourceView"
-      provides="zope.app.form.browser.interfaces.ITerms"
-      />
-
-  <adapter
-      for=".interfaces.CustomSearchableTextSource
-           zope.publisher.interfaces.browser.IBrowserRequest"
-      factory="plone.app.vocabularies.catalog.QuerySearchableTextSourceView"
-      provides="zope.app.form.browser.interfaces.ISourceQueryView"
-      />
-
   <subscriber
       zcml:condition="installed Products.GenericSetup.events"
       handler=".events.handleProfileImportedEvent" />

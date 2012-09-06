@@ -1,6 +1,8 @@
 import itertools
 
+from plone.formwidget.contenttree.source import PathSourceBinder
 from zope import schema
+from zope.container.interfaces import IOrderedContainer
 from zope.interface import Interface, Attribute, implements, classProvides
 from zope.schema.interfaces import ISource, IContextSourceBinder
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
@@ -75,50 +77,6 @@ class ISolgemaFullcalendarJS(ISolgemaFullcalendarView):
     def userCanEdit(self):
         """return if user can edit calendar"""
 
-class CustomSearchableTextSource(SearchableTextSource):
-    implements(ISource)
-    classProvides(IContextSourceBinder)
-
-    def __init__(self, context, base_query={}, default_query=None):
-        super(CustomSearchableTextSource, self).__init__(context, base_query=base_query, default_query=default_query)
-        self.vocabulary = SimpleVocabulary([SimpleTerm(a, a, a) for a in self.baseTerms()])
-
-    def baseTerms(self):
-        query = self.base_query.copy()
-        try:
-            results = (x.getPath()[len(self.portal_path):] for x in self.catalog(**query))
-        except ParseError:
-            return []
-
-        if query.has_key('path'):
-            path = query['path']['query'][len(self.portal_path):]
-            if path != '':
-                return itertools.chain((path,), results)
-        return results
-
-    def search(self, query_string):
-        results = super(CustomSearchableTextSource, self).search(query_string)
-        return SimpleVocabulary([SimpleTerm(a, a, a) for a in results])
-
-    def __contains__(self, value):
-        return self.vocabulary.__contains__(value)
-
-    def __iter__(self):
-        return self.vocabulary.__iter__()
-
-    def getTerm(self, value):
-        return self.vocabulary.getTerm(value)
-
-
-    def getTermByToken(self, token):
-        return self.vocabulary.getTermByToken(token)
-
-
-class CustomSearchableTextSourceBinder(SearchableTextSourceBinder):
-    implements(IContextSourceBinder)
-    def __call__(self, context):
-        return CustomSearchableTextSource(context, base_query=self.query.copy(),
-                                    default_query=self.default_query)
 
 class ICustomUpdatingDict(IDict):
     """Interface for CustomUpdatingDict ( Colors Field )"""
@@ -206,7 +164,11 @@ class ISolgemaFullcalendarProperties(Interface):
     target_folder = schema.Choice(title=_(u"label_target_folder"),
                                   description=_(u"help_target_folder"),
                                   required=False,
-                                  source=CustomSearchableTextSourceBinder({'object_provides' : IATFolder.__identifier__},default_query='path:'))
+                                  source=PathSourceBinder(
+                                    object_provides=(
+                                        IATFolder.__identifier__,
+                                        IOrderedContainer.__identifier__),
+                                    ))
 
     calendarHeight = schema.TextLine( title = _(u"label_calendarHeight"),
                                   required = False,

@@ -1,3 +1,5 @@
+import itertools
+
 from DateTime import DateTime
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
@@ -12,10 +14,12 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
+from Solgema.fullcalendar.utils import get_uid
 from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
-    from plone.app.event.ical import EventsICal
+    from plone.app.event.ical import calendar_from_event
+    from icalendar.cal import Event as EVENT_COMPONENT_CLS
     HAS_CALEXPORT_SUPPORT = True
 except ImportError:
     HAS_CALEXPORT_SUPPORT = False
@@ -37,6 +41,19 @@ try:
     from plone.app.collection.interfaces import ICollection
 except:
     ICollection = Interface
+
+
+def _field_value(context, name):
+    """Getter for field by name for AT/Dexterity contexts"""
+    v = getattr(context, name)
+    if hasattr(v, '__call__'):
+        return v()
+    return v
+
+
+starts = lambda o: DateTime(_field_value(o, 'start'))
+ends = lambda o: DateTime(_field_value(o, 'end'))
+
 
 class SolgemaFullcalendarCatalogSearch(object):
     implements(interfaces.ISolgemaFullcalendarCatalogSearch)
@@ -158,7 +175,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         if member.has_permission('Modify portal content', item):
             editable = True
 
-        if item.end() - item.start() > 1.0:
+        if ends(item) - starts(item) > 1.0:
             allday = True
         else:
             allday = False
@@ -183,13 +200,13 @@ class SolgemaFullcalendarTopicEventDict(object):
             occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(item.start().rfc822(), item.end().rfc822())]
+            occurences = [(starts(item).rfc822(), ends(item).rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (item.UID()),
+                "id": "UID_%s" % (get_uid(item)),
                 "title": item.Title(),
                 "description": item.Description(),
                 "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
@@ -249,7 +266,7 @@ class SolgemaFullcalendarEventDict(object):
         state = wft.getInfoFor(event, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', event))
-        allday = (event.end() - event.start()) > 1.0
+        allday = (ends(event) - starts(event)) > 1.0
 
         adapted = interfaces.ISFBaseEventFields(event, None)
         if adapted:
@@ -272,13 +289,13 @@ class SolgemaFullcalendarEventDict(object):
             occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(event.start().rfc822(), event.end().rfc822())]
+            occurences = [(starts(event).rfc822(), ends(event).rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (event.UID()),
+                "id": "UID_%s" % (get_uid(event)),
                 "title": event.Title(),
                 "description": event.Description(),
                 "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
@@ -448,8 +465,12 @@ class FolderEventSource(object):
         args, filters = self._getCriteriaArgs()
         brains = self._getBrains(args, filters)
         if HAS_CALEXPORT_SUPPORT:
-            return ''.join([EventsICal(b.getObject())()
-                                    for b in brains])
+            _cal = lambda b: calendar_from_event(b.getObject())
+            _isevent = lambda c: isinstance(c, EVENT_COMPONENT_CLS)
+            _vevents = lambda cal: filter(_isevent, cal.subcomponents)
+            events = list(itertools.chain(*[_vevents(_cal(b)) for b in brains]))
+            # ical export of components has trailing CRLF between each VEVENT
+            return ''.join([e.to_ical() for e in events])
         else:
             return ''.join([b.getObject().getICal() for b in brains])
 
@@ -795,7 +816,7 @@ class StandardEventSource(object):
         state = wft.getInfoFor(context, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', context))
-        allday = (context.end() - context.start()) > 1.0
+        allday = (ends(context) - starts(context)) > 1.0
 
         adapted = interfaces.ISFBaseEventFields(context, None)
         if adapted:
@@ -811,13 +832,13 @@ class StandardEventSource(object):
             occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
             occurenceClass = ' occurence'
         else:
-            occurences = [(context.start().rfc822(), context.end().rfc822())]
+            occurences = [(starts(context).rfc822(), ends(context).rfc822())]
             occurenceClass = ''
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
                 "status": "ok",
-                "id": "UID_%s" % (context.UID()),
+                "id": "UID_%s" % (get_uid(context)),
                 "title": context.Title(),
                 "description": context.Description(),
                 "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,

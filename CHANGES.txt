@@ -1,14 +1,76 @@
 Changelog
 =========
 
-2.1.2 (unreleased)
+2.1.3 (unreleased)
 ------------------
+
+- Corrected output of plone.app.event iCalendar export to avoid nesting
+  VCALENDAR blocks, rather wrapping 1..* VEVENT blocks inside one VCALENDAR.
+  [seanupton]
+
+- Normalize ICS export line endings to match RFC 5545 requirements (consistent
+  with what ATCT does, but using a function that could support possibly mixed
+  or inconsistent line endings in source text).
+  [seanupton]
+
+- Drag-and-drop supports dexterity-based plone.app.event type
+  [seanupton]
+
+- plone.app.event Dexterity type compatibilty:
+    * Conditional support overlay event display
+    * iframe (quick) add form support
+    * iframe edit support
+    * drag-resize to change duration
+    * indexer for full-day events uses IEventAccessor adapter
+    * drag-and-drop support for discrete-time and all-day events.
+    * Add menu support and event copy/paste compatibility.
+    * Use get_uid() to support plone.uuid based UID.
+  [seanupton]
+
+- getCopyObjectsUID() identically defined in two view modules, de-duplicated.
+  [seanupton]
+
+- View adapters use UID getter (get_uid) indirection from browser.actions,
+  supporting either accessor (AT) or property (dexterity) getting of
+  start/end values on contexts, casting/normalizing all to DateTime
+  (possibly from datetime.datetime for Dexterity-based contexts such as a
+  type from plone.app.event). Added conditional adapter registration for
+  plone.event.interfaces.IEvent to SolgemaFullcalendarEventDict.
+  [seanupton]
+
+- Show object actions links in view popup, provide ability to link to event
+  actions in new window/tab target without being forced to use context menu.
+  [seanupton]
+
+- Fix form widget name in query string for dexterity-based plone.app.event
+  type add form (minute input of each respective datetime field)
+  [seanupton]
+
+- Conditional plone.uuid / plone.app.uuid support, with backward compatibility
+  fallback.  Use IUUID when available to lookup UID of item.  Added utils.py.
+  [seanupton]
+
+- When plone.app.event is both importable and installed as site product,
+  display message indicating that browser adjusts events to local time.
+  [seanupton]
+
+- SFDisplayAddMenu JSON outputs first portal_type found for a Type name in
+  portal_types, will be necessary for plone.app.event+Dexterity support.
+  [seanupton]
+
+- Replace search-based target folder selection widget with dependency on
+  plone.formwidget.contenttree -- makes browing for a target folder more
+  intuitive, also adds package and profile dependency.
+  [seanupton]
 
 - fixed bug when CriteriaItems is False
   [jensens, benniboy]
  
 - workaround for archetypes.querywidget bug see: https://dev.plone.org/ticket/13144
   [jensens, benniboy]
+
+2.1.2 (2012-08-22)
+------------------
 
 - Added adapters and view to be compatible with plone.app.collection.
   [fmoret]
