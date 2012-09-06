@@ -489,12 +489,20 @@ class SolgemaFullcalendarDropView(BaseActionView):
 
         brains = self.context.portal_catalog(UID=event_uid)
         obj = brains[0].getObject()
-        startDate, endDate = obj.getField('startDate').get(obj), obj.getField('endDate').get(obj)
+        startDate, endDate = starts(obj), ends(obj)
         dayDelta, minuteDelta = float(request.get('dayDelta', 0)), float(request.get('minuteDelta', 0))
         startDate = startDate + dayDelta + minuteDelta / 1440.0
         endDate = endDate + dayDelta + minuteDelta / 1440.0
-        obj.setStartDate(startDate)
-        obj.setEndDate(endDate)
+        
+        if HAS_PAE and not hasattr(obj, 'setStartDate'):
+            # non-Archetypes duck type: use properties for start/end,
+            # along with UTC-normalized datetime.datetime values
+            from plone.event.utils import pydt
+            obj.start = pydt(startDate)
+            obj.end = pydt(endDate)
+        else: 
+            obj.setStartDate(startDate)
+            obj.setEndDate(endDate)
         adapted = interfaces.ISFBaseEventFields(obj, None)
         if adapted:
             if request.get('allDay', None) == 'true':
