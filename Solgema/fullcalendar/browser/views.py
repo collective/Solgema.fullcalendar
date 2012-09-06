@@ -466,7 +466,7 @@ class SFTopicSources(SolgemaFullcalendarView):
             fromCookie = False
             CriteriaItems = getMultiAdapter((self.context, self.request),  interfaces.ICriteriaItems)()
             values = CriteriaItems and [a for a in CriteriaItems['values'] if a] or []
-            criteria = CriteriaItems['name']
+            criteria = CriteriaItems and CriteriaItems['name'] or ''
         eventSources = []
         if values:
             for value in values:
