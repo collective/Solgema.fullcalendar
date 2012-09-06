@@ -1,3 +1,5 @@
+import itertools
+
 from DateTime import DateTime
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
@@ -16,7 +18,8 @@ from Solgema.fullcalendar.utils import get_uid
 from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
-    from plone.app.event.ical import EventsICal
+    from plone.app.event.ical import calendar_from_event
+    from icalendar.cal import Event as EVENT_COMPONENT_CLS
     HAS_CALEXPORT_SUPPORT = True
 except ImportError:
     HAS_CALEXPORT_SUPPORT = False
@@ -462,8 +465,12 @@ class FolderEventSource(object):
         args, filters = self._getCriteriaArgs()
         brains = self._getBrains(args, filters)
         if HAS_CALEXPORT_SUPPORT:
-            return ''.join([EventsICal(b.getObject())()
-                                    for b in brains])
+            _cal = lambda b: calendar_from_event(b.getObject())
+            _isevent = lambda c: isinstance(c, EVENT_COMPONENT_CLS)
+            _vevents = lambda cal: filter(_isevent, cal.subcomponents)
+            events = list(itertools.chain(*[_vevents(_cal(b)) for b in brains]))
+            # ical export of components has trailing CRLF between each VEVENT
+            return ''.join([e.to_ical() for e in events])
         else:
             return ''.join([b.getObject().getICal() for b in brains])
 
