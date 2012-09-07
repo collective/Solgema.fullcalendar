@@ -79,8 +79,8 @@
       />
 
   <browser:page
-      zcml:condition="installed plone.app.events"
-      for="plone.app.events.interfaces.IEvent"
+      zcml:condition="installed plone.app.event"
+      for="plone.event.interfaces.IEvent"
       name="solgemafullcalendar_vars.js"
       class=".views.SolgemaFullcalendarEventJS"
       template="vars.js.pt"
