@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+<head>
+<metal:block fill-slot="javascript_head_slot">
+<script type="text/javascript" tal:content="string: sf_goto_date='${view/isodate}'"></script>
+<script type="text/javascript" tal:condition="python: not request.form.get('calendar_event_saved', None)">
+  jq(document).ready( function() {
+    jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq('#content').height()+30 );
+    var $dialogContent = window.parent.jq('#event_edit_container');
+    jq("#form-buttons-cancel").unbind('click').click(function () {
+        window.parent.jq('a.ui-dialog-titlebar-close').unbind('click').click(function (event){
+          $dialogContent.dialog('close');
+        });
+        window.parent.jq('a.ui-dialog-titlebar-close').click();
+        return false;
+    });
+    jq('ul.formTabs a').click(function(event){
+      jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq("html").height()+30 );
+    });
+    jq('select.formTabs').change(function(event){
+      jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq("html").height()+30 );
+    });
+  });
+</script>
+<script tal:condition="python: request.form.get('calendar_event_saved', None)" type="text/javascript">
+  jq(document).ready( function() {
+    if (window.parent !== window) {
+      window.parent.jq('#calendar').empty().fullCalendar(window.parent.calendarOptions()); 
+      if (window.sf_goto_date) {
+        var dt = new Date(window.sf_goto_date);
+        var year = 1900 + dt.getYear();
+        var month = dt.getMonth();
+        var day = dt.getDate();
+        window.parent.jq('#calendar').fullCalendar('gotoDate', year, month, day);
+      }
+      var dialogContent = window.parent.jq('#event_edit_container');
+      dialogContent.dialog('close');
+    }
+  });
+</script>
+</metal:block>
+
+</head>
+<body>
+ <metal:block fill-slot="main">
+ <div>
+  <tal:block condition="python: not request.form.get('calendar_event_saved', None)">
+    <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
+  </tal:block>
+ </div>
+ </metal:block>
+</body>
+</html>

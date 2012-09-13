@@ -35,7 +35,7 @@
                 <p class="documentDescription" tal:content="context/Description">
                     Description
                 </p>
-
+                <p class="help" tal:condition="view/tzaware" i18n:translate="help_displaying_localtime">Events displayed on this calendar are adjusted by your web browser to your computer's local time.</p>
                 <div id="calendar" tal:attributes="class string:query-${view/getCriteriaClass}">
                     <div id="event_edit_container"></div>
                 </div>

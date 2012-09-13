@@ -17,6 +17,14 @@ from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.interfaces import IEventSource
 
 
+def normalize_crlf_endings(s):
+    """
+    Given LF-only or possibly mixed line endings, normalize all to CRLF.
+    """
+    v = s.replace('\r\n', '\n')
+    return v.replace('\n', '\r\n')
+
+
 class ICalExportButton(ViewletBase):
 
 
@@ -80,23 +88,23 @@ class ICalExport(BrowserView):
                 return construct_calendar(context, events).as_string()
         else:
             if self.iscalendarlayout:
-                data = calendarconstants.ICS_HEADER % dict(prodid=calendarconstants.PRODID)
-                data += 'X-WR-CALNAME:%s\n' % context.Title()
-                data += 'X-WR-CALDESC:%s\n' % context.Description()
+                data = normalize_crlf_endings(calendarconstants.ICS_HEADER) % dict(prodid=calendarconstants.PRODID)
+                data += 'X-WR-CALNAME:%s\r\n' % context.Title()
+                data += 'X-WR-CALDESC:%s\r\n' % context.Description()
                 for source in self.sources:
                     if hasattr(source, 'getICal'):
-                        data += source.getICal()
+                        data += normalize_crlf_endings(source.getICal())
 
-                data += calendarconstants.ICS_FOOTER
+                data += normalize_crlf_endings(calendarconstants.ICS_FOOTER)
                 return str(data)
             else:
-                data = calendarconstants.ICS_HEADER % dict(prodid=calendarconstants.PRODID)
+                data = normalize_crlf_endings(calendarconstants.ICS_HEADER) % dict(prodid=calendarconstants.PRODID)
                 data += 'X-WR-CALNAME:%s\n' % context.Title()
                 data += 'X-WR-CALDESC:%s\n' % context.Description()
                 for brain in self.events:
-                    data += brain.getObject().getICal()
+                    data += normalize_crlf_endings(brain.getObject().getICal())
 
-                data += calendarconstants.ICS_FOOTER
+                data += normalize_crlf_endings(calendarconstants.ICS_FOOTER)
                 return str(data)
 
     __call__ = render

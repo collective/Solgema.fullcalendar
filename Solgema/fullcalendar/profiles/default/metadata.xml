@@ -7,5 +7,7 @@
     <dependency>profile-plone.app.z3cform:default</dependency>
     <dependency>profile-Solgema.ContextualContentMenu:default</dependency>
     <dependency>profile-collective.js.colorpicker:default</dependency>
+    <dependency>profile-plone.formwidget.contenttree:default</dependency>
+    <dependency>profile-plone.formwidget.autocomplete:default</dependency>
   </dependencies>
 </metadata>
