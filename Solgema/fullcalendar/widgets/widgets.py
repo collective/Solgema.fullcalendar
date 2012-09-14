@@ -12,10 +12,8 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 try:
     from plone.app.collection.interfaces import ICollection
-    hasPAC = True
 except:
     ICollection = Interface
-    hasPAC = False
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryTopicCriteria
@@ -35,14 +33,16 @@ class ColorDictInputWidget(Widget):
 
     def getCriteriaKeys(self):
         li = []
-        if IATTopic.providedBy(self.context) or hasPAC:
+        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
+            import pdb; pdb.set_trace()
             criteria = IListBaseQueryTopicCriteria(self.context)()
             for criterion in [a['i'] for a in criteria]:
                 li.append(self.name+'.'+criterion)
         return li
 
     def getCriteria(self):
-        if IATTopic.providedBy(self.context) or hasPAC:
+        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
+            import pdb; pdb.set_trace()
             return IListBaseQueryTopicCriteria(self.context)()
         return []
 
