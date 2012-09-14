@@ -60,30 +60,32 @@
       />
 
   <!-- THE CALENDAR VIEW FOR plone.app.event (conditional) -->
-  <browser:page
-    zcml:condition="installed plone.app.event"
-    name="SFLight_plone.app.event.dx.event_view"
-    for="plone.event.interfaces.IEvent"
-    class="plone.app.event.browser.event_view.EventView"
-    template="../skins/solgemafullcalendar/SFLight_event_view.pt"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    zcml:condition="installed plone.app.event"
-    name="SFAjax_base_edit"
-    for="plone.app.event.dx.interfaces.IDXEvent"
-    class=".dx.InlineFrameEditForm"
-    permission="cmf.ModifyPortalContent"
-    />
+  <configure zcml:condition="installed plone.dexterity">
+    <browser:page
+      zcml:condition="installed plone.app.event"
+      name="SFLight_plone.app.event.dx.event_view"
+      for="plone.event.interfaces.IEvent"
+      class="plone.app.event.browser.event_view.EventView"
+      template="../skins/solgemafullcalendar/SFLight_event_view.pt"
+      permission="zope2.View"
+      />
   
-  <browser:page
-    zcml:condition="installed plone.app.event"
-    name="SFAjax_add_dx_event"
-    for="Products.CMFCore.interfaces.IFolderish"
-    class=".dx.InlineFrameAddView"
-    permission="cmf.AddPortalContent"
-    />
+    <browser:page
+      zcml:condition="installed plone.app.event"
+      name="SFAjax_base_edit"
+      for="plone.app.event.dx.interfaces.IDXEvent"
+      class=".dx.InlineFrameEditForm"
+      permission="cmf.ModifyPortalContent"
+      />
+  
+    <browser:page
+      zcml:condition="installed plone.app.event"
+      name="SFAjax_add_dx_event"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".dx.InlineFrameAddView"
+      permission="cmf.AddPortalContent"
+      />
+  </configure>
   
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
   <browser:page
