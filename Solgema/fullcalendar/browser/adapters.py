@@ -1,3 +1,4 @@
+import itertools
 from DateTime import DateTime
 from Acquisition import aq_inner
 from AccessControl import getSecurityManager
