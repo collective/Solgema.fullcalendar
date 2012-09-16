@@ -808,7 +808,12 @@ function initCalendar(date) {
     jq('.fc-button-calendar').removeClass('ui-state-hover');
     jq('#datePicker').css('display', 'none');
     jq('.fc-button-calendar').click( function() {
-      jq('#datePicker').toggle();
+    	if (jq('#datePicker').css('display') != 'block') {
+            jq('#datePicker').show('fast');
+          }
+          else{
+        	  jq('#datePicker').hide('fast')
+          }
     });
   }
 };
