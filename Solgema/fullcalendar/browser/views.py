@@ -501,7 +501,7 @@ class SFTopicSources(SolgemaFullcalendarView):
                                         'className': 'gcal-event gcal-source'+str(i+1),
                                         'color':     gcalColors.get('source'+str(i), ''),
                                         'title':     'GCAL '+str(i+1)})
-
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps(eventSources, sort_keys=True)
 
 class SFCollectionSources(SFTopicSources):
@@ -566,6 +566,7 @@ class SFFolderSources(SolgemaFullcalendarView):
                                         'color':     gcalColors.get('source'+str(i), ''),
                                         'title':     'GCAL '+str(i+1)})
 
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps(eventSources, sort_keys=True)
 
 class SFEventSources(BrowserView):
@@ -573,6 +574,7 @@ class SFEventSources(BrowserView):
     implements(interfaces.ISolgemaFullcalendarEventsSources)
                 
     def __call__(self, *args, **kw):
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps([self.context.absolute_url()+'/@@solgemafullcalendarevents',])
 
 class SolgemaFullcalendarEvents(BrowserView):
@@ -589,6 +591,7 @@ class SolgemaFullcalendarEvents(BrowserView):
         for name, source in sources:
             events.extend(source.getEvents())
 
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps(events, sort_keys=True)
 
 
