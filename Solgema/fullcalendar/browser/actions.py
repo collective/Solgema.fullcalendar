@@ -79,6 +79,7 @@ class SFJsonEvent(BaseActionView):
     def __call__(self, *args, **kw):
         eventDict = getMultiAdapter((self.context, self.request),
                                     interfaces.ISolgemaFullcalendarEventDict)()
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps(eventDict, sort_keys=True)
 
 
@@ -107,6 +108,7 @@ class SFDisplayAddMenu(BaseActionView):
         # specific than 'Type', which just indexes the content type's Title
         # property (which can be non-unique).
         index = query.get('portal_type', query.get('Type') )
+        self.request.response.setHeader("Content-type","application/json")
         if index:
             if isinstance(index, (list, tuple)) and len(index) > 1:
                 return json.dumps({'display': True})
@@ -289,7 +291,7 @@ class SFJsonEventDelete(BaseActionView):
             message = PLMF(u'${title} has been deleted.',
                         mapping={u'title' : title})
             transaction_note('Deleted %s' % self.context.absolute_url())
-
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps({'status':status, 'message':parent.translate(message), 'id':eventid})
 
 
@@ -298,6 +300,7 @@ class SFJsonEventCopy(BaseActionView):
     def __call__(self):
         title = safe_unicode(self.context.title_or_id())
         mtool = getToolByName(self.context, 'portal_membership')
+        self.request.response.setHeader("Content-type","application/json")
         if not mtool.checkPermission('Copy or Move', self.context):
             message = PLMF(u'Permission denied to copy ${title}.',
                     mapping={u'title' : title})
@@ -327,6 +330,7 @@ class SFJsonEventCut(BaseActionView):
         title = safe_unicode(self.context.title_or_id())
 
         mtool = getToolByName(self.context, 'portal_membership')
+        self.request.response.setHeader("Content-type","application/json")
         if not mtool.checkPermission('Copy or Move', self.context):
             message = PLMF(u'Permission denied to copy ${title}.',
                     mapping={u'title' : title})
@@ -377,6 +381,7 @@ class SFJsonEventPaste(BaseActionView):
 
     def __call__(self):
         msg=PLMF(u'Copy or cut one or more items to paste.')
+        self.request.response.setHeader("Content-type","application/json")
         if self.context.cb_dataValid():
             try:
                 baseObject = self.portal.restrictedTraverse(self.copyDict['url'])
@@ -441,6 +446,7 @@ class SolgemaFullcalendarWorkflowTransition(BaseActionView):
         comment = self.request.get('comment', None)
         effective_date = self.request.get('effective_date', None)
         expiration_date = self.request.get('expiration_date', None)
+        self.request.response.setHeader("Content-type","application/json")
 
         if workflow_action in transition_ids \
                 and not effective_date and event.EffectiveDate() == 'None':
