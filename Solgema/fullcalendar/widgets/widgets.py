@@ -34,7 +34,6 @@ class ColorDictInputWidget(Widget):
     def getCriteriaKeys(self):
         li = []
         if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
-            import pdb; pdb.set_trace()
             criteria = IListBaseQueryTopicCriteria(self.context)()
             for criterion in [a['i'] for a in criteria]:
                 li.append(self.name+'.'+criterion)
@@ -42,7 +41,6 @@ class ColorDictInputWidget(Widget):
 
     def getCriteria(self):
         if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
-            import pdb; pdb.set_trace()
             return IListBaseQueryTopicCriteria(self.context)()
         return []
 

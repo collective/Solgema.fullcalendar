@@ -93,9 +93,9 @@ def dict_from_events(events,
                                 css and css or ""),
                 "color": color}]
         elif item:
-            import pdb; pdb.set_trace() 
             # TODO: better test for a brain needed!!
             # brain
+            # indeed, mankind could improve then (scnr)
 
             if type(item.end) != DateTime:
                 brainend = DateTime(item.end)
