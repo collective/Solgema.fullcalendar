@@ -1,6 +1,6 @@
 import logging
 import datetime
-from urllib import unquote
+from urllib import unquote, urlencode
 try:
     import json
 except:
@@ -128,6 +128,23 @@ class SolgemaFullcalendarView(BrowserView):
 
     def displayNoscriptList(self):
         return getattr(self.calendar, 'displayNoscriptList', True)
+    
+    def getCalendarVarsUrl(self):
+        """Allows to set initial view and date by request parameters.
+        """
+        view = self.request.form.get('sfview')
+        year = self.request.form.get('sfyear')
+        month = self.request.form.get('sfmonth')
+        day = self.request.form.get('sfday')
+        base_url = self.context.absolute_url()
+        query = dict()
+        if view: query['sfview'] = view
+        if year: query['sfyear'] = year
+        if month: query['sfmonth'] = month
+        if day: query['sfday'] = day
+        query = urlencode(query)
+        if query: query = '?%s' % query
+        return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
 
 
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
@@ -351,6 +368,11 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
             return newdate.isoweekday() - 1
 
     def getYear(self):
+        year = self.request.form.get('sfyear')
+        if year is not None:
+            try:
+                return int(year)
+            except ValueError: pass
         if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
             return datetime.datetime.now().year
         else:
@@ -360,6 +382,11 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
             return int(newdate.year)
 
     def getMonthNumber(self):
+        month = self.request.form.get('sfmonth')
+        if month is not None:
+            try:
+                return int(month)
+            except ValueError: pass
         if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
             return datetime.datetime.now().month
         else:
@@ -369,6 +396,11 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
             return int(newdate.month)
 
     def getDate(self):
+        day = self.request.form.get('sfday')
+        if day is not None:
+            try:
+                return int(day)
+            except ValueError: pass
         if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
             return datetime.datetime.now().day
         else:
@@ -402,6 +434,11 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         return getattr(self.calendar, 'slotMinutes', '30')
 
     def defaultCalendarView(self):
+        available = ['week', 'basicWeek', 'basicDay', 'agendaWeek', 'agendaDay']
+        view = self.request.form.get('sfview')
+        if view is not None:
+            if view in available:
+                return view
         return getattr(self.calendar, 'defaultCalendarView', 'agendaWeek')
 
     def calendarWeekends(self):
