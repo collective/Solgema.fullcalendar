@@ -686,7 +686,7 @@ function calendarOptions() {
       options['firstDay'] = SolgemaFullcalendarVars.firstDay;
       options['weekends'] = SolgemaFullcalendarVars.weekends;
       options['year'] = SolgemaFullcalendarVars.year;
-      options['month'] = SolgemaFullcalendarVars.monthNunber;
+      options['month'] = SolgemaFullcalendarVars.monthNumber;
       options['date'] = SolgemaFullcalendarVars.date;
       options['firstHour'] = firstHour;
       options['minTime'] = SolgemaFullcalendarVars.minTime;

@@ -92,10 +92,7 @@ def dict_from_events(events,
                                 editable and "editable" or "",
                                 css and css or ""),
                 "color": color}]
-        elif item:
-            # TODO: better test for a brain needed!!
-            # brain
-
+        elif ICatalogBrain.providedBy(item):
             if type(item.end) != DateTime:
                 brainend = DateTime(item.end)
                 brainstart = DateTime(item.start)
@@ -115,7 +112,7 @@ def dict_from_events(events,
                 "description": item.Description,
                 "start": brainstart.rfc822(),
                 "end": brainend.rfc822(),
-                "url": item.absolute_url(),
+                "url": item.getURL(),
                 "editable": editable,
                 "allDay": allday,
                 "className": "contextualContentMenuEnabled %s %s %s" % (
@@ -123,13 +120,13 @@ def dict_from_events(events,
                                 editable and "editable" or "",
                                 css and css or ""),
                 "color": color}]
+        else:
+            raise ValueError('item type not supported for: %s' % repr(item))
 
     if not hasattr(events, '__iter__'):
         events = [events]
-    ret = []
-    for item in events:
-        ret.append(dict_from_item(item))
-    return ret
+    
+    return [dict_from_item(item) for item in events]
 
 
 class SolgemaFullcalendarCatalogSearch(object):
