@@ -84,7 +84,7 @@ class ColorDictInputWidget(Widget):
                     if fieldid in currentValues \
                         and item in currentValues[fieldid]:
                         value = currentValues[fieldid][item]
-                            
+
                     html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
                         <input type="text" size="10" name="%s:record" value="%s"
                                class="colorinput" style="background-color:%s;" />
@@ -103,7 +103,7 @@ class ColorDictInputWidget(Widget):
                 if fieldid in currentValues \
                     and folderId in currentValues[fieldid]:
                     value = currentValues[fieldid][folderId]
-                            
+
                 html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
                     <input type="text" size="10" name="%s:record" value="%s"
                            class="colorinput" style="background-color:%s;" />

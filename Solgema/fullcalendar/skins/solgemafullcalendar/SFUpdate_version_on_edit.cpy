@@ -37,4 +37,3 @@ if isVersionable and ((changed and \
        )
 
 return state.set(status='success')
-

@@ -29,7 +29,7 @@ class SFBaseEventAdapter(SFBaseEventStorage):
     def __init__( self, context ):
         self.context = context
         self._all_day = None
-    
+
     def _allDay(self):
         if HAS_PAE:
             if IEvent.providedBy(self.context):
@@ -38,7 +38,7 @@ class SFBaseEventAdapter(SFBaseEventStorage):
         if self._all_day is not None:
             return bool(self._all_day)
         return False
-        
+
     def set_allDay(self, v):
         v = bool(v)
         if HAS_PAE:

@@ -48,7 +48,7 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
-      
+
   <!-- THE CALENDAR VIEW FOR ATEVENT-->
   <browser:page
       for="Products.ATContentTypes.interface.IATEvent"
@@ -69,7 +69,7 @@
       template="../skins/solgemafullcalendar/SFLight_event_view.pt"
       permission="zope2.View"
       />
-  
+
     <browser:page
       zcml:condition="installed plone.app.event"
       name="SFAjax_base_edit"
@@ -77,7 +77,7 @@
       class=".dx.InlineFrameEditForm"
       permission="cmf.ModifyPortalContent"
       />
-  
+
     <browser:page
       zcml:condition="installed plone.app.event"
       name="SFAjax_add_dx_event"
@@ -86,7 +86,7 @@
       permission="cmf.AddPortalContent"
       />
   </configure>
-  
+
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
@@ -394,7 +394,7 @@
 
   <adapter
        factory=".adapters.CriteriaItemsCollection" />
-       
+
 
   <!-- Actions -->
   <browser:page

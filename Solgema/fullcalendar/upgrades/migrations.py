@@ -1,7 +1,6 @@
 import transaction
-from Acquisition import aq_inner
 from zope import component
-from Products.CMFPlone.utils import safe_unicode 
+from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import getToolByName
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from Solgema.fullcalendar import interfaces

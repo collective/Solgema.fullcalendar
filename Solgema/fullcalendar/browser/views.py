@@ -1,6 +1,6 @@
 import logging
 import datetime
-from urllib import unquote, urlencode
+from urllib import urlencode
 try:
     import json
 except:
@@ -20,7 +20,7 @@ from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
-from Products.CMFPlone.utils import safe_unicode 
+from Products.CMFPlone.utils import safe_unicode
 from Products.ATContentTypes.interface import IATFolder
 
 from Solgema.fullcalendar.config import _
@@ -128,7 +128,7 @@ class SolgemaFullcalendarView(BrowserView):
 
     def displayNoscriptList(self):
         return getattr(self.calendar, 'displayNoscriptList', True)
-    
+
     def getCalendarVarsUrl(self):
         """Allows to set initial view and date by request parameters.
         """
@@ -159,7 +159,7 @@ class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
             return ''
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0].Field())
-    
+
     def tzaware(self):
         """is calendar working with timezone-aware events?"""
         if not HAS_PAE:
@@ -169,7 +169,7 @@ class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
         if 'plone.app.event' in products:
             return True  # assume true if plone.app.event is installed.
         return False
- 
+
 
 class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
@@ -196,7 +196,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         self.context = context
         self.request = request
         portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
-        self.portal = portal_state.portal() 
+        self.portal = portal_state.portal()
         self._ts = getToolByName(context, 'translation_service')
         self.portal_language = portal_state.language()
         self.calendar = None
@@ -254,7 +254,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
 
     def getEditEventText(self):
         return _('editEvent', 'Edit Event')
-    
+
     def getDeleteConfirmationText(self):
         return pMF('alert_really_delete', 'Do you really want to delete this item?')
 
@@ -302,7 +302,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
             return portal_migration.getSoftwareVersion()
         except:
             return portal_migration.getInstanceVersion()
-    
+
     def slotMinutes(self):
         return '30'
 
@@ -348,12 +348,12 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def __call__(self):
         self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
         return super(SolgemaFullcalendarEventJS, self).__call__()
-        
+
 class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     """Solgema Fullcalendar Javascript variables"""
 
     implements(interfaces.ISolgemaFullcalendarJS)
-    
+
     def __init__(self, context, request):
         super(SolgemaFullcalendarTopicJS, self).__init__(context, request)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
@@ -429,7 +429,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
 
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
-    
+
     def slotMinutes(self):
         return getattr(self.calendar, 'slotMinutes', '30')
 
@@ -480,7 +480,7 @@ class SFTopicSources(SolgemaFullcalendarView):
 
     def getColor(self, fieldid, value):
         colorsDict = self.calendar.queryColors
-        
+
         if not colorsDict or not colorsDict.get(fieldid):
             return None
         value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
@@ -490,7 +490,7 @@ class SFTopicSources(SolgemaFullcalendarView):
             if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
                 return v
         return None
-                
+
     def __call__(self, *args, **kw):
         """Render JS eventSources. Separate cookie request in different sources."""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
@@ -525,7 +525,7 @@ class SFTopicSources(SolgemaFullcalendarView):
                 eventSources.append(d.copy())
         else:
             eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
-        
+
         gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
         if gcalSourcesAttr != None:
             gcalSources = gcalSourcesAttr.split('\n')
@@ -547,10 +547,10 @@ class SFCollectionSources(SFTopicSources):
 class SFFolderSources(SolgemaFullcalendarView):
 
     implements(interfaces.ISolgemaFullcalendarEventsSources)
-                
+
     def getColor(self, fieldid, value):
         colorsDict = self.calendar.queryColors
-        
+
         if not colorsDict or not colorsDict.get(fieldid):
             return None
         value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
@@ -560,7 +560,7 @@ class SFFolderSources(SolgemaFullcalendarView):
             if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
                 return v
         return None
-                
+
     def __call__(self, *args, **kw):
         """Render JS eventSources. Separate cookie request in different sources."""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
@@ -589,7 +589,7 @@ class SFFolderSources(SolgemaFullcalendarView):
                 eventSources.append(d.copy())
         else:
             eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
-        
+
         gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
         if gcalSourcesAttr != None:
             gcalSources = gcalSourcesAttr.split('\n')
@@ -609,7 +609,7 @@ class SFFolderSources(SolgemaFullcalendarView):
 class SFEventSources(BrowserView):
 
     implements(interfaces.ISolgemaFullcalendarEventsSources)
-                
+
     def __call__(self, *args, **kw):
         self.request.response.setHeader("Content-type","application/json")
         return json.dumps([self.context.absolute_url()+'/@@solgemafullcalendarevents',])
@@ -707,5 +707,3 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
 
 class SolgemaFullcalendarColorsCssCollection(SolgemaFullcalendarColorsCssTopic):
     """Solgema Fullcalendar Javascript variables"""
-
-

@@ -1,6 +1,6 @@
 import itertools
 from DateTime import DateTime
-from Acquisition import aq_inner
+from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
 from zope.component import queryAdapter, adapts, getMultiAdapter, getAdapters
@@ -125,7 +125,7 @@ def dict_from_events(events,
 
     if not hasattr(events, '__iter__'):
         events = [events]
-    
+
     return [dict_from_item(item) for item in events]
 
 

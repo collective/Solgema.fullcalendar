@@ -4,7 +4,7 @@ from zope import component
 from plone.app.layout.viewlets.common import ViewletBase
 from Products.CMFCore.utils import getToolByName
 
-from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties, IListCriterias
+from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
 from Solgema.fullcalendar.browser.views import getCookieItems
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -40,7 +40,7 @@ class SolgemaFullcalendarCollectionQuery(SolgemaFullcalendarTopicQuery):
 
     def listQueryTopicCriteria(self):
         li = []
-        raw = deepcopy(self.context.getField('query').getRaw(self.context)) 
+        raw = deepcopy(self.context.getField('query').getRaw(self.context))
         for a in raw:
             if a['o'] in ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] \
                     and a['i'] != 'portal_type' and len(a['v']) > 0:

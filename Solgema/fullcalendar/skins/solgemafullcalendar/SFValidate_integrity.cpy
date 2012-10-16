@@ -21,4 +21,3 @@ if errors:
     return state.set(status='failure', errors=errors)
 else:
     return state.set(status='success')
-
