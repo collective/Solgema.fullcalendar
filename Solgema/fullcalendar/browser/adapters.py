@@ -773,7 +773,12 @@ class CollectionEventSource(TopicEventSource):
         queryField = context.getField('query')
         listCriteria = queryField.getRaw(context)
 
-        query = dict([(a['i'], a['v']) for a in listCriteria])
+        # Restrict for the presence of an operator-value in the query string.
+        # Don't include operator-only querystrings like, like relative date
+        # queries for start/end dates.  For an calendar view, restricting on
+        # start or end doesn't make much sense anyways
+        query = dict([(a['i'], a['v']) for a in listCriteria if 'v' in a])
+
         topicCriteria = interfaces.IListCriterias(context)()
         args = {}
         if not query:
