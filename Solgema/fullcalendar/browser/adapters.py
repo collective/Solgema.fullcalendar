@@ -773,7 +773,9 @@ class CollectionEventSource(TopicEventSource):
         queryField = context.getField('query')
         listCriteria = queryField.getRaw(context)
 
-        # Restrict for the presence of an operator-value in the query string.
+        # Restrict for the presence of an operator-value in the query string to
+        # avoid an error on the standard event folder, where no
+        # querystring-value is given.
         # Don't include operator-only querystrings like, like relative date
         # queries for start/end dates.  For an calendar view, restricting on
         # start or end doesn't make much sense anyways
