@@ -4,6 +4,9 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- portal_type works as topic criterion without issue in event sources.
+  [seanupton]
+
 - Restrict for the presence of an operator-value in the query string to avoid
   an error on the standard event folder, where no querystring-value is given.
   [thet]

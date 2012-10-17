@@ -709,6 +709,12 @@ class TopicEventSource(FolderEventSource):
                 args['Type'] = items
             else:
                 args['Type'] = query['Type']
+        elif 'portal_type' in query.keys():
+            items = getCookieItems(request, 'portal_type', charset)
+            if items:
+                args['portal_type'] = items
+            else:
+                args['portal_type'] = query['portal_type']
         filters = []
         #reinit cookies if criterions are no more there
         for cId in [c.Field() for c in listCriteria]:
