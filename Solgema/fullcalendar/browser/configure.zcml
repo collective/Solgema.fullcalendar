@@ -48,7 +48,7 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
-      
+
   <!-- THE CALENDAR VIEW FOR ATEVENT-->
   <browser:page
       for="Products.ATContentTypes.interface.IATEvent"
@@ -60,31 +60,33 @@
       />
 
   <!-- THE CALENDAR VIEW FOR plone.app.event (conditional) -->
-  <browser:page
-    zcml:condition="installed plone.app.event"
-    name="SFLight_plone.app.event.dx.event_view"
-    for="plone.event.interfaces.IEvent"
-    class="plone.app.event.browser.event_view.EventView"
-    template="../skins/solgemafullcalendar/SFLight_event_view.pt"
-    permission="zope2.View"
-    />
+  <configure zcml:condition="installed plone.dexterity">
+    <browser:page
+      zcml:condition="installed plone.app.event"
+      name="SFLight_plone.app.event.dx.event_view"
+      for="plone.event.interfaces.IEvent"
+      class="plone.app.event.browser.event_view.EventView"
+      template="../skins/solgemafullcalendar/SFLight_event_view.pt"
+      permission="zope2.View"
+      />
 
-  <browser:page
-    zcml:condition="installed plone.app.event"
-    name="SFAjax_base_edit"
-    for="plone.app.event.dx.interfaces.IDXEvent"
-    class=".dx.InlineFrameEditForm"
-    permission="cmf.ModifyPortalContent"
-    />
-  
-  <browser:page
-    zcml:condition="installed plone.app.event"
-    name="SFAjax_add_dx_event"
-    for="Products.CMFCore.interfaces.IFolderish"
-    class=".dx.InlineFrameAddView"
-    permission="cmf.AddPortalContent"
-    />
-  
+    <browser:page
+      zcml:condition="installed plone.app.event"
+      name="SFAjax_base_edit"
+      for="plone.app.event.dx.interfaces.IDXEvent"
+      class=".dx.InlineFrameEditForm"
+      permission="cmf.ModifyPortalContent"
+      />
+
+    <browser:page
+      zcml:condition="installed plone.app.event"
+      name="SFAjax_add_dx_event"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".dx.InlineFrameAddView"
+      permission="cmf.AddPortalContent"
+      />
+  </configure>
+
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
@@ -105,8 +107,8 @@
       />
 
   <browser:page
-      zcml:condition="installed plone.app.events"
-      for="plone.app.events.interfaces.IEvent"
+      zcml:condition="installed plone.app.event"
+      for="plone.event.interfaces.IEvent"
       name="solgemafullcalendar_vars.js"
       class=".views.SolgemaFullcalendarEventJS"
       template="vars.js.pt"
@@ -392,7 +394,7 @@
 
   <adapter
        factory=".adapters.CriteriaItemsCollection" />
-       
+
 
   <!-- Actions -->
   <browser:page

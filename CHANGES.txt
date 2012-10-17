@@ -4,6 +4,19 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- Restrict for the presence of an operator-value in the query string to avoid
+  an error on the standard event folder, where no querystring-value is given.
+  [thet]
+
+- Allow selection of initial view by request parameters.
+  [rnix]
+
+- Fixed ajax called pages with json content (Diazo compatibility).
+  [fmoret]
+
+- Fixed calendar navigation button toggle and add a transition.
+  [thomasdesvenain]
+
 - Corrected output of plone.app.event iCalendar export to avoid nesting
   VCALENDAR blocks, rather wrapping 1..* VEVENT blocks inside one VCALENDAR.
   [seanupton]
@@ -63,9 +76,12 @@ Changelog
   intuitive, also adds package and profile dependency.
   [seanupton]
 
+- Restored compatibility with plone.app.event and recurring events.
+  [thet]
+
 - fixed bug when CriteriaItems is False
   [jensens, benniboy]
- 
+
 - workaround for archetypes.querywidget bug see: https://dev.plone.org/ticket/13144
   [jensens, benniboy]
 
@@ -107,7 +123,7 @@ Changelog
   [fmoret]
 
 - Fix height of iframe in the popup for adding events in IE.
-  [pbauer] 
+  [pbauer]
 
 - Created New 2.1.0 version as fullcalendar will no more be compatible with Plone under 4.x
   [fmoret]
@@ -116,7 +132,7 @@ Changelog
 ------------------
 
 - Fix infinite recursion error in SolgemaFullcalendarEventJS's __init__ method.
-  [pbauer] 
+  [pbauer]
 
 - Fixed ical export on collection with plone.app.event installed.
   [vincentfretin]
@@ -158,7 +174,7 @@ Changelog
   [toutpt]
 
 - Add Nederlands translation
-  [cirb] 
+  [cirb]
 
 2.0.2 (2011-11-28)
 ------------------

@@ -34,4 +34,3 @@ def uninstallSolgemaFullcalendar(context):
         topic = ctopic.getObject()
         if getattr(topic, 'layout', None) == 'solgemafullcalendar_view':
             setattr(topic, 'layout', '')
-

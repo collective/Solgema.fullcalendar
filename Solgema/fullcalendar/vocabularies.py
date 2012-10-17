@@ -60,7 +60,7 @@ def availableCriterias( context ):
 def availableSubFolders( context ):
     folderContents = context.getFolderContents(contentFilter={'portal_type':'Folder'})
     return TitledVocabulary.fromTitles([(a.getId, a.Title) for a in folderContents])
-    
+
 def shortNameFormats(context):
     return TitledVocabulary.fromTitles([('a', _(u'abbreviated', default='abbreviated')),
                                         ('s', _(u'short', default='short'))])

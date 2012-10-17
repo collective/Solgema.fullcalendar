@@ -41,7 +41,7 @@
 <script tal:condition="python: request.form.get('calendar_event_saved', None)" type="text/javascript">
   jq(document).ready( function() {
     if (window.parent !== window) {
-      window.parent.jq('#calendar').empty().fullCalendar(window.parent.calendarOptions()); 
+      window.parent.jq('#calendar').empty().fullCalendar(window.parent.calendarOptions());
       if (window.sf_goto_date) {
         var dt = new Date(window.sf_goto_date);
         var year = 1900 + dt.getYear();

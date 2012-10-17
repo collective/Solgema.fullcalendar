@@ -4,12 +4,12 @@ from zope.component import getAdapters
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 try:
-    hasPloneAppEvent = False
-    from Products.ATContentTypes.lib import calendarsupport as calendarconstants
-except ImportError:
-    hasPloneAppEvent = True
-    from plone.app.event.interfaces import IEvent
+    from plone.event.interfaces import IEvent
     from plone.app.event.ical import construct_calendar
+    hasPloneAppEvent = True
+except ImportError:
+    from Products.ATContentTypes.lib import calendarsupport as calendarconstants
+    hasPloneAppEvent = False
 
 from plone.app.layout.viewlets.common import ViewletBase
 

@@ -9,6 +9,7 @@
   <include package="collective.js.colorpicker" />
   <include package="collective.js.fullcalendar" />
   <include package="collective.js.jqueryui" />
+  <include package="plone.formwidget.contenttree" />
   <include package="plone.z3cform" />
   <include package="z3c.form" />
   <include package="plone.app.z3cform" />
@@ -33,7 +34,7 @@
       <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
   </class>
 
-  <class  zcml:condition="installed plone.app.collection"
+  <class zcml:condition="installed plone.app.collection"
       class="plone.app.collection.collection.Collection">
       <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
   </class>

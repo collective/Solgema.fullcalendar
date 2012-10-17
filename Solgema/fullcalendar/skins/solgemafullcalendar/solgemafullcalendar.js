@@ -1,149 +1,149 @@
 if (!extraContentMenuActions) var extraContentMenuActions = [];
 
 function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-};
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
 
 jq.fullCalendar.views.calendar = switchCalendarDay;
 
 function switchCalendarDay(element, calendar) {
-};
+}
 
 jq.fullCalendar.views.agendaDaySplit = AgendaDaySplitView;
 
 function AgendaDaySplitView(element, calendar) {
-	var t = this;
+    var t = this;
 
-	// imports
-	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
-	var opt = t.opt;
-	var renderAgenda = t.renderAgenda;
-	var formatDate = calendar.formatDate;
-	var suggestedViewHeight;
-	var options = t.calendar['options'];
-        var baseRender = t.render;
-	// exports
-	t.render = render;
-	t.name = 'agendaDaySplit';
+    // imports
+    jq.fullCalendar.views.agendaDay.call(t, element, calendar);
+    var opt = t.opt;
+    var renderAgenda = t.renderAgenda;
+    var formatDate = calendar.formatDate;
+    var suggestedViewHeight;
+    var options = t.calendar['options'];
+    var baseRender = t.render;
+    // exports
+    t.render = render;
+    t.name = 'agendaDaySplit';
 
     function vsides(element, includeMargins) {
-	    return vpadding(element) +  vborders(element) + (includeMargins ? vmargins(element) : 0);
+        return vpadding(element) +  vborders(element) + (includeMargins ? vmargins(element) : 0);
     }
 
 
     function vpadding(element) {
-	    return (parseFloat(jq.curCSS(element[0], 'paddingTop', true)) || 0) +
-	           (parseFloat(jq.curCSS(element[0], 'paddingBottom', true)) || 0);
+        return (parseFloat(jq.curCSS(element[0], 'paddingTop', true)) || 0) +
+               (parseFloat(jq.curCSS(element[0], 'paddingBottom', true)) || 0);
     }
 
 
     function vmargins(element) {
-	    return (parseFloat(jq.curCSS(element[0], 'marginTop', true)) || 0) +
-	           (parseFloat(jq.curCSS(element[0], 'marginBottom', true)) || 0);
+        return (parseFloat(jq.curCSS(element[0], 'marginTop', true)) || 0) +
+               (parseFloat(jq.curCSS(element[0], 'marginBottom', true)) || 0);
     }
 
 
     function vborders(element) {
-	    return (parseFloat(jq.curCSS(element[0], 'borderTopWidth', true)) || 0) +
-	           (parseFloat(jq.curCSS(element[0], 'borderBottomWidth', true)) || 0);
+        return (parseFloat(jq.curCSS(element[0], 'borderTopWidth', true)) || 0) +
+               (parseFloat(jq.curCSS(element[0], 'borderBottomWidth', true)) || 0);
     }
 
-	function calcSize() {
-		var content = jq('.fc-content');
-		if (options.contentHeight) {
-			suggestedViewHeight = options.contentHeight;
-		}
-		else if (options.height) {
-			var headerElement = jq('.fc-header');
-			suggestedViewHeight = options.height - (headerElement ? headerElement.height() : 0) - vsides(content);
-		}
-		else {
-			suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, .5));
-		}
-	}
+    function calcSize() {
+        var content = jq('.fc-content');
+        if (options.contentHeight) {
+            suggestedViewHeight = options.contentHeight;
+        }
+        else if (options.height) {
+            var headerElement = jq('.fc-header');
+            suggestedViewHeight = options.height - (headerElement ? headerElement.height() : 0) - vsides(content);
+        }
+        else {
+            suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, 0.5));
+        }
+    }
 
-	function render(date, delta) {
-		// base rendering
-		baseRender(date, delta);
+    function render(date, delta) {
+        // base rendering
+        baseRender(date, delta);
 
         // available only for solgemaSources as eventSources
         //is deleted from options during calendar initialisation.
         var solgemaSources = t.calendar.options['solgemaSources'];
         if (!solgemaSources) return;
 
-		// splitted rendering
-		var baseCalendar = element.parent().parent();
-		element.css('display', 'table');
-		calcSize();
-		var axisWidth = jq('.fc-agenda-axis:first').width();
-		var newOptions = jQuery.extend(true, {}, t.calendar.options);
-		newOptions['header'] = {
-				left: '',
-				center: '',
-				right: ''
-			};
-		newOptions['year'] = date.getFullYear();
-		newOptions['month'] = date.getMonth();
-		newOptions['date'] = date.getDate();
-		newOptions['height'] = suggestedViewHeight;
-		var sourcesNubmer = solgemaSources.length;
-		var calWidth = (baseCalendar.width()-axisWidth)/sourcesNubmer;
-		element.empty();
-		for (var i=0; i<sourcesNubmer; i++) {
+        // splitted rendering
+        var baseCalendar = element.parent().parent();
+        element.css('display', 'table');
+        calcSize();
+        var axisWidth = jq('.fc-agenda-axis:first').width();
+        var newOptions = jQuery.extend(true, {}, t.calendar.options);
+        newOptions['header'] = {
+                left: '',
+                center: '',
+                right: ''
+            };
+        newOptions['year'] = date.getFullYear();
+        newOptions['month'] = date.getMonth();
+        newOptions['date'] = date.getDate();
+        newOptions['height'] = suggestedViewHeight;
+        var sourcesNubmer = solgemaSources.length;
+        var calWidth = (baseCalendar.width()-axisWidth)/sourcesNubmer;
+        element.empty();
+        for (var i=0; i<sourcesNubmer; i++) {
             var calOptions = jQuery.extend(true, {}, newOptions);
             solgemaSource = solgemaSources[i];
-			element.append('<div id="cal'+i+'" style="display:table-cell;" class="DaySplitCalendar"></div>');
-			calOptions['eventSources'] = [solgemaSource];
-			calOptions['title'] = solgemaSource['title'];
-			if (solgemaSource['target_folder']) calOptions['target_folder'] = solgemaSource['target_folder'];
-			if (solgemaSource['extraData'])calOptions['extraData'] = solgemaSource['extraData'];
+            element.append('<div id="cal'+i+'" style="display:table-cell;" class="DaySplitCalendar"></div>');
+            calOptions['eventSources'] = [solgemaSource];
+            calOptions['title'] = solgemaSource['title'];
+            if (solgemaSource['target_folder']) calOptions['target_folder'] = solgemaSource['target_folder'];
+            if (solgemaSource['extraData'])calOptions['extraData'] = solgemaSource['extraData'];
             if (sourcesNubmer == 1) {
-				calOptions['defaultView'] = 'agendaDaySplitMonoColumn';
-			} else if (i==0) {
-				calOptions['defaultView'] = 'agendaDaySplitFirstColumn';
-			} else if (i+1 == sourcesNubmer) {
-				calOptions['defaultView'] = 'agendaDaySplitLastColumn';
-			} else {
-				calOptions['defaultView'] = 'agendaDaySplitColumn';
-			}
-			var curCal = jq('#cal'+i);
-			if (i==0) {
-				curCal.width(calWidth+axisWidth);
-			} else if (i+1 != sourcesNubmer){
-				curCal.width(calWidth);
-			} else {
-				curCal.width(calWidth-1);
-			}
-			curCal.fullCalendar(calOptions);
-			if (sourcesNubmer != 1 && i+1 != sourcesNubmer) {
-				curCal.find('.fc-agenda-slots').parent().parent().css('overflow-y', 'hidden');
-			}
-		}
-        if (sourcesNubmer != 1) {
-		    var lastContainer = jq('#cal'+(sourcesNubmer-1)).find('.fc-agenda-slots').parent().parent();
-		    lastContainer.scroll( function () {
-			    for (var i=0; i+1<sourcesNubmer; i++) {
-		            var st = lastContainer.scrollTop();
-			        jq('#cal'+i).find('.fc-agenda-slots').parent().parent().scrollTop(st);
-			    }
-		    });
-		    var allDayHeight = 0;
-		    jq('fc-agenda-allday').each( function(i, elem) {
-		        if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
-		    });
-		    jq('fc-agenda-allday').each( function(i, elem) {
-		        jq(elem).height(allDayHeight);
-		    });
+                calOptions['defaultView'] = 'agendaDaySplitMonoColumn';
+            } else if (i==0) {
+                calOptions['defaultView'] = 'agendaDaySplitFirstColumn';
+            } else if (i+1 == sourcesNubmer) {
+                calOptions['defaultView'] = 'agendaDaySplitLastColumn';
+            } else {
+                calOptions['defaultView'] = 'agendaDaySplitColumn';
+            }
+            var curCal = jq('#cal'+i);
+            if (i===0) {
+                curCal.width(calWidth+axisWidth);
+            } else if (i+1 != sourcesNubmer){
+                curCal.width(calWidth);
+            } else {
+                curCal.width(calWidth-1);
+            }
+            curCal.fullCalendar(calOptions);
+            if (sourcesNubmer != 1 && i+1 != sourcesNubmer) {
+                curCal.find('.fc-agenda-slots').parent().parent().css('overflow-y', 'hidden');
+            }
         }
-	}
-};
+        if (sourcesNubmer != 1) {
+            var lastContainer = jq('#cal'+(sourcesNubmer-1)).find('.fc-agenda-slots').parent().parent();
+            lastContainer.scroll( function () {
+                for (var i=0; i+1<sourcesNubmer; i++) {
+                    var st = lastContainer.scrollTop();
+                    jq('#cal'+i).find('.fc-agenda-slots').parent().parent().scrollTop(st);
+                }
+            });
+            var allDayHeight = 0;
+            jq('fc-agenda-allday').each( function(i, elem) {
+                if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+            });
+            jq('fc-agenda-allday').each( function(i, elem) {
+                jq(elem).height(allDayHeight);
+            });
+        }
+    }
+}
 
 function AgendaDaySplitColumnGeneral() {
     var t = this;
@@ -152,12 +152,12 @@ function AgendaDaySplitColumnGeneral() {
 
     function renderEvents(events, modifiedEventId) {
             baseRenderEvents(events, modifiedEventId);
-	    var allDayHeight = 0;
-	    jq('.fc-day-content').each( function(i, elem) {
-	         if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
-	    });
-	    jq('div.fc-day-content div').css('height', allDayHeight+'px');
-	    var columnHeight = 0;
+        var allDayHeight = 0;
+        jq('.fc-day-content').each( function(i, elem) {
+             if (jq(elem).height()>allDayHeight) allDayHeight = jq(elem).height();
+        });
+        jq('div.fc-day-content div').css('height', allDayHeight+'px');
+        var columnHeight = 0;
             jq('div.fc-content').each( function(i,elem) {
                 col = jq(elem).find('div.fc-view table.fc-agenda-days td div:first');
                 if (col.height()>columnHeight)columnHeight=col.height();
@@ -166,121 +166,121 @@ function AgendaDaySplitColumnGeneral() {
                 jq(elem).find('div.fc-view table.fc-agenda-days td div:first').height(columnHeight);
             });
         }
-};
+}
 
 jq.fullCalendar.views.agendaDaySplitColumn = AgendaDaySplitColumn;
 
 function AgendaDaySplitColumn(element, calendar) {
-	var t = this;
+    var t = this;
 
-	// imports
-	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
-	var opt = t.opt;
-	var renderAgenda = t.renderAgenda;
-	var formatDate = calendar.formatDate;
+    // imports
+    jq.fullCalendar.views.agendaDay.call(t, element, calendar);
+    var opt = t.opt;
+    var renderAgenda = t.renderAgenda;
+    var formatDate = calendar.formatDate;
     var baseRender = t.render;
         AgendaDaySplitColumnGeneral.call(t);
-	// exports
-	t.render = render;
-	t.name = 'agendaDaySplitColumn';
+    // exports
+    t.render = render;
+    t.name = 'agendaDaySplitColumn';
 
-	function render(date, delta) {
-		baseRender(date, delta);
-		corrAgenda();
-	}
+    function render(date, delta) {
+        baseRender(date, delta);
+        corrAgenda();
+    }
 
-	function corrAgenda() {
-		element.find('.fc-agenda-axis').remove();
-		element.find('.fc-agenda-gutter').remove();
-		element.find('.fc-col0').addClass('fc-last');
-		element.find('thead .fc-col0:first').html(calendar['options']['title']);
-	}
-};
+    function corrAgenda() {
+        element.find('.fc-agenda-axis').remove();
+        element.find('.fc-agenda-gutter').remove();
+        element.find('.fc-col0').addClass('fc-last');
+        element.find('thead .fc-col0:first').html(calendar['options']['title']);
+    }
+}
 
 jq.fullCalendar.views.agendaDaySplitFirstColumn = AgendaDaySplitFirstColumn;
 
 function AgendaDaySplitFirstColumn(element, calendar) {
-	var t = this;
+    var t = this;
 
-	// imports
-	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
-	var opt = t.opt;
-	var renderAgenda = t.renderAgenda;
-	var formatDate = calendar.formatDate;
+    // imports
+    jq.fullCalendar.views.agendaDay.call(t, element, calendar);
+    var opt = t.opt;
+    var renderAgenda = t.renderAgenda;
+    var formatDate = calendar.formatDate;
     var baseRender = t.render;
         AgendaDaySplitColumnGeneral.call(t);
 
-	// exports
-	t.render = render;
-	t.name = 'agendaDaySplitFirstColumn';
+    // exports
+    t.render = render;
+    t.name = 'agendaDaySplitFirstColumn';
 
-	function render(date, delta) {
-		baseRender(date, delta);
-		corrAgenda();
-	}
+    function render(date, delta) {
+        baseRender(date, delta);
+        corrAgenda();
+    }
 
-	function corrAgenda() {
-		element.find('.fc-agenda-gutter').remove();
-		element.find('.fc-col0').addClass('fc-last');
-		jq('.fc-header-title:first').find('h2').html(t.title);
-		element.find('thead .fc-col0:last').html(calendar['options']['title']);
-	}
-};
+    function corrAgenda() {
+        element.find('.fc-agenda-gutter').remove();
+        element.find('.fc-col0').addClass('fc-last');
+        jq('.fc-header-title:first').find('h2').html(t.title);
+        element.find('thead .fc-col0:last').html(calendar['options']['title']);
+    }
+}
 
 jq.fullCalendar.views.agendaDaySplitLastColumn = AgendaDaySplitLastColumn;
 
 function AgendaDaySplitLastColumn(element, calendar) {
-	var t = this;
+    var t = this;
 
-	// imports
-	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
-	var opt = t.opt;
-	var renderAgenda = t.renderAgenda;
-	var formatDate = calendar.formatDate;
-    	var baseRender = t.render;
+    // imports
+    jq.fullCalendar.views.agendaDay.call(t, element, calendar);
+    var opt = t.opt;
+    var renderAgenda = t.renderAgenda;
+    var formatDate = calendar.formatDate;
+        var baseRender = t.render;
         AgendaDaySplitColumnGeneral.call(t);
 
-	// exports
-	t.render = render;
-	t.name = 'agendaDaySplitLastColumn';
+    // exports
+    t.render = render;
+    t.name = 'agendaDaySplitLastColumn';
 
-	function render(date, delta) {
-		baseRender(date, delta);
-		corrAgenda();
-	}
+    function render(date, delta) {
+        baseRender(date, delta);
+        corrAgenda();
+    }
 
-	function corrAgenda() {
-		element.find('.fc-agenda-axis').remove();
-		element.find('.fc-col0').addClass('fc-last');
-		element.find('thead .fc-col0:first').html(calendar['options']['title']);
-	}
-};
+    function corrAgenda() {
+        element.find('.fc-agenda-axis').remove();
+        element.find('.fc-col0').addClass('fc-last');
+        element.find('thead .fc-col0:first').html(calendar['options']['title']);
+    }
+}
 
 jq.fullCalendar.views.agendaDaySplitMonoColumn = AgendaDaySplitMonoColumn;
 
 function AgendaDaySplitMonoColumn(element, calendar) {
-	var t = this;
+    var t = this;
 
-	// imports
-	jq.fullCalendar.views.agendaDay.call(t, element, calendar);
-	var opt = t.opt;
-	var renderAgenda = t.renderAgenda;
-	var formatDate = calendar.formatDate;
+    // imports
+    jq.fullCalendar.views.agendaDay.call(t, element, calendar);
+    var opt = t.opt;
+    var renderAgenda = t.renderAgenda;
+    var formatDate = calendar.formatDate;
     var baseRender = t.render;
 
-	// exports
-	t.render = render;
-	t.name = 'agendaDaySplitMonoColumn';
+    // exports
+    t.render = render;
+    t.name = 'agendaDaySplitMonoColumn';
 
-	function render(date, delta) {
-		baseRender(date, delta);
-		corrAgenda();
-	}
+    function render(date, delta) {
+        baseRender(date, delta);
+        corrAgenda();
+    }
 
-	function corrAgenda() {
-		element.find('thead .fc-col0:first').html(calendar['options']['title']);
-	}
-};
+    function corrAgenda() {
+        element.find('thead .fc-col0:first').html(calendar['options']['title']);
+    }
+}
 
 var SolgemaFullcalendar = {
     getCalendar: function () {
@@ -290,10 +290,10 @@ var SolgemaFullcalendar = {
       if (curView.name == 'agendaDaySplit') {
         scalendar = jq(event).closest('.DaySplitCalendar');
         if (scalendar.attr('class')) {
-          return scalendar
+          return scalendar;
         }
       }
-      return calendar
+      return calendar;
     },
     openAddMenu: function (start, end, allDay, event, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
@@ -415,31 +415,6 @@ var SolgemaFullcalendar = {
         $dialogContent.append('<iframe src="'+target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       }
       $dialogContent.dialog({
-        width: 700,
-        height: 500,
-        autoOpen: true,
-        modal: true,
-        title: title,
-        close: function () {
-          jq('#calendar').fullCalendar('unselect');
-          jq('#kss-spinner').hide();
-        }
-      });
-    },
-    openEditForm: function (eventurl) {
-      if(SolgemaFullcalendarVars.disableAJAX) { return; }
-      jq('#kss-spinner').show();
-      var $dialogContent = jq("#event_edit_container");
-      jq("#event_edit_container").dialog( "destroy" );
-      $dialogContent.empty();
-      $dialogContent.dialog( "destroy" );
-      var $calendar = jq('#calendar');
-      $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
-      $dialogContent.dialog({
-        width: 700,
-        height: 500,
-        autoOpen: true,
-        modal: true,
         width: 700,
         height: 500,
         autoOpen: true,
@@ -629,7 +604,7 @@ var SolgemaFullcalendar = {
         }
       }
       if(portalType != undefined){
-    	  var extra = '/SFLight_' + portalType + '_view';
+          var extra = '/SFLight_' + portalType + '_view';
           jq('#kss-spinner').show();
           var $dialogContent = jq("#event_edit_container");
           $dialogContent.empty();
@@ -647,7 +622,7 @@ var SolgemaFullcalendar = {
 
       }
       else{
-    	  window.open(url)
+          window.open(url)
       }
     },
     getEventSources: function () {
@@ -686,7 +661,7 @@ function calendarOptions() {
       options['firstDay'] = SolgemaFullcalendarVars.firstDay;
       options['weekends'] = SolgemaFullcalendarVars.weekends;
       options['year'] = SolgemaFullcalendarVars.year;
-      options['month'] = SolgemaFullcalendarVars.monthNunber;
+      options['month'] = SolgemaFullcalendarVars.monthNumber;
       options['date'] = SolgemaFullcalendarVars.date;
       options['firstHour'] = firstHour;
       options['minTime'] = SolgemaFullcalendarVars.minTime;
@@ -772,7 +747,7 @@ function calendarOptions() {
           }
         });
         if(jq(element).hasClass('contextualContentMenuEnabled')){
-        	jq(element).bind("contextmenu", SolgemaFullcalendar.openSFContextualContentMenu);
+            jq(element).bind("contextmenu", SolgemaFullcalendar.openSFContextualContentMenu);
         }
       };
       options['eventClick'] = function(fcevent, event) {
@@ -808,7 +783,12 @@ function initCalendar(date) {
     jq('.fc-button-calendar').removeClass('ui-state-hover');
     jq('#datePicker').css('display', 'none');
     jq('.fc-button-calendar').click( function() {
-      jq('#datePicker').toggle();
+      if (jq('#datePicker').css('display') != 'block') {
+        jq('#datePicker').show('fast');
+      }
+      else{
+        jq('#datePicker').hide('fast')
+      }
     });
   }
 };

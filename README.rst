@@ -37,7 +37,7 @@ Add this line in the eggs section of your buildout.cfg
 
 eggs=
     ...
-    collective.js.jquieryui<1.8
+    collective.js.jqueryui<1.8
 
 You will also have to ping the versions for plone.app.z3cform
 
@@ -56,7 +56,7 @@ Customizing the skin
 --------------------
 You can easyly customize de calendar skin:
 
-Go to http://jquieryui.com and click on the Themes tab.
+Go to http://jqueryui.com and click on the Themes tab.
 There you can create or choose an existing theme. After that, download it to your computer by selecting only:
 All UI Core, all UI Interactions and Dialog in UI Widgets. Unzip and copy the css file and all images in you
 portal_skins/custom folder.

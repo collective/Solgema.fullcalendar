@@ -4,37 +4,37 @@
   <!-- Vocabularies -->
 
   <utility
-      component=".vocabularies.availableViews" 
+      component=".vocabularies.availableViews"
       name="solgemafullcalendar.availableViews"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
-      component=".vocabularies.daysOfWeek" 
+      component=".vocabularies.daysOfWeek"
       name="solgemafullcalendar.daysOfWeek"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
-      component=".vocabularies.dayHours" 
+      component=".vocabularies.dayHours"
       name="solgemafullcalendar.dayHours"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
-      component=".vocabularies.availableCriterias" 
+      component=".vocabularies.availableCriterias"
       name="solgemafullcalendar.availableCriterias"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
-      component=".vocabularies.availableSubFolders" 
+      component=".vocabularies.availableSubFolders"
       name="solgemafullcalendar.availableSubFolders"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
-      component=".vocabularies.shortNameFormats" 
+      component=".vocabularies.shortNameFormats"
       name="solgemafullcalendar.shortNameFormats"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />

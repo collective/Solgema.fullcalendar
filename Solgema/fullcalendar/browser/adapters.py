@@ -1,7 +1,6 @@
 import itertools
-
 from DateTime import DateTime
-from Acquisition import aq_inner
+from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
 from zope.component import queryAdapter, adapts, getMultiAdapter, getAdapters
@@ -14,7 +13,6 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.utils import get_uid
 from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
@@ -24,15 +22,17 @@ try:
 except ImportError:
     HAS_CALEXPORT_SUPPORT = False
 
+from Products.ATContentTypes.interface import IATEvent
 try:
-    from plone.app.event.interfaces import IEvent
+    from plone.event.interfaces import IEvent, IEventAccessor, IOccurrence
+    from plone.event.interfaces import IEvent as IEvent_GENERIC
     hasPloneAppEvent = True
 except ImportError:
-    from Products.ATContentTypes.interface import IATEvent as IEvent
+    from Products.ATContentTypes.interface import IATEvent as IEvent_GENERIC
     hasPloneAppEvent = False
 
 try:
-    from plone.app.event.interfaces import IRecurrence
+    from plone.event.interfaces import IRecurrenceSupport
     HAS_RECURRENCE_SUPPORT = True
 except ImportError:
     HAS_RECURRENCE_SUPPORT = False
@@ -43,16 +43,90 @@ except:
     ICollection = Interface
 
 
-def _field_value(context, name):
-    """Getter for field by name for AT/Dexterity contexts"""
-    v = getattr(context, name)
-    if hasattr(v, '__call__'):
-        return v()
-    return v
+def dict_from_events(events,
+                    editable=None,
+                    state=None,
+                    color=None,
+                    css=None):
 
+    def dict_from_item(item):
+        if hasPloneAppEvent and (IEvent.providedBy(item) or
+                                 IOccurrence.providedBy(item)):
+            is_occurrence = IOccurrence.providedBy(item) and True or False
+            acc = IEventAccessor(item)
+            return {
+                "status": "ok",
+                "id": "UID_%s" % (acc.uid),
+                "title": acc.title,
+                "description": acc.description,
+                "start": acc.start.isoformat(),
+                "end": acc.end.isoformat(),
+                "url": acc.url,
+                "editable": editable,
+                "allDay": acc.whole_day,
+                "className": "contextualContentMenuEnabled %s %s %s %s" % (
+                                state and "state-%s" % str(state) or "",
+                                editable and "editable" or "",
+                                css and css or "",
+                                is_occurrence and "occurrence" or ""),
+                "color": color}
+        elif IATEvent.providedBy(item):
 
-starts = lambda o: DateTime(_field_value(o, 'start'))
-ends = lambda o: DateTime(_field_value(o, 'end'))
+            allday = (item.end() - item.start()) > 1.0
+            adapted = interfaces.ISFBaseEventFields(item, None)
+            if adapted:
+                allday = adapted.allDay
+
+            return [{
+                "status": "ok",
+                "id": "UID_%s" % (item.UID()),
+                "title": item.Title(),
+                "description": item.Description(),
+                "start": item.start().rfc822(),
+                "end": item.end().rfc822(),
+                "url": item.absolute_url(),
+                "editable": editable,
+                "allDay": allday,
+                "className": "contextualContentMenuEnabled %s %s %s" % (
+                                state and "state-%s" % str(state) or "",
+                                editable and "editable" or "",
+                                css and css or ""),
+                "color": color}]
+        elif ICatalogBrain.providedBy(item):
+            if type(item.end) != DateTime:
+                brainend = DateTime(item.end)
+                brainstart = DateTime(item.start)
+            else:
+                brainend = item.end
+                brainstart = item.start
+
+            allday = (brainend - brainstart) > 1.0
+
+            if getattr(item, 'SFAllDay', None) in [False,True]:
+                allday = item.SFAllDay
+
+            return [{
+                "status": "ok",
+                "id": "UID_%s" % (item.UID),
+                "title": item.Title,
+                "description": item.Description,
+                "start": brainstart.rfc822(),
+                "end": brainend.rfc822(),
+                "url": item.getURL(),
+                "editable": editable,
+                "allDay": allday,
+                "className": "contextualContentMenuEnabled %s %s %s" % (
+                                state and "state-%s" % str(state) or "",
+                                editable and "editable" or "",
+                                css and css or ""),
+                "color": color}]
+        else:
+            raise ValueError('item type not supported for: %s' % repr(item))
+
+    if not hasattr(events, '__iter__'):
+        events = [events]
+
+    return [dict_from_item(item) for item in events]
 
 
 class SolgemaFullcalendarCatalogSearch(object):
@@ -91,7 +165,7 @@ class SolgemaFullcalendarEditableFilter(object):
         catalog = getToolByName(self.context, 'portal_catalog')
         editargs['SFAllowedRolesAndUsersModify'] = self._listSFAllowedRolesAndUsersModify()
         return [a.UID for a in catalog.searchResults(**editargs)]
-        
+
 class SolgemaFullcalendarTopicEventDict(object):
     implements(interfaces.ISolgemaFullcalendarTopicEventDict)
 
@@ -114,25 +188,11 @@ class SolgemaFullcalendarTopicEventDict(object):
         return ' '.join(classes)
 
     def dictFromBrain(self, brain, editableEvents=[]):
-        if type(brain.end) != DateTime:
-            brainend = DateTime(brain.end)
-            brainstart = DateTime(brain.start)
-        else:
-            brainend = brain.end
-            brainstart = brain.start
 
         if brain.UID in editableEvents:
             editable = True
         else:
             editable = False
-
-        if brainend - brainstart > 1.0:
-            allday = True
-        else:
-            allday = False
-
-        if getattr(brain, 'SFAllDay', None) in [False,True]:
-            allday = brain.SFAllDay
 
         copycut = ''
         if self.copyDict and brain.getPath() == self.copyDict['url']:
@@ -142,30 +202,24 @@ class SolgemaFullcalendarTopicEventDict(object):
         colorIndex = colorDict.get('class', '')
         color = colorDict.get('color', '')
         extraClass = self.getBrainExtraClass(brain)
+
+        events = []
         HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
         if HANDLE_RECURRENCE:
             event = brain.getObject()
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
-            occurenceClass = ' occurence'
+            events = IRecurrenceSupport(event).occurrences(range_start=start,
+                                                           range_end=end)
         else:
-            occurences = [(brainstart.rfc822(), brainend.rfc822())]
-            occurenceClass = ''
-        events = []
-        for occurence_start, occurence_end in occurences:
-            events.append({
-                "id": "UID_%s" % (brain.UID),
-                "title": brain.Title,
-                "description": brain.Description,
-                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
-                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
-                "url": brain.getURL(),
-                "editable": editable,
-                "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(brain.review_state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
-                "color": color})
-        return events
+            events = brain
+        return (dict_from_events(
+            events,
+            editable=editable,
+            state=brain.review_state,
+            color=color,
+            css=copycut+typeClass+colorIndex+extraClass
+            ))
 
     def dictFromObject(self, item, args={}):
         eventPhysicalPath = '/'.join(item.getPhysicalPath())
@@ -174,15 +228,6 @@ class SolgemaFullcalendarTopicEventDict(object):
         member = self.context.portal_membership.getAuthenticatedMember()
         if member.has_permission('Modify portal content', item):
             editable = True
-
-        if ends(item) - starts(item) > 1.0:
-            allday = True
-        else:
-            allday = False
-
-        adapted = interfaces.ISFBaseEventFields(item, None)
-        if adapted:
-            allday = adapted.allDay
 
         copycut = ''
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
@@ -193,31 +238,24 @@ class SolgemaFullcalendarTopicEventDict(object):
         colorIndex = colorDict.get('class', '')
         color = colorDict.get('color', '')
         extraClass = self.getObjectExtraClass(item)
+
+        events = []
         HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
         if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = IRecurrence(item).occurrences(limit_start=start, limit_end=end)
-            occurenceClass = ' occurence'
+            events = IRecurrenceSupport(item).occurrences(range_start=start,
+                                                          range_end=end)
         else:
-            occurences = [(starts(item).rfc822(), ends(item).rfc822())]
-            occurenceClass = ''
-        events = []
-        for occurence_start, occurence_end in occurences:
-            events.append({
-                "status": "ok",
-                "id": "UID_%s" % (get_uid(item)),
-                "title": item.Title(),
-                "description": item.Description(),
-                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
-                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
-                "url": item.absolute_url(),
-                "editable": editable,
-                "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
-                "color": color})
+            events = item
+        return (dict_from_events(
+            events,
+            editable=editable,
+            state=state,
+            color=color,
+            css=copycut+typeClass+colorIndex+extraClass
+            ))
 
-        return events
 
     def createDict(self, itemsList=[], args={}):
         li = []
@@ -266,11 +304,6 @@ class SolgemaFullcalendarEventDict(object):
         state = wft.getInfoFor(event, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', event))
-        allday = (ends(event) - starts(event)) > 1.0
-
-        adapted = interfaces.ISFBaseEventFields(event, None)
-        if adapted:
-            allday = adapted.allDay
 
         copycut = ''
         if self.copyDict and eventPhysicalPath == self.copyDict['url']:
@@ -282,31 +315,22 @@ class SolgemaFullcalendarEventDict(object):
         color = colorDict.get('color', '')
         extraClass = self.getExtraClass()
 
+        events = []
         HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
         if HANDLE_RECURRENCE:
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = IRecurrence(event).occurrences(limit_start=start, limit_end=end)
-            occurenceClass = ' occurence'
+            events = IRecurrenceSupport(event).occurrences(range_start=start,
+                                                           range_end=end)
         else:
-            occurences = [(starts(event).rfc822(), ends(event).rfc822())]
-            occurenceClass = ''
-        events = []
-        for occurence_start, occurence_end in occurences:
-            events.append({
-                "status": "ok",
-                "id": "UID_%s" % (get_uid(event)),
-                "title": event.Title(),
-                "description": event.Description(),
-                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
-                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
-                "url": event.absolute_url(),
-                "editable": editable,
-                "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+copycut+typeClass+colorIndex+extraClass+occurenceClass,
-                "color": color})
-
-        return events
+            events = event
+        return (dict_from_events(
+            events,
+            editable=editable,
+            state=state,
+            color=color,
+            css=copycut+typeClass+colorIndex+extraClass
+            ))
 
 class FolderColorIndexGetter(object):
 
@@ -482,7 +506,7 @@ class listBaseQueryTopicCriteria(object):
 
     def __init__(self, context):
         self.context = context
-    
+
     def __call__(self):
         li = []
         for criteria in self.context.listCriteria():
@@ -505,7 +529,7 @@ class listBaseQueryCollectionCriteria(object):
 
     def __init__(self, context):
         self.context = context
-    
+
     def __call__(self):
         return self.context.getField('query').getRaw(self.context)
 
@@ -550,7 +574,7 @@ class listCriteriasCollectionAdapter(object):
             li = [a for a in li if a['i'] in calendar.availableCriterias]
 
         return dict([(a['i'], a['v']) for a in li])
-    
+
 def getTopic(context, request):
     if not interfaces.ISolgemaFullcalendarMarker.providedBy(context):
         utils = getToolByName(context, 'plone_utils')
@@ -601,7 +625,7 @@ class CriteriaItemsTopic(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        
+
     def __call__(self):
         topic = getTopic(self.context, self.request)
         listCriteria = topic.listCriteria()
@@ -637,7 +661,7 @@ class CriteriaItemsCollection(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        
+
     def __call__(self):
         topic = getTopic(self.context, self.request)
         listCriteria = self.context.getField('query').getRaw(self.context)
@@ -649,7 +673,7 @@ class CriteriaItemsCollection(object):
             criteria = listCriteria
 
         criteria = [a for a in criteria if a['o'] in
-                   ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] or 
+                   ['plone.app.querystring.operation.selection.is', 'plone.app.querystring.operation.list.contains'] or
                    a['i'] == 'portal_type']
         if not criteria:
             return False
@@ -751,11 +775,18 @@ class CollectionEventSource(TopicEventSource):
     def _getCriteriaArgs(self):
         context, request = self.context, self.request
         response = request.response
-    
+
         queryField = context.getField('query')
         listCriteria = queryField.getRaw(context)
 
-        query = dict([(a['i'], a['v']) for a in listCriteria])
+        # Restrict for the presence of an operator-value in the query string to
+        # avoid an error on the standard event folder, where no
+        # querystring-value is given.
+        # Don't include operator-only querystrings like, like relative date
+        # queries for start/end dates.  For an calendar view, restricting on
+        # start or end doesn't make much sense anyways
+        query = dict([(a['i'], a['v']) for a in listCriteria if 'v' in a])
+
         topicCriteria = interfaces.IListCriterias(context)()
         args = {}
         if not query:
@@ -799,7 +830,7 @@ class StandardEventSource(object):
     """Event source that display an event
     """
     implements(interfaces.IEventSource)
-    adapts(IEvent, Interface)
+    adapts(IEvent_GENERIC, Interface)
 
     def __init__(self, context, request):
         self.context = context
@@ -817,43 +848,24 @@ class StandardEventSource(object):
 
     def getEvents(self):
         context = self.context
-        eventPhysicalPath = '/'.join(context.getPhysicalPath())
         wft = getToolByName(context, 'portal_workflow')
         state = wft.getInfoFor(context, 'review_state')
         member = context.portal_membership.getAuthenticatedMember()
         editable = bool(member.has_permission('Modify portal content', context))
-        allday = (ends(context) - starts(context)) > 1.0
-
-        adapted = interfaces.ISFBaseEventFields(context, None)
-        if adapted:
-            allday = adapted.allDay
-        if hasattr(context, 'whole_day'):
-            allday = context.whole_day
         extraClass = self.getObjectExtraClass()
         typeClass = ' type-' + context.portal_type
+
+        events = []
         HANDLE_RECURRENCE = HAS_RECURRENCE_SUPPORT and self.request.get('start') and self.request.get('end')
         if HANDLE_RECURRENCE:
             start  = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
-            occurences = IRecurrence(context).occurrences(limit_start=start, limit_end=end)
-            occurenceClass = ' occurence'
+            events = IRecurrenceSupport(context).occurrences(limit_start=start, limit_end=end)
         else:
-            occurences = [(starts(context).rfc822(), ends(context).rfc822())]
-            occurenceClass = ''
-        events = []
-        for occurence_start, occurence_end in occurences:
-            events.append({
-                "status": "ok",
-                "id": "UID_%s" % (get_uid(context)),
-                "title": context.Title(),
-                "description": context.Description(),
-                "start": HANDLE_RECURRENCE and occurence_start.isoformat() or occurence_start,
-                "end": HANDLE_RECURRENCE and occurence_end.isoformat() or occurence_end,
-                "url": context.absolute_url(),
-                "editable": editable,
-                "allDay": allday,
-                "className": "contextualContentMenuEnabled state-" + str(state) + (editable and " editable" or "")+typeClass+extraClass+occurenceClass
-                })
-        return events
-
-
+            events = context
+        return (dict_from_events(
+            events,
+            editable=editable,
+            state=state,
+            css=typeClass+extraClass
+            ))

@@ -23,7 +23,6 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar.utils import get_uid
-from Solgema.fullcalendar.browser.adapters import starts, ends
 from Solgema.fullcalendar.browser.views import getCopyObjectsUID, HAS_PAE
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
@@ -41,6 +40,17 @@ except ImportError:
        HAS_PLONE30 = False
    else:
        HAS_PLONE30 = True
+
+
+def _field_value(context, name):
+    """Getter for field by name for AT/Dexterity contexts"""
+    v = getattr(context, name)
+    if hasattr(v, '__call__'):
+        return v()
+    return v
+
+starts = lambda o: DateTime(_field_value(o, 'start'))
+ends = lambda o: DateTime(_field_value(o, 'end'))
 
 
 def normalize_type_query(query, context):
@@ -69,6 +79,7 @@ class SFJsonEvent(BaseActionView):
     def __call__(self, *args, **kw):
         eventDict = getMultiAdapter((self.context, self.request),
                                     interfaces.ISolgemaFullcalendarEventDict)()
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps(eventDict, sort_keys=True)
 
 
@@ -97,6 +108,7 @@ class SFDisplayAddMenu(BaseActionView):
         # specific than 'Type', which just indexes the content type's Title
         # property (which can be non-unique).
         index = query.get('portal_type', query.get('Type') )
+        self.request.response.setHeader("Content-type","application/json")
         if index:
             if isinstance(index, (list, tuple)) and len(index) > 1:
                 return json.dumps({'display': True})
@@ -181,7 +193,7 @@ class SFAddMenu(BaseActionView):
                     qs['form.widgets.IEventBasic.end-minute'] = end.minute()
                 url = '%s/SFAjax_add_dx_event?%s' % (baseUrl, urlencode(qs))
             else:
-                url = '%s/createSFEvent?type_name=%s&startDate=%s&endDate=%s' % (baseUrl, 
+                url = '%s/createSFEvent?type_name=%s&startDate=%s&endDate=%s' % (baseUrl,
                        quote_plus(typeId), quote_plus(str(self.startDate)), quote_plus(str(self.endDate)))
 
             icon = t.getIcon()
@@ -233,7 +245,7 @@ class SFAddMenu(BaseActionView):
         pasteAction = [a for a in actions_tool.listActionInfos(object=aq_inner(self.addContext), categories=('object_buttons',)) if a['id'] == 'paste']
 
         plone_utils = getToolByName(self.portal, 'plone_utils')
-        
+
         context_url = self.addContext.absolute_url()
         for action in pasteAction:
             if action['allowed']:
@@ -241,7 +253,7 @@ class SFAddMenu(BaseActionView):
                 icon = plone_utils.getIconFor('object_buttons', action['id'], None)
                 if icon:
                     icon = '%s/%s' % (self.addContext.absolute_url(), icon)
-                
+
                 start_date = quote_plus(str(self.startDate))
                 results.append({ 'title'       : action['title'],
                                  'description' : '',
@@ -279,7 +291,7 @@ class SFJsonEventDelete(BaseActionView):
             message = PLMF(u'${title} has been deleted.',
                         mapping={u'title' : title})
             transaction_note('Deleted %s' % self.context.absolute_url())
-
+        self.request.response.setHeader("Content-type","application/json")
         return json.dumps({'status':status, 'message':parent.translate(message), 'id':eventid})
 
 
@@ -288,6 +300,7 @@ class SFJsonEventCopy(BaseActionView):
     def __call__(self):
         title = safe_unicode(self.context.title_or_id())
         mtool = getToolByName(self.context, 'portal_membership')
+        self.request.response.setHeader("Content-type","application/json")
         if not mtool.checkPermission('Copy or Move', self.context):
             message = PLMF(u'Permission denied to copy ${title}.',
                     mapping={u'title' : title})
@@ -317,6 +330,7 @@ class SFJsonEventCut(BaseActionView):
         title = safe_unicode(self.context.title_or_id())
 
         mtool = getToolByName(self.context, 'portal_membership')
+        self.request.response.setHeader("Content-type","application/json")
         if not mtool.checkPermission('Copy or Move', self.context):
             message = PLMF(u'Permission denied to copy ${title}.',
                     mapping={u'title' : title})
@@ -367,6 +381,7 @@ class SFJsonEventPaste(BaseActionView):
 
     def __call__(self):
         msg=PLMF(u'Copy or cut one or more items to paste.')
+        self.request.response.setHeader("Content-type","application/json")
         if self.context.cb_dataValid():
             try:
                 baseObject = self.portal.restrictedTraverse(self.copyDict['url'])
@@ -378,7 +393,7 @@ class SFJsonEventPaste(BaseActionView):
                 startDate = self.startDate
                 if self.EventAllDay:
                     startDate = DateTime(self.startDate).strftime('%Y-%m-%d ')+starts(baseObject).strftime('%H:%M')
-                
+
                 if HAS_PAE and not hasattr(newObject, 'setStartDate'):
                     # non-Archetypes duck type: use properties for start/end,
                     # along with UTC-normalized datetime.datetime values
@@ -389,7 +404,7 @@ class SFJsonEventPaste(BaseActionView):
                     newObject.start = _utc(pydt(local_start))
                     newObject.end = _utc(pydt(local_start + intervalle))
                     newObject.whole_day = self.EventAllDay
-                else: 
+                else:
                     newObject.setStartDate(DateTime(startDate))
                     newObject.setEndDate(newObject.getField('startDate').get(newObject) + intervalle)
                 newObject.reindexObject()
@@ -431,6 +446,7 @@ class SolgemaFullcalendarWorkflowTransition(BaseActionView):
         comment = self.request.get('comment', None)
         effective_date = self.request.get('effective_date', None)
         expiration_date = self.request.get('expiration_date', None)
+        self.request.response.setHeader("Content-type","application/json")
 
         if workflow_action in transition_ids \
                 and not effective_date and event.EffectiveDate() == 'None':
@@ -493,14 +509,14 @@ class SolgemaFullcalendarDropView(BaseActionView):
         dayDelta, minuteDelta = float(request.get('dayDelta', 0)), float(request.get('minuteDelta', 0))
         startDate = startDate + dayDelta + minuteDelta / 1440.0
         endDate = endDate + dayDelta + minuteDelta / 1440.0
-        
+
         if HAS_PAE and not hasattr(obj, 'setStartDate'):
             # non-Archetypes duck type: use properties for start/end,
             # along with UTC-normalized datetime.datetime values
             from plone.event.utils import pydt
             obj.start = pydt(startDate)
             obj.end = pydt(endDate)
-        else: 
+        else:
             obj.setStartDate(startDate)
             obj.setEndDate(endDate)
         adapted = interfaces.ISFBaseEventFields(obj, None)

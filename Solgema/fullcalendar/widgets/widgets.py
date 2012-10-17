@@ -12,10 +12,8 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 try:
     from plone.app.collection.interfaces import ICollection
-    hasPAC = True
 except:
     ICollection = Interface
-    hasPAC = False
 
 from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryTopicCriteria
@@ -35,14 +33,14 @@ class ColorDictInputWidget(Widget):
 
     def getCriteriaKeys(self):
         li = []
-        if IATTopic.providedBy(self.context) or hasPAC:
+        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
             criteria = IListBaseQueryTopicCriteria(self.context)()
             for criterion in [a['i'] for a in criteria]:
                 li.append(self.name+'.'+criterion)
         return li
 
     def getCriteria(self):
-        if IATTopic.providedBy(self.context) or hasPAC:
+        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
             return IListBaseQueryTopicCriteria(self.context)()
         return []
 
@@ -86,7 +84,7 @@ class ColorDictInputWidget(Widget):
                     if fieldid in currentValues \
                         and item in currentValues[fieldid]:
                         value = currentValues[fieldid][item]
-                            
+
                     html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
                         <input type="text" size="10" name="%s:record" value="%s"
                                class="colorinput" style="background-color:%s;" />
@@ -105,7 +103,7 @@ class ColorDictInputWidget(Widget):
                 if fieldid in currentValues \
                     and folderId in currentValues[fieldid]:
                     value = currentValues[fieldid][folderId]
-                            
+
                 html += """<tr><td><span title="%s">%s</span>&nbsp;</td></td><td>
                     <input type="text" size="10" name="%s:record" value="%s"
                            class="colorinput" style="background-color:%s;" />

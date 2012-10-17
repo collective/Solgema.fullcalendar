@@ -1,18 +1,11 @@
-import itertools
-
 from plone.formwidget.contenttree.source import PathSourceBinder
 from zope import schema
 from zope.container.interfaces import IOrderedContainer
-from zope.interface import Interface, Attribute, implements, classProvides
-from zope.schema.interfaces import ISource, IContextSourceBinder
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.interface import Interface, Attribute, implements
 from zope.schema.interfaces import IDict
 from zope.viewlet.interfaces import IViewletManager
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-from Products.ZCTextIndex.ParseTree import ParseError
-
 from Products.ATContentTypes.interface import IATFolder
-from plone.app.vocabularies.catalog import SearchableTextSource, SearchableTextSourceBinder
 
 from Solgema.fullcalendar.config import _
 
@@ -160,7 +153,7 @@ class ISolgemaFullcalendarProperties(Interface):
                                   required = False,
                                   description = _(u"help_gcalSources", default="Enter your Google Calendar feeds url here. the syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."),
                                   default = u'')
-                                  
+
     target_folder = schema.Choice(title=_(u"label_target_folder"),
                                   description=_(u"help_target_folder"),
                                   required=False,
@@ -260,7 +253,7 @@ class ISolgemaFullcalendarTopicEventDict(Interface):
 
 class ISolgemaFullcalendarExtraClass(Interface):
     """Adapter for extra class"""
-    
+
     def extraClass(self):
         """return particular css class for item"""
 

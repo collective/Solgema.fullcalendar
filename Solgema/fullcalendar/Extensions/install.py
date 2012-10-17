@@ -49,4 +49,3 @@ def uninstall( self ):
     print >> out, "Removing Solgema.fullcalendar"
     portal_setup.runAllImportStepsFromProfile('profile-Solgema.fullcalendar:uninstall', purge_old=False)
     return out.getvalue()
-
