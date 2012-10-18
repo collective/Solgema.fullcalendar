@@ -27,7 +27,6 @@ from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
 
-
 # detect plone.app.event
 try:
     import plone.app.event
@@ -554,7 +553,6 @@ class SFFolderSources(SolgemaFullcalendarView):
         if not colorsDict or not colorsDict.get(fieldid):
             return None
         value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
-        newColorsDict = {}
         for k,v in colorsDict.get(fieldid, {}).items():
             k = safe_unicode(k)
             if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
