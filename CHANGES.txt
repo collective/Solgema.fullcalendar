@@ -1,3 +1,4 @@
+
 Changelog
 =========
 
@@ -40,6 +41,7 @@ Changelog
     * drag-and-drop support for discrete-time and all-day events.
     * Add menu support and event copy/paste compatibility.
     * Use get_uid() to support plone.uuid based UID.
+    
   [seanupton]
 
 - getCopyObjectsUID() identically defined in two view modules, de-duplicated.
@@ -245,7 +247,7 @@ Changelog
   - Use an adapter to get event brain classes.
   [thomasdesvenain]
 
-- Refactor: remove solgemafullcalendar_ prefix from most module names.
+- Refactor: remove ``solgemafullcalendar_`` prefix from most module names.
   [thomasdesvenain]
 
 - Refactor: Use collective.js.colorpicker and collective.js.fullcalendar package
