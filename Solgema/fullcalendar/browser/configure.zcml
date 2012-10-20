@@ -424,4 +424,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      for="plone.app.collection.interfaces.ICollection"
+      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
+      name="ics_view"
+      class=".icalexport.ICalExport"
+      permission="zope2.View"
+      />
+      
 </configure>

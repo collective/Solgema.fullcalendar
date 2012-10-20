@@ -5,6 +5,9 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- enable ical export for new style collections
+  [jensens]
+
 - portal_type works as topic criterion without issue in event sources.
   [seanupton]
 
