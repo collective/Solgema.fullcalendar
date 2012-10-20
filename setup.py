@@ -6,7 +6,7 @@ setup(name='Solgema.fullcalendar',
       version=version,
       description="Solgema",
       long_description=open("README.rst").read() + "\n" +
-                       open("CHANGES.txt").read(),
+                       open("CHANGES.rst").read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
