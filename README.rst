@@ -69,3 +69,12 @@ You can also try collective.jqueryuithememanager_
 
 .. _collective.jqueryuithememanager: http://plone.org/products/collective.jqueryuithememanager
 
+
+Source Code
+-----------
+
+Source code is under GNU General Public Licence (GPL, see docs/LICENSE.txt).
+It is located at the
+`collective git repository at github <https://github.com/collective/Solgema.fullcalendar>`_
+and contributions are welcome.
+
