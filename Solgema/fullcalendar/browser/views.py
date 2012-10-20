@@ -81,7 +81,7 @@ def getCookieItems(request, field, charset):
                 item = item.decode('latin1')
             except:
                 pass
-            final.append( safe_unicode(item).encode(charset) )
+            final.append(safe_unicode(item).encode(charset))
     else:
         try:
             items = items.decode('latin1')
@@ -92,7 +92,7 @@ def getCookieItems(request, field, charset):
     return final
 
 def getColorIndex(context, request, eventPath=None, brain=None):
-    undefined =  'colorIndex-undefined'
+    undefined = 'colorIndex-undefined'
     if not brain:
         if not eventPath:
             raise ValueError(u'You must provide eventPath or brain')
@@ -121,7 +121,6 @@ class SolgemaFullcalendarView(BrowserView):
         self.request = request
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
-
     def getCriteriaClass(self):
         return ''
 
@@ -216,17 +215,17 @@ class SolgemaFullcalendarEventJS(BrowserView):
         return int(now.day)
 
     def getMonthsNames(self):
-        return [PLMF(self._ts.month_msgid(m), default=self._ts.month_english(m)) for m in [a+1 for a in range(12)]]
+        return [PLMF(self._ts.month_msgid(m), default=self._ts.month_english(m)) for m in [a + 1 for a in range(12)]]
 
     def getMonthsNamesAbbr(self):
-        return [PLMF(self._ts.month_msgid(m, format='a'), default=self._ts.month_english(m, format='a')) for m in [a+1 for a in range(12)]]
+        return [PLMF(self._ts.month_msgid(m, format='a'), default=self._ts.month_english(m, format='a')) for m in [a + 1 for a in range(12)]]
 
     def getWeekdaysNames(self):
         return [PLMF(self._ts.day_msgid(d), default=self._ts.weekday_english(d)) for d in range(7)]
 
     def getWeekdaysNamesAbbr(self):
         if self.portal_language in ['de']:
-            return [PLMF(self._ts.day_msgid(d)+'_short', default=self._ts.weekday_english(d)+'_short') for d in range(7)]
+            return [PLMF(self._ts.day_msgid(d) + '_short', default=self._ts.weekday_english(d) + '_short') for d in range(7)]
         else:
             return [PLMF(self._ts.day_msgid(d, format='a'), default=self._ts.weekday_english(d, format='a')) for d in range(7)]
 
@@ -282,7 +281,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def getTargetFolder(self):
         target_folder = getattr(self.calendar, 'target_folder', None)
         if target_folder:
-            addContext = self.portal.unrestrictedTraverse('/'+self.portal.id+target_folder)
+            addContext = self.portal.unrestrictedTraverse('/' + self.portal.id + target_folder)
         elif IATFolder.providedBy(self.context):
             addContext = self.context
         else:
@@ -327,7 +326,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         return None
 
     def getTopicRelativeUrl(self):
-        return '/'+self.context.absolute_url(relative=1)
+        return '/' + self.context.absolute_url(relative=1)
 
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
@@ -345,7 +344,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         return 'false'
 
     def __call__(self):
-        self.request.RESPONSE.setHeader('Content-Type','application/x-javascript; charset=utf-8')
+        self.request.RESPONSE.setHeader('Content-Type', 'application/x-javascript; charset=utf-8')
         return super(SolgemaFullcalendarEventJS, self).__call__()
 
 class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
@@ -363,7 +362,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         else:
             now = datetime.datetime.now()
             delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
+            newdate = now + delta
             return newdate.isoweekday() - 1
 
     def getYear(self):
@@ -377,7 +376,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         else:
             now = datetime.datetime.now()
             delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
+            newdate = now + delta
             return int(newdate.year)
 
     def getMonthNumber(self):
@@ -391,7 +390,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         else:
             now = datetime.datetime.now()
             delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
+            newdate = now + delta
             return int(newdate.month)
 
     def getDate(self):
@@ -405,7 +404,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         else:
             now = datetime.datetime.now()
             delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now+delta
+            newdate = now + delta
             return int(newdate.day)
 
     def getHeaderLeft(self):
@@ -422,9 +421,9 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
 
     def getTopicRelativeUrl(self):
         if CMFPloneUtils.isDefaultPage(self.context, self.request):
-            return '/'+aq_parent(aq_inner(self.context)).absolute_url(relative=1)
+            return '/' + aq_parent(aq_inner(self.context)).absolute_url(relative=1)
         else:
-            return '/'+self.context.absolute_url(relative=1)
+            return '/' + self.context.absolute_url(relative=1)
 
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
@@ -484,7 +483,7 @@ class SFTopicSources(SolgemaFullcalendarView):
             return None
         value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
         newColorsDict = {}
-        for k,v in colorsDict.get(fieldid, {}).items():
+        for k, v in colorsDict.get(fieldid, {}).items():
             k = safe_unicode(k)
             if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
                 return v
@@ -500,7 +499,7 @@ class SFTopicSources(SolgemaFullcalendarView):
         fromCookie = True
         if values == None:
             fromCookie = False
-            CriteriaItems = getMultiAdapter((self.context, self.request),  interfaces.ICriteriaItems)()
+            CriteriaItems = getMultiAdapter((self.context, self.request), interfaces.ICriteriaItems)()
             values = CriteriaItems and [a for a in CriteriaItems['values'] if a] or []
             criteria = CriteriaItems and CriteriaItems['name'] or ''
         eventSources = []
@@ -509,7 +508,7 @@ class SFTopicSources(SolgemaFullcalendarView):
                 d = {}
                 if fromCookie:
                     value = value.decode('utf-8')
-                d['url'] = self.context.absolute_url()+'/@@solgemafullcalendarevents?'+criteria+'='+value
+                d['url'] = self.context.absolute_url() + '/@@solgemafullcalendarevents?' + criteria + '=' + value
                 d['type'] = 'POST'
                 d['color'] = self.getColor(criteria, value)
                 d['title'] = value
@@ -518,12 +517,12 @@ class SFTopicSources(SolgemaFullcalendarView):
                 if criteria == 'Subject':
                     d['extraData'] = {'subject:list':value}
                 elif criteria in ['Creator', 'Contributor']:#How to get the right field name?
-                    d['extraData'] = {criteria.lower()+'s:lines':value}
+                    d['extraData'] = {criteria.lower() + 's:lines':value}
                 else:
                     d['extraData'] = {criteria:value}
                 eventSources.append(d.copy())
         else:
-            eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
+            eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents'})
 
         gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
         if gcalSourcesAttr != None:
@@ -534,10 +533,10 @@ class SFTopicSources(SolgemaFullcalendarView):
                     gcalColors = self.calendar.queryColors.get('gcalSources', {})
                     eventSources.append({'url':       url,
                                         'dataType':  'gcal',
-                                        'className': 'gcal-event gcal-source'+str(i+1),
-                                        'color':     gcalColors.get('source'+str(i), ''),
-                                        'title':     'GCAL '+str(i+1)})
-        self.request.response.setHeader("Content-type","application/json")
+                                        'className': 'gcal-event gcal-source' + str(i + 1),
+                                        'color':     gcalColors.get('source' + str(i), ''),
+                                        'title':     'GCAL ' + str(i + 1)})
+        self.request.response.setHeader("Content-type", "application/json")
         return json.dumps(eventSources, sort_keys=True)
 
 class SFCollectionSources(SFTopicSources):
@@ -553,7 +552,7 @@ class SFFolderSources(SolgemaFullcalendarView):
         if not colorsDict or not colorsDict.get(fieldid):
             return None
         value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
-        for k,v in colorsDict.get(fieldid, {}).items():
+        for k, v in colorsDict.get(fieldid, {}).items():
             k = safe_unicode(k)
             if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
                 return v
@@ -579,14 +578,14 @@ class SFFolderSources(SolgemaFullcalendarView):
                 d = {}
                 if fromCookie:
                     value = value.decode('utf-8')
-                d['url'] = self.context.absolute_url()+'/'+value+'/@@solgemafullcalendarevents'
+                d['url'] = self.context.absolute_url() + '/' + value + '/@@solgemafullcalendarevents'
                 d['type'] = 'POST'
                 d['color'] = self.getColor('subFolders', value)
                 d['title'] = voc.getTerm(value).title
-                d['target_folder'] = self.context.absolute_url()+'/'+value
+                d['target_folder'] = self.context.absolute_url() + '/' + value
                 eventSources.append(d.copy())
         else:
-            eventSources.append({'url':self.context.absolute_url()+'/@@solgemafullcalendarevents'})
+            eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents'})
 
         gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
         if gcalSourcesAttr != None:
@@ -597,11 +596,11 @@ class SFFolderSources(SolgemaFullcalendarView):
                     gcalColors = self.calendar.queryColors.get('gcalSources', {})
                     eventSources.append({'url':       url,
                                         'dataType':  'gcal',
-                                        'className': 'gcal-event gcal-source'+str(i+1),
-                                        'color':     gcalColors.get('source'+str(i), ''),
-                                        'title':     'GCAL '+str(i+1)})
+                                        'className': 'gcal-event gcal-source' + str(i + 1),
+                                        'color':     gcalColors.get('source' + str(i), ''),
+                                        'title':     'GCAL ' + str(i + 1)})
 
-        self.request.response.setHeader("Content-type","application/json")
+        self.request.response.setHeader("Content-type", "application/json")
         return json.dumps(eventSources, sort_keys=True)
 
 class SFEventSources(BrowserView):
@@ -609,8 +608,8 @@ class SFEventSources(BrowserView):
     implements(interfaces.ISolgemaFullcalendarEventsSources)
 
     def __call__(self, *args, **kw):
-        self.request.response.setHeader("Content-type","application/json")
-        return json.dumps([self.context.absolute_url()+'/@@solgemafullcalendarevents',])
+        self.request.response.setHeader("Content-type", "application/json")
+        return json.dumps([self.context.absolute_url() + '/@@solgemafullcalendarevents', ])
 
 class SolgemaFullcalendarEvents(BrowserView):
     """Solgema Fullcalendar Update browser view"""
@@ -626,7 +625,7 @@ class SolgemaFullcalendarEvents(BrowserView):
         for name, source in sources:
             events.extend(source.getEvents())
 
-        self.request.response.setHeader("Content-type","application/json")
+        self.request.response.setHeader("Content-type", "application/json")
         return json.dumps(events, sort_keys=True)
 
 
@@ -654,7 +653,7 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
         for i in range(len(availableSubFolders)):
             folderId = availableSubFolders[i]
             color = None
-            for k,v in colorsDict.get(fieldid, {}).items():
+            for k, v in colorsDict.get(fieldid, {}).items():
                 k = safe_unicode(k)
                 if k == folderId:
                     color = v
@@ -691,7 +690,7 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
                 cValName = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(selectedItems[i])))
 
                 color = None
-                for k,v in colorsDict.get(fieldid, {}).items():
+                for k, v in colorsDict.get(fieldid, {}).items():
                     k = safe_unicode(k)
                     if k == cValName or str(component.queryUtility(IURLNormalizer).normalize(k)) == cValName:
                         color = v

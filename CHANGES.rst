@@ -6,7 +6,7 @@ Changelog
 ------------------
 
 - rename IListBaseQueryTopicCriteria to more genric IListBaseQueryCriteria, 
-  includes BBB. This avoids confusion.
+  includes BBB. This avoids confusion. Some PEP8fying.
   [jensens]
 
 - enable ical export for new style collections
