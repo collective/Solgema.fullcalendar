@@ -4,8 +4,8 @@ Solgema.fullcalendar Package Readme
 Overview
 --------
 
-Solgema.fullcalendar is a complete implementation of Adam Shaw Fullcalendar into
-Plone. More info on Fullcalendar here: http://arshaw.com/fullcalendar/
+Solgema.fullcalendar is a complete implementation of
+`Adam Shaw Fullcalendar <http://arshaw.com/fullcalendar/>`_ into Plone.
 
 This calendar allows you to display events type objects in a powerfull and fast
 ajax agenda. You will be also able to add, edit and more generally manage your
