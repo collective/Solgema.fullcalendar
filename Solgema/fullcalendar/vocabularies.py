@@ -43,7 +43,7 @@ def dayHours( context ):
     return TitledVocabulary.fromTitles([(a, a<10 and '0'+str(a)+':00' or str(a)+':00') for a in range(25)])
 
 def availableCriterias( context ):
-    criterias = interfaces.IListBaseQueryTopicCriteria(context)()
+    criterias = interfaces.IListBaseQueryCriteria(context)()
     li = []
     portal_atct = getToolByName(context, 'portal_atct')
     for criteria in criterias:

@@ -16,7 +16,7 @@ except:
     ICollection = Interface
 
 from Solgema.fullcalendar.config import _
-from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryTopicCriteria
+from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryCriteria
 
 
 class IColorDictInputWidget(interfaces.IWidget):
@@ -34,14 +34,14 @@ class ColorDictInputWidget(Widget):
     def getCriteriaKeys(self):
         li = []
         if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
-            criteria = IListBaseQueryTopicCriteria(self.context)()
+            criteria = IListBaseQueryCriteria(self.context)()
             for criterion in [a['i'] for a in criteria]:
                 li.append(self.name+'.'+criterion)
         return li
 
     def getCriteria(self):
         if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
-            return IListBaseQueryTopicCriteria(self.context)()
+            return IListBaseQueryCriteria(self.context)()
         return []
 
     def render(self):

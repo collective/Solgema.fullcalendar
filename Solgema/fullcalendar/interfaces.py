@@ -307,6 +307,9 @@ class ICriteriaItems(Interface):
     """Adapter that returns the selected criteria in calendar
     """
 
-class IListBaseQueryTopicCriteria(Interface):
+class IListBaseQueryCriteria(Interface):
     """Adapter that lists criterias for topic and collections
     """
+
+# BBB
+IListBaseQueryTopicCriteria = IListBaseQueryCriteria

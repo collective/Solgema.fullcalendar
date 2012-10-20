@@ -501,7 +501,7 @@ class FolderEventSource(object):
 class listBaseQueryTopicCriteria(object):
     """Get criterias dicts for topic and collections
     """
-    implements(interfaces.IListBaseQueryTopicCriteria)
+    implements(interfaces.IListBaseQueryCriteria)
     adapts(IATTopic)
 
     def __init__(self, context):
@@ -524,7 +524,7 @@ class listBaseQueryTopicCriteria(object):
 class listBaseQueryCollectionCriteria(object):
     """Get criterias dicts for topic and collections
     """
-    implements(interfaces.IListBaseQueryTopicCriteria)
+    implements(interfaces.IListBaseQueryCriteria)
     adapts(ICollection)
 
     def __init__(self, context):
@@ -544,7 +544,7 @@ class listCriteriasTopicAdapter(object):
 
     def __call__(self):
         calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context), None)
-        li = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        li = interfaces.IListBaseQueryCriteria(self.context)()
         for criteria in li:
             if criteria['o']=='ATPortalTypeCriterion' and len(criteria['v'])==1:
                 li.remove(criteria)
@@ -565,7 +565,8 @@ class listCriteriasCollectionAdapter(object):
 
     def __call__(self):
         calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context), None)
-        li = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        li = interfaces.IListBaseQueryCriteria(self.context)()
+        import pdb;pdb.set_trace()
         for criteria in li:
             if criteria['i']=='portal_type' and len(criteria['v'])==1:
                 li.remove(criteria)

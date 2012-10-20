@@ -678,7 +678,7 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
 
     def __call__(self):
         colorsDict = self.calendar.queryColors
-        criterias = interfaces.IListBaseQueryTopicCriteria(self.context)()
+        criterias = interfaces.IListBaseQueryCriteria(self.context)()
         css = ''
         if not colorsDict:
             return css
