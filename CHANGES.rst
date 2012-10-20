@@ -5,6 +5,10 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- rename IListBaseQueryTopicCriteria to more genric IListBaseQueryCriteria, 
+  includes BBB. This avoids confusion.
+  [jensens]
+
 - enable ical export for new style collections
   [jensens]
 
