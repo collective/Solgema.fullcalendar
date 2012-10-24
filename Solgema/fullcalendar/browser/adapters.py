@@ -11,9 +11,12 @@ except:
 from Products.CMFCore.utils import getToolByName
 from Products.ATContentTypes.interface import IATTopic, IATFolder
 
-from Solgema.fullcalendar.browser.views import getCopyObjectsUID, getColorIndex
+from Solgema.fullcalendar.browser.views import (
+    getCopyObjectsUID,
+    getColorIndex,
+    getCookieItems,
+)
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.browser.views import getCookieItems
 
 try:
     from plone.app.event.ical import calendar_from_event
