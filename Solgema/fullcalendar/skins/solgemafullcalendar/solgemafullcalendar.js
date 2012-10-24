@@ -617,9 +617,9 @@ var SolgemaFullcalendar = {
                 modal: true,
                 title: fcevent['title']
               });
+              $(document).trigger('solgema_display_form_loaded', dialogContent);
               jq('#kss-spinner').hide();
            });
-
       }
       else{
           window.open(url)

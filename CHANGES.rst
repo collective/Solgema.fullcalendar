@@ -5,6 +5,10 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- trigger event after display form was loaded. thus it is possible to rebind 
+  events for loaded code.
+  [jensens]
+
 - rename IListBaseQueryTopicCriteria to more genric IListBaseQueryCriteria, 
   includes BBB. This avoids confusion. Some PEP8fying.
   [jensens]
