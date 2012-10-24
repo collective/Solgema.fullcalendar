@@ -210,7 +210,7 @@ class ISolgemaFullcalendarProperties(Interface):
         required=False,
         description=_(u"help_gcalSources",
                       default="Enter your Google Calendar feeds url here. the "
-                              "syntay should be: "
+                              "syntax must be: "
                               "http://www.google.com/calendar/feeds/yourmail@"
                               "gmail.com/... One url per line."),
         default=u'')
