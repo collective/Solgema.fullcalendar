@@ -289,13 +289,13 @@ class ISolgemaFullcalendarProperties(Interface):
         default=True)
 
     disableDragging = schema.Bool(
-                      title=_(u"label_disableDragging",
-                              default="Disable Dragging"),
-                      required=False,
-                      description=_(u"help_disableDragging",
-                                    default="Disables all event dragging, "
-                                            "even when events are editable."),
-                      default=False)
+        title=_(u"label_disableDragging",
+                default="Disable Dragging"),
+        required=False,
+        description=_(u"help_disableDragging",
+                      default="Disables all event dragging, even when events "
+                              "are editable."),
+        default=False)
 
     disableResizing = schema.Bool(
         title=_(u"label_disableResizing",
