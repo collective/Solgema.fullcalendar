@@ -59,6 +59,7 @@ def dict_from_events(events,
     def dict_from_item(item):
         if hasPloneAppEvent and (IEvent.providedBy(item) or
                                  IOccurrence.providedBy(item)):
+            # plone.app.event DX or AT Event
             is_occurrence = IOccurrence.providedBy(item)
             acc = IEventAccessor(item)
             return {
@@ -78,19 +79,19 @@ def dict_from_events(events,
                                 is_occurrence and "occurrence" or ""),
                 "color": color}
         elif IATEvent.providedBy(item):
-
+            # Products.ATContentTypes ATEvent
             allday = (item.end() - item.start()) > 1.0
             adapted = interfaces.ISFBaseEventFields(item, None)
             if adapted:
                 allday = adapted.allDay
 
-            return [{
+            return {
                 "status": "ok",
                 "id": "UID_%s" % (item.UID()),
                 "title": item.Title(),
                 "description": item.Description(),
-                "start": item.start().rfc822(),
-                "end": item.end().rfc822(),
+                "start": item.start().ISO8601(),
+                "end": item.end().ISO8601(),
                 "url": item.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
@@ -98,8 +99,9 @@ def dict_from_events(events,
                                 state and "state-%s" % str(state) or "",
                                 editable and "editable" or "",
                                 css and css or ""),
-                "color": color}]
+                "color": color}
         elif ICatalogBrain.providedBy(item):
+            # Event catalog brain
             if type(item.end) != DateTime:
                 brainend = DateTime(item.end)
                 brainstart = DateTime(item.start)
@@ -112,13 +114,13 @@ def dict_from_events(events,
             if getattr(item, 'SFAllDay', None) in [False, True]:
                 allday = item.SFAllDay
 
-            return [{
+            return {
                 "status": "ok",
                 "id": "UID_%s" % (item.UID),
                 "title": item.Title,
                 "description": item.Description,
-                "start": brainstart.rfc822(),
-                "end": brainend.rfc822(),
+                "start": brainstart.ISO8601(),
+                "end": brainend.ISO8601(),
                 "url": item.getURL(),
                 "editable": editable,
                 "allDay": allday,
@@ -126,7 +128,7 @@ def dict_from_events(events,
                                 state and "state-%s" % str(state) or "",
                                 editable and "editable" or "",
                                 css and css or ""),
-                "color": color}]
+                "color": color}
         else:
             raise ValueError('item type not supported for: %s' % repr(item))
 

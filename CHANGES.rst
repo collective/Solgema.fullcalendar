@@ -5,15 +5,19 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- trigger event after display form was loaded. thus it is possible to rebind 
+- Fix events dict for ATContentType based ATEvent types, so that they are
+  displayed again.
+  [thet]
+
+- Trigger event after display form was loaded. thus it is possible to rebind
   events for loaded code.
   [jensens]
 
-- rename IListBaseQueryTopicCriteria to more genric IListBaseQueryCriteria, 
+- Rename IListBaseQueryTopicCriteria to more genric IListBaseQueryCriteria,
   includes BBB. This avoids confusion. Some PEP8fying.
   [jensens]
 
-- enable ical export for new style collections
+- Enable ical export for new style collections
   [jensens]
 
 - portal_type works as topic criterion without issue in event sources.
@@ -52,7 +56,7 @@ Changelog
     * drag-and-drop support for discrete-time and all-day events.
     * Add menu support and event copy/paste compatibility.
     * Use get_uid() to support plone.uuid based UID.
-    
+
   [seanupton]
 
 - getCopyObjectsUID() identically defined in two view modules, de-duplicated.
