@@ -208,7 +208,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
 
     def getMonthNumber(self):
         now = datetime.datetime.now()
-        return int(now.month)
+        return int(now.month) - 1 # JS: Jan = 0, Dez = 11
 
     def getDate(self):
         now = datetime.datetime.now()
@@ -386,12 +386,12 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
                 return int(month)
             except ValueError: pass
         if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().month
+            return datetime.datetime.now().month - 1 # JS: Jan = 0, Dez = 11
         else:
             now = datetime.datetime.now()
             delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
             newdate = now + delta
-            return int(newdate.month)
+            return int(newdate.month) - 1 # JS: Jan = 0, Dez = 11
 
     def getDate(self):
         day = self.request.form.get('sfday')

@@ -5,6 +5,10 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- Show current month by default instead of next month. In Javascript, the first
+  month, January, starts with 0 and December is 11.
+  [thet]
+
 - Fix events dict for ATContentType based ATEvent types, so that they are
   displayed again.
   [thet]
