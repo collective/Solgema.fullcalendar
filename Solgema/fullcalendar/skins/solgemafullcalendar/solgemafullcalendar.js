@@ -606,18 +606,20 @@ var SolgemaFullcalendar = {
       if(portalType != undefined){
           var extra = '/SFLight_' + portalType + '_view';
           jq('#kss-spinner').show();
-          var $dialogContent = jq("#event_edit_container");
-          $dialogContent.empty();
-          $dialogContent.dialog( "destroy" );
+          var dialogContent = jq("#event_edit_container");
+          dialogContent.empty();
+          dialogContent.dialog( "destroy" );
           jq.get(url + extra, {}, function(msg){
-              $dialogContent.append(msg);
-              $dialogContent.dialog({
+              dialogContent.append(msg);
+              dialogContent.dialog({
                 width: 600,
                 autoOpen: true,
                 modal: true,
                 title: fcevent['title']
               });
-              $(document).trigger('solgema_display_form_loaded', dialogContent);
+              var event = jq.Event('solgema_display_form_loaded');
+              event.dialogContent = dialogContent;
+              jq(document).trigger(event);
               jq('#kss-spinner').hide();
            });
       }
