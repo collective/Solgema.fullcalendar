@@ -337,7 +337,7 @@ var SolgemaFullcalendar = {
         var href = jq(this).attr('href');
         $dialogContent.append('<iframe src="'+href+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
         $dialogContent.dialog({
-          width: 700,
+          width: 900,
           height: 500,
           autoOpen: true,
           modal: true,
@@ -415,7 +415,7 @@ var SolgemaFullcalendar = {
         $dialogContent.append('<iframe src="'+target_folder+'/createSFEvent?'+jq.param(data)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       }
       $dialogContent.dialog({
-        width: 700,
+        width: 900,
         height: 500,
         autoOpen: true,
         modal: true,
@@ -436,7 +436,7 @@ var SolgemaFullcalendar = {
       var $calendar = jq('#calendar');
       $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
-        width: 700,
+        width: 900,
         height: 500,
         autoOpen: true,
         modal: true,
