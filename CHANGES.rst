@@ -5,6 +5,11 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- Fixed problem with blocked scrollbar after validation error in add/edit 
+  form. Remark: the whole edit popup-thingy is very ugly this way. 
+  Refactoring needed.
+  [thet, jensens]
+
 - Show current month by default instead of next month. In Javascript, the first
   month, January, starts with 0 and December is 11.
   [thet]
