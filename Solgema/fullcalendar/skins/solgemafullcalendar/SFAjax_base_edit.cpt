@@ -65,6 +65,13 @@
          engine even if it's on an intranet. This has to be defined before any
          script/style tags. -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <tal:prePlone43
+        define="renderBase here/renderBase|nothing"
+        condition="renderBase">
+        <metal:baseslot define-slot="base">
+          <base tal:attributes="href renderBase" /><!--[if lt IE 7]></base><![endif]-->
+        </metal:baseslot>
+    </tal:prePlone43>
 
     <div tal:replace="structure provider:plone.htmlhead" />
 
@@ -164,7 +171,8 @@
   <body tal:define="isRTL portal_state/is_rtl;
                     template_id template/getId;
                     template_id python:template_id or path('view/__name__');
-                    class_expr string:"
+                    getSectionFromURL context/getSectionFromURL|nothing;
+                    class_expr string:${getSectionFromURL} template-${template_id};"
         tal:attributes="class python:class_expr.strip()+' ajax_edition';
                         dir python:test(isRTL, 'rtl', 'ltr')" style="background-color:transparent;">
             <div id="content">
