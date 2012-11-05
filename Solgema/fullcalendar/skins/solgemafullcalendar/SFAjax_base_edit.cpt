@@ -218,12 +218,7 @@
 
               </metal:block>
             </div>
-
-      <script type="text/javascript">
-        function setHeight() {
-            jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height(jq('body.ajax_edition').height()+30)
-        };
-      </script>
+        
 </body>
 </html>
 </tal:block>
