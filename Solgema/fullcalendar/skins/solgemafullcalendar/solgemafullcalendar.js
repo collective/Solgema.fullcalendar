@@ -770,6 +770,7 @@ function calendarOptions() {
 };
 
 function initCalendar(date) {
+  jq("#event_edit_container").dialog({ autoOpen: false });
   if (jq('.fc-button-calendar').length != 0) {
     jq('.fc-button-calendar').unbind('click');
     jq('.fc-button-calendar').append('<span style="position:relative" id="datePickerWrapper"><div id="datePicker"/></span>');
