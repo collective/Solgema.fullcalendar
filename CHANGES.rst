@@ -113,6 +113,10 @@ Changelog
 - workaround for archetypes.querywidget bug see: https://dev.plone.org/ticket/13144
   [jensens, benniboy]
 
+- plone.app.collection compatibility added.
+  [timo]
+
+
 2.1.2 (2012-08-22)
 ------------------
 
