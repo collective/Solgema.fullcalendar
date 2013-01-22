@@ -1,9 +1,10 @@
-
 Changelog
 =========
 
 2.1.3 (unreleased)
 ------------------
+- Fixed error in javascript when trying to destroy a dialog box that has not been initialized.
+  [fmoret]
 
 - Fixed problem with blocked scrollbar after validation error in add/edit 
   form. Remark: the whole edit popup-thingy is very ugly this way. 
