@@ -329,7 +329,7 @@ var SolgemaFullcalendar = {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
-      $dialogContent.dialog( "destroy" );
+      if ($dialogContent.is(':data(dialog)')) $dialogContent.dialog( "destroy" );
       menulinks = jq("#contextualContentMenu a[href*='createSFEvent']");
       menulinks = menulinks.add("#contextualContentMenu a[href*='SFAjax_add_dx_event']");
       menulinks.click( function(event) {
@@ -372,7 +372,7 @@ var SolgemaFullcalendar = {
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
       $dialogContent.empty();
-      $dialogContent.dialog( "destroy" );
+      if ($dialogContent.is(':data(dialog)')) $dialogContent.dialog( "destroy" );
       var $calendar = jq('#calendar');
       data = new Object;
       var startMonth = start.getMonth()+1;
@@ -430,9 +430,8 @@ var SolgemaFullcalendar = {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
       var $dialogContent = jq("#event_edit_container");
-      jq("#event_edit_container").dialog( "destroy" );
+      if ($dialogContent.is(':data(dialog)')) $dialogContent.dialog( "destroy" );
       $dialogContent.empty();
-      $dialogContent.dialog( "destroy" );
       var $calendar = jq('#calendar');
       $dialogContent.append('<iframe src="'+eventurl+'/SFAjax_base_edit" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       $dialogContent.dialog({
@@ -608,7 +607,7 @@ var SolgemaFullcalendar = {
           jq('#kss-spinner').show();
           var dialogContent = jq("#event_edit_container");
           dialogContent.empty();
-          dialogContent.dialog( "destroy" );
+          if (dialogContent.is(':data(dialog)')) dialogContent.dialog( "destroy" );
           jq.get(url + extra, {}, function(msg){
               dialogContent.append(msg);
               dialogContent.dialog({
@@ -770,7 +769,6 @@ function calendarOptions() {
 };
 
 function initCalendar(date) {
-  jq("#event_edit_container").dialog({ autoOpen: false });
   if (jq('.fc-button-calendar').length != 0) {
     jq('.fc-button-calendar').unbind('click');
     jq('.fc-button-calendar').append('<span style="position:relative" id="datePickerWrapper"><div id="datePicker"/></span>');
