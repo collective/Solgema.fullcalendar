@@ -3,6 +3,9 @@ Changelog
 
 2.1.3 (unreleased)
 ------------------
+- Add formatting for nl language 
+  [smoussiaux]
+
 - Fixed error in javascript when trying to destroy a dialog box that has not been initialized.
   [fmoret]
 
