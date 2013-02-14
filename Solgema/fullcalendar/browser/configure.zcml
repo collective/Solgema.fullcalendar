@@ -166,7 +166,7 @@
   <browser:page
       for="Products.ATContentTypes.interface.IATFolder"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarFormFolder"
+      class=".content.SolgemaFullcalendarForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
@@ -174,7 +174,7 @@
   <browser:page
       for="Products.ATContentTypes.interface.IATTopic"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarFormTopic"
+      class=".content.SolgemaFullcalendarForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
@@ -183,7 +183,7 @@
       zcml:condition="installed plone.app.collection"
       for="plone.app.collection.interfaces.ICollection"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarFormTopic"
+      class=".content.SolgemaFullcalendarForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />

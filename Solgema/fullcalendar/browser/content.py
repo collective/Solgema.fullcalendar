@@ -80,11 +80,12 @@ class FolderQueryGroup(z3cgroup.Group):
 class ColorsGroup(z3cgroup.Group):
     label = _(u'Colors', default="Colors")
 
-    fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
-        'queryColors')
+    fields = z3cfield.Fields(ISolgemaFullcalendarProperties).select(
+            'queryColors')
 
 
-class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
+class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm):
+    groups = (CalendarGroup, FolderQueryGroup, ColorsGroup)
 
     @button.buttonAndHandler(plMF('label_save', default=u'Save'), name='apply')
     def handleApply(self, action):
@@ -99,18 +100,11 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm ):
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage
-        self.request.RESPONSE.redirect( self.context.absolute_url() )
+        self.request.RESPONSE.redirect(self.context.absolute_url())
 
     @button.buttonAndHandler(plMF('label_cancel', default=u'Cancel'),
                              name='cancel')
     def handleCancel( self, action):
-        self.request.RESPONSE.redirect( self.context.absolute_url() )
+        self.request.RESPONSE.redirect(self.context.absolute_url())
 
-class SolgemaFullcalendarFormBaseTopic(SolgemaFullcalendarFormBase):
-    groups = (CalendarGroup, TopicQueryGroup, ColorsGroup)
-    
-class SolgemaFullcalendarFormBaseFolder(SolgemaFullcalendarFormBase):
-    groups = (CalendarGroup, FolderQueryGroup, ColorsGroup)
-
-SolgemaFullcalendarFormTopic = wrap_form(SolgemaFullcalendarFormBaseTopic)
-SolgemaFullcalendarFormFolder = wrap_form(SolgemaFullcalendarFormBaseFolder)
+SolgemaFullcalendarForm = wrap_form(SolgemaFullcalendarFormBase)
