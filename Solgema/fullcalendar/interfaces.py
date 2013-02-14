@@ -10,106 +10,88 @@ from Solgema.fullcalendar.config import _
 
 
 class IPersistentOptions(Interface):
-    """
-    a base interface that our persistent option annotation settings,
-    can adapt to. specific schemas that want to have context stored
-    annotation values should subclass from this interface, so they
-    use adapation to get access to persistent settings. for example,
-    settings = IMySettings(context)
+    """A base interface that our persistent option annotation settings, can
+    adapt to. specific schemas that want to have context stored annotation
+    values should subclass from this interface, so they use adapation to get
+    access to persistent settings. for example, settings = IMySettings(context)
     """
 
 
 class ISolgemaFullcalendarLayer(IDefaultBrowserLayer):
-    """Solgema Fullcalendar layer"""
+    """Solgema Fullcalendar layer
+    """
 
 
 class ISolgemaFullcalendarView(Interface):
-    """
-    Solgema Fullcalendar View interface
+    """Solgema Fullcalendar View interface
     """
 
 
 class ISolgemaFullcalendarColorsCss(ISolgemaFullcalendarView):
-    """
-    CSS generator for colors
+    """CSS generator for colors
     """
 
 
 class ISolgemaFullcalendarJS(ISolgemaFullcalendarView):
-    """
-    Solgema Fullcalendar View interface for JS Var
+    """Solgema Fullcalendar View interface for JS Var
     """
 
     def getCalendar(self):
-        """
-        returns context and mark it with ISolgemaFullcalendarProperties so
+        """Returns context and mark it with ISolgemaFullcalendarProperties so
         calendar data can be stored.
         """
 
     def getPortalLanguage(self):
-        """
-        get portal language
+        """Get portal language
         """
 
     def getMonthsNames(self):
-        """
-        get names of months
+        """Get names of months
         """
 
     def getMonthsNamesAbbr(self):
-        """
-        get names of months abbr
+        """Get names of months abbr
         """
 
     def getWeekdaysNames(self):
-        """
-        get names of days
+        """Get names of days
         """
 
     def getWeekdaysNamesAbbr(self):
-        """
-        get names of days abbr
+        """Get names of days abbr
         """
 
     def getTodayTranslation(self):
-        """
-        get translation for today
+        """Get translation for today
         """
 
     def getMonthTranslation(self):
-        """
-        get translation for month
+        """Get translation for month
         """
 
     def getWeekTranslation(self):
-        """
-        get translation for week
+        """Get translation for week
         """
 
     def getDayTranslation(self):
-        """
-        get translation for day
+        """Get translation for day
         """
 
     def getAllDayText(self):
-        """
-        get translation for all-day
+        """Get translation for all-day
         """
 
     def getCustomTitleFormat(self):
-        """
-        get format to display dates in calendar header
+        """Get format to display dates in calendar header
         """
 
     def userCanEdit(self):
-        """
-        returns if user can edit calendar
+        """Returns if user can edit calendar
         """
 
 
 class ICustomUpdatingDict(IDict):
-    """
-    Interface for CustomUpdatingDict (Colors Field)
+    """Interface for CustomUpdatingDict (Colors Field)
     """
 
 
@@ -129,7 +111,8 @@ class CustomUpdatingDict(schema.Dict):
 
 
 class ISolgemaFullcalendarProperties(Interface):
-    """An interface for specific calendar content stored in the object"""
+    """An interface for specific calendar content stored in the object
+    """
 
     slotMinutes = schema.Int(
         title=_(u"label_slotMinutes"),
@@ -307,78 +290,65 @@ class ISolgemaFullcalendarProperties(Interface):
         default=False)
 
     def isSolgemaFullcalendar(self):
-        """
-        get name of days XXX??
+        """Get name of days XXX??
         """
 
 
 class ISolgemaFullcalendarEvents(Interface):
-    """
-    Solgema Fullcalendar update view interface
+    """Solgema Fullcalendar update view interface
     """
 
 
 class ISolgemaFullcalendarEventsSources(Interface):
-    """
-    Solgema Fullcalendar get Events Sources
+    """Solgema Fullcalendar get Events Sources
     """
 
 
 class ISolgemaFullcalendarEditableFilter(Interface):
-    """
-    Solgema Fullcalendar update view interface
+    """Solgema Fullcalendar update view interface
     """
 
     def filterEvents(self, args):
-        """
-        custom method that filters and returns list of paths of the events
+        """Custom method that filters and returns list of paths of the events
         that can be edited
         """
 
 
 class ISolgemaFullcalendarCatalogSearch(Interface):
-    """
-    Solgema Fullcalendar Custom Events Search
+    """Solgema Fullcalendar Custom Events Search
     """
 
     def searchResults(self, args):
-        """
-        Do the catalog search
+        """Do the catalog search
         """
 
 
 class ISolgemaFullcalendarEventDict(Interface):
-    """
-    Return a friendly calendar dict for events
+    """Return a friendly calendar dict for events
     """
 
 
 class ISolgemaFullcalendarTopicEventDict(Interface):
-    """
-    Return a friendly calendar dict for events in topic query
+    """Return a friendly calendar dict for events in topic query
     """
 
 
 class ISolgemaFullcalendarExtraClass(Interface):
-    """
-    Adapter for extra class
+    """Adapter for extra class
     """
 
     def extraClass(self):
-        """
-        return particular css class for item
+        """Return particular css class for item
         """
 
 
 class ISolgemaFullcalendarMarker(Interface):
-    """
-    A marker for items that can be displayed as solgemafullcalendar_view
+    """A marker for items that can be displayed as solgemafullcalendar_view
     """
 
 
 class ISFBaseEventFields(Interface):
-    """
-    An interface that defines the specific Fullcalendar's events fields
+    """An interface that defines the specific Fullcalendar's events fields
     """
 
     allDay = schema.Bool(
@@ -390,14 +360,12 @@ class ISFBaseEventFields(Interface):
 
 
 class ISolgemaFullcalendarQuery(IViewletManager):
-    """
-    topic query for calendar
+    """Topic query for calendar
     """
 
 
 class IColorIndexGetter(Interface):
-    """
-    Adapter that provides a method to get color index from brain.
+    """Adapter that provides a method to get color index from brain.
     Adapts a context, a request and the source element.
     """
 
@@ -412,37 +380,31 @@ class IColorIndexGetter(Interface):
 
 
 class IEventSource(Interface):
-    """
-    Adapter that provides a list of events to display in calendar
+    """Adapter that provides a list of events to display in calendar
     """
 
     def getEvents(self):
-        """
-        List of event objects to display in calendar
+        """List of event objects to display in calendar
         (takes account of 'start' and 'end' values in request)
         """
 
     def getIcal(self):
-        """
-        Ical export of events
+        """Ical export of events
         """
 
 
 class IListCriterias(Interface):
-    """
-    Adapter that lists criterias for topic and collections
+    """Adapter that lists criterias for topic and collections
     """
 
 
 class ICriteriaItems(Interface):
-    """
-    Adapter that returns the selected criteria in calendar
+    """Adapter that returns the selected criteria in calendar
     """
 
 
 class IListBaseQueryCriteria(Interface):
-    """
-    Adapter that lists criterias for topic and collections
+    """Adapter that lists criterias for topic and collections
     """
 
 # BBB

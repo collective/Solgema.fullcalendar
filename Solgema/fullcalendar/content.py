@@ -1,9 +1,4 @@
 from zope import interface
-
-from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar import options
-
-
 try:
     import plone.app.event
     from plone.event.interfaces import IEventAccessor, IEvent
@@ -11,8 +6,14 @@ try:
 except ImportError:
     HAS_PAE = False
 
+from Solgema.fullcalendar import interfaces
+from Solgema.fullcalendar import options
 
-SolgemaFullcalendarPropertiesStorage = options.PersistentOptions.wire( "SolgemaFullcalendarPropertiesStorage", "Solgema.fullcalendar.storage", interfaces.ISolgemaFullcalendarProperties )
+
+SolgemaFullcalendarPropertiesStorage = options.PersistentOptions.wire(
+    "SolgemaFullcalendarPropertiesStorage",
+    "Solgema.fullcalendar.storage",
+    interfaces.ISolgemaFullcalendarProperties)
 
 class SolgemaFullcalendarAdapter(SolgemaFullcalendarPropertiesStorage):
     interface.implements(interfaces.ISolgemaFullcalendarProperties)
@@ -21,7 +22,10 @@ class SolgemaFullcalendarAdapter(SolgemaFullcalendarPropertiesStorage):
         self.context = context
 
 
-SFBaseEventStorage = options.PersistentOptions.wire( "SFBaseEventStorage", "Solgema.fullcalendar.baseEvent_storage", interfaces.ISFBaseEventFields )
+SFBaseEventStorage = options.PersistentOptions.wire(
+    "SFBaseEventStorage",
+    "Solgema.fullcalendar.baseEvent_storage",
+    interfaces.ISFBaseEventFields)
 
 class SFBaseEventAdapter(SFBaseEventStorage):
     interface.implements(interfaces.ISFBaseEventFields)
