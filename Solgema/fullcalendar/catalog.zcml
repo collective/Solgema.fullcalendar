@@ -7,7 +7,14 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="Solgema.fullcalendar">
 
-  <adapter factory='.catalog.SFAllowedRolesAndUsersModify' name='SFAllowedRolesAndUsersModify' />
-  <adapter factory='.catalog.SFAllDay' name='SFAllDay' />
+  <adapter
+      factory='.catalog.SFAllowedRolesAndUsersModify'
+      name='SFAllowedRolesAndUsersModify'
+      />
+
+  <adapter
+      factory='.catalog.SFAllDay'
+      name='SFAllDay'
+      />
 
 </configure>
