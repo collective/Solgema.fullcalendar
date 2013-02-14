@@ -374,8 +374,7 @@ class IColorIndexGetter(Interface):
     source = Attribute("The event which we get the color")
 
     def getColorIndex(self):
-        """
-        Get color class
+        """Get color class
         """
 
 
