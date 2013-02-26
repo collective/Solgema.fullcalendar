@@ -18,13 +18,18 @@
               i18n:translate="">Sources</legend>
 
         <div tal:repeat="item availableSubFolders" class="SFQuery_input">
+          <span tal:omit-tag="" 
+                tal:define="value python:item[0];
+                            id string:solgema-$field-$value">
           <input type="checkbox"
             tal:attributes="name field;
-                            value python:item[0];
+                            value value;
+                            id id;
                             checked python:item[0] in selectedItems and 'checked' or None"/>
-          <label tal:attributes="for field;
+          <label tal:attributes="for id;
                                  class string:${field}colorIndex-${repeat/item/index} colorIndex-${repeat/item/index}"
                  tal:content="python:item[1]" i18n:translate=""/>
+          </span>                 
         </div>
     </fieldset>
 

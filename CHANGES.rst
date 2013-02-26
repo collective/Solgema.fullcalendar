@@ -3,6 +3,10 @@ Changelog
 
 2.1.3 (unreleased)
 ------------------
+
+- make labels of query sources clickable, too
+  [fRiSi]
+  
 - Add formatting for nl language 
   [smoussiaux]
 
