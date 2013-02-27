@@ -58,7 +58,7 @@ def availableCriterias( context ):
     return TitledVocabulary.fromTitles([(crit['id'], crit['title']) for crit in li])
 
 def availableSubFolders( context ):
-    folderContents = context.getFolderContents(contentFilter={'portal_type':'Folder'})
+    folderContents = context.getFolderContents(contentFilter={'object_provides':'Products.ATContentTypes.interfaces.folder.IATFolder'})
     return TitledVocabulary.fromTitles([(a.getId, a.Title) for a in folderContents])
 
 def shortNameFormats(context):

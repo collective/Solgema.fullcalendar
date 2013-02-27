@@ -7,6 +7,10 @@ Changelog
 - make labels of query sources clickable, too
   [fRiSi]
   
+- allow all objects implementing `Products.ATContentTypes.interfaces.folder.IATFolder`
+  as subfolders
+  [fRiSi]
+  
 - Add formatting for nl language 
   [smoussiaux]
 
