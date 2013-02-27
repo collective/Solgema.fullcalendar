@@ -4,13 +4,13 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- 'month' and 'sfmonth' url paramters are now passed with jan=1 and dec=12
-  instead of javascript notation.
+- 'month' url paramters are now passed with jan=1 and dec=12 instead of
+  javascript notation.
   [thet]
 
-- Additionally to 'sfyear', 'sfmonth', 'sfday', allow passing of 'year',
-  'month', 'day' and 'date' (which is an isoformat date) url parameters to
-  Solgema views.
+- Remove 'sfyear', 'sfmonth' and 'sfday' url parameters introduced within this
+  development cycle and allow passing of 'year', 'month', 'day' and 'date'
+  (which is an isoformat date) url parameters to Solgema views.
   [thet]
 
 - make labels of query sources clickable, too

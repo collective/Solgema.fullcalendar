@@ -121,9 +121,9 @@ def _get_date_from_req(request):
             return dateobj.year, dateobj.month, dateobj.day
         except ValueError:
             pass
-    year  = request.form.get('sfyear')  or request.form.get('year')  or None
-    month = request.form.get('sfmonth') or request.form.get('month') or None
-    day   = request.form.get('sfday')   or request.form.get('day')   or None
+    year  = request.form.get('year')  or None
+    month = request.form.get('month') or None
+    day   = request.form.get('day')   or None
     return year, month, day
 
 
