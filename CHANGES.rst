@@ -4,17 +4,26 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
+- 'month' url paramters are now passed with jan=1 and dec=12 instead of
+  javascript notation.
+  [thet]
+
+- Remove 'sfyear', 'sfmonth' and 'sfday' url parameters introduced within this
+  development cycle and allow passing of 'year', 'month', 'day' and 'date'
+  (which is an isoformat date) url parameters to Solgema views.
+  [thet]
+
 - make labels of query sources clickable, too
   [fRiSi]
-  
-- Add formatting for nl language 
+
+- Add formatting for nl language
   [smoussiaux]
 
 - Fixed error in javascript when trying to destroy a dialog box that has not been initialized.
   [fmoret]
 
-- Fixed problem with blocked scrollbar after validation error in add/edit 
-  form. Remark: the whole edit popup-thingy is very ugly this way. 
+- Fixed problem with blocked scrollbar after validation error in add/edit
+  form. Remark: the whole edit popup-thingy is very ugly this way.
   Refactoring needed.
   [thet, jensens]
 

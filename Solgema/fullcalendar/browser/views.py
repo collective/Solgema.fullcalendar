@@ -111,6 +111,22 @@ def getColorIndex(context, request, eventPath=None, brain=None):
 #    return colorDict
 #    return ' ' + (colorIndex or undefined)
 
+
+def _get_date_from_req(request):
+    datestr = request.form.get('date') or None
+    if datestr:
+        # Try to parse datestr, otherwise keep extracting info from request.
+        try:
+            dateobj = datetime.datetime.strptime(datestr, '%Y-%m-%d')
+            return dateobj.year, dateobj.month, dateobj.day
+        except ValueError:
+            pass
+    year  = request.form.get('year')  or None
+    month = request.form.get('month') or None
+    day   = request.form.get('day')   or None
+    return year, month, day
+
+
 class SolgemaFullcalendarView(BrowserView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
@@ -130,16 +146,15 @@ class SolgemaFullcalendarView(BrowserView):
     def getCalendarVarsUrl(self):
         """Allows to set initial view and date by request parameters.
         """
-        view = self.request.form.get('sfview')
-        year = self.request.form.get('sfyear')
-        month = self.request.form.get('sfmonth')
-        day = self.request.form.get('sfday')
+        _date = _get_date_from_req(self.request)
+        view = self.request.form.get('sfview') or 'month'
+        year, month, day = _date[0], _date[1], _date[2]
         base_url = self.context.absolute_url()
         query = dict()
         if view: query['sfview'] = view
-        if year: query['sfyear'] = year
-        if month: query['sfmonth'] = month
-        if day: query['sfday'] = day
+        if year: query['year'] = year
+        if month: query['month'] = month
+        if day: query['day'] = day
         query = urlencode(query)
         if query: query = '?%s' % query
         return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
@@ -355,6 +370,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     def __init__(self, context, request):
         super(SolgemaFullcalendarTopicJS, self).__init__(context, request)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+        self._date = _get_date_from_req(request)
 
     def getFirstDay(self):
         if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
@@ -365,47 +381,33 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
             newdate = now + delta
             return newdate.isoweekday() - 1
 
+    def _prep_date_value(self, attr, value=None):
+        # attr = 'year' | 'month' | 'day'
+        try:
+            value = int(value)
+        except (ValueError, TypeError):
+            rel_first = getattr(self.calendar, 'relativeFirstDay', None)
+            newdate = None
+            if rel_first:
+                now = datetime.datetime.now()
+                delta = datetime.timedelta(hours=int(rel_first))
+                newdate = now + delta
+            else:
+                newdate = datetime.datetime.now()
+            value = getattr(newdate, attr, None)
+        return int(value)
+
     def getYear(self):
-        year = self.request.form.get('sfyear')
-        if year is not None:
-            try:
-                return int(year)
-            except ValueError: pass
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().year
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now + delta
-            return int(newdate.year)
+        year = self._prep_date_value('year', self._date[0])
+        return int(year)
 
     def getMonthNumber(self):
-        month = self.request.form.get('sfmonth')
-        if month is not None:
-            try:
-                return int(month)
-            except ValueError: pass
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().month - 1 # JS: Jan = 0, Dez = 11
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now + delta
-            return int(newdate.month) - 1 # JS: Jan = 0, Dez = 11
+        month = self._prep_date_value('month', self._date[1])
+        return int(month) - 1 # JS: Jan = 0, Dez = 11
 
     def getDate(self):
-        day = self.request.form.get('sfday')
-        if day is not None:
-            try:
-                return int(day)
-            except ValueError: pass
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
-            return datetime.datetime.now().day
-        else:
-            now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
-            newdate = now + delta
-            return int(newdate.day)
+        day = self._prep_date_value('day', self._date[2])
+        return int(day)
 
     def getHeaderLeft(self):
         headerLeft = getattr(self.calendar, 'headerLeft', 'prev,next today calendar')
