@@ -7,8 +7,12 @@ Changelog
 - make labels of query sources clickable, too
   [fRiSi]
   
-- allow all objects implementing `Products.ATContentTypes.interfaces.folder.IATFolder`
+- support for custom folder and event types.
+
+  allow all objects implementing `Products.ATContentTypes.interfaces.folder.IATFolder`
   as subfolders
+
+  configurable portal_type for events added via the calendar in calendar settings    
   [fRiSi]
   
 - Add formatting for nl language 

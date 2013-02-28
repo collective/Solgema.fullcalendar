@@ -58,7 +58,8 @@ class CalendarGroup(z3cgroup.Group):
         'disableAJAX',
         'caleditable',
         'disableDragging',
-        'disableResizing')
+        'disableResizing',
+        'eventType')
     fields['target_folder'].widgetFactory[INPUT_MODE] = ContentTreeFieldWidget
 
 class TopicQueryGroup(z3cgroup.Group):

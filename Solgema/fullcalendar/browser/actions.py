@@ -121,7 +121,7 @@ class SFDisplayAddMenu(BaseActionView):
                 if copyDict and portal.restrictedTraverse(copyDict['url']).portal_type == portal_type:
                     return json.dumps({'display': True})
         else:
-            portal_type = 'Event'
+            portal_type = getattr(interfaces.ISolgemaFullcalendarProperties(context, None), 'eventType', 'Event')
 
         pTypes = [a for a in portal_types.listTypeInfo() if a.id == portal_type]
         pTypeTitle = pTypes and pTypes[0].Title() or portal_type
@@ -134,7 +134,7 @@ class SFDisplayAddMenu(BaseActionView):
         return json.dumps({'display': False, 'type': portal_type,
                            'title': translate(title, context=self.request)})
 
-
+        
 class SFAddMenu(BaseActionView):
 
     def __init__(self, context, request):

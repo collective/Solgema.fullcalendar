@@ -289,6 +289,14 @@ class ISolgemaFullcalendarProperties(Interface):
                               "are editable."),
         default=False)
 
+    eventType = schema.TextLine(
+        title=_(u"label_eventType",
+                default=u"Event type"),
+        required=False,
+        description=_(u"help_eventType",
+                      default=u"Portal type to use when creating a new event"),
+        default=u'Event')
+    
     def isSolgemaFullcalendar(self):
         """Get name of days XXX??
         """
