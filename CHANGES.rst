@@ -14,6 +14,11 @@ Changelog
 
   configurable portal_type for events added via the calendar in calendar settings    
   [fRiSi]
+
+- Fixed a bug, that no events have been shown on ``folder/subfolder-a/solgemafullcalendar_view``
+  after a user has chosen which subfolders to display in the folderquery-form of
+  ``folder/solgemafullcalendar_view`` (in case subfolder-a is in folder's availableSubFolders)
+  [fRiSi]
   
 - Add formatting for nl language 
   [smoussiaux]

@@ -563,6 +563,7 @@ class SFFolderSources(SolgemaFullcalendarView):
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
         props = getToolByName(self.context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
+        
         values = getCookieItems(self.request, 'subFolders', charset)
         availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
         fromCookie = True
@@ -571,7 +572,9 @@ class SFFolderSources(SolgemaFullcalendarView):
             values = getattr(self.calendar, 'availableSubFolders', [])
         voc = component.getUtility(IVocabularyFactory, name=u'solgemafullcalendar.availableSubFolders', context=self.context)(self.context)
         eventSources = []
-        if values:
+        if values and availableSubFolders:
+            #values could come from cookie set for parent folder whereas child folder should
+            #simply show contained events. if no subfolders are available, cookie comes from parent folder
             for value in values:
                 if not value in availableSubFolders:
                     continue
