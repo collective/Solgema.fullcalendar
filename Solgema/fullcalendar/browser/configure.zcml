@@ -2,12 +2,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:gs="http://namespaces.zope.org/genericsetup"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="Solgema.fullcalendar">
 
-  <include package="Products.CMFCore" file="configure.zcml" />
-  <include package="plone.app.contentmenu" zcml:condition="installed plone.app.contentmenu" />
+  <include package="Products.CMFCore"/>
+  <include package="plone.app.contentmenu" zcml:condition="installed plone.app.contentmenu"/>
 
   <browser:menuItem zcml:condition="have plone-4"
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
@@ -62,29 +61,27 @@
   <!-- THE CALENDAR VIEW FOR plone.app.event (conditional) -->
   <configure zcml:condition="installed plone.dexterity">
     <browser:page
-      zcml:condition="installed plone.app.event"
-      name="SFLight_plone.app.event.dx.event_view"
-      for="plone.event.interfaces.IEvent"
-      class="plone.app.event.browser.event_view.EventView"
-      template="../skins/solgemafullcalendar/SFLight_event_view.pt"
-      permission="zope2.View"
-      />
-
+        zcml:condition="installed plone.app.event"
+        name="SFLight_plone.app.event.dx.event_view"
+        for="plone.event.interfaces.IEvent"
+        class="plone.app.event.browser.event_view.EventView"
+        template="../skins/solgemafullcalendar/SFLight_event_view.pt"
+        permission="zope2.View"
+        />
     <browser:page
-      zcml:condition="installed plone.app.event"
-      name="SFAjax_base_edit"
-      for="plone.app.event.dx.interfaces.IDXEvent"
-      class=".dx.InlineFrameEditForm"
-      permission="cmf.ModifyPortalContent"
-      />
-
+        zcml:condition="installed plone.app.event"
+        name="SFAjax_base_edit"
+        for="plone.app.event.dx.interfaces.IDXEvent"
+        class=".dx.InlineFrameEditForm"
+        permission="cmf.ModifyPortalContent"
+        />
     <browser:page
-      zcml:condition="installed plone.app.event"
-      name="SFAjax_add_dx_event"
-      for="Products.CMFCore.interfaces.IFolderish"
-      class=".dx.InlineFrameAddView"
-      permission="cmf.AddPortalContent"
-      />
+        zcml:condition="installed plone.app.event"
+        name="SFAjax_add_dx_event"
+        for="Products.CMFCore.interfaces.IFolderish"
+        class=".dx.InlineFrameAddView"
+        permission="cmf.AddPortalContent"
+        />
   </configure>
 
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
@@ -96,7 +93,6 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
       permission="zope.Public"
       />
-
   <browser:page
       for="Products.ATContentTypes.interface.IATEvent"
       name="solgemafullcalendar_vars.js"
@@ -105,7 +101,6 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
       permission="zope.Public"
       />
-
   <browser:page
       zcml:condition="installed plone.app.event"
       for="plone.event.interfaces.IEvent"
@@ -117,8 +112,6 @@
       />
 
   <!-- THE CALENDAR COLORS CSS GENERATED -->
-
-
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_colors.css"
@@ -126,7 +119,6 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />
-
   <browser:page
       for="Products.ATContentTypes.interface.IATFolder"
       name="solgemafullcalendar_colors.css"
@@ -134,7 +126,6 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />
-
   <browser:page
       for="Products.ATContentTypes.interface.IATTopic"
       name="solgemafullcalendar_colors.css"
@@ -142,7 +133,6 @@
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />
-
   <browser:page
       zcml:condition="installed plone.app.collection"
       for="plone.app.collection.interfaces.ICollection"
@@ -153,7 +143,6 @@
       />
 
   <!-- THE CALENDAR EVENT QUERY AND RENDERED AS JSON -->
-
   <browser:page
       for="*"
       name="solgemafullcalendarevents"
@@ -329,7 +318,6 @@
       />
 
   <!-- ADAPTERS -->
-
   <adapter
        provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEditableFilter"
        for="*"
@@ -359,42 +347,18 @@
          zope.publisher.interfaces.browser.IBrowserRequest"
     factory=".adapters.SolgemaFullcalendarEventDict" />
 
-  <adapter
-       factory=".adapters.FolderColorIndexGetter" />
-
-  <adapter
-       factory=".adapters.ColorIndexGetter" />
-
-  <adapter
-       factory=".adapters.FolderEventSource" />
-
-  <adapter
-       factory=".adapters.TopicEventSource" />
-
-  <adapter
-       factory=".adapters.CollectionEventSource" />
-
-  <adapter
-       factory=".adapters.StandardEventSource" />
-
-  <adapter
-       factory=".adapters.listCriteriasTopicAdapter" />
-
-  <adapter
-       factory=".adapters.listCriteriasCollectionAdapter" />
-
-  <adapter
-       factory=".adapters.listBaseQueryTopicCriteria" />
-
-  <adapter
-       factory=".adapters.listBaseQueryCollectionCriteria" />
-
-  <adapter
-       factory=".adapters.CriteriaItemsTopic" />
-
-  <adapter
-       factory=".adapters.CriteriaItemsCollection" />
-
+  <adapter factory=".adapters.FolderColorIndexGetter"/>
+  <adapter factory=".adapters.ColorIndexGetter"/>
+  <adapter factory=".adapters.FolderEventSource"/>
+  <adapter factory=".adapters.TopicEventSource"/>
+  <adapter factory=".adapters.CollectionEventSource"/>
+  <adapter factory=".adapters.StandardEventSource"/>
+  <adapter factory=".adapters.listCriteriasTopicAdapter"/>
+  <adapter factory=".adapters.listCriteriasCollectionAdapter"/>
+  <adapter factory=".adapters.listBaseQueryTopicCriteria"/>
+  <adapter factory=".adapters.listBaseQueryCollectionCriteria"/>
+  <adapter factory=".adapters.CriteriaItemsTopic"/>
+  <adapter factory=".adapters.CriteriaItemsCollection"/>
 
   <!-- Actions -->
   <browser:page
@@ -406,7 +370,6 @@
       />
 
   <!-- ICAL export -->
-
    <browser:viewlet
         for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
         view="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
@@ -415,7 +378,6 @@
         class=".icalexport.ICalExportButton"
         permission="zope2.View"
      />
-
   <browser:page
       for="Products.ATContentTypes.interface.IATTopic"
       layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
@@ -423,7 +385,6 @@
       class=".icalexport.ICalExport"
       permission="zope2.View"
       />
-
   <browser:page
       for="plone.app.collection.interfaces.ICollection"
       layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"

@@ -1,58 +1,81 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="Solgema.fullcalendar">
 
-  <include package="collective.js.colorpicker" />
-  <include package="collective.js.fullcalendar" />
-  <include package="collective.js.jqueryui" />
-  <include package="plone.formwidget.contenttree" />
-  <include package="plone.z3cform" />
-  <include package="z3c.form" />
-  <include package="plone.app.z3cform" />
-  <include package="Products.CMFCore" />
-  <include package="Solgema.ContextualContentMenu" />
-
-  <five:registerPackage package="." />
-  <include file="profiles.zcml"/>
-  <include file="skins.zcml" />
-  <include file="vocabularies.zcml" />
-  <include file="catalog.zcml" />
-  <include package=".browser" />
-  <include package=".widgets" />
-  <include package=".upgrades" />
+  <five:registerPackage package="."/>
   <i18n:registerTranslations directory="locales" />
+  <cmf:registerDirectory name="solgemafullcalendar"/>
 
+  <include package="Products.CMFCore"/>
+  <include package="Solgema.ContextualContentMenu"/>
+  <include package="collective.js.colorpicker"/>
+  <include package="collective.js.fullcalendar"/>
+  <include package="collective.js.jqueryui"/>
+  <include package="plone.app.z3cform"/>
+  <include package="plone.formwidget.contenttree"/>
+  <include package="plone.z3cform"/>
+  <include package="z3c.form"/>
+
+  <include package=".browser"/>
+  <include package=".widgets"/>
+  <include package=".upgrades"/>
+  <include file="vocabularies.zcml"/>
+  
   <class class="Products.ATContentTypes.content.folder.ATFolder">
-      <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
+    <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
   </class>
 
   <class class="Products.ATContentTypes.content.topic.ATTopic">
-      <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
+      <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
   </class>
 
   <class zcml:condition="installed plone.app.collection"
       class="plone.app.collection.collection.Collection">
-      <implements interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker" />
+    <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
   </class>
 
   <adapter
-     for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
-     provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarProperties"
-     factory=".content.SolgemaFullcalendarAdapter"
-     />
+     for=".interfaces.ISolgemaFullcalendarMarker"
+     provides=".interfaces.ISolgemaFullcalendarProperties"
+     factory=".content.SolgemaFullcalendarAdapter"/>
 
   <adapter
      for="*"
-     provides="Solgema.fullcalendar.interfaces.ISFBaseEventFields"
-     factory=".content.SFBaseEventAdapter"
-     />
+     provides=".interfaces.ISFBaseEventFields"
+     factory=".content.SFBaseEventAdapter"/>
 
   <subscriber
       zcml:condition="installed Products.GenericSetup.events"
-      handler=".events.handleProfileImportedEvent" />
+      handler=".events.handleProfileImportedEvent"/>
+
+
+  <!-- catalog -->
+  <adapter
+      factory='.catalog.SFAllowedRolesAndUsersModify'
+      name='SFAllowedRolesAndUsersModify'/>
+  <adapter
+      factory='.catalog.SFAllDay'
+      name='SFAllDay'/>
+
+
+  <!-- profiles -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Solgema Fullcalendar"
+      directory="profiles/default"
+      description='Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+      provides="Products.GenericSetup.interfaces.EXTENSION"/>
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall Solgema Fullcalendar"
+      directory="profiles/uninstall"
+      description="Uninstall Solgema Fullcalendar Product."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"/>
 
 </configure>

@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.1.3 (unreleased)
-------------------
+2.2dev (unreleased)
+-------------------
+
+- Codebase cleanup.
+  [thet]
 
 - 'month' url paramters are now passed with jan=1 and dec=12 instead of
   javascript notation.
