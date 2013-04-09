@@ -15,8 +15,8 @@ try:
 except:
     ICollection = Interface
 
-from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryCriteria
+from Solgema.fullcalendar import msg_fact as _
 
 
 class IColorDictInputWidget(interfaces.IWidget):

@@ -13,7 +13,7 @@ from plone.z3cform.layout import wrap_form
 from plone.z3cform.fieldsets import extensible
 
 from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
-from Solgema.fullcalendar.config import _
+from Solgema.fullcalendar import msg_fact as _
 
 
 class CriteriasOrderedSelectWidget(OrderedSelectWidget):

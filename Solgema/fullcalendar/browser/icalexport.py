@@ -13,7 +13,7 @@ except ImportError:
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from Solgema.fullcalendar.config import _
+from Solgema.fullcalendar import msg_fact as _
 from Solgema.fullcalendar.interfaces import IEventSource
 
 

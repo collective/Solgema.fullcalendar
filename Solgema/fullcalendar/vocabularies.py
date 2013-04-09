@@ -2,8 +2,9 @@ from zope.schema import vocabulary
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 
-from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
+from Solgema.fullcalendar import msg_fact as _
+
 
 class TitledVocabulary(vocabulary.SimpleVocabulary):
     def fromTitles(cls, items, *interfaces):

@@ -1,4 +1,3 @@
-import logging
 import datetime
 from urllib import urlencode
 try:
@@ -23,9 +22,9 @@ from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode
 from Products.ATContentTypes.interface import IATFolder
 
-from Solgema.fullcalendar.config import _
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
+from Solgema.fullcalendar import msg_fact as _
 
 # detect plone.app.event
 try:
@@ -34,8 +33,6 @@ try:
 except ImportError:
     HAS_PAE = False
 
-
-LOG = logging.getLogger('Solgema.fullcalendar')
 
 DTMF = MessageFactory('collective.z3cform.datetimewidget')
 pMF = MessageFactory('plone')

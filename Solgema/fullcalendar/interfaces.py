@@ -6,7 +6,7 @@ from zope.schema.interfaces import IDict
 from zope.viewlet.interfaces import IViewletManager
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from Products.ATContentTypes.interface import IATFolder
-from Solgema.fullcalendar.config import _
+from Solgema.fullcalendar import msg_fact as _
 
 
 class IPersistentOptions(Interface):

@@ -1,7 +1,10 @@
 import transaction
 from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
-from Solgema.fullcalendar.config import PRODUCT_DEPENDENCIES
+
+# TODO: replace this with profile-only setup
+#
+PRODUCT_DEPENDENCIES = ['collective.js.jqueryui', 'collective.js.fullcalendar']
 
 def checkViews(context):
     ttool = getToolByName(context, 'portal_types')

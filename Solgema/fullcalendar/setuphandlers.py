@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 
+# TODO: replace this with profile-only setup
 
 def installSolgemaFullcalendar(context):
     if context.readDataFile('solgemafullcalendar_various.txt') is None:
