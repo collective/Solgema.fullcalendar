@@ -364,3 +364,5 @@ msgstr "kurz"
 msgid "title_add_to_ical"
 msgstr "Kalender im ical-Format herunterladen"
 
+msgid "solgemafullcalendar_view"
+msgstr "Solgema Fullcalendar anzeigen"

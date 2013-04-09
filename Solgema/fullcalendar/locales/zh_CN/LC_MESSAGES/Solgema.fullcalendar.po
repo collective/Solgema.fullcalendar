@@ -368,3 +368,5 @@ msgstr "短格式"
 msgid "title_add_to_ical"
 msgstr "下载 iCal 格式的日历"
 
+msgid "solgemafullcalendar_view"
+msgstr "日历视图"

@@ -366,3 +366,5 @@ msgstr "court"
 msgid "title_add_to_ical"
 msgstr "Exporter ce calendrier au format iCal"
 
+msgid "solgemafullcalendar_view"
+msgstr "Vue calendrier"

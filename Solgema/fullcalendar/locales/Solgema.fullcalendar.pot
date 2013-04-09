@@ -368,3 +368,5 @@ msgstr ""
 msgid "title_add_to_ical"
 msgstr ""
 
+msgid "solgemafullcalendar_view"
+msgstr ""

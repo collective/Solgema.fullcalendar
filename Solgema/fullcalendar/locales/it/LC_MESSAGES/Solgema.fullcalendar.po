@@ -369,3 +369,5 @@ msgstr "breve"
 msgid "title_add_to_ical"
 msgstr "Scarica questo calendario in formato iCal"
 
+msgid "solgemafullcalendar_view"
+msgstr "Vista calendario"

@@ -366,3 +366,5 @@ msgstr "Kort"
 msgid "title_add_to_ical"
 msgstr "Exporter de kalender in iCal-formaat"
 
+msgid "solgemafullcalendar_view"
+msgstr "Kalender"
