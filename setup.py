@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.2dev'
+version = '2.2'
 
 setup(name='Solgema.fullcalendar',
       version=version,

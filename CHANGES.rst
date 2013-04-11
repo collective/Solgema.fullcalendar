@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.2dev (unreleased)
--------------------
+2.2 (2013-04-11)
+----------------
 
 - Codebase cleanup.
   [thet]
