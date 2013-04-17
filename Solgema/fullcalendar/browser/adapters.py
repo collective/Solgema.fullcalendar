@@ -217,10 +217,13 @@ class SolgemaFullcalendarTopicEventDict(object):
         events = []
         if handle_recurrence(self.request):
             event = brain.getObject()
-            start = DateTime(self.request.get('start'))
-            end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(event).occurrences(range_start=start,
-                                                           range_end=end)
+            if IRecurrenceSupport(event, None):
+                start = DateTime(self.request.get('start'))
+                end = DateTime(self.request.get('end'))
+                events = IRecurrenceSupport(event).occurrences(range_start=start,
+                                                               range_end=end)
+            else:
+                events = brain
         else:
             events = brain
         return (dict_from_events(
@@ -251,7 +254,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         extraClass = self.getObjectExtraClass(item)
 
         events = []
-        if handle_recurrence(self.request):
+        if handle_recurrence(self.request) and IRecurrenceSupport(item, None):
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             events = IRecurrenceSupport(item).occurrences(range_start=start,
@@ -327,7 +330,7 @@ class SolgemaFullcalendarEventDict(object):
         extraClass = self.getExtraClass()
 
         events = []
-        if handle_recurrence(self.request):
+        if handle_recurrence(self.request) and IRecurrenceSupport(event, None):
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             events = IRecurrenceSupport(event).occurrences(range_start=start,
@@ -914,7 +917,7 @@ class StandardEventSource(object):
         typeClass = ' type-' + context.portal_type
 
         events = []
-        if handle_recurrence(self.request):
+        if handle_recurrence(self.request) and IRecurrenceSupport(context, None):
             start = DateTime(self.request.get('start'))
             end = DateTime(self.request.get('end'))
             events = IRecurrenceSupport(context).occurrences(limit_start=start,
