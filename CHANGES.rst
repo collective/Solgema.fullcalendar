@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.3dev (unreleased)
+-------------------
+
+- Show the "Calendar properties" object tab not only when fullcalendar is the
+  default view of an context but also if @@solgemafullcalendar_view is called
+  on the context.
+  [thet]
+
+
 2.2 (2013-04-11)
 ----------------
 
@@ -18,21 +27,21 @@ Changelog
 
 - make labels of query sources clickable, too
   [fRiSi]
-  
+
 - support for custom folder and event types.
 
   allow all objects implementing `Products.ATContentTypes.interfaces.folder.IATFolder`
   as subfolders
 
-  configurable portal_type for events added via the calendar in calendar settings    
+  configurable portal_type for events added via the calendar in calendar settings
   [fRiSi]
 
 - Fixed a bug, that no events have been shown on ``folder/subfolder-a/solgemafullcalendar_view``
   after a user has chosen which subfolders to display in the folderquery-form of
   ``folder/solgemafullcalendar_view`` (in case subfolder-a is in folder's availableSubFolders)
   [fRiSi]
-  
-- Add formatting for nl language 
+
+- Add formatting for nl language
   [smoussiaux]
 
 - Fixed error in javascript when trying to destroy a dialog box that has not been initialized.

@@ -556,7 +556,13 @@ class SolgemaFullcalendarResizeView(BaseActionView):
 class SolgemaFullcalendarActionGuards(BrowserView):
 
     def is_calendar_layout(self):
+        """Return True if fullcalendar is the context's default view or called
+        on the context.
+        """
+        is_cal = False
         try:
-            return self.context.getLayout() == 'solgemafullcalendar_view'
+            is_cal = self.context.getLayout() == 'solgemafullcalendar_view' or\
+                     'solgemafullcalendar_view' in self.request.getURL()
         except:
-            return False
+            pass
+        return is_cal
