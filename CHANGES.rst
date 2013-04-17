@@ -9,6 +9,9 @@ Changelog
   on the context.
   [thet]
 
+- check if the event can be adapted with IRecurrenceSupport in adapters.py
+  [fmoret]
+
 
 2.2 (2013-04-11)
 ----------------
