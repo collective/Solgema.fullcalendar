@@ -4,6 +4,9 @@ Changelog
 2.3dev (unreleased)
 -------------------
 
+- Added specific form for Topic
+  [fmoret]
+
 - Show the "Calendar properties" object tab not only when fullcalendar is the
   default view of an context but also if @@solgemafullcalendar_view is called
   on the context.
