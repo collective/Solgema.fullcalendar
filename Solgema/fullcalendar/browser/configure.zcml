@@ -163,7 +163,7 @@
   <browser:page
       for="Products.ATContentTypes.interface.IATTopic"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarForm"
+      class=".content.SolgemaFullcalendarTopicForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
