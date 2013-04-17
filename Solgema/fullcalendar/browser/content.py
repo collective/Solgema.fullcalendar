@@ -109,3 +109,8 @@ class SolgemaFullcalendarFormBase(extensible.ExtensibleForm, z3cform.EditForm):
         self.request.RESPONSE.redirect(self.context.absolute_url())
 
 SolgemaFullcalendarForm = wrap_form(SolgemaFullcalendarFormBase)
+
+class SolgemaFullcalendarTopicFormBase(SolgemaFullcalendarFormBase):
+    groups = (CalendarGroup, TopicQueryGroup, ColorsGroup)
+
+SolgemaFullcalendarTopicForm = wrap_form(SolgemaFullcalendarTopicFormBase)
