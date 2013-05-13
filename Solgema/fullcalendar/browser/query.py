@@ -59,6 +59,23 @@ class SolgemaFullcalendarCollectionQuery(SolgemaFullcalendarTopicQuery):
         return li
 
 
+class SolgemaFullcalendarDXCollectionQuery(SolgemaFullcalendarTopicQuery):
+
+    def listQueryTopicCriteria(self):
+        li = []
+        raw = deepcopy(self.context.query)
+        for a in raw:
+            if a['o'] in ['plone.app.querystring.operation.selection.is',
+                          'plone.app.querystring.operation.list.contains'] \
+                    and a['i'] != 'portal_type' and len(a['v']) > 0:
+                li.append(a)
+
+        if hasattr(self.calendar, 'availableCriterias') \
+            and getattr(self.calendar, 'availableCriterias', None) != None:
+            li = [a for a in li if a['i'] in self.calendar.availableCriterias]
+        return li
+
+
 class SolgemaFullcalendarFolderQuery(ViewletBase):
 
     def __init__(self, *args, **kwargs):

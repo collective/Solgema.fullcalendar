@@ -15,6 +15,11 @@ try:
 except:
     ICollection = Interface
 
+try:
+    from plone.app.contenttypes.interfaces import ICollection as IDXCollection
+except:
+    IDXCollection = Interface
+
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryCriteria
 from Solgema.fullcalendar import msg_fact as _
 
@@ -33,14 +38,14 @@ class ColorDictInputWidget(Widget):
 
     def getCriteriaKeys(self):
         li = []
-        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
+        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context) or IDXCollection.providedBy(self.context):
             criteria = IListBaseQueryCriteria(self.context)()
             for criterion in [a['i'] for a in criteria]:
                 li.append(self.name+'.'+criterion)
         return li
 
     def getCriteria(self):
-        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context):
+        if IATTopic.providedBy(self.context) or ICollection.providedBy(self.context) or IDXCollection.providedBy(self.context):
             return IListBaseQueryCriteria(self.context)()
         return []
 

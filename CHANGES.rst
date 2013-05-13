@@ -4,6 +4,13 @@ Changelog
 2.3dev (unreleased)
 -------------------
 
+- Add support for DX-Folders from plone.app.contenttypes.
+  (This should be more generic to support all DX-based Folders)
+  [pbauer]
+
+- Add support for DX-Collections (from plone.app.contenttypes)
+  [pbauer]
+
 - Added specific form for Topic
   [fmoret]
 

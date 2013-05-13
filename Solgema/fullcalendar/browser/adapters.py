@@ -1,4 +1,5 @@
 import itertools
+from copy import deepcopy
 from DateTime import DateTime
 from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
@@ -44,6 +45,13 @@ try:
     from plone.app.collection.interfaces import ICollection
 except:
     ICollection = Interface
+
+try:
+    from plone.app.contenttypes.interfaces import ICollection as IDXCollection
+    from plone.app.contenttypes.interfaces import IFolder
+except:
+    IDXCollection = Interface
+    IFolder = Interface
 
 
 def handle_recurrence(request):
@@ -345,6 +353,7 @@ class SolgemaFullcalendarEventDict(object):
             css=copycut + typeClass + colorIndex + extraClass
             ))
 
+
 class FolderColorIndexGetter(object):
 
     implements(interfaces.IColorIndexGetter)
@@ -385,6 +394,13 @@ class FolderColorIndexGetter(object):
                 colorIndex += ' subFolderscolorIndex-%s' % availableSubFolders.index(val)
                 final['class'] = colorIndex
         return final.copy()
+
+
+class DXFolderColorIndexGetter(FolderColorIndexGetter):
+
+    implements(interfaces.IColorIndexGetter)
+    adapts(IFolder, Interface, ICatalogBrain)
+
 
 class ColorIndexGetter(object):
 
@@ -524,6 +540,24 @@ class FolderEventSource(object):
             return ''.join([b.getObject().getICal() for b in brains])
 
 
+class DXFolderEventSource(FolderEventSource):
+    """Event source that get events from the folder
+    """
+    implements(interfaces.IEventSource)
+    adapts(IFolder, Interface)
+
+    def getTargetFolder(self):
+        target_folder = getattr(self.calendar, 'target_folder', None)
+        if target_folder:
+            addContext = self.portal.unrestrictedTraverse('/' + self.portal.id \
+                                                          + target_folder)
+        elif IFolder.providedBy(self.context):
+            addContext = self.context
+        else:
+            addContext = aq_parent(aq_inner(self.context))
+        return addContext
+
+
 class listBaseQueryTopicCriteria(object):
     """Get criterias dicts for topic and collections
     """
@@ -566,6 +600,19 @@ class listBaseQueryCollectionCriteria(object):
         return self.context.getField('query').getRaw(self.context)
 
 
+class listBaseQueryDXCollectionCriteria(object):
+    """Get criterias dicts for DX-collections
+    """
+    implements(interfaces.IListBaseQueryCriteria)
+    adapts(IDXCollection)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        return self.context.query
+
+
 class listCriteriasTopicAdapter(object):
     """Get criterias dicts for topic
     """
@@ -604,6 +651,30 @@ class listCriteriasCollectionAdapter(object):
         calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context),
                                                              None)
         li = interfaces.IListBaseQueryCriteria(self.context)()
+        for criteria in li:
+            if criteria['i'] == 'portal_type' and len(criteria['v']) == 1:
+                li.remove(criteria)
+
+        if hasattr(calendar, 'availableCriterias') \
+           and getattr(calendar, 'availableCriterias', None) != None:
+            li = [a for a in li if a['i'] in calendar.availableCriterias]
+
+        return dict([(a['i'], a['v']) for a in li])
+
+
+class listCriteriasDXCollectionAdapter(object):
+    """Get criterias dicts for collections
+    """
+    implements(interfaces.IListCriterias)
+    adapts(IDXCollection)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(self.context),
+                                                             None)
+        li = deepcopy(interfaces.IListBaseQueryCriteria(self.context)())
         for criteria in li:
             if criteria['i'] == 'portal_type' and len(criteria['v']) == 1:
                 li.remove(criteria)
@@ -735,6 +806,40 @@ class CriteriaItemsCollection(object):
                 'values': criteria['v']}
 
 
+class CriteriaItemsDXCollection(object):
+
+    implements(interfaces.ICriteriaItems)
+    adapts(IDXCollection, Interface)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self):
+        topic = getTopic(self.context, self.request)
+        listCriteria = self.context.query
+        topicCriteria = interfaces.IListCriterias(topic)()
+        if topicCriteria:
+            selectedCriteria = self.request.cookies.get('sfqueryDisplay',
+                                   topic.REQUEST.cookies.get('sfqueryDisplay',
+                                                       topicCriteria.keys()[0]))
+            criteria = [a for a in listCriteria if a['i'] == selectedCriteria]
+        else:
+            criteria = listCriteria
+
+        criteria = [a for a in criteria if a['o'] in
+                    ['plone.app.querystring.operation.selection.is',
+                     'plone.app.querystring.operation.list.contains'] or
+                    a['i'] == 'portal_type']
+        if not criteria:
+            return False
+
+        criteria = criteria[0]
+
+        return {'name': criteria['i'],
+                'values': criteria['v']}
+
+
 class TopicEventSource(FolderEventSource):
     """Event source that get events from the topic
     """
@@ -839,6 +944,65 @@ class CollectionEventSource(TopicEventSource):
 
         queryField = context.getField('query')
         listCriteria = queryField.getRaw(context)
+
+        # Handle operator-only query strings accordingly.
+        query = dict(['v' in a and (a['i'], a['v']) or (a['i'], a['o'])
+                      for a in listCriteria])
+
+        topicCriteria = interfaces.IListCriterias(context)()
+        _args = {}
+        if not query:
+            return ({}, [])
+
+        props = getToolByName(context, 'portal_properties')
+        charset = props and props.site_properties.default_charset or 'utf-8'
+
+        if 'Type' in query.keys():
+            items = getCookieItems(request, 'Type', charset)
+            if items:
+                _args['Type'] = items
+            else:
+                _args['Type'] = query['Type']
+        filters = []
+        #reinit cookies if criterions are no more there
+        for cId in [c['i'] for c in listCriteria]:
+            if cId not in topicCriteria.keys():
+                response.expireCookie(cId)
+
+        if request.cookies.get('sfqueryDisplay', None) not in topicCriteria.keys():
+            response.expireCookie('sfqueryDisplay')
+
+        for criteria in listCriteria:
+            criteriaId = criteria['i']
+            if criteria['o'] not in \
+               ['plone.app.querystring.operation.selection.is',
+                'plone.app.querystring.operation.list.contains'] \
+               and criteriaId != 'portal_type':
+                _args[criteriaId] = query[criteriaId]
+            else:
+                items = getCookieItems(request, criteriaId, charset)
+                if items and criteriaId in topicCriteria.keys():
+                    if 'undefined' in items:
+                        filters.append({'name':criteriaId, 'values':items})
+                    else:
+                        _args[criteriaId] = items
+                else:
+                    _args[criteriaId] = query[criteriaId]
+
+        return _args, filters
+
+
+class DXCollectionEventSource(TopicEventSource):
+    """Event source that get events from the collection
+    """
+    implements(interfaces.IEventSource)
+    adapts(IDXCollection, Interface)
+
+    def _getCriteriaArgs(self):
+        context, request = self.context, self.request
+        response = request.response
+
+        listCriteria = context.query
 
         # Handle operator-only query strings accordingly.
         query = dict(['v' in a and (a['i'], a['v']) or (a['i'], a['o'])

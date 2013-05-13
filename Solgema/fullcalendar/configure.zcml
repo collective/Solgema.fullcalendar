@@ -25,8 +25,13 @@
   <include package=".widgets"/>
   <include package=".upgrades"/>
   <include file="vocabularies.zcml"/>
-  
+
   <class class="Products.ATContentTypes.content.folder.ATFolder">
+    <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
+  </class>
+
+  <class zcml:condition="installed plone.app.contenttypes"
+      class="plone.app.contenttypes.content.Folder">
     <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
   </class>
 
@@ -38,6 +43,12 @@
       class="plone.app.collection.collection.Collection">
     <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
   </class>
+
+  <class zcml:condition="installed plone.app.contenttypes"
+      class="plone.app.contenttypes.content.Collection">
+    <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
+  </class>
+
 
   <adapter
      for=".interfaces.ISolgemaFullcalendarMarker"

@@ -197,6 +197,24 @@ class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
+
+class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
+    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+
+    def getCriteriaClass(self):
+        queryField = self.context.query
+        listCriteria = []
+        for qField in queryField:
+            listCriteria.append(qField['i'])
+        anon = self.context.portal_membership.isAnonymousUser()
+        if not listCriteria:
+            return ''
+        if listCriteria[0] == 'review_state' and anon:
+            return ''
+
+        return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
+
+
 class SolgemaFullcalendarEventJS(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
 
@@ -562,7 +580,7 @@ class SFFolderSources(SolgemaFullcalendarView):
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
         props = getToolByName(self.context, 'portal_properties')
         charset = props and props.site_properties.default_charset or 'utf-8'
-        
+
         values = getCookieItems(self.request, 'subFolders', charset)
         availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
         fromCookie = True
