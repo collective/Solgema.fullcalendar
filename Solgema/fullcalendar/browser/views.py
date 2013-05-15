@@ -22,6 +22,11 @@ from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode
 from Products.ATContentTypes.interface import IATFolder
 
+try:
+    from plone.dexterity.interfaces import IDexterityContainer
+except ImportError:
+    IDexterityContainer = IATFolder
+
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
 from Solgema.fullcalendar import msg_fact as _
@@ -312,7 +317,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         target_folder = getattr(self.calendar, 'target_folder', None)
         if target_folder:
             addContext = self.portal.unrestrictedTraverse('/' + self.portal.id + target_folder)
-        elif IATFolder.providedBy(self.context):
+        elif IATFolder.providedBy(self.context) or IDexterityContainer.providedBy(self.context):
             addContext = self.context
         else:
             addContext = aq_parent(aq_inner(self.context))
