@@ -4,6 +4,9 @@ Changelog
 2.3dev (unreleased)
 -------------------
 
+- Fix selecting events based on criteria for Collections (AT and DX)
+  [pbauer]
+
 - Add support for DX-Folders from plone.app.contenttypes.
   (This should be more generic to support all DX-based Folders)
   [pbauer]
