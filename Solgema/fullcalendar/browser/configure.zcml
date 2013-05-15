@@ -221,7 +221,7 @@
       zcml:condition="installed plone.app.collection"
       for="plone.app.collection.interfaces.ICollection"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarForm"
+      class=".content.SolgemaFullcalendarTopicForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
@@ -230,7 +230,7 @@
       zcml:condition="installed plone.app.contenttypes"
       for="plone.app.contenttypes.interfaces.ICollection"
       name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarForm"
+      class=".content.SolgemaFullcalendarTopicForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
