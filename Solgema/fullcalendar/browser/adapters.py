@@ -1005,8 +1005,11 @@ class DXCollectionEventSource(TopicEventSource):
         listCriteria = context.query
 
         # Handle operator-only query strings accordingly.
-        query = dict(['v' in a and (a['i'], a['v']) or (a['i'], a['o'])
-                      for a in listCriteria])
+        # Also convert to str since unicode breaks the catalog-query
+        query = dict(['v' in a and (str(a['i']),
+            [str(value) for value in a['v']]) or
+            (str(a['i']), [str(value) for value in a['o']])
+            for a in listCriteria])
 
         topicCriteria = interfaces.IListCriterias(context)()
         _args = {}
