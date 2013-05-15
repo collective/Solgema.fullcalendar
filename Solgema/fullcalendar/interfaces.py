@@ -6,6 +6,10 @@ from zope.schema.interfaces import IDict
 from zope.viewlet.interfaces import IViewletManager
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from Products.ATContentTypes.interface import IATFolder
+try:
+    from plone.dexterity.interfaces import IDexterityContainer
+except ImportError:
+    IDexterityContainer = IOrderedContainer
 from Solgema.fullcalendar import msg_fact as _
 
 
@@ -205,7 +209,8 @@ class ISolgemaFullcalendarProperties(Interface):
         source=PathSourceBinder(
             object_provides=(
                 IATFolder.__identifier__,
-                IOrderedContainer.__identifier__),
+                IOrderedContainer.__identifier__,
+                IDexterityContainer.__identifier__),
             ))
 
     calendarHeight = schema.TextLine(
@@ -296,7 +301,7 @@ class ISolgemaFullcalendarProperties(Interface):
         description=_(u"help_eventType",
                       default=u"Portal type to use when creating a new event"),
         default=u'Event')
-    
+
     def isSolgemaFullcalendar(self):
         """Get name of days XXX??
         """
