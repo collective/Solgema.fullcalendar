@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.2.1 (Unrelased)
------------------
+2.2.1 (2013-05-22)
+------------------
 
 - Check-manifest support to help fixing broken release.
   [gotcha]
