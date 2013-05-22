@@ -26,6 +26,13 @@ Changelog
   [fmoret]
 
 
+2.2.1 (2013-05-22)
+------------------
+
+- Check-manifest support to help fixing broken release.
+  [gotcha]
+
+
 2.2 (2013-04-11)
 ----------------
 
