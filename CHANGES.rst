@@ -4,6 +4,9 @@ Changelog
 2.3dev (unreleased)
 -------------------
 
+- fix recurring event (using datetime not DateTime)
+  [pbauer]
+
 - Fix selecting events based on criteria for Collections (AT and DX)
   [pbauer]
 

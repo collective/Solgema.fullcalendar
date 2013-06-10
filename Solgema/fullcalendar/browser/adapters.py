@@ -1,6 +1,7 @@
 import itertools
 from copy import deepcopy
 from DateTime import DateTime
+from datetime import datetime
 from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
@@ -146,6 +147,19 @@ def dict_from_events(events,
     return [dict_from_item(item) for item in events]
 
 
+def get_recurring_events(request, event):
+    if isinstance(event.start, datetime):
+        tz = event.start.tzinfo
+        start = datetime.fromtimestamp(request.get('start')).replace(tzinfo=tz)
+        end = datetime.fromtimestamp(request.get('end')).replace(tzinfo=tz)
+    else:
+        start = DateTime(request.get('start'))
+        end = DateTime(request.get('end'))
+    events = IRecurrenceSupport(event).occurrences(range_start=start,
+                                                   range_end=end)
+    return events
+
+
 class SolgemaFullcalendarCatalogSearch(object):
     implements(interfaces.ISolgemaFullcalendarCatalogSearch)
 
@@ -226,10 +240,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         if handle_recurrence(self.request):
             event = brain.getObject()
             if IRecurrenceSupport(event, None):
-                start = DateTime(self.request.get('start'))
-                end = DateTime(self.request.get('end'))
-                events = IRecurrenceSupport(event).occurrences(range_start=start,
-                                                               range_end=end)
+                events = get_recurring_events(self.request, event)
             else:
                 events = brain
         else:
@@ -263,10 +274,7 @@ class SolgemaFullcalendarTopicEventDict(object):
 
         events = []
         if handle_recurrence(self.request) and IRecurrenceSupport(item, None):
-            start = DateTime(self.request.get('start'))
-            end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(item).occurrences(range_start=start,
-                                                          range_end=end)
+            events = get_recurring_events(self.request, item)
         else:
             events = item
         return (dict_from_events(
@@ -339,10 +347,7 @@ class SolgemaFullcalendarEventDict(object):
 
         events = []
         if handle_recurrence(self.request) and IRecurrenceSupport(event, None):
-            start = DateTime(self.request.get('start'))
-            end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(event).occurrences(range_start=start,
-                                                           range_end=end)
+            events = get_recurring_events(self.request, event)
         else:
             events = event
         return (dict_from_events(
@@ -1085,10 +1090,7 @@ class StandardEventSource(object):
 
         events = []
         if handle_recurrence(self.request) and IRecurrenceSupport(context, None):
-            start = DateTime(self.request.get('start'))
-            end = DateTime(self.request.get('end'))
-            events = IRecurrenceSupport(context).occurrences(limit_start=start,
-                                                             limit_end=end)
+            events = get_recurring_events(self.request, context)
         else:
             events = context
         return (dict_from_events(
