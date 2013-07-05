@@ -8,6 +8,7 @@
 ##parameters=id=None,type_name=None,script_id=None
 ##title=Create Content for Solgema.fullcalendar
 ##
+from DateTime import DateTime
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
@@ -52,3 +53,4 @@ if script_id:
 if message:
     context.plone_utils.addPortalMessage(message)
 return state.set(context=o)
+

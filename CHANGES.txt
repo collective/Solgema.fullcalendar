@@ -1,0 +1,227 @@
+Changelog
+=========
+
+1.10 (unreleased)
+-----------------
+- Internationalization: Updated english translation Solgema.fullcalendar.po
+  [fmoret]
+
+- Fixed: Changed generated CSS selectors for events on fullcalendar so colors
+  get applied correctly.
+  [davidjb]
+
+- Fixed: Avoid CSS generation throwing an error if colors haven't been
+  specified yet and we have a non-existing colors dict.
+  [davidjb]
+
+- Fixed: Allow add menu to display even if the current context (doesn't have
+  a query specified yet.
+  [davidjb] 
+
+- Internationalization: Allow calendar properties form buttons to have a 
+  default English translation.
+  [davidjb]
+
+- Internationalization: Fixing some French messages in the English translation.
+  [davidjb]
+
+
+1.9 (2011-06-16)
+----------------
+
+- The ui-lightness skin for jqueryui has been removed. You can add your own
+  jqueryui skin if you want to.
+  [fmoret]
+  
+- Added the possibility to choose short day name format
+  (short: 2 characters or abbreviated: 3 characters).
+  [fmoret]
+  
+- Fixed: week-view didn't translate saturday.
+  [pbauer] 
+
+- Upgrade to fullcalendar-1.5.1. Remove unused js-files/
+  [pbauer]
+
+- Add german translation and german date-formats 
+  [pbauer] 
+
+- Show reccurring events if plone.event is available.
+  [vincentfretin]
+
+- Security: use 'Change portal topics' permission
+  to manage access to Calendar properties.
+  [thomasdesvenain]
+
+- Security: check 'Add portal content' permission on target folder
+  instead of 'Modify portal' content on calendar
+  to allow adding an event on the calendar.
+  [thomasdesvenain]
+
+- Fixed: disallow caching ajax action views,
+  to avoid issues behind cache proxies.
+  [thomasdesvenain]
+
+- Fixed: event popup is translated.
+  [thomasdesvenain]
+
+- Fixed: adding 'all day' event add an event from 00:00 to 23:55.
+  [fmoret]
+
+- Fixed: remove duplicated scroll in popup.
+  [thomasdesvenain]
+
+- Fixed: closing popups after an event has been added works.
+  [fmoret]
+
+- Internationalization: translation files generation with i18ndude.
+  [thomasdesvenain]
+
+- Internationalization: fixed event popup translation.
+  [thomasdesvenain]
+
+- Internationalization: calendar parameters tab
+  and calendar display layout are internationalized and french translated.
+  [thomasdesvenain]
+
+- Infrastructure : timezones forward compatibility.
+  [vincentfretin, thomasdesvenain]
+
+- Infrastructure : plone.app.event forward compatibility :
+  event view uses event_view macros by default,
+  never use direct access to startDate and endDate attributes for timezones compatibility.
+  [vincentfretin]
+
+- Infrastucture: use Generic setup to install some dependencies.
+  [thomasdesvenain]
+
+- Infrastucture: hide upgrade profiles on Plone site creation form.
+  Upgrade profiles don't appear in root profiles.
+  [thomasdesvenain]
+
+- Pep8 & pyflakes.
+  [thomasdesvenain]
+
+- Plone 4.1 compatibility.
+  [thomasdesvenain]
+
+- Imported Solgema.fullcalendar in collective.
+  [fmoret, thomasdesvenain]
+
+
+1.8
+---
+
+- Clicking on an event always asks for SFLight_event_view.pt. Allows the use of xdv theming
+  (thanks to Sylvain Boureliou)
+
+- Comes with ui lightness 1.8.9 theme
+
+1.7
+---
+
+- Removed own jqueryui and added collective.js.jqueryui (Thanks to Thomas Desvenain)
+
+- Fixed views and javascript files (fix issue #17 and #20, Thanks to Christian Lederman!)
+
+- Fixed dependencies declarations (Thanks to Olav Peeters)
+
+- Added a small workaround to solve a conflict between base jqueryui css and custom jqueryui lightness css.
+
+- Based on fullcalendar 1.4.10 (Thanks to Adam Arshaw)
+
+1.6
+---
+
+- Fixed wrong call to getUrl method and completed with here/absolute_url
+
+- Fixed bad condition expression in actions (Thanks to Thomas Desvanain)
+
+- Added some steps to be sure (as sure as possible) that solgemafullcalendar_view remains in topic views
+
+1.5
+---
+
+- Fixed adapting content that is not attribute annotable.
+  (changed indexer in catalog.py ) that fixes bug with plone.app.discussion.
+
+- Fixed cancel button and dialog close when editing. The edited event remained locked when closing dialog.
+
+- Fixed content type for solgemafullcalendar_vars.js
+
+
+1.4
+---
+
+- Now based on Fullcalendar v 1.4.8
+
+- Fixed IE7 bug (thanks to Kyle Homstead)
+
+- Added the subtopics display in solgemafullcalendar_view (thanks to Christian Ledermann)
+
+- Added a <noscript> tag in solgemafullcalendar_view so that events are display even if javascript is not enabled.
+  This can be disabled in Calendar View settings. (thanks to Christian Ledermann)
+
+1.3
+---
+
+- Added the ability to choose your own color for events in the calendar. The color is linked to the topic's critrias.
+
+- Added colorpicker widget to choose the colors in Calendar View settings
+
+- Fixed Content Menu showing under calendar events
+
+
+1.2
+---
+
+- Fixed calendar Height Setting
+
+- Using now jquery ui 1.8.5 (added javascripts for 1.8.5 and removed 1.8.4)
+
+1.1
+---
+
+- Created an adapter to filter for editable events so that it can be easily overriden.
+
+- Solgema.ContextualContentMenu package included in configure.zcml
+
+- Installs Solgema.ContextualContentMenu properly
+
+- Fix jquery.js to 1.4.2 version (jquery.js added in skins directory)
+
+- Fix height dialog box
+
+- Added an override review_state in topic query for Admins so that the can see private events in calendar
+  Event if they are not searched basically by the topic (e.g. for default events aggregator)
+
+
+1.0
+---
+
+- Added relative start hour and relative start day
+
+- Fixed paste action in contextual content menu (when nothing in clipboard)
+
+- Fixed error when deleting topic's criterion after having set them in calendar view criterias.
+
+- Several bug fixed
+
+
+0.3
+---
+
+- Added automatic dependencies installation in install.py ( installation of Solgema.ContextualContentMenu )
+
+- Changed the javascript in SFAjax_base_edit.cpt so that when editing through calendar,
+  the dialog's iframe is resized to display the entire edit form ( fixes issue #1 )
+
+- Changed Dialog title when adding content
+  (msgid was "label_add_type" in Plone 3 and now 'heading_add_item' in Plone 4).
+
+
+0.2
+---
+
+- Added a topicRelativeUrl variable into solgemafullcalendar_vars to fix the cookies path.
+  (fix an issue with mutiple cookies when the topic is default view of a folder)

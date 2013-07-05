@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone">
+
+  <genericsetup:registerProfile
+    name="default"
+    title="Solgema Fullcalendar"
+    directory="profiles/default"
+    description='Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)'
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall Solgema Fullcalendar"
+      directory="profiles/uninstall"
+      description="Uninstall Solgema Fullcalendar Product."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      />
+
+</configure>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+ <javascript cacheable="True" compression="none" cookable="False"
+    enabled="True" expression="here/@@iscalendarlayout" id="fullcalendar.min.js" inline="False"/>
+</object>

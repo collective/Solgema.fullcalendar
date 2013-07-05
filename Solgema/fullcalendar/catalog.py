@@ -15,11 +15,11 @@ def SFAllowedRolesAndUsersModify(obj):
     for r in rolesForPermissionOn('Modify portal content', obj):
         allowed[r] = 1
     try:
-        acl_users = getToolByName(obj, 'acl_users')
-        localroles = acl_users._getAllLocalRoles(obj)
+        acl_users = getToolByName(obj, 'acl_users', None)
+        if acl_users is not None:
+            localroles = acl_users._getAllLocalRoles(obj)
     except AttributeError:
         localroles = _mergedLocalRoles(obj)
-
     for user, roles in localroles.items():
         for role in roles:
             if allowed.has_key(role):

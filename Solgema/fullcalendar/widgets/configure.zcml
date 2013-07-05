@@ -18,4 +18,12 @@
            z3c.form.interfaces.IFormLayer"
       />
 
+  <view
+      type="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
+      for="Solgema.fullcalendar.interfaces.ICustomUpdatingDict"
+      provides="zope.app.form.interfaces.IInputWidget"
+      factory=".widgets.ColorDictInputWidget"
+      permission="zope.Public"
+      />
+
 </configure>

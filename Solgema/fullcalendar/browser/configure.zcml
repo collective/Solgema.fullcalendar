@@ -2,135 +2,27 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
     i18n_domain="Solgema.fullcalendar">
 
-  <include package="Products.CMFCore"/>
-  <include package="plone.app.contentmenu" zcml:condition="installed plone.app.contentmenu"/>
+   <include package="Products.CMFCore" file="configure.zcml" />
 
-  <browser:menuItem zcml:condition="have plone-4"
+  <!-- THE CALENDAR VIEW -->
+  <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
-      menu="plone_displayviews"
-      title="Solgema Fullcalendar"
-      action="@@solgemafullcalendar_view"
-      description=""
-      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
-      />
-
-  <!-- THE CALENDAR VIEW FOR FOLDER -->
-  <browser:page
-      for="Products.ATContentTypes.interface.IATFolder"
       name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarView"
-      template="folderview.pt"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarView"
+      template="solgemafullcalendar_view.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
-
-  <!-- THE CALENDAR VIEW FOR DX-FOLDER -->
-  <configure zcml:condition="installed plone.app.contenttypes">
-  <browser:page
-      for="plone.app.contenttypes.interfaces.IFolder"
-      name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarView"
-      template="folderview.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
-      permission="zope.Public"
-      />
-  </configure>
-
-  <!-- THE CALENDAR VIEW FOR TOPIC -->
-  <browser:page
-      for="Products.ATContentTypes.interface.IATTopic"
-      name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarTopicView"
-      template="topicview.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
-      permission="zope.Public"
-      />
-
-  <!-- THE CALENDAR VIEW FOR Collection -->
-  <browser:page
-      zcml:condition="installed plone.app.collection"
-      for="plone.app.collection.interfaces.ICollection"
-      name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarCollectionView"
-      template="collectionview.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
-      permission="zope.Public"
-      />
-
-  <!-- THE CALENDAR VIEW FOR DX-Collection -->
-  <configure zcml:condition="installed plone.app.contenttypes">
-  <browser:page
-      for="plone.app.contenttypes.interfaces.ICollection"
-      name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarDXCollectionView"
-      template="collectionview.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
-      permission="zope.Public"
-      />
-  </configure>
-
-  <!-- THE CALENDAR VIEW FOR ATEVENT-->
-  <browser:page
-      for="Products.ATContentTypes.interface.IATEvent"
-      name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarView"
-      template="eventview.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
-      permission="zope.Public"
-      />
-
-  <!-- THE CALENDAR VIEW FOR plone.app.event (conditional) -->
-  <configure zcml:condition="installed plone.dexterity">
-    <browser:page
-        zcml:condition="installed plone.app.event"
-        name="SFLight_plone.app.event.dx.event_view"
-        for="plone.event.interfaces.IEvent"
-        class="plone.app.event.browser.event_view.EventView"
-        template="../skins/solgemafullcalendar/SFLight_event_view.pt"
-        permission="zope2.View"
-        />
-    <browser:page
-        zcml:condition="installed plone.app.event"
-        name="SFAjax_base_edit"
-        for="plone.app.event.dx.interfaces.IDXEvent"
-        class=".dx.InlineFrameEditForm"
-        permission="cmf.ModifyPortalContent"
-        />
-    <browser:page
-        zcml:condition="installed plone.app.event"
-        name="SFAjax_add_dx_event"
-        for="Products.CMFCore.interfaces.IFolderish"
-        class=".dx.InlineFrameAddView"
-        permission="cmf.AddPortalContent"
-        />
-  </configure>
 
   <!-- THE CALENDAR CUSTOM VARIBALES RENDERED FOR JAVASCRIPT -->
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_vars.js"
-      class=".views.SolgemaFullcalendarTopicJS"
-      template="vars.js.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
-      permission="zope.Public"
-      />
-  <browser:page
-      for="Products.ATContentTypes.interface.IATEvent"
-      name="solgemafullcalendar_vars.js"
-      class=".views.SolgemaFullcalendarEventJS"
-      template="vars.js.pt"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
-      permission="zope.Public"
-      />
-  <browser:page
-      zcml:condition="installed plone.app.event"
-      for="plone.event.interfaces.IEvent"
-      name="solgemafullcalendar_vars.js"
-      class=".views.SolgemaFullcalendarEventJS"
-      template="vars.js.pt"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarJS"
+      template="solgemafullcalendar_vars.js.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarJS"
       permission="zope.Public"
       />
@@ -139,108 +31,35 @@
   <browser:page
       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCssFolder"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
-      permission="zope.Public"
-      />
-  <browser:page
-      for="Products.ATContentTypes.interface.IATFolder"
-      name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCssFolder"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
-      permission="zope.Public"
-      />
-  <browser:page
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.IFolder"
-      name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCssFolder"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
-      permission="zope.Public"
-      />
-  <browser:page
-      for="Products.ATContentTypes.interface.IATTopic"
-      name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCssTopic"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
-      permission="zope.Public"
-      />
-  <browser:page
-      zcml:condition="installed plone.app.collection"
-      for="plone.app.collection.interfaces.ICollection"
-      name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCssCollection"
-      allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
-      permission="zope.Public"
-      />
-  <browser:page
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.ICollection"
-      name="solgemafullcalendar_colors.css"
-      class=".views.SolgemaFullcalendarColorsCssCollection"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarColorsCss"
+      template="solgemafullcalendar_colors.css.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarColorsCss"
       permission="zope.Public"
       />
 
   <!-- THE CALENDAR EVENT QUERY AND RENDERED AS JSON -->
   <browser:page
-      for="*"
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendarevents"
-      class=".views.SolgemaFullcalendarEvents"
+      class=".solgemafullcalendar_views.SolgemaFullcalendarEvents"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEvents"
       permission="zope.Public"
       />
 
   <!-- FORM FOR CALENDAR PROPERTIES -->
   <browser:page
-      for="Products.ATContentTypes.interface.IATFolder"
+      for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
       name="solgemafullcalendar_properties"
       class=".content.SolgemaFullcalendarForm"
       permission="cmf.ModifyPortalContent"
       template="layout.pt"
       />
-
-  <browser:page
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.IFolder"
-      name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarForm"
-      permission="cmf.ModifyPortalContent"
-      template="layout.pt"
-      />
-
-  <browser:page
-      for="Products.ATContentTypes.interface.IATTopic"
-      name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarTopicForm"
-      permission="cmf.ModifyPortalContent"
-      template="layout.pt"
-      />
-
-  <browser:page
-      zcml:condition="installed plone.app.collection"
-      for="plone.app.collection.interfaces.ICollection"
-      name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarTopicForm"
-      permission="cmf.ModifyPortalContent"
-      template="layout.pt"
-      />
-
-  <browser:page
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.ICollection"
-      name="solgemafullcalendar_properties"
-      class=".content.SolgemaFullcalendarTopicForm"
-      permission="cmf.ModifyPortalContent"
-      template="layout.pt"
-      />
-
 
   <!-- AJAX ACTIONS DONE IN THE CALENDAR -->
   <browser:page
       for="*"
       name="solgemafullcalendar_drop"
-      class=".actions.SolgemaFullcalendarDropView"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarDropView"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
@@ -248,95 +67,50 @@
   <browser:page
       for="*"
       name="solgemafullcalendar_resize"
-      class=".actions.SolgemaFullcalendarResizeView"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarResizeView"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
       />
 
   <browser:page
       for="*"
-      name="SFEventSources"
-      class=".views.SFEventSources"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      for="Products.ATContentTypes.interface.IATTopic"
-      name="SFEventSources"
-      class=".views.SFTopicSources"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      zcml:condition="installed plone.app.collection"
-      for="plone.app.collection.interfaces.ICollection"
-      name="SFEventSources"
-      class=".views.SFCollectionSources"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.ICollection"
-      name="SFEventSources"
-      class=".views.SFCollectionSources"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      for="Products.ATContentTypes.interface.IATFolder"
-      name="SFEventSources"
-      class=".views.SFFolderSources"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.IFolder"
-      name="SFEventSources"
-      class=".views.SFFolderSources"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      for="*"
       name="SFJsonEvent"
-      class=".actions.SFJsonEvent"
+      class=".solgemafullcalendar_actions.SFJsonEvent"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventDelete"
-      class=".actions.SFJsonEventDelete"
+      class=".solgemafullcalendar_actions.SFJsonEventDelete"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventCopy"
-      class=".actions.SFJsonEventCopy"
+      class=".solgemafullcalendar_actions.SFJsonEventCopy"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventCut"
-      class=".actions.SFJsonEventCut"
+      class=".solgemafullcalendar_actions.SFJsonEventCut"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFJsonEventPaste"
-      class=".actions.SFJsonEventPaste"
+      class=".solgemafullcalendar_actions.SFJsonEventPaste"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
       name="SFDisplayAddMenu"
-      class=".actions.SFDisplayAddMenu"
+      class=".solgemafullcalendar_actions.SFDisplayAddMenu"
       permission="zope2.View"
       />
 
@@ -344,15 +118,15 @@
       for="*"
       name="SFAddMenu"
       template="SFAddMenu.pt"
-      class=".actions.SFAddMenu"
+      class=".solgemafullcalendar_actions.SFAddMenu"
       permission="zope2.View"
       />
 
   <browser:page
       for="*"
       name="solgemafullcalendar_workflowtransition"
-      class=".actions.SolgemaFullcalendarWorkflowTransition"
-      permission="zope2.View"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarWorkflowTransition"
+      permission="cmf.ModifyPortalContent"
       />
 
   <!-- QUERY VIEWLET DISPLAYED IN THE BOTTOM OF THE CALENDAR -->
@@ -364,58 +138,19 @@
       class="plone.app.viewletmanager.manager.OrderedViewletManager"
       />
 
-  <browser:viewlet
-      for="Products.ATContentTypes.interface.IATTopic"
-      name="Solgema.fullcalendar.query"
-      manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-      class=".query.SolgemaFullcalendarTopicQuery"
-      template="topicquery.pt"
-      permission="zope2.View"
-      />
-
-  <browser:viewlet
-      zcml:condition="installed plone.app.collection"
-      for="plone.app.collection.interfaces.ICollection"
-      name="Solgema.fullcalendar.query"
-      manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-      class=".query.SolgemaFullcalendarCollectionQuery"
-      template="collectionquery.pt"
-      permission="zope2.View"
-      />
-
-  <browser:viewlet
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.ICollection"
-      name="Solgema.fullcalendar.query"
-      manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-      class=".query.SolgemaFullcalendarDXCollectionQuery"
-      template="collectionquery.pt"
-      permission="zope2.View"
-      />
-
-  <browser:viewlet
-      for="Products.ATContentTypes.interface.IATFolder"
-      name="Solgema.fullcalendar.query"
-      manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-      class=".query.SolgemaFullcalendarFolderQuery"
-      template="folderquery.pt"
-      permission="zope2.View"
-      />
-
-  <browser:viewlet
-      zcml:condition="installed plone.app.contenttypes"
-      for="plone.app.contenttypes.interfaces.IFolder"
-      name="Solgema.fullcalendar.query"
-      manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
-      class=".query.SolgemaFullcalendarFolderQuery"
-      template="folderquery.pt"
-      permission="zope2.View"
-      />
+   <browser:viewlet
+        name="Solgema.fullcalendar.query"
+        manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
+        class=".solgemafullcalendar_query.SolgemaFullcalendarQuery"
+        template="solgemafullcalendar_query.pt"
+        permission="zope2.View"
+     />
 
   <!-- ADAPTERS -->
+
   <adapter
        provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEditableFilter"
-       for="*"
+       for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
        factory=".adapters.SolgemaFullcalendarEditableFilter" />
 
   <adapter
@@ -431,67 +166,17 @@
 
   <adapter
        provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEventDict"
-       for="Products.ATContentTypes.interface.IATEvent
+       for="Products.ATContentTypes.content.event.ATEvent
             zope.publisher.interfaces.browser.IBrowserRequest"
        factory=".adapters.SolgemaFullcalendarEventDict" />
-
-  <adapter
-    zcml:condition="installed plone.app.event"
-    provides="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarEventDict"
-    for="plone.event.interfaces.IEvent
-         zope.publisher.interfaces.browser.IBrowserRequest"
-    factory=".adapters.SolgemaFullcalendarEventDict" />
-
-  <adapter factory=".adapters.FolderColorIndexGetter"/>
-  <adapter factory=".adapters.DXFolderColorIndexGetter"/>
-  <adapter factory=".adapters.ColorIndexGetter"/>
-  <adapter factory=".adapters.FolderEventSource"/>
-  <adapter factory=".adapters.DXFolderEventSource"/>
-  <adapter factory=".adapters.TopicEventSource"/>
-  <adapter factory=".adapters.CollectionEventSource"/>
-  <adapter factory=".adapters.DXCollectionEventSource"/>
-  <adapter factory=".adapters.StandardEventSource"/>
-  <adapter factory=".adapters.listCriteriasTopicAdapter"/>
-  <adapter factory=".adapters.listCriteriasCollectionAdapter"/>
-  <adapter factory=".adapters.listCriteriasDXCollectionAdapter"/>
-  <adapter factory=".adapters.listBaseQueryTopicCriteria"/>
-  <adapter factory=".adapters.listBaseQueryCollectionCriteria"/>
-  <adapter factory=".adapters.listBaseQueryDXCollectionCriteria"/>
-  <adapter factory=".adapters.CriteriaItemsTopic"/>
-  <adapter factory=".adapters.CriteriaItemsCollection"/>
-  <adapter factory=".adapters.CriteriaItemsDXCollection"/>
 
   <!-- Actions -->
   <browser:page
       for="*"
       name="iscalendarlayout"
-      class=".actions.SolgemaFullcalendarActionGuards"
+      class=".solgemafullcalendar_actions.SolgemaFullcalendarActionGuards"
       attribute="is_calendar_layout"
       permission="zope.Public"
-      />
-
-  <!-- ICAL export -->
-   <browser:viewlet
-        for="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarMarker"
-        view="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
-        name="Solgema.fullcalendar.icalexport"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-        class=".icalexport.ICalExportButton"
-        permission="zope2.View"
-     />
-  <browser:page
-      for="Products.ATContentTypes.interface.IATTopic"
-      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
-      name="ics_view"
-      class=".icalexport.ICalExport"
-      permission="zope2.View"
-      />
-  <browser:page
-      for="plone.app.collection.interfaces.ICollection"
-      layer="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarLayer"
-      name="ics_view"
-      class=".icalexport.ICalExport"
-      permission="zope2.View"
       />
 
 </configure>

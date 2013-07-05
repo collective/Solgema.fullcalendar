@@ -64,14 +64,11 @@
     <!-- Internet Explorer fix, forces IE8 into newest possible rendering
          engine even if it's on an intranet. This has to be defined before any
          script/style tags. -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <tal:prePlone43
-        define="renderBase here/renderBase|nothing"
-        condition="renderBase">
-        <metal:baseslot define-slot="base">
-          <base tal:attributes="href renderBase" /><!--[if lt IE 7]></base><![endif]-->
-        </metal:baseslot>
-    </tal:prePlone43>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+
+    <metal:baseslot define-slot="base">
+      <base tal:attributes="href here/renderBase" /><!--[if lt IE 7]></base><![endif]-->
+    </metal:baseslot>
 
     <div tal:replace="structure provider:plone.htmlhead" />
 
@@ -80,7 +77,7 @@
         <style type="text/css" media="all" tal:condition="exists: portal/IEFixes.css"
                tal:content="string:@import url($portal_url/IEFixes.css);">
         </style>
-
+        
         <script type="text/javascript"
                 tal:attributes="src string:${portal_url}/iefixes.js">
         </script>
@@ -93,7 +90,7 @@
 
     <!-- Disable IE6 image toolbar -->
     <meta http-equiv="imagetoolbar" content="no" />
-
+    
     <tal:comment replace="nothing"> A slot where you can insert elements in the header from a template </tal:comment>
     <metal:headslot define-slot="head_slot" />
 
@@ -137,9 +134,9 @@
 <script type="text/javascript" tal:content="string:var hereurl = '${here/getURL|here/absolute_url}';"/>
 <script type="text/javascript">
   jq(document).ready( function() {
-    jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq('body').height()+30 );
+    jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height( jq("html").height()+30 );
     var $dialogContent = window.parent.jq('#event_edit_container');
-    if (jq("input[name='form.button.cancel']").attr('name')) {
+    if (jq('input[name=form.button.cancel]').attr('name')) {
         window.parent.jq('a.ui-dialog-titlebar-close').unbind('click').click(function(event){
           event.preventDefault();
           jq.ajax({
@@ -171,8 +168,7 @@
   <body tal:define="isRTL portal_state/is_rtl;
                     template_id template/getId;
                     template_id python:template_id or path('view/__name__');
-                    getSectionFromURL context/getSectionFromURL|nothing;
-                    class_expr string:${getSectionFromURL} template-${template_id};"
+                    class_expr string:${context/getSectionFromURL} template-${template_id};"
         tal:attributes="class python:class_expr.strip()+' ajax_edition';
                         dir python:test(isRTL, 'rtl', 'ltr')" style="background-color:transparent;">
             <div id="content">
@@ -187,7 +183,7 @@
 
                     <span id="contentTopLeft"></span>
                     <span id="contentTopRight"></span>
-
+                    
                     <a name="documentContent"></a>
 
                     <div metal:use-macro="here/global_statusmessage/macros/portal_message">
@@ -200,11 +196,11 @@
                         Visual Header
                       </metal:header>
                       <metal:bodytext metal:define-slot="main">
-                          <metal:main define-macro="main">
-                            <metal:use_typedescription use-macro="typedescription_macro" />
-                            <metal:use_body use-macro="body_macro" />
-                            <metal:use_footer use-macro="footer_macro" />
-                          </metal:main>
+      <metal:main define-macro="main">
+        <metal:use_typedescription use-macro="typedescription_macro" />
+        <metal:use_body use-macro="body_macro" />
+        <metal:use_footer use-macro="footer_macro" />
+      </metal:main>
                       </metal:bodytext>
                     </div>
                     </metal:slot>
@@ -218,7 +214,12 @@
 
               </metal:block>
             </div>
-        
+
+      <script type="text/javascript">
+        jq(document).ready(function(){
+            jq("iframe[name='SFEventEditIFRAME']", window.parent.document).height(jq('body.ajax_edition').height()+30)
+        });
+      </script>
 </body>
 </html>
 </tal:block>

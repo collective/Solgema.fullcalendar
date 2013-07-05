@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Solgema\n"
-"POT-Creation-Date: 2012-05-09 06:16+0000\n"
+"POT-Creation-Date: 2011-06-09 15:48+0000\n"
 "PO-Revision-Date: 2007-12-14 16:01+0100\n"
 "Last-Translator: Philip Bauer <bauer@starzel.de>\n"
 "Language-Team: EDF\n"
@@ -19,350 +19,251 @@ msgstr ""
 msgid "${tname} has been created."
 msgstr "${tname} wurde erstellt."
 
-#: ../browser/views.py:278
 #. Default: "all-day"
+#: ../browser/solgemafullcalendar_views.py:316
 msgid "Allday"
 msgstr "Ganztags"
 
-#: ../browser/content.py:39
 #. Default: "Calendar"
+#: ../browser/content.py:43
 msgid "Calendar"
 msgstr "Kalender"
 
+#: ../profiles/default/actions.xml
+#: ../upgrades/profiles/upgrade16/actions.xml
+#: ../upgrades/profiles/upgrade19/actions.xml
 msgid "Calendar properties"
 msgstr "Kalender Einstellungen"
 
-#: ../browser/content.py:81
 #. Default: "Colors"
+#: ../browser/content.py:72
 msgid "Colors"
 msgstr "Farben"
 
-#: ../browser/views.py:272
 #. Default: "Day"
+#: ../browser/solgemafullcalendar_views.py:313
 msgid "Day"
 msgstr "Tag"
 
-#: ../browser/views.py:275
-#. Default: "DaySplit"
-msgid "DaySplit"
-msgstr "Getrennt"
-
-#: ../widgets/widgets.py:82
-msgid "Google Calendar Sources"
-msgstr "Google Kalender Quellen"
-
-#: ../browser/views.py:266
-#: ../vocabularies.py:29
 #. Default: "Month"
+#: ../browser/solgemafullcalendar_views.py:307
+#: ../vocabularies.py:31
 msgid "Month"
 msgstr "Monat"
 
 #: ../skins/solgemafullcalendar/SFValidate_integrity.cpy:19
 msgid "Please correct the indicated errors."
-msgstr "Bitte korrigieren Sie die angezeigten Fehler."
+msgstr "Bitte korrigierten Sie die angezeigten Fehler."
 
-#: ../browser/content.py:65
 #. Default: "Query"
+#: ../browser/content.py:63
 msgid "Query"
 msgstr "Abfrage"
 
 #: ../skins/solgemafullcalendar/SFContextualContentMenu.pt:4
 msgid "Reschedule"
-msgstr "Umplanen"
+msgstr "Neu ansetzen"
 
-#: ../browser/folderquery.pt:16
-msgid "Sources"
-msgstr "Quellen"
-
-#: ../browser/content.py:74
-#: ../widgets/widgets.py:103
-#. Default: "Sub-Folders"
-msgid "Sub-Folders"
-msgstr "Unterordner"
-
-#: ../widgets/widgets.py:151
+#: ../widgets/widgets.py:80
 msgid "The entered value is not a valid dict."
-msgstr "Der eingegebene Wert ist keine gültige Zuordnung."
+msgstr "Der eigegebene Wert ist kein gültiges dictionary."
 
 #: ../skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
 msgid "Versioning for this file has been disabled because it is too large"
 msgstr "Versionierung für diese Datei wurde deaktiviert weil sie zu groß ist."
 
-#: ../browser/views.py:269
 #. Default: "Week"
+#: ../browser/solgemafullcalendar_views.py:310
 msgid "Week"
 msgstr "Woche"
 
-#: ../vocabularies.py:64
 #. Default: "abbreviated"
+#: ../vocabularies.py:61
 msgid "abbreviated"
 msgstr "abgekürzt"
 
-#: ../browser/views.py:281
 #. Default: "Add New Event"
+#: ../browser/solgemafullcalendar_views.py:319
 msgid "addNewEvent"
 msgstr "Neuen Termin erstellen"
 
-#: ../vocabularies.py:33
 #. Default: "agendaDay"
+#: ../vocabularies.py:35
 msgid "agendaDay"
 msgstr "Tagesplan"
 
-#: ../vocabularies.py:34
-#. Default: "Day Split"
-msgid "agendaDaySplit"
-msgstr "Getrennt"
-
-#: ../vocabularies.py:32
 #. Default: "agendaWeek"
+#: ../vocabularies.py:34
 msgid "agendaWeek"
 msgstr "Wochenplan"
 
-#: ../vocabularies.py:31
 #. Default: "basicDay"
+#: ../vocabularies.py:33
 msgid "basicDay"
 msgstr "einfache Tagesansicht"
 
-#: ../vocabularies.py:30
 #. Default: "basicWeek"
+#: ../vocabularies.py:32
 msgid "basicWeek"
 msgstr "einfache Wochenansicht"
 
-#: ../browser/views.py:284
 #. Default: "Edit Event"
+#: ../browser/solgemafullcalendar_views.py:322
 msgid "editEvent"
 msgstr "Termin bearbeiten"
 
-#: ../interfaces.py:312
 #. Default: "Check this box to display All day option"
+#: ../interfaces.py:264
 msgid "help_allDay"
 msgstr "Klicken Sie hier um die Zeile 'ganzer Tag' anzuzeigen."
 
-#: ../interfaces.py:218
+#: ../interfaces.py:209
 msgid "help_availableCriterias"
 msgstr "Wählen Sie die Kriterien der Kollektion, die am Ende des Kalenders angezeigt werden sollen."
 
-#: ../interfaces.py:224
-msgid "help_availableSubFolders"
-msgstr "Wählen Sie welche Unterordner im Kalender angezeigt werden."
-
-#: ../interfaces.py:257
-#. Default: "Check this box if you want the events in the calendar to be editable."
-msgid "help_caleditable"
-msgstr "Termine im Kalender bearbeitbar zu machen."
-
-#: ../interfaces.py:213
+#: ../interfaces.py:204
 msgid "help_calendarHeight"
-msgstr "Geben Sie die Höhe des Kalenders in Pixeln an (z.B. 600)."
+msgstr "Geben sie die Höhe des Kalenders in Pixeln ein (z.B. 600)."
 
-#: ../interfaces.py:152
+#: ../interfaces.py:153
 msgid "help_defaultCalendarView"
-msgstr "Standardansicht, in welcher der Kalender angezeigt wird."
+msgstr "Default view in which the calendar will be displayed"
 
-#: ../interfaces.py:251
-#. Default: "Disables contextual adding menu."
-msgid "help_disableAJAX"
-msgstr "Deaktiviert das Kontext-Menü"
-
-#: ../interfaces.py:263
-#. Default: "Disables all event dragging, even when events are editable."
-msgid "help_disableDragging"
-msgstr "Termine verschieben deaktiviert."
-
-#: ../interfaces.py:269
-#. Default: "Disables all event resizing, even when events are editable."
-msgid "help_disableResizing"
-msgstr "Termine vergrößern/verkleinern deaktiviert."
-
-#: ../interfaces.py:245
+#: ../interfaces.py:230
 msgid "help_displayNoscriptList"
-msgstr "Wenn ausgewählt wird und Javascript nicht aktiviert ist wird eine Liste von Terminen statt des Kalenders angezeigt. Verwenden Sie diese Option, wenn der Kalender z.B. durch Suchmaschinen ausgelesen werden können soll."
+msgstr "Wenn ausgewählt wird - sofern javascript nicht aktiviert ist - eine Liste vo Terminen statt dem Kelender angezeigt. Verwenden Sie diese Option, wenn der Kalender z.B. durch Suchmaschinen ausgelesen werden soll."
 
-#: ../interfaces.py:235
+#: ../interfaces.py:220
 msgid "help_displayUndefined"
-msgstr "Zeige die Checkbox \"Undefined\" in dem Abfrage-Feld am Ende des Kalenders. Das ermöglicht die Suche nach Inhalten bei denen das gewählte Feld leer ist."
+msgstr "Zeige die Checkbox \"Undefined\" in dem Abfragen-Feld am Ende des Kalenders. Das ermöglicht die Suche nach Inhalten bei denen das gewählte Feld leer ist."
 
-#: ../interfaces.py:178
+#: ../interfaces.py:174
 msgid "help_firstDay"
 msgstr "Erster Tag der Woche"
 
-#: ../interfaces.py:189
+#: ../interfaces.py:185
 msgid "help_firstHour"
-msgstr "Legen Sie die erste Stunde der Kalender-Tagesansicht fest (eine Zahl zwischen 0 und 23). Wenn vor dieser Zahl ein  \"+\" oder \"-\" steht, wird die Zahl mit der aktuellen Zeit addiert bzw. substrahiert."
-
-#: ../interfaces.py:203
-#. Default: "Enter your Google Calendar feeds url here. the syntay should be : http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."
-msgid "help_gcalSources"
-msgstr "Geben sie hier URLs zu Google Kalender Feeds an, eine pro Zeile. Die Syntax ist http://www.google.com/calendar/feeds/yourmail@gmail.com/..."
+msgstr "Legen Sie die erste Stunden der Kalender-Tagesansicht fest (eine Zahl zwischen 0 und 23). Wenn vor dieser Zahl ein  \"+\" oder \"-\" steht, wird die Zahl von der aktuellen Zeit addiert bzw. substrahiert."
 
 #: ../interfaces.py:164
-msgid "help_headerLeft"
-msgstr "Optionen im linken Kopfbereich. Mögliche Werte: prev, next, prevYear, nextYear, calendar. Durch Komma getrennt Werte werden an einem Stück angezeigt, mit Abstand durch Leerzeichen getrennte Werte."
-
-#: ../interfaces.py:168
 msgid "help_headerRight"
-msgstr "Optionen im rechten Kopfbereich."
+msgstr "Optionen im rechten Kopfbereiches"
 
-#: ../interfaces.py:194
+#: ../interfaces.py:190
 msgid "help_minTime"
 msgstr "Wählen Sie die erste sichtbare Stunde des Kalenders (z.B. '5' oder '5:30')."
 
-#: ../interfaces.py:240
+#: ../interfaces.py:225
 msgid "help_overrideStateForAdmin"
 msgstr "Workflow-Status-Kriterium für Administratoren überschreiben."
 
-#: ../interfaces.py:230
+#: ../interfaces.py:215
 msgid "help_queryColors"
 msgstr "Sie können jedem der Kriterien der Kollektion eine eigene Farbe geben. "
 
-#: ../interfaces.py:184
+#: ../interfaces.py:180
 msgid "help_relativeFirstDay"
 msgstr "Kalender ab einer bestimmten Anzahl von Tagen vor dem aktuellen Datum anzeigen (Format: '+1' oder '-1' )"
 
-#: ../interfaces.py:158
+#: ../interfaces.py:159
 msgid "help_shortDayNameFormat"
-msgstr "Wählen Sie ein Kurznamen-Format des Tages (3 Zeichen =  abgekürzt, kurz = 2 Zeichen)."
+msgstr "Wählen Sie einen kurzen Namen Format des Tages (= 3 caratère kurz, kurz = 2 Zeichen)."
 
-#: ../interfaces.py:145
+#: ../interfaces.py:146
 msgid "help_slotMinutes"
-msgstr "Länge (in Minuten) der einzelnen Abschnitten einer Stunde."
+msgstr "Länge (in Minuten) von einzelnen Slots in einer Stunde."
 
-#: ../interfaces.py:207
+#: ../interfaces.py:198
 msgid "help_target_folder"
 msgstr "Wählen Sie einen Ordner in dem in dem neue Termine angelegt werden. Wenn nichts ausgewählt ist werden neue Termine in dem Ordner angelegt in dem auch die Kollektion liegt."
 
-#: ../interfaces.py:173
+#: ../interfaces.py:169
 msgid "help_weekends"
 msgstr "Samstage und Sonntage anzeigen"
 
-#: ../browser/icalexport.py:27
-msgid "iCal export"
-msgstr "iCal Export"
-
-#: ../interfaces.py:311
 #. Default: "Display All day option"
+#: ../interfaces.py:263
 msgid "label_allDay"
 msgstr "'Ganztags'-Spalte anzeigen"
 
-#: ../interfaces.py:148
+#: ../interfaces.py:149
 msgid "label_allDaySlot"
 msgstr "'Ganztags'-Spalte anzeigen"
 
-#: ../interfaces.py:216
+#: ../interfaces.py:207
 msgid "label_availableCriterias"
 msgstr "Suchkriterien"
 
-#: ../interfaces.py:222
-msgid "label_availableSubFolders"
-msgstr "Angezeigte Unterordner"
-
-#: ../interfaces.py:255
-#. Default: "Editable"
-msgid "label_caleditable"
-msgstr "Bearbeitung von Terminen erlauben"
-
-#: ../interfaces.py:211
+#: ../interfaces.py:202
 msgid "label_calendarHeight"
 msgstr "Höhe des Kalenders"
 
-#: ../interfaces.py:150
+#: ../interfaces.py:151
 msgid "label_defaultCalendarView"
 msgstr "Standard-Ansicht"
 
-#: ../interfaces.py:249
-#. Default: "Disable AJAX"
-#, fuzzy
-msgid "label_disableAJAX"
-msgstr "AJAX deaktivieren"
-
-#: ../interfaces.py:261
-#. Default: "Disable Dragging"
-msgid "label_disableDragging"
-msgstr "Verschieben deaktivieren"
-
-#: ../interfaces.py:267
-#. Default: "Disable Resizing"
-msgid "label_disableResizing"
-msgstr "Vergrößern deaktivieren"
-
-#: ../interfaces.py:243
+#: ../interfaces.py:228
 msgid "label_displayNoscriptList"
-msgstr "Termine auch ohne Javascript auflisten"
+msgstr "Termine ohne Javascript auflisten"
 
-#: ../interfaces.py:233
+#: ../interfaces.py:218
 msgid "label_displayUndefined"
 msgstr "nicht definiert"
 
-#: ../interfaces.py:176
+#: ../interfaces.py:172
 msgid "label_firstDay"
 msgstr "Erster Wochentag"
 
-#: ../interfaces.py:187
+#: ../interfaces.py:183
 msgid "label_firstHour"
 msgstr "Erste angezeigte Stunde"
 
-#: ../interfaces.py:201
-#. Default: "Google Calendar Sources"
-msgid "label_gcalSources"
-msgstr "Google Kalender Quellen"
-
-#: ../interfaces.py:162
-msgid "label_headerLeft"
-msgstr "Kopfbereich links"
-
-#: ../interfaces.py:167
+#: ../interfaces.py:163
 msgid "label_headerRight"
 msgstr "Kopfbereich rechts"
 
-#: ../interfaces.py:197
+#: ../interfaces.py:193
 msgid "label_maxTime"
 msgstr "Letzte sichtbare Stunde"
 
-#: ../interfaces.py:192
+#: ../interfaces.py:188
 msgid "label_minTime"
 msgstr "Erste sichtbare Stunde"
 
-#: ../interfaces.py:238
+#: ../interfaces.py:223
 msgid "label_overrideStateForAdmin"
 msgstr "Status-Kriterium überschreiben"
 
-#: ../interfaces.py:228
+#: ../interfaces.py:213
 msgid "label_queryColors"
 msgstr "Farben"
 
-#: ../interfaces.py:182
+#: ../interfaces.py:178
 msgid "label_relativeFirstDay"
 msgstr "Relativer erster Wochentag"
 
-#: ../interfaces.py:156
+#: ../interfaces.py:157
 msgid "label_shortDayNameFormat"
-msgstr "Kurzname für Tage (Sa-So)"
+msgstr "Kurzname Format für Tage"
 
-#: ../interfaces.py:143
+#: ../interfaces.py:144
 msgid "label_slotMinutes"
 msgstr "Slots"
 
-#: ../interfaces.py:206
+#: ../interfaces.py:197
 msgid "label_target_folder"
 msgstr "Zielordner für neue Termine"
 
-#: ../browser/topicquery.pt:48
+#: ../browser/solgemafullcalendar_query.pt:46
 msgid "label_undefined"
 msgstr "nicht definiert"
 
-#: ../interfaces.py:172
+#: ../interfaces.py:168
 msgid "label_weekends"
 msgstr "Wochenenden"
 
-#: ../vocabularies.py:65
 #. Default: "short"
+#: ../vocabularies.py:62
 msgid "short"
 msgstr "kurz"
 
-#: ../browser/icalexport.py:24
-#. Default: "Download this calendar in iCal format"
-msgid "title_add_to_ical"
-msgstr "Kalender im ical-Format herunterladen"
-
-msgid "solgemafullcalendar_view"
-msgstr "Solgema Fullcalendar anzeigen"

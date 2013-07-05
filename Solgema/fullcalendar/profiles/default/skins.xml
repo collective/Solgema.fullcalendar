@@ -7,6 +7,10 @@
 
  <skin-path name="*">
   <layer name="solgemafullcalendar" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker/css" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker/js" insert-after="custom"/>
+  <layer name="solgemafullcalendar/colorpicker/images" insert-after="custom"/>
  </skin-path>
 
 </object>

@@ -1,21 +1,6 @@
 /* <dtml-with base_properties> (do not remove this :) */
 /* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
 
-table.fc-header td {
-    position:relative;
-}
-
-#datePicker {
-    position:absolute;
-    left:0;
-    z-index:100;
-    top:0;
-}
-
-#sfc-ical-export {
-    float: right;
-}
-
 #calendar div.fc-content {
     z-index:0;
 }
@@ -135,11 +120,6 @@ table.fc-header td {
     color: #333333 !important;
 }
 
-.fc-event .fc-event-inner{
-    border-radius: 4px;
-    border-width: 1px;
-}
-
 #SFQuery {
     overflow:hidden;
 }
@@ -184,7 +164,8 @@ table.fc-header td {
 #calendar div.fc-event.colorIndex-undefined {
     border:1px solid #AAAAAA;
 }
-#calendar div.fc-event.colorIndex-undefined a {
+#calendar div.fc-event.colorIndex-undefined a,
+#calendar div.fc-event.colorIndex-undefined a .fc-event-time {
     background-color: #AAAAAA;
 }
 label.colorIndex-undefined {
@@ -194,128 +175,119 @@ label.colorIndex-undefined {
 #calendar div.fc-event.colorIndex-0 {
     border:1px solid #4ca9ff;
 }
-#calendar div.fc-event.colorIndex-0 a {
+#calendar div.fc-event.colorIndex-0 a,
+#calendar div.fc-event.colorIndex-0 a .fc-event-time {
     background-color: #4ca9ff;
 }
 label.colorIndex-0 {
     color: #4ca9ff;
 }
 
-#calendar a.colorIndex-1 {
+#calendar div.fc-event.colorIndex-1 {
     border:1px solid #96d510;
 }
-
-#calendar a.colorIndex-1 .fc-event-skin {
+#calendar div.fc-event.colorIndex-1 a,
+#calendar div.fc-event.colorIndex-1 a .fc-event-time {
     background-color: #96d510;
-    border-color: #96d510;
 }
 label.colorIndex-1 {
     color: #96d510;
 }
 
-#calendar a.colorIndex-2 {
+#calendar div.fc-event.colorIndex-2 {
     border:1px solid #ff1942;
 }
-
-#calendar a.colorIndex-2 .fc-event-skin {
+#calendar div.fc-event.colorIndex-2 a,
+#calendar div.fc-event.colorIndex-2 a .fc-event-time {
     background-color: #ff1942;
-    border-color: #ff1942;
 }
 label.colorIndex-2 {
     color: #ff1942;
 }
 
-#calendar a.colorIndex-3 {
+#calendar div.fc-event.colorIndex-3 {
     border:1px solid #ff8900;
 }
-
-#calendar a.colorIndex-3 .fc-event-skin {
+#calendar div.fc-event.colorIndex-3 a,
+#calendar div.fc-event.colorIndex-3 a .fc-event-time {
     background-color: #ff8900;
-    border-color: #ff8900;
 }
 label.colorIndex-3 {
     color: #ff8900;
 }
 
-#calendar a.colorIndex-4 {
+#calendar div.fc-event.colorIndex-4 {
     border:1px solid #1e4ae6;
 }
-
-#calendar a.colorIndex-4 .fc-event-skin {
+#calendar div.fc-event.colorIndex-4 a,
+#calendar div.fc-event.colorIndex-4 a .fc-event-time {
     background-color: #1e4ae6;
-    border-color: #1e4ae6;
 }
 label.colorIndex-4 {
     color: #1e4ae6;
 }
 
-#calendar a.colorIndex-5 {
+#calendar div.fc-event.colorIndex-5 {
     border:1px solid #009934;
 }
-
-#calendar a.colorIndex-5 .fc-event-skin {
+#calendar div.fc-event.colorIndex-5 a,
+#calendar div.fc-event.colorIndex-5 a .fc-event-time {
     background-color: #009934;
-    border-color: #009934;
 }
 label.colorIndex-5 {
     color: #009934;
 }
 
-#calendar a.colorIndex-6 {
+#calendar div.fc-event.colorIndex-6 {
     border:1px solid #8a0dec;
 }
-
-#calendar a.colorIndex-6 .fc-event-skin {
+#calendar div.fc-event.colorIndex-6 a,
+#calendar div.fc-event.colorIndex-6 a .fc-event-time {
     background-color: #8a0dec;
-    border-color: #8a0dec;
 }
 label.colorIndex-6 {
     color: #8a0dec;
 }
 
-#calendar a.colorIndex-7 {
+#calendar div.fc-event.colorIndex-7 {
     border:1px solid #e01e9e;
 }
-
-#calendar a.colorIndex-7 .fc-event-skin {
+#calendar div.fc-event.colorIndex-7 a,
+#calendar div.fc-event.colorIndex-7 a .fc-event-time {
     background-color: #e01e9e;
-    border-color: #e01e9e;
 }
 label.colorIndex-7 {
     color: #e01e9e;
 }
 
-#calendar a.colorIndex-8 {
+#calendar div.fc-event.colorIndex-8 {
     border:1px solid #32ccc2;
 }
-
-#calendar a.colorIndex-8 .fc-event-skin {
+#calendar div.fc-event.colorIndex-8 a,
+#calendar div.fc-event.colorIndex-8 a .fc-event-time {
     background-color: #32ccc2;
-    border-color: #32ccc2;
 }
 label.colorIndex-8 {
     color: #32ccc2;
 }
 
-#calendar a.colorIndex-9 {
+#calendar div.fc-event.colorIndex-9 {
     border:1px solid #c7d42a;
 }
-
-#calendar a.colorIndex-9 .fc-event-skin {
+#calendar div.fc-event.colorIndex-9 a,
+#calendar div.fc-event.colorIndex-9 a .fc-event-time {
     background-color: #c7d42a;
-    border-color: #c7d42a;
 }
 label.colorIndex-9 {
     color: #c7d42a;
 }
 
-#calendar a.colorIndex-10 {
+#calendar div.fc-event.colorIndex-10 {
     border:1px solid #cd6031;
 }
-
-#calendar a.colorIndex-10 .fc-event-skin {
+#calendar div.fc-event.colorIndex-10 a,
+#calendar div.fc-event.colorIndex-10 a .fc-event-time {
     background-color: #cd6031;
-    border-color: #cd6031;
 }
 label.colorIndex-10 {
     color: #cd6031;
@@ -326,23 +298,19 @@ label.colorIndex-10 {
 #calendar.query-review_state div.fc-event.state-private {
     border:1px solid Red;
 }
-#calendar.query-review_state div.fc-event.state-private a {
+#calendar.query-review_state div.fc-event.state-private a,
+#calendar.query-review_state div.fc-event.state-private a .fc-event-time {
     background-color: Red;
 }
 label.state-private {
     color: Red;
 }
 
-.state-private .fc-event-head .fc-event-time,
-.state-private .fc-event-inner .fc-event-time{
-    background: url("lock_icon.gif") no-repeat scroll left center transparent;
-    padding-left: 15px;
-}
-
 #calendar.query-review_state div.fc-event.state-visible {
     border:1px solid #74AE0B;
 }
-#calendar.query-review_state div.fc-event.state-visible a {
+#calendar.query-review_state div.fc-event.state-visible a,
+#calendar.query-review_state div.fc-event.state-visible a .fc-event-time {
     background-color: #74AE0B;
 }
 label.state-visible {
@@ -352,7 +320,8 @@ label.state-visible {
 #calendar.query-review_state div.fc-event.state-published {
     border:1px solid &dtml-linkColor;;
 }
-#calendar.query-review_state div.fc-event.state-published a {
+#calendar.query-review_state div.fc-event.state-published a,
+#calendar.query-review_state div.fc-event.state-published a .fc-event-time {
     background-color: &dtml-linkColor;;
 }
 label.state-published {
@@ -362,7 +331,8 @@ label.state-published {
 #calendar.query-review_state div.fc-event.state-pending {
     border:1px solid #FFA500;
 }
-#calendar.query-review_state div.fc-event.state-pending a {
+#calendar.query-review_state div.fc-event.state-pending a,
+#calendar.query-review_state div.fc-event.state-pending a .fc-event-time {
     background-color: #FFA500;
 }
 label.state-pending {
@@ -372,7 +342,8 @@ label.state-pending {
 #calendar.query-review_state div.fc-event.state-expired {
     border:1px solid Red;
 }
-#calendar.query-review_state div.fc-event.state-expired a {
+#calendar.query-review_state div.fc-event.state-expired a,
+#calendar.query-review_state div.fc-event.state-expired a .fc-event-time {
     background-color: Red;
 }
 label.state-expired {
@@ -382,13 +353,18 @@ label.state-expired {
 #calendar.query-review_state div.fc-event.syndicated {
     border:1px solid #008000;
 }
-#calendar.query-review_state div.fc-event.syndicated a {
+#calendar.query-review_state div.fc-event.syndicated a,
+#calendar.query-review_state div.fc-event.syndicated a .fc-event-time {
     background-color: #008000;
 }
 label.syndicated {
     color: #008000;
 }
 
+
+
 /* </dtml-with> */
 /* @end */
+
+
 

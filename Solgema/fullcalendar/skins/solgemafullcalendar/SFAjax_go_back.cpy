@@ -16,3 +16,4 @@ lifecycle_view.cancel_edit()
 
 if not javascript:
     return state.set(status='success', next_action='redirect_to:string:SFAjax_base_cancel')
+

@@ -1,10 +1,7 @@
 import transaction
-from zope import component
-from Products.CMFPlone.utils import safe_unicode
+
 from Products.CMFCore.utils import getToolByName
-from plone.i18n.normalizer.interfaces import IURLNormalizer
-from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.Extensions.install import checkViews
+
 
 PRODUCT_DEPENDENCIES = ['Solgema.ContextualContentMenu', 'plone.app.z3cform', 'collective.js.jqueryui']
 
@@ -99,9 +96,7 @@ def upgrade18(context):
             portal_quickinstaller.installProduct(product)
             transaction.savepoint()
 
-    portal_setup.runAllImportStepsFromProfile(
-             'profile-Solgema.fullcalendar.upgrades:upgrade18',
-             purge_old=False)
+    portal_setup.runAllImportStepsFromProfile('profile-Solgema.fullcalendar.upgrades:upgrade18', purge_old=False)
     checkPortalTypes(context)
     updateRegistries(context)
 
@@ -116,41 +111,7 @@ def upgrade19(context):
             portal_quickinstaller.installProduct(product)
             transaction.savepoint()
 
-    portal_setup.runAllImportStepsFromProfile(
-              'profile-Solgema.fullcalendar.upgrades:upgrade19',
-              purge_old=False)
+    portal_setup.runAllImportStepsFromProfile('profile-Solgema.fullcalendar.upgrades:upgrade19', purge_old=False)
     checkPortalTypes(context)
     updateRegistries(context)
 
-
-def upgrade20(context):
-
-    context.runAllImportStepsFromProfile(
-              'profile-collective.js.colorpicker:default',
-              purge_old=False)
-    context.runAllImportStepsFromProfile(
-              'profile-collective.js.fullcalendar:default',
-              purge_old=False)
-    context.runAllImportStepsFromProfile(
-              'profile-Solgema.fullcalendar.upgrades:upgrade2',
-              purge_old=False)
-
-
-def upgrade210(context):
-    checkViews(context)
-    catalog = getToolByName(context, 'portal_catalog')
-    for topic in [a.getObject() for a in catalog.searchResults(portal_type="Topic")]:
-        calendar = interfaces.ISolgemaFullcalendarProperties(topic, None)
-        newColors = {}
-        if calendar and getattr(calendar, 'queryColors', None):
-            for k,v in calendar.queryColors.items():
-                colDict = {}
-                for l,w in v.items():
-                    l = safe_unicode(l)
-                    colDict[str(component.queryUtility(IURLNormalizer).normalize(l))] = w
-                newColors[k] = colDict.copy()
-            calendar.queryColors = newColors.copy()
-
-
-def upgrade212(context):
-    checkViews(context)
