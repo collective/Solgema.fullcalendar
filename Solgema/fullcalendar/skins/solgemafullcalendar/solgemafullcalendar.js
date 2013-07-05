@@ -51,6 +51,12 @@ function readCookie(name) {
           width: 700,
           height: 500,
           autoOpen: true,
+          open: function(event, ui) {
+              window.setTimeout(function() {
+                  jQuery(document).unbind('mousedown.dialog-overlay')
+                                  .unbind('mouseup.dialog-overlay');
+              }, 100);
+          },
           modal: true,
           title: jq(this).html(),
           close: function () {
@@ -98,6 +104,12 @@ function readCookie(name) {
         width: 700,
         height: 500,
         autoOpen: true,
+        open: function(event, ui) {
+            window.setTimeout(function() {
+                jQuery(document).unbind('mousedown.dialog-overlay')
+                                .unbind('mouseup.dialog-overlay');
+            }, 100);
+        },
         modal: true,
         title: title,
         close: function () {
@@ -117,6 +129,12 @@ function readCookie(name) {
         width: 700,
         height: 500,
         autoOpen: true,
+        open: function(event, ui) {
+            window.setTimeout(function() {
+                jQuery(document).unbind('mousedown.dialog-overlay')
+                                .unbind('mouseup.dialog-overlay');
+            }, 100);
+        },
         modal: true,
         title: SolgemaFullcalendarVars.editEventText,
         close: function () {
@@ -280,6 +298,12 @@ function readCookie(name) {
           $dialogContent.dialog({
             width: 600,
             autoOpen: true,
+            open: function(event, ui) {
+                window.setTimeout(function() {
+                    jQuery(document).unbind('mousedown.dialog-overlay')
+                                    .unbind('mouseup.dialog-overlay');
+                }, 100);
+            },
             modal: true,
             title: fcevent['title']
           });
