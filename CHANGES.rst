@@ -4,6 +4,9 @@ Changelog
 2.3dev (unreleased)
 -------------------
 
+- Allow to have more that one type of item that can be added through the calendar right click.
+  [fmoret]
+
 - Fixed zcml condition when plone.app.contenttypes is installed but not Dexterity.
   [fmoret]
   
