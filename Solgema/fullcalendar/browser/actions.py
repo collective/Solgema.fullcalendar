@@ -57,11 +57,18 @@ def normalize_type_query(query, context):
     portal_types = getToolByName(context, 'portal_types').listTypeInfo()
     query = dict(query.items())  # copy
     if 'portal_type' not in query and 'Type' in query:
-        type_title = query.get('Type', 'Event')
-        if isinstance(type_title, tuple):
-            type_title = type_title[0]
-        typemap = dict((o.title,o.getId()) for o in portal_types)
-        query['portal_type'] = typemap.get(type_title, 'Event')
+        type_titles = query.get('Type', 'Event')
+        type_list = []
+        if not isinstance(type_titles, tuple):
+            type_titles = tuple([type_titles,])
+        for type_title in type_titles:
+            typemap = dict((o.title,o.getId()) for o in portal_types)
+            if typemap.get(type_title):
+                type_list.append(typemap.get(type_title))
+        if not type_list:
+            query['portal_type'] = 'Event'
+        else:
+            query['portal_type'] = tuple(type_list)
         del(query['Type'])
     return query
 
