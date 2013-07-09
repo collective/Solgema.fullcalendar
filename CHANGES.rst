@@ -4,7 +4,10 @@ Changelog
 2.3dev (unreleased)
 -------------------
 
-- fix recurring event (using datetime not DateTime)
+- Fixed zcml condition when plone.app.contenttypes is installed but not Dexterity.
+  [fmoret]
+  
+- Fix recurring event (using datetime not DateTime)
   [pbauer]
 
 - Fix selecting events based on criteria for Collections (AT and DX)
@@ -25,7 +28,7 @@ Changelog
   on the context.
   [thet]
 
-- check if the event can be adapted with IRecurrenceSupport in adapters.py
+- Check if the event can be adapted with IRecurrenceSupport in adapters.py
   [fmoret]
 
 
