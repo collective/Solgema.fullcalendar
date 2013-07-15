@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3dev (unreleased)
+2.3 (2013-09-07)
 -------------------
 
 - Allow to have more that one type of item that can be added through the calendar right click.
