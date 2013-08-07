@@ -3,6 +3,11 @@ Changelog
 
 1.10 (unreleased)
 -----------------
+
+- Use an ISO 8601 for the start and end dates, since that's what fullcalendar
+  expects.
+  [frapell]
+
 - Internationalization: Updated english translation Solgema.fullcalendar.po
   [fmoret]
 
