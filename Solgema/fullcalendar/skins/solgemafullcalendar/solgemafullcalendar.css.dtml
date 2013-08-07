@@ -52,7 +52,7 @@ table.fc-header td {
     color: #000;
 }
 
-#calendar table {
+#calendar .fc-content table {
     padding:0px;
     margin:0px;
 }
@@ -96,7 +96,7 @@ table.fc-header td {
     border-radius:5px;
 }
 
-#content #calendar a:link {
+#content #calendar .fc-content a:link {
     border:none;
     color:#000000;
 }
