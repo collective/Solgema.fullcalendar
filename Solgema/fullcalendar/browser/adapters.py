@@ -95,7 +95,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         if HAS_RECCURENCE_SUPPORT:
             occurences = IRecurrenceSupport(brain.getObject()).occurences()
         else:
-            occurences = [(brain.start.rfc822(), brain.end.rfc822())]
+            occurences = [(brain.start.strftime("%Y-%m-%dT%H:%M:%S%z"), brain.end.strftime("%Y-%m-%dT%H:%M:%S%z"))]
         events = []
         for occurence_start, occurence_end in occurences:
             events.append({
@@ -137,7 +137,7 @@ class SolgemaFullcalendarTopicEventDict(object):
         if HAS_RECCURENCE_SUPPORT:
             occurences = IRecurrenceSupport(item).occurences()
         else:
-            occurences = [(item.start().rfc822(), item.end().rfc822())]
+            occurences = [(item.start().strftime("%Y-%m-%dT%H:%M:%S%z"), item.end().strftime("%Y-%m-%dT%H:%M:%S%z"))]
 
         events = []
         for occurence_start, occurence_end in occurences:
@@ -202,8 +202,8 @@ class SolgemaFullcalendarEventDict(object):
                 "id": "UID_%s" % context.UID(),
                 "title": context.Title(),
                 "description": context.Description(),
-                "start": context.start().rfc822(),
-                "end": context.end().rfc822(),
+                "start": context.start().strftime("%Y-%m-%dT%H:%M:%S%z"),
+                "end": context.end().strftime("%Y-%m-%dT%H:%M:%S%z"),
                 "url": context.absolute_url(),
                 "editable": editable,
                 "allDay": allday,
