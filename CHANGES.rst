@@ -4,6 +4,11 @@ Changelog
 2.3.1 (unreleased)
 ------------------
 
+- Use ``plone.event.utils.pydt`` in
+  ``Solgema.fullcalendar.browser.adapters.get_recurring_events``.
+  ``IRecurrenceSupport.occurrences`` always expects ``datetime.datetime``.
+  [rnix]
+
 - Define ``jq`` variable in JS for plone sites where ``jquery-integration.js``
   is not delivered.
   [rnix]
