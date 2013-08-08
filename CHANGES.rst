@@ -1,8 +1,15 @@
 Changelog
 =========
 
-2.3 (2013-09-07)
--------------------
+2.3.1 (unreleased)
+------------------
+
+- Fix fallback interfaces on import error. They must not be just ``Interface``.
+  [rnix]
+
+
+2.3 (2013-07-09)
+----------------
 
 - Allow to have more that one type of item that can be added through the calendar right click.
   [fmoret]

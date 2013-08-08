@@ -9,7 +9,7 @@ from zope.component import queryAdapter, adapts, getMultiAdapter, getAdapters
 try:
     from Products.ZCatalog.interfaces import ICatalogBrain
 except:
-    ICatalogBrain = Interface
+    class ICatalogBrain(Interface): pass
 from Products.CMFCore.utils import getToolByName
 from Products.ATContentTypes.interface import IATTopic, IATFolder
 
@@ -45,14 +45,14 @@ except ImportError:
 try:
     from plone.app.collection.interfaces import ICollection
 except:
-    ICollection = Interface
+    class ICollection(Interface): pass
 
 try:
     from plone.app.contenttypes.interfaces import ICollection as IDXCollection
     from plone.app.contenttypes.interfaces import IFolder
 except:
-    IDXCollection = Interface
-    IFolder = Interface
+    class IDXCollection(Interface): pass
+    class IFolder(Interface): pass
 
 
 def handle_recurrence(request):

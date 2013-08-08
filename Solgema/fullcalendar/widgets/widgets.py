@@ -13,12 +13,12 @@ from Products.ATContentTypes.interface import IATTopic, IATFolder
 try:
     from plone.app.collection.interfaces import ICollection
 except:
-    ICollection = Interface
+    class ICollection(Interface): pass
 
 try:
     from plone.app.contenttypes.interfaces import ICollection as IDXCollection
 except:
-    IDXCollection = Interface
+    class IDXCollection(Interface): pass
 
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryCriteria
 from Solgema.fullcalendar import msg_fact as _
