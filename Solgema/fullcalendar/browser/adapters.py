@@ -31,6 +31,7 @@ from Products.ATContentTypes.interface import IATEvent
 try:
     from plone.event.interfaces import IEvent, IEventAccessor, IOccurrence
     from plone.event.interfaces import IEvent as IEvent_GENERIC
+    from plone.event.utils import pydt
     hasPloneAppEvent = True
 except ImportError:
     from Products.ATContentTypes.interface import IATEvent as IEvent_GENERIC
@@ -153,8 +154,8 @@ def get_recurring_events(request, event):
         start = datetime.fromtimestamp(request.get('start')).replace(tzinfo=tz)
         end = datetime.fromtimestamp(request.get('end')).replace(tzinfo=tz)
     else:
-        start = DateTime(request.get('start'))
-        end = DateTime(request.get('end'))
+        start = pydt(DateTime(request.get('start')))
+        end = pydt(DateTime(request.get('end')))
     events = IRecurrenceSupport(event).occurrences(range_start=start,
                                                    range_end=end)
     return events

@@ -1,3 +1,7 @@
+// XXX: better wrap whole JS in an anonymous function, pass jQuery and alter
+//      ``jq`` with ``$``
+if (typeof(window['jq']) == "undefined") jq = jQuery;
+
 if (!extraContentMenuActions) var extraContentMenuActions = [];
 
 function readCookie(name) {

@@ -1,3 +1,7 @@
+// XXX: better wrap whole JS in an anonymous function, pass jQuery and alter
+//      ``jq`` with ``$``
+if (typeof(window['jq']) == "undefined") jq = jQuery;
+
 function initColorpicker() {
     jq(".colorinput").each( function(i, elem) {
         var name = jq(elem).attr('name');
