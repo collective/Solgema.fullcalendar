@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.1 (unreleased)
+2.3.1 (2013-08-23)
 ------------------
 
 - Use ``plone.event.utils.pydt`` in
