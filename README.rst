@@ -7,7 +7,7 @@ Overview
 Solgema.fullcalendar is a complete implementation of
 `Adam Shaw Fullcalendar <http://arshaw.com/fullcalendar/>`_ into Plone.
 
-This calendar allows you to display events type objects in a powerfull and fast
+This calendar allows you to display events type objects in a powerful and fast
 ajax agenda. You will be also able to add, edit and more generally manage your
 events throught the Calendar with a strong AJAX framework.
 
@@ -16,7 +16,7 @@ Event. The view is named ``solgemafullcalendar_view``. After that, a new object
 action permits you to set up the basics parameters for the calendar.
 
 On a Collection, the calendar displays the events that are searched by the
-Collection and it's criterias.
+Collection and it's criteria.
 
 On a Folder, the calendar displays the events that are contained in the Folder
 itself or in the sub-folders if they are selected in the calendar properties.
@@ -26,7 +26,7 @@ bottom of the calendar to choose which event you want to display. The fields in
 this query form are taken from the Collection criterions or from the subfolders
 of the Folder.
 
-As a developer, you can add event sources to default one.
+As a developer, you can add event sources to the default one.
 You just have to define named ``IEventSource`` adapters which provides each a
 list of dictionaries needed by ``fullcalendar.js`` API.
 You can also replace the default event source providing an unnamed
@@ -58,12 +58,12 @@ You will also have to pin the versions for ``plone.app.z3cform``::
 Customizing the skin
 --------------------
 
-You can easyly customize de calendar skin:
+You can easily customize the calendar skin:
 
 Go to http://jqueryui.com and click on the Themes tab. There you can create or
 choose an existing theme. After that, download it to your computer by selecting
 only: All UI Core, all UI Interactions and Dialog in UI Widgets. Unzip and copy
-the css file and all images in you ``portal_skins/custom folder``.
+the css file and all images in your ``portal_skins/custom folder``.
 
 You can also try collective.jqueryuithememanager_
 
