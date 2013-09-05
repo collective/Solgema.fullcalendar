@@ -61,7 +61,7 @@
       />
 
   <!-- THE CALENDAR VIEW FOR DX-Collection -->
-  <configure zcml:condition="installed plone.app.contenttypes.interfaces.ICollection">
+  <configure zcml:condition="installed plone.app.contenttypes">
   <browser:page
       for="plone.app.contenttypes.interfaces.ICollection"
       name="solgemafullcalendar_view"
@@ -174,7 +174,7 @@
       permission="zope.Public"
       />
   <browser:page
-      zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+      zcml:condition="installed plone.app.contenttypes"
       for="plone.app.contenttypes.interfaces.ICollection"
       name="solgemafullcalendar_colors.css"
       class=".views.SolgemaFullcalendarColorsCssCollection"
@@ -227,7 +227,7 @@
       />
 
   <browser:page
-      zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+      zcml:condition="installed plone.app.contenttypes"
       for="plone.app.contenttypes.interfaces.ICollection"
       name="solgemafullcalendar_properties"
       class=".content.SolgemaFullcalendarTopicForm"
@@ -276,7 +276,7 @@
       />
 
   <browser:page
-      zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+      zcml:condition="installed plone.app.contenttypes"
       for="plone.app.contenttypes.interfaces.ICollection"
       name="SFEventSources"
       class=".views.SFCollectionSources"
@@ -384,7 +384,7 @@
       />
 
   <browser:viewlet
-      zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+      zcml:condition="installed plone.app.contenttypes"
       for="plone.app.contenttypes.interfaces.ICollection"
       name="Solgema.fullcalendar.query"
       manager="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarQuery"
