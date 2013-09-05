@@ -444,33 +444,36 @@
 
   <adapter factory=".adapters.FolderColorIndexGetter"/>
   <adapter 
-    zcml:condition="installed plone.app.contenttypes.interfaces.IFolder"
+    zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.DXFolderColorIndexGetter"/>
   <adapter factory=".adapters.ColorIndexGetter"/>
+  
+  <!-- IEventSource adapters -->
   <adapter factory=".adapters.FolderEventSource"/>
   <adapter 
-    zcml:condition="installed plone.app.contenttypes.interfaces.IFolder"
+    zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.DXFolderEventSource"/>
   <adapter factory=".adapters.TopicEventSource"/>
   <adapter factory=".adapters.CollectionEventSource"/>
   <adapter 
-    zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+    zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.DXCollectionEventSource"/>
   <adapter factory=".adapters.StandardEventSource"/>
+    
   <adapter factory=".adapters.listCriteriasTopicAdapter"/>
   <adapter factory=".adapters.listCriteriasCollectionAdapter"/>
   <adapter 
-    zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+    zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.listCriteriasDXCollectionAdapter"/>
   <adapter factory=".adapters.listBaseQueryTopicCriteria"/>
   <adapter factory=".adapters.listBaseQueryCollectionCriteria"/>
   <adapter 
-    zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+    zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.listBaseQueryDXCollectionCriteria"/>
   <adapter factory=".adapters.CriteriaItemsTopic"/>
   <adapter factory=".adapters.CriteriaItemsCollection"/>
   <adapter 
-    zcml:condition="installed plone.app.contenttypes.interfaces.ICollection"
+    zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.CriteriaItemsDXCollection"/>
 
   <!-- Actions -->
