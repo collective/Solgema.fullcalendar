@@ -1,6 +1,12 @@
 Solgema.fullcalendar Package Readme
 ===================================
 
+.. image:: https://secure.travis-ci.org/collective/Solgema.fullcalendar.png?branch=master
+    :target: http://travis-ci.org/collective/Solgema.fullcalendar
+
+.. image:: https://coveralls.io/repos/collective/Solgema.fullcalendar/badge.png?branch=master
+    :target: https://coveralls.io/r/collective/Solgema.fullcalendar
+
 Overview
 --------
 
