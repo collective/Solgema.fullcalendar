@@ -4,6 +4,8 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- Added Brazilian Portuguese translation. [cleberjsantos]
+
 - Fix regression from 98af7649f04a74673ca83678073d56c8bb609243: 
   ``zcml:condition`` condition for ``plone.app.contentypes`` was broken. 
   Afaik zcml:condition does not match on class level, only on package level: 
@@ -11,6 +13,7 @@ Changelog
   ``plone.app.contenttypes`` if not, we need a different approach; here 
   everythings working fine now.
   [jensens]
+
 
 2.3.1 (2013-08-23)
 ------------------
