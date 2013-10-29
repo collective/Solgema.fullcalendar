@@ -1,17 +1,34 @@
-from setuptools import setup, find_packages
+# -*- coding:utf-8 -*-
+
+from setuptools import find_packages
+from setuptools import setup
 
 version = '2.3.2'
+long_description = (
+    open('README.rst').read() + '\n' +
+    open('CHANGES.rst').read()
+)
 
 setup(name='Solgema.fullcalendar',
       version=version,
-      description="Solgema",
-      long_description=open("README.rst").read() + "\n" +
-                       open("CHANGES.rst").read(),
+      description='A complete implementation of Adam Shaw FullCalendar into Plone.',
+      long_description=long_description,
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+          'Development Status :: 5 - Production/Stable',
+          'Environment :: Web Environment',
+          'Framework :: Plone',
+          'Framework :: Plone :: 4.0',
+          'Framework :: Plone :: 4.1',
+          'Framework :: Plone :: 4.2',
+          'Framework :: Plone :: 4.3',
+          'License :: OSI Approved :: GNU General Public License (GPL)',
+          'Operating System :: OS Independent',
+          'Programming Language :: JavaScript',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 2.6',
+          'Programming Language :: Python :: 2.7',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+      ],
       keywords='Solgema, fullcalendar, diary, agenda, Plone',
       author='Martronic SA',
       author_email='martronic@martronic.ch',
@@ -22,16 +39,21 @@ setup(name='Solgema.fullcalendar',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
+          'collective.js.colorpicker',
+          'collective.js.fullcalendar >=1.5.2.1',
+          'collective.js.jqueryui',
+          'plone.app.z3cform',
+          'plone.formwidget.contenttree',
+          'plone.z3cform',
           'setuptools',
           'Solgema.ContextualContentMenu',
-          'plone.app.z3cform',
-          'plone.z3cform',
-          'plone.formwidget.contenttree',
           'z3c.form',
-          'collective.js.colorpicker',
-          'collective.js.fullcalendar>=1.5.2.1',
-          'collective.js.jqueryui',
       ],
+      extras_require={
+          'test': [
+              'plone.app.testing',
+          ],
+      },
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
