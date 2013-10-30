@@ -52,6 +52,8 @@ setup(name='Solgema.fullcalendar',
       extras_require={
           'test': [
               'plone.app.testing',
+              'plone.browserlayer',
+              'unittest2',
           ],
       },
       entry_points="""
