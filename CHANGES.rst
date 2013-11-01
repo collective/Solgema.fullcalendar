@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.2 (unreleased)
+2.3.2 (2013-11-01)
 ------------------
 
 - Added Brazilian Portuguese translation. [cleberjsantos]
