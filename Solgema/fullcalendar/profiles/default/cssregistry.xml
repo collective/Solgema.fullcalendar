@@ -2,5 +2,5 @@
 <object name="portal_css">
  <stylesheet title="" cacheable="True" compression="full" cookable="True"
     enabled="1" expression="here/@@iscalendarlayout" id="solgemafullcalendar.css" media="all"
-    rel="stylesheet" rendering="import" insert-before="ploneCustom.css"/>
+    rel="stylesheet" rendering="link" insert-before="ploneCustom.css"/>
 </object>
