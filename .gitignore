@@ -20,4 +20,7 @@ var
 *.pyc
 *.pyo
 *.tmp*
-
+.project
+.pydevproject
+.settings/
+*~
