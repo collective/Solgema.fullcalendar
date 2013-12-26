@@ -18,6 +18,9 @@ msgstr ""
 "Domain: Solgema.fullcalendar\n"
 "X-Is-Fallback-For: it-ch it-it\n"
 
+msgid "View details"
+msgstr ""
+
 msgid "solgemafullcalendar_view"
-msgstr "Vista calendario"
+msgstr ""
 

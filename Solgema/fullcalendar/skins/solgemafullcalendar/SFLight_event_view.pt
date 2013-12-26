@@ -39,10 +39,12 @@
              target="_blank"
              tal:define="title action/title"
              tal:attributes="href action/url"
+             i18n:translate=""
+             i18n:domain="plone"
              tal:content="python: title=='View' and 'View details' or title">title</a>
         </li>
     </ul>
    </tal:block>
-   
+
   </div>
 </html>

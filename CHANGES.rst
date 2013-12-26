@@ -4,7 +4,11 @@ Changelog
 2.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- i18n fix on light event view.
+  [thomasdesvenain]
+
+- french translations.
+  [thomasdesvenain]
 
 
 2.3.2 (2013-11-01)
@@ -12,11 +16,11 @@ Changelog
 
 - Added Brazilian Portuguese translation. [cleberjsantos]
 
-- Fix regression from 98af7649f04a74673ca83678073d56c8bb609243: 
-  ``zcml:condition`` condition for ``plone.app.contentypes`` was broken. 
-  Afaik zcml:condition does not match on class level, only on package level: 
-  it got no grip on class level. So imo its enough to match on 
-  ``plone.app.contenttypes`` if not, we need a different approach; here 
+- Fix regression from 98af7649f04a74673ca83678073d56c8bb609243:
+  ``zcml:condition`` condition for ``plone.app.contentypes`` was broken.
+  Afaik zcml:condition does not match on class level, only on package level:
+  it got no grip on class level. So imo its enough to match on
+  ``plone.app.contenttypes`` if not, we need a different approach; here
   everythings working fine now.
   [jensens]
 
@@ -45,7 +49,7 @@ Changelog
 
 - Fixed zcml condition when plone.app.contenttypes is installed but not Dexterity.
   [fmoret]
-  
+
 - Fix recurring event (using datetime not DateTime)
   [pbauer]
 

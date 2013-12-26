@@ -16,3 +16,6 @@ msgstr ""
 
 msgid "solgemafullcalendar_view"
 msgstr ""
+
+msgid "View details"
+msgstr ""

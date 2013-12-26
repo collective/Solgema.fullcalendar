@@ -72,7 +72,7 @@ class TopicQueryGroup(z3cgroup.Group):
     fields['availableCriterias'].widgetFactory[INPUT_MODE] = CriteriasOrderedSelectFieldWidget
 
 class FolderQueryGroup(z3cgroup.Group):
-    label = _(u'Sub-Folders', default="Sub-Folders")
+    label = _(u'Sub-Folders')
 
     fields = z3cfield.Fields( ISolgemaFullcalendarProperties ).select(
         'availableSubFolders',)
