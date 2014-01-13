@@ -142,7 +142,7 @@ def dict_from_events(events,
         else:
             raise ValueError('item type not supported for: %s' % repr(item))
 
-    if not hasattr(events, '__iter__'):
+    if not isinstance(events, (list, tuple)):
         events = [events]
 
     return [dict_from_item(item) for item in events]
