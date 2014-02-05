@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.3 (unreleased)
+2.3.3 (2014-02-05)
 ------------------
 
 - i18n fix on light event view.
