@@ -4,7 +4,11 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Fix issue #20 with empty values received from collections queries [laulaz]
+- Fix issue #20 with empty values received from collections queries
+  [laulaz]
+
+- Add layer for all browser views and viewlets for issue #31
+  [laulaz]
 
 
 2.3.3 (2014-02-05)
