@@ -8,7 +8,7 @@
     <fieldset tal:condition="python:criteria['i']=='portal_type'"
               tal:define="field criteria/i;
                           index python:here.portal_atct.getIndex(field);
-                          selectedItems python:view.getCookieItems(field) or criteria['v']"
+                          selectedItems python:view.getCookieItems(field) or criteria.get('v')"
               tal:attributes="id string:fieldset-${field}">
       <legend tal:attributes="id string:fieldsetlegend-${field};
                               class python:selectedCriteria==field and 'selected' or None"
@@ -27,7 +27,7 @@
               tal:define="field criteria/i;"
               tal:attributes="id string:fieldset-${field}">
       <tal:defines define="index python:here.portal_atct.getIndex(field);
-                           selectedItems python:view.getCookieItems(field) or criteria['v']">
+                           selectedItems python:view.getCookieItems(field) or criteria.get('v')">
       <legend tal:attributes="id string:fieldsetlegend-${field}"
               tal:content="python:index.friendlyName or index.index" i18n:translate=""/>
         <div tal:repeat="item criteria/v" class="SFQuery_input">

@@ -707,7 +707,7 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
         if not colorsDict:
             return css
 
-        for fieldid, selectedItems in [(a['i'], a['v']) for a in criterias]:
+        for fieldid, selectedItems in [(a['i'], a.get('v')) for a in criterias]:
             if not colorsDict.has_key(fieldid):
                 continue
 

@@ -4,7 +4,14 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue #20 with empty values received from collections queries
+  [laulaz]
+
+- Add layer for all browser views and viewlets for issue #31
+  [laulaz]
+
+- Improve jquery selectors to be more precise and fix issues #34 and #35
+  [ferewuz]
 
 
 2.3.3 (2014-02-05)
