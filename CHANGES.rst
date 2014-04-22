@@ -4,11 +4,17 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- For an IATFolder, the search path is the folder itself, not the target_folder.
+  [sgeulette, anuyens]
+
 - Fix issue #20 with empty values received from collections queries
   [laulaz]
 
 - Add layer for all browser views and viewlets for issue #31
   [laulaz]
+
+- Added coverage and report scripts in buildout
+  [sgeulette]
 
 - Improve jquery selectors to be more precise and fix issues #34 and #35
   [ferewuz]
