@@ -489,20 +489,9 @@ class FolderEventSource(object):
 
         return brains
 
-    def getTargetFolder(self):
-        target_folder = getattr(self.calendar, 'target_folder', None)
-        if target_folder:
-            addContext = self.portal.unrestrictedTraverse('/' + self.portal.id \
-                                                          + target_folder)
-        elif IATFolder.providedBy(self.context):
-            addContext = self.context
-        else:
-            addContext = aq_parent(aq_inner(self.context))
-        return addContext
-
     def _getCriteriaArgs(self):
         return ({'path':
-                    {'query':'/'.join(self.getTargetFolder().getPhysicalPath()),
+                    {'query':'/'.join(self.context.getPhysicalPath()),
                      'depth':1}},
                 [])
 
