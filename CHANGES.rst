@@ -4,7 +4,7 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue #20 with empty values received from collections queries [laulaz]
 
 
 2.3.3 (2014-02-05)

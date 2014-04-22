@@ -53,7 +53,7 @@ class ColorDictInputWidget(Widget):
         currentValues = self.value or {}
         criteria = self.getCriteria()
         html = ''
-        for fieldid, selectedItems in [(a['i'], a['v']) for a in criteria]:
+        for fieldid, selectedItems in [(a['i'], a.get('v')) for a in criteria]:
             index = self.context.portal_atct.getIndex(fieldid)
             fieldname = index.friendlyName or index.index
             if selectedItems:
