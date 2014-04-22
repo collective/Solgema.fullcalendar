@@ -487,7 +487,7 @@ var SolgemaFullcalendar = {
             }
           });
         });
-        jq("#contextualContentMenu a[href*='delete_confirmation']").click( function(event) {
+        jq("#contextualContentMenu a[href$='delete_confirmation']").click( function(event) {
           event.preventDefault();
           jq(closeContextualContentMenu);
           if (window.confirm(SolgemaFullcalendarVars.deleteConfirmationText)) {
@@ -510,14 +510,14 @@ var SolgemaFullcalendar = {
             });
           }
         });
-        jq("#contextualContentMenu a[href*='edit']").click( function(event) {
+        jq("#contextualContentMenu a[href$='edit']").click( function(event) {
           event.preventDefault();
           jq('#kss-spinner').show();
           var href = jq(this).attr('href');
           var eventurl = href.substring(0, href.length-5);
           SolgemaFullcalendar.openEditForm(eventurl);
         });
-        jq("#contextualContentMenu a[href*='object_cut']").click( function(event) {
+        jq("#contextualContentMenu a[href$='object_cut']").click( function(event) {
           event.preventDefault();
           jq('#kss-spinner').show();
           var href = jq(this).attr('href');
@@ -552,7 +552,7 @@ var SolgemaFullcalendar = {
           });
           jq('#kss-spinner').hide();
         });
-        jq("#contextualContentMenu a[href*='object_copy']").click( function(event) {
+        jq("#contextualContentMenu a[href$='object_copy']").click( function(event) {
           event.preventDefault();
           jq('#kss-spinner').show();
           var href = jq(this).attr('href');
