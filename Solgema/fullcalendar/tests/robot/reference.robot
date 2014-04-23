@@ -14,8 +14,9 @@ Test Setup  Test Setup
 Use calendar view for folderOne
     Debug
     Go to  ${PLONE_URL}/folder_one
-    Click link  Edit
-
+    Click link  css=dl#plone-contentmenu-display a
+    Click element  plone-contentmenu-display-solgemafullcalendar_view
+    Debug
 
 *** Keywords ***
 Suite Setup
@@ -23,7 +24,6 @@ Suite Setup
     Enable autologin as  Manager
 
 Test Setup
-    Debug
     Create content  type=Folder  id=folder_one  title=Calendar
     Create content  type=Event  id=event_one  title=My first Event
     #Create content  type=RefBrowserDemo  id=atrb  title=ATRB Demo
