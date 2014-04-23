@@ -13,7 +13,7 @@ Changelog
 - Add layer for all browser views and viewlets for issue #31
   [laulaz]
 
-- Added coverage and report scripts in buildout
+- Added createcoverage
   [sgeulette]
 
 - Improve jquery selectors to be more precise and fix issues #34 and #35
