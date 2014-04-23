@@ -301,13 +301,14 @@ var SolgemaFullcalendar = {
     },
     openAddMenu: function (start, end, allDay, event, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
+      var url = jq('base').attr('href') + '/@@SFDisplayAddMenu';
       jq.ajax({
-        type :      'POST',
-        url :       './@@SFDisplayAddMenu',
+        type : 'POST',
+        url : url,
         dataType: "json",
-        async:   true,
-        data :      {},
-        success :   function(msg) {
+        async: true,
+        data : {},
+        success : function(msg) {
           if (msg['display']) {
             var data = new Object;
             var startMonth = start.getMonth()+1;

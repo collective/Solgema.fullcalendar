@@ -4,7 +4,13 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Put again the previously deleted code. Target Folder has sense too on folder. Correct undefined self.portal.
+- solgemafullcalendar.js is got from portal_url, not from context url
+  [thomasdesvenain]
+
+- More robust way to generate add event view.
+  [thomasdesvenain]
+
+- Put back the previously deleted code. Target Folder has sense too on folder. Correct undefined self.portal.
   [sgeulette]
 
 - Fix issue #20 with empty values received from collections queries
