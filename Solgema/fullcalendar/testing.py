@@ -5,6 +5,9 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 
+from plone.testing import z2
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
+
 
 class Fixture(PloneSandboxLayer):
 
@@ -27,4 +30,13 @@ INTEGRATION_TESTING = IntegrationTesting(
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE,),
     name='Solgema.fullcalendar:Functional',
+)
+
+ROBOT_TESTING = FunctionalTesting(
+    bases=(
+        FIXTURE,
+        REMOTE_LIBRARY_BUNDLE_FIXTURE,
+        z2.ZSERVER_FIXTURE,
+    ),
+    name="ROBOT_TESTING",
 )
