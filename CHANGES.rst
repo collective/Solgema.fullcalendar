@@ -4,6 +4,12 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- solgemafullcalendar.js is got from portal_url, not from context url
+  [thomasdesvenain]
+
+- More robust way to generate add event view.
+  [thomasdesvenain]
+
 - For an IATFolder, the search path is the folder itself, not the target_folder.
   [sgeulette, anuyens]
 
