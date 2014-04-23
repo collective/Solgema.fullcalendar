@@ -1,7 +1,5 @@
 *** Keywords test ***
-Plone is installed
-    Go to  ${PLONE_URL}
-    Page should contain  Powered by Plone
+#Calendar view is rendered
 
 *** Keywords ***
 Activate calendar view

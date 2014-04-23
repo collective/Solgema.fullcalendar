@@ -15,8 +15,10 @@ Test Setup  Test Setup
 Use calendar view for folderOne
     Go to  ${PLONE_URL}/folder_one
     Activate calendar view
+    #Calendar view is rendered
+    Debug
 
 *** Keywords ***
 Test Setup
-    Create content  type=Folder  id=folder_one  title=Calendar
-    Create content  type=Event  id=event_one  title=My first Event
+    ${folder_uid} =  Create content  type=Folder  id=folder_one  title=Folder One
+    Create content  type=Event  id=event_one  container=${folder_uid}  title=Event One
