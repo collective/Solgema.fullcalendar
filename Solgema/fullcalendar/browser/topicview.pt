@@ -13,7 +13,7 @@
         <script type="text/javascript"
             tal:attributes="src view/getCalendarVarsUrl"></script>
         <script type="text/javascript"
-            tal:attributes="src string:${context/absolute_url}/solgemafullcalendar.js"></script>
+            tal:attributes="src string:${context/portal_url}/solgemafullcalendar.js"></script>
     </metal:slot>
 </head>
 <body>
