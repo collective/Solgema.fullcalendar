@@ -12,9 +12,8 @@ Test Setup  Test Setup
 
 *** Test cases ***
 Use calendar view for folderOne
-    Debug
     Go to  ${PLONE_URL}/folder_one
-    Click link  css=dl#plone-contentmenu-display a
+    Open Display Menu
     Click element  plone-contentmenu-display-solgemafullcalendar_view
     Debug
 
