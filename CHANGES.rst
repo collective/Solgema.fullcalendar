@@ -4,8 +4,8 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- For an IATFolder, the search path is the folder itself, not the target_folder.
-  [sgeulette, anuyens]
+- Put again the previously deleted code. Target Folder has sense too on folder. Correct undefined self.portal.
+  [sgeulette]
 
 - Fix issue #20 with empty values received from collections queries
   [laulaz]
