@@ -6,12 +6,16 @@ Activate calendar view
     Open Display Menu
     Click element  plone-contentmenu-display-solgemafullcalendar_view
 
+Change period
+    [Arguments]  ${period}
+    Click element  css=.fc-button-${period}
+
 ## Tests
 
 Calendar view is rendered
     [Arguments]  ${period}
     Page should contain element  css=.fc-header-left .fc-button-today
-    Page should contain element  css=.fc-content .fc-view-agenda${period}
+    Element should be visible  css=.fc-content .fc-view-${period}
 
 Properties link is present
     Page should contain element  contentview-solgemafullcalendar_view

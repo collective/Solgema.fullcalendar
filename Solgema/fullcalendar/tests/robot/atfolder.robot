@@ -15,8 +15,14 @@ Test Setup  Test Setup
 Use calendar view for folderOne
     Go to  ${PLONE_URL}/folder_one
     Activate calendar view
-    Calendar view is rendered  Week
+    Calendar view is rendered  agendaWeek
     Properties link is present
+
+Change period of calendar
+    Change period  agendaDay
+    Calendar view is rendered  agendaDay
+    Change period  month
+    Calendar view is rendered  month
 
 *** Keywords ***
 Test Setup
