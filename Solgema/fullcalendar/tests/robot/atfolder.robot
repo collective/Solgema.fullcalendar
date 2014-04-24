@@ -15,8 +15,8 @@ Test Setup  Test Setup
 Use calendar view for folderOne
     Go to  ${PLONE_URL}/folder_one
     Activate calendar view
-    #Calendar view is rendered
-    Debug
+    Calendar view is rendered  Week
+    Properties link is present
 
 *** Keywords ***
 Test Setup
