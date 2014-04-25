@@ -25,8 +25,8 @@ Change period of calendar
     Calendar view is rendered  month
 
 Test events display
-    Event is visible  event_one
-    Event is visible  event_two
+    Event is visible  month  event_one
+    Event is visible  month  event_two
 
 *** Keywords ***
 Test Setup
