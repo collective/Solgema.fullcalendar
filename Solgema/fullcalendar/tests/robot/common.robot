@@ -20,6 +20,11 @@ Calendar view is rendered
 Properties link is present
     Page should contain element  contentview-solgemafullcalendar_view
 
+Event is visible
+    [Arguments]  ${event_id}
+    #Element should be visible  css=a.fc-event[href$="/${event_id}"] # This doesn't work
+    Page should contain element  css=a.fc-event[href$="/${event_id}"]
+
 ## Other
 
 Suite Setup

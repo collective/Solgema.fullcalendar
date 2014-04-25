@@ -24,7 +24,12 @@ Change period of calendar
     Change period  month
     Calendar view is rendered  month
 
+Test events display
+    Event is visible  event_one
+    Event is visible  event_two
+
 *** Keywords ***
 Test Setup
     ${folder_uid} =  Create content  type=Folder  id=folder_one  title=Folder One
     Create content  type=Event  id=event_one  container=${folder_uid}  title=Event One
+    Create content  type=Event  id=event_two  container=${folder_uid}  title=Event Two
