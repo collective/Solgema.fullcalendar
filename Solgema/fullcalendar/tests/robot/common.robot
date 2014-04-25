@@ -10,6 +10,20 @@ Change period
     [Arguments]  ${period}
     Click element  css=.fc-button-${period}
 
+Enter properties
+    [Arguments]  ${fieldset_number}=0
+    Click link  css=#contentview-solgemafullcalendar_view a
+    Click link  fieldsetlegend-${fieldset_number}
+
+Set target_folder
+    [Arguments]  ${value}
+    Debug
+
+Select list by value in-out
+    [Arguments]  ${attribute}  @{value}
+    Select From List By Value  form-widgets-${attribute}-from  @{value}
+    Click button  css=#formfield-form-widgets-${attribute} button[name=from2toButton]
+
 ## Tests
 
 Calendar view is rendered
