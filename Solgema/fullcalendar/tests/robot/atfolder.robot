@@ -27,6 +27,7 @@ Change period of calendar
 Test events display
     Event is visible  month  event_one
     Event is visible  month  event_two
+    Event is not visible  month  subevent_one
 
 #Test setting target folder
 #    Enter properties  0
@@ -40,6 +41,7 @@ Test setting sub folders
     Calendar view is rendered  agendaWeek
 
 Test events display of subfolders
+    Event is not visible  agendaWeek  event_one
     Event is visible  agendaWeek  subevent_one
     Event is visible  agendaWeek  subevent_two
 

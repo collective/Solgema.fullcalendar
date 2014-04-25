@@ -38,6 +38,10 @@ Event is visible
     [Arguments]  ${period}  ${event_id}
     Element should be visible  css=.fc-content .fc-view-${period} a.fc-event[href$="/${event_id}"]
 
+Event is not visible
+    [Arguments]  ${period}  ${event_id}
+    Element should not be visible  css=.fc-content .fc-view-${period} a.fc-event[href$="/${event_id}"]
+
 ## Other
 
 Suite Setup
