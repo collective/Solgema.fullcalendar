@@ -42,6 +42,10 @@ Event is not visible
     [Arguments]  ${period}  ${event_id}
     Element should not be visible  css=.fc-content .fc-view-${period} a.fc-event[href$="/${event_id}"]
 
+Query element is visible
+    [Arguments]  ${input_id}  
+    Element should be visible  css=.SFQuery_input #${input_id}
+
 ## Other
 
 Suite Setup
