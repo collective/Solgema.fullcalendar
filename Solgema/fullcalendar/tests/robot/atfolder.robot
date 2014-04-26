@@ -17,6 +17,7 @@ Use calendar view for folderOne
     Activate calendar view
     Calendar view is rendered  agendaWeek
     Properties link is present
+    Element should not be visible  SFQuery
 
 Change period of calendar
     Change period  agendaDay
@@ -39,6 +40,8 @@ Test setting sub folders
     Click button  form-buttons-apply
     Activate calendar view  # we need to reactivate calendar view !
     Calendar view is rendered  agendaWeek
+    Query element is visible and checked  solgema-subFolders-subfolder_one
+    Query element is visible and checked  solgema-subFolders-subfolder_two
 
 Test events display of subfolders
     Event is not visible  agendaWeek  event_one
