@@ -52,3 +52,11 @@ Query element is visible and checked
 Suite Setup
     Open test browser
     Enable autologin as  Manager
+
+Connect
+    Open test browser
+    Enable autologin as  Manager
+
+Go on calendar '${element}'
+    Go to  ${PLONE_URL}/${element}
+    Activate calendar view

@@ -6,15 +6,13 @@ Resource  common.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 Library  plone.app.robotframework.keywords.Debugging
 
-Suite Setup  Suite Setup
+#Suite Setup  Suite Setup
 Suite Teardown  Close all browsers
 
 Test Setup  Test Setup
 
 *** Test cases ***
 Use calendar view for collectionOne
-    Go to  ${PLONE_URL}/collection_one
-    Activate calendar view
     Calendar view is rendered  agendaWeek
     Properties link is present
 
@@ -26,8 +24,8 @@ Change period of calendar
 
 # issue #43
 Test events display
-    Event is not visible  month  event_one
-    Event is not visible  month  event_two
+    Event is not visible  agendaWeek  event_one
+    Event is not visible  agendaWeek  event_two
 
 Setting criteria and test events display
     Set the 'Type' Criterion to 'Event'
@@ -40,9 +38,11 @@ Setting criteria and test events display
 
 *** Keywords ***
 Test Setup
+    Connect
     ${collection_uid} =  Create content  type=Collection  id=collection_one  title=Collection One
     Create content  type=Event  id=event_one  title=Event One
     Create content  type=Event  id=event_two  title=Event Two
+    Go on calendar 'collection_one'
 
 Set the '${criterion}' Criterion to '${value}'
     Click link  Edit
