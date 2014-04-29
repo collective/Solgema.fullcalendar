@@ -4,6 +4,9 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- Added robot framework. Added common keywords. Begun to test atfolder, collection.
+  [sgeulette, anuyens]
+
 - solgemafullcalendar.js is got from portal_url, not from context url
   [thomasdesvenain]
 
