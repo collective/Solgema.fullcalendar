@@ -462,6 +462,7 @@ class FolderEventSource(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        self.portal = context.portal_url.getPortalObject()
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
 
@@ -489,9 +490,20 @@ class FolderEventSource(object):
 
         return brains
 
+    def getTargetFolder(self):
+        target_folder = getattr(self.calendar, 'target_folder', None)
+        if target_folder:
+            addContext = self.portal.unrestrictedTraverse('/' + self.portal.id \
+                                                          + target_folder)
+        elif IATFolder.providedBy(self.context):
+            addContext = self.context
+        else:
+            addContext = aq_parent(aq_inner(self.context))
+        return addContext
+
     def _getCriteriaArgs(self):
         return ({'path':
-                    {'query':'/'.join(self.context.getPhysicalPath()),
+                    {'query':'/'.join(self.getTargetFolder().getPhysicalPath()),
                      'depth':1}},
                 [])
 
