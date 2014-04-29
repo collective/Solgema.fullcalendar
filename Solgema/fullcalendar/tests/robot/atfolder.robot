@@ -1,7 +1,7 @@
 *** Settings ***
 Resource  plone/app/robotframework/keywords.robot
 Resource  plone/app/robotframework/selenium.robot
-Resource  common.robot
+Resource  Solgema/fullcalendar/tests/robot/common.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 Library  plone.app.robotframework.keywords.Debugging

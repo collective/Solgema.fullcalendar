@@ -25,11 +25,12 @@ Change period of calendar
     Calendar view is rendered  month
 
 Test events display
-    Event is visible  month  event_one
-    Event is visible  month  event_two
+    Event is not visible  month  event_one
+    Event is not visible  month  event_two
 
 *** Keywords ***
 Test Setup
+    # need to reactivate Topic content type
     ${topic_uid} =  Create content  type=Topic  id=topic_one  title=Topic One
-    Create content  type=Event  id=event_one  container=${topic_uid}  title=Event One
-    Create content  type=Event  id=event_two  container=${topic_uid}  title=Event Two
+    Create content  type=Event  id=event_one  title=Event One
+    Create content  type=Event  id=event_two  title=Event Two

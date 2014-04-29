@@ -24,12 +24,32 @@ Change period of calendar
     Change period  month
     Calendar view is rendered  month
 
+# issue #43
 Test events display
-    Event is visible  month  event_one
-    Event is visible  month  event_two
+    Event is not visible  month  event_one
+    Event is not visible  month  event_two
+
+Setting criteria and test events display
+    Set the 'Type' Criterion to 'Event'
+    Activate calendar view  # we need to reactivate calendar view !
+    Calendar view is rendered  agendaWeek
+    Event is visible  agendaWeek  event_one
+    Event is visible  agendaWeek  event_two
+
+# To be continued with query part display ...
 
 *** Keywords ***
 Test Setup
     ${collection_uid} =  Create content  type=Collection  id=collection_one  title=Collection One
-    Create content  type=Event  id=event_one  container=${collection_uid}  title=Event One
-    Create content  type=Event  id=event_two  container=${collection_uid}  title=Event Two
+    Create content  type=Event  id=event_one  title=Event One
+    Create content  type=Event  id=event_two  title=Event Two
+
+Set the '${criterion}' Criterion to '${value}'
+    Click link  Edit
+    Wait until page contains element  xpath=//select[@name="addindex"]
+    Select from list  xpath=//select[@name="addindex"]  ${criterion}
+    Wait until page contains element  xpath=//select[@class='queryoperator']
+    Select from list  xpath=//select[@class='queryoperator']  Is
+    Select checkbox  css=.queryvalue input[value=${value}]
+    #Wait until page contains  1 items matching your search terms.
+    Click button  Save
