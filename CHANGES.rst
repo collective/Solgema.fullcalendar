@@ -28,6 +28,8 @@ Changelog
 - Improve jquery selectors to be more precise and fix issues #34 and #35
   [ferewuz]
 
+- Add support for Italian date format [cekk]
+
 
 2.3.3 (2014-02-05)
 ------------------
