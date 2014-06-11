@@ -27,10 +27,13 @@ def installSolgemaFullcalendar(context):
 
 
 def uninstallSolgemaFullcalendar(context):
-    if context.readDataFile('solgemafullcalendar_various.txt') is None:
+    if context.readDataFile('solgemafullcalendar_uninstall_various.txt') is None:
         return
     site = context.getSite()
     ttool = getToolByName(site, 'portal_types')
+    topic_type = getattr(ttool, 'Topic', None)
+    if not topic_type:
+        return
     topic_type = ttool.Topic
     topic_methods = topic_type.view_methods
     li = []
