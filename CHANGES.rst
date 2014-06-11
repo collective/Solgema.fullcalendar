@@ -4,6 +4,12 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- Fix to work with the newest p.a.contenttypes where collections are a behavior
+  [pbauer]
+
+- On install do not assume the types to be archetypes and only extend existing types
+  [pbauer]
+
 - Added robot framework. Added common keywords. Begun to test atfolder, collection.
   [sgeulette, anuyens]
 
