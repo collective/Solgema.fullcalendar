@@ -49,6 +49,11 @@
     <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
   </class>
 
+  <class zcml:condition="installed plone.app.contenttypes.behaviors.collection"
+      class="plone.app.contenttypes.content.Collection">
+    <implements interface=".interfaces.ISolgemaFullcalendarMarker"/>
+  </class>
+
 
   <adapter
      for=".interfaces.ISolgemaFullcalendarMarker"
