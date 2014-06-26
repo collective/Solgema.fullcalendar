@@ -39,7 +39,9 @@ class InlineFrameEditForm(DefaultEditForm):
 
     def isodate(self):
         accessor = IEventAccessor(self.context)
-        return accessor.start.isoformat()
+        if accessor.start:
+            return accessor.start.isoformat()
+        return datetime.now().isoformat()
 
 
 class EventIframeAddForm(DefaultAddForm):
