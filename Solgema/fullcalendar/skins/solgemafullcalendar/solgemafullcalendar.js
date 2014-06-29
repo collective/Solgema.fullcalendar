@@ -323,7 +323,7 @@ var SolgemaFullcalendar = {
             data['EventAllDay'] = allDay;
             openContextualContentMenu(event, this, '@@SFAddMenu', SolgemaFullcalendar.initAddContextualContentMenu, '.', data);
           } else {
-            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['title'], view);
+            SolgemaFullcalendar.openFastAddForm(start, end, allDay, msg['type'], msg['is_dx'], msg['title'], view);
           }
         }
       });
@@ -371,7 +371,7 @@ var SolgemaFullcalendar = {
         jq(closeContextualContentMenu);
       });
     },
-    openFastAddForm: function (start, end, allDay, type_name, title, view) {
+    openFastAddForm: function (start, end, allDay, type_name, is_dx, title, view) {
       var data, dxdata;
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
       jq('#kss-spinner').show();
@@ -394,7 +394,7 @@ var SolgemaFullcalendar = {
       target_folder = view['calendar']['options']['target_folder'];
       extraData = view['calendar']['options']['extraData'];
       if (extraData) jQuery.extend(true, data, extraData);
-      if (type_name == 'plone.app.event.dx.event') {
+      if (is_dx) {
         dxdata = new Object();
         /* whole day value, if whole day */
         if (allDay) {

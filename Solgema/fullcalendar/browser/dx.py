@@ -5,6 +5,7 @@ from plone.dexterity.browser.add import DefaultAddForm, DefaultAddView
 from plone.event.interfaces import IEventAccessor
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Solgema.fullcalendar import interfaces
 
 
 class InlineFrameEditForm(DefaultEditForm):
@@ -57,6 +58,7 @@ class InlineFrameAddView(DefaultAddView):
     form = EventIframeAddForm
 
     def __init__(self, context, request, name='plone.app.event.dx.event'):
+        name = getattr(interfaces.ISolgemaFullcalendarProperties(context, None), 'eventType', 'Event')
         ti = getToolByName(context, 'portal_types').getTypeInfo(name)
         request.form['ajax_load'] = 1
         request.form['ajax_include_head'] = 1

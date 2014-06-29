@@ -4,7 +4,8 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Fix adding newest p.a.event items (from branch 1.1.x)
+- Fix adding an editing events from plone.app.contenttypes items
+  (tested in branch 1.1.x)
   [pbauer]
 
 - Fix to work with the newest p.a.contenttypes where collections are a behavior
