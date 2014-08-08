@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.4 (unreleased)
+2.3.4 (2014-08-08)
 ------------------
 
 - Fix adding an editing events from plone.app.contenttypes items
