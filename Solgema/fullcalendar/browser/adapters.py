@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import itertools
 from copy import deepcopy
 from DateTime import DateTime
@@ -997,6 +998,15 @@ class CollectionEventSource(TopicEventSource):
                     _args[criteriaId] = query[criteriaId]
 
         return _args, filters
+
+    def getEvents(self):
+        context = self.context
+        brains = context.queryCatalog(batch=False)
+        topicEventsDict = getMultiAdapter(
+            (context, self.request),
+            interfaces.ISolgemaFullcalendarTopicEventDict)
+        result = topicEventsDict.createDict(brains, {})
+        return result
 
 
 class DXCollectionEventSource(TopicEventSource):
