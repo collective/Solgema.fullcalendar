@@ -63,6 +63,8 @@ class ColorDictInputWidget(Widget):
             fieldname = index.friendlyName or index.index
             if selectedItems:
                 html += '<br/><b>%s</b><br/><table>' % (fieldname)
+                if isinstance(selectedItems, unicode):
+                    selectedItems = [selectedItems]
                 for item in selectedItems:
                     name = safe_unicode(item)
                     item = str(component.queryUtility(IURLNormalizer).normalize(name))
