@@ -691,7 +691,12 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
         css = ''
         if not colorsDict or not availableSubFolders:
             return css
-        folderIds = [a.getId for a in self.context.getFolderContents(contentFilter={'object_provides':'Products.ATContentTypes.interfaces.folder.IATFolder'})]
+        folderIds = [a.getId for a in self.context.getFolderContents(contentFilter={
+            'object_provides': [
+                'Products.ATContentTypes.interfaces.folder.IATFolder',
+                'plone.dexterity.interfaces.IDexterityContainer',
+            ]
+        })]
         if not folderIds:
             return css
         fieldid = 'subFolders'

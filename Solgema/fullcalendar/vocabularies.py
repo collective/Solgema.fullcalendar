@@ -59,7 +59,12 @@ def availableCriterias( context ):
     return TitledVocabulary.fromTitles([(crit['id'], crit['title']) for crit in li])
 
 def availableSubFolders( context ):
-    folderContents = context.getFolderContents(contentFilter={'object_provides':'Products.ATContentTypes.interfaces.folder.IATFolder'})
+    folderContents = context.getFolderContents(contentFilter={
+        'object_provides': [
+            'Products.ATContentTypes.interfaces.folder.IATFolder',
+            'plone.dexterity.interfaces.IDexterityContainer',
+        ]
+    })
     return TitledVocabulary.fromTitles([(a.getId, a.Title) for a in folderContents])
 
 def shortNameFormats(context):
