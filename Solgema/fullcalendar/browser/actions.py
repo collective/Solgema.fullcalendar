@@ -42,6 +42,13 @@ except ImportError:
        HAS_PLONE30 = True
 
 
+try:
+    from plone.dexterity.fti import IDexterityFTI
+    HAS_DEXTERITY = True
+except ImportError:
+    HAS_DEXTERITY = False
+
+
 def _field_value(context, name):
     """Getter for field by name for AT/Dexterity contexts"""
     v = getattr(context, name)
@@ -137,11 +144,15 @@ class SFDisplayAddMenu(BaseActionView):
             title = PLMF(u'heading_add_item', default='Add ${itemtype}', mapping={'itemtype' : typeTitle})
         else:
             title = PLMF(u'label_add_type', default='Add ${type}', mapping={'type' : typeTitle})
+        is_dx = False
+        if HAS_DEXTERITY:
+            is_dx = pTypes and IDexterityFTI.providedBy(pTypes[0]) or False
 
         return json.dumps({'display': False, 'type': portal_type,
-                           'title': translate(title, context=self.request)})
+                           'title': translate(title, context=self.request),
+                           'is_dx': is_dx})
 
-        
+
 class SFAddMenu(BaseActionView):
 
     def __init__(self, context, request):

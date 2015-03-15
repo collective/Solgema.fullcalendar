@@ -3,7 +3,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '2.3.2'
+version = '2.3.5.dev0'
 long_description = (
     open('README.rst').read() + '\n' +
     open('CHANGES.rst').read()
@@ -39,20 +39,33 @@ setup(name='Solgema.fullcalendar',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
+          'AccessControl',
           'collective.js.colorpicker',
           'collective.js.fullcalendar >=1.5.2.1',
           'collective.js.jqueryui',
           'plone.app.z3cform',
           'plone.formwidget.contenttree',
+          'plone.indexer',
           'plone.z3cform',
+          'Products.ATContentTypes',
+          'Products.CMFCore',
+          'Products.CMFPlone',
+          'Products.GenericSetup',
           'setuptools',
           'Solgema.ContextualContentMenu',
           'z3c.form',
+          'zope.component',
+          'zope.i18nmessageid',
+          'zope.interface',
+          'zope.schema',
       ],
       extras_require={
           'test': [
+              'plone.app.robotframework',
               'plone.app.testing',
               'plone.browserlayer',
+              'plone.testing',
+              'robotsuite',
               'unittest2',
           ],
       },

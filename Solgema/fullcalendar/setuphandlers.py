@@ -27,20 +27,26 @@ def installSolgemaFullcalendar(context):
 
 
 def uninstallSolgemaFullcalendar(context):
-    if context.readDataFile('solgemafullcalendar_various.txt') is None:
+    if context.readDataFile('solgemafullcalendar_uninstall_various.txt') is None:
         return
     site = context.getSite()
-    ttool = getToolByName(site, 'portal_types')
-    topic_type = ttool.Topic
-    topic_methods = topic_type.view_methods
-    li = []
-    for method in topic_methods:
-        if method != 'solgemafullcalendar_view':
-            li.append(method)
-    topic_type.manage_changeProperties(view_methods=tuple(li))
     catalog = getToolByName(site, 'portal_catalog')
-    topics = catalog.searchResults(portal_type='Topic')
-    for ctopic in topics:
-        topic = ctopic.getObject()
-        if getattr(topic, 'layout', None) == 'solgemafullcalendar_view':
-            setattr(topic, 'layout', '')
+    ttool = getToolByName(site, 'portal_types')
+    ctypes = [
+        'Event',
+        'Folder',
+        'Topic',
+        'Collection',
+    ]
+    for ctype in ctypes:
+        fti = getattr(ttool, ctype, None)
+        if not fti:
+            continue
+        view_methods = fti.view_methods
+        view_methods = tuple(i for i in view_methods if i != 'solgemafullcalendar_view')
+        fti.manage_changeProperties(view_methods=view_methods)
+        brains = catalog.searchResults(portal_type=ctype)
+        for brain in brains:
+            obj = brain.getObject()
+            if getattr(obj, 'layout', None) == 'solgemafullcalendar_view':
+                setattr(obj, 'layout', '')

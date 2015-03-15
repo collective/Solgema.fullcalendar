@@ -1,7 +1,53 @@
 Changelog
 =========
 
-2.3.3 (unreleased)
+2.3.5 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.3.4 (2014-08-08)
+------------------
+
+- Fix adding an editing events from plone.app.contenttypes items
+  (tested in branch 1.1.x)
+  [pbauer]
+
+- Fix to work with the newest p.a.contenttypes where collections are a behavior
+  [pbauer]
+
+- On install do not assume the types to be archetypes and only extend existing types
+  [pbauer]
+
+- Added robot framework. Added common keywords. Begun to test atfolder, collection.
+  [sgeulette, anuyens]
+
+- solgemafullcalendar.js is got from portal_url, not from context url
+  [thomasdesvenain]
+
+- More robust way to generate add event view.
+  [thomasdesvenain]
+
+- Put back the previously deleted code. Target Folder has sense too on folder. Correct undefined self.portal.
+  [sgeulette]
+
+- Fix issue #20 with empty values received from collections queries
+  [laulaz]
+
+- Add layer for all browser views and viewlets for issue #31
+  [laulaz]
+
+- Added createcoverage
+  [sgeulette]
+
+- Improve jquery selectors to be more precise and fix issues #34 and #35
+  [ferewuz]
+
+- Add support for Italian date format [cekk]
+
+
+2.3.3 (2014-02-05)
 ------------------
 
 - i18n fix on light event view.

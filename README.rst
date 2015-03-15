@@ -38,6 +38,14 @@ list of dictionaries needed by ``fullcalendar.js`` API.
 You can also replace the default event source providing an unnamed
 ``IEventSource`` adapter for your specific context or layer.
 
+Installation Note for Plone < 4.3
+---------------------------------
+
+Add this line in the versions section of your ``buildout.cfg``::
+
+    [versions]
+    ...
+    collective.js.jqueryui = <1.9
 
 Installation Note for Plone 3.x
 -------------------------------

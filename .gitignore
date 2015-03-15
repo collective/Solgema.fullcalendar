@@ -24,3 +24,5 @@ var
 .pydevproject
 .settings/
 *~
+lib/
+include/

@@ -21,11 +21,18 @@ from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode
 from Products.ATContentTypes.interface import IATFolder
+try:
+    from plone.app.contenttypes.behaviors.collection import ICollection
+    COLLECTION_IS_BEHAVIOR = False
+except ImportError:
+    COLLECTION_IS_BEHAVIOR = True
 
 try:
     from plone.dexterity.interfaces import IDexterityContainer
+
 except ImportError:
     IDexterityContainer = IATFolder
+
 
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
@@ -206,6 +213,20 @@ class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
 class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
+    def results(self, **kwargs):
+        """ Helper to get the results from the collection-behavior.
+        The template collectionvew.pt calls the standard_view of collections
+        as a macro and standard_view uses python:view.results(b_start=b_start)
+        to get the reusults. When used as a macro 'view' is this view instead
+        of the CollectionView.
+        """
+        if COLLECTION_IS_BEHAVIOR:
+            context = aq_inner(self.context)
+            wrapped = ICollection(context)
+            return wrapped.results(**kwargs)
+        else:
+            return self.context.results(**kwargs)
+
     def getCriteriaClass(self):
         queryField = self.context.query
         listCriteria = []
@@ -292,7 +313,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
         return pMF('alert_really_delete', 'Do you really want to delete this item?')
 
     def getCustomTitleFormat(self):
-        if self.portal_language in ['fr', 'nl']:
+        if self.portal_language in ['fr', 'nl', 'it']:
             return '{month: "MMMM yyyy", week: "d[ MMMM][ yyyy]{ \'-\' d MMMM yyyy}", day: \'dddd d MMMM yyyy\'}'
         elif self.portal_language in ['de']:
             return '{month: \'MMMM yyyy\', week: "d[ yyyy].[ MMMM]{ \'- \'d. MMMM yyyy}", day: \'dddd, d. MMMM yyyy\'}'
@@ -308,7 +329,7 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def columnFormat(self):
         if self.portal_language in ['de']:
             return "{month: 'ddd', week: 'ddd d. MMM', day: 'dddd d. MMM'}"
-        elif self.portal_language in ['fr', 'nl']:
+        elif self.portal_language in ['fr', 'nl', 'it']:
             return "{month: 'dddd', week: 'ddd d/MM', day: 'dddd d/MM'}"
         else:
             return "{month: 'ddd', week: 'ddd M/d', day: 'dddd M/d'}"
@@ -707,7 +728,7 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
         if not colorsDict:
             return css
 
-        for fieldid, selectedItems in [(a['i'], a['v']) for a in criterias]:
+        for fieldid, selectedItems in [(a['i'], a.get('v')) for a in criterias]:
             if not colorsDict.has_key(fieldid):
                 continue
 
