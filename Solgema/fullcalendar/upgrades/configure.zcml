@@ -182,7 +182,7 @@
   <genericsetup:upgradeStep
       title="Upgrade Solgema.fullcalendar to 2.1.2"
       description="Update to 2.1.2, Make usable with plone.app.collection (New Plone collections)"
-      source="2.1.1"
+      source="2.1.0"
       destination="2.1.2"
       handler=".migrations.upgrade212"
       profile="Solgema.fullcalendar:default" />
