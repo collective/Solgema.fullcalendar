@@ -32,7 +32,7 @@
    </div>
 
    <tal:block define="actions context/@@plone_context_state/actions;
-                      object_actions python:actions['object']">
+                      object_actions python:actions">
     <ul style="float:left; width:45%;">
         <li tal:repeat="action object_actions">
           <a href=""

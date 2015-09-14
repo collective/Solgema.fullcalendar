@@ -38,6 +38,10 @@ from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
 from Solgema.fullcalendar import msg_fact as _
 
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.interface import alsoProvides
+from Products.CMFPlone.resources import add_bundle_on_request
+
 # detect plone.app.event
 try:
     import plone.app.event
@@ -144,8 +148,11 @@ class SolgemaFullcalendarView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        alsoProvides(self.request, IDisableCSRFProtection)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
+        add_bundle_on_request(self.request, 'solgemafull')
+
     def getCriteriaClass(self):
         return ''
 

@@ -40,7 +40,7 @@
                     <div id="event_edit_container"></div>
                 </div>
                 <noscript tal:condition="view/displayNoscriptList | python:True">
-                    <metal:block use-macro="context/standard_view/macros/listing"></metal:block>
+                    <!-- <metal:block use-macro="context/standard_view/macros/listing"></metal:block> -->
                 </noscript>
                 <div tal:replace="structure provider:Solgema.fullcalendar.queryManager" />
                 <div tal:replace="structure provider:plone.belowcontentbody" />
