@@ -182,7 +182,7 @@ class SolgemaFullcalendarEditableFilter(object):
     def _listSFAllowedRolesAndUsersModify(self):
         sm = getSecurityManager()
         user = sm.getUser()
-        effective_roles = user.getRoles()
+        effective_roles = user.getRolesInContext(self.context)
         if sm.calledByExecutable():
             eo = sm._context.stack[-1]
             proxy_roles = getattr(eo, '_proxy_roles', None)
