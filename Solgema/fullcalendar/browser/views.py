@@ -33,6 +33,9 @@ try:
 except ImportError:
     IDexterityContainer = IATFolder
 
+from plone.app.contenttypes.browser.folder import FolderView
+from plone.app.contenttypes.browser.collection import CollectionView
+
 
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
@@ -140,14 +143,11 @@ def _get_date_from_req(request):
     return year, month, day
 
 
-class SolgemaFullcalendarView(BrowserView):
-    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+class SFCViewMixin(object):
 
-    implements(interfaces.ISolgemaFullcalendarView)
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
+    def _SFCViewMixin_init(self, context, request):
+        #self.context = context
+        #self.request = request
         alsoProvides(self.request, IDisableCSRFProtection)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
@@ -175,6 +175,22 @@ class SolgemaFullcalendarView(BrowserView):
         if query: query = '?%s' % query
         return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
 
+class SolgemaFullcalendarView(BrowserView, SFCViewMixin):
+    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+
+    implements(interfaces.ISolgemaFullcalendarView)
+
+    def __init__(self, context, request):
+        SFCViewMixin._SFCViewMixin_init(self, context, request)
+
+class SolgemaFullcalendarDXView(FolderView, SFCViewMixin):
+    """Solgema Fullcalendar Browser View for Plone 5.0 DX content types"""
+
+    implements(interfaces.ISolgemaFullcalendarView)
+
+    def __init__(self, context, request):
+        FolderView.__init__(self, context, request)
+        SFCViewMixin._SFCViewMixin_init(self, context, request)
 
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
@@ -217,23 +233,31 @@ class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
 
-class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
+class SolgemaFullcalendarDXCollectionView(CollectionView, SFCViewMixin):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
-    def results(self, **kwargs):
-        """ Helper to get the results from the collection-behavior.
-        The template collectionvew.pt calls the standard_view of collections
-        as a macro and standard_view uses python:view.results(b_start=b_start)
-        to get the reusults. When used as a macro 'view' is this view instead
-        of the CollectionView.
-        """
-        if COLLECTION_IS_BEHAVIOR:
-            context = aq_inner(self.context)
-            wrapped = ICollection(context)
-            return wrapped.results(**kwargs)
-        else:
-            return self.context.results(**kwargs)
+    implements(interfaces.ISolgemaFullcalendarView)
 
+    def __init__(self, *args, **kwargs):
+        CollectionView.__init__(self, *args, **kwargs)
+        SFCViewMixin._SFCViewMixin_init(self, self.context, self.request)
+
+
+#    Use DX results output
+#    def results(self, **kwargs):
+#        """ Helper to get the results from the collection-behavior.
+#        The template collectionvew.pt calls the standard_view of collections
+#        as a macro and standard_view uses python:view.results(b_start=b_start)
+#        to get the reusults. When used as a macro 'view' is this view instead
+#        of the CollectionView.
+#        """
+#        if COLLECTION_IS_BEHAVIOR:
+#            context = aq_inner(self.context)
+#            wrapped = ICollection(context)
+#            return wrapped.results(**kwargs)
+#        else:
+#            return self.context.results(**kwargs)
+#
     def getCriteriaClass(self):
         queryField = self.context.query
         listCriteria = []
