@@ -431,8 +431,7 @@ class ColorIndexGetter(object):
             return final.copy()
         colorsDict = self.calendar.queryColors
 
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        charset = 'utf-8'
         selectedItems = getCookieItems(request, criteriaItems['name'], charset)
         if not selectedItems:
             selectedItems = criteriaItems['values']
@@ -1033,8 +1032,7 @@ class DXCollectionEventSource(TopicEventSource):
         if not query:
             return ({}, [])
 
-        props = getToolByName(context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        charset = 'utf-8'
 
         if 'Type' in query.keys():
             items = getCookieItems(request, 'Type', charset)

@@ -543,8 +543,7 @@ class SFTopicSources(SolgemaFullcalendarView):
         """Render JS eventSources. Separate cookie request in different sources."""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
         criteria = self.getCriteriaClass()
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        charset = 'utf-8'
         values = getCookieItems(self.request, criteria, charset)
         fromCookie = True
         if values == None:
