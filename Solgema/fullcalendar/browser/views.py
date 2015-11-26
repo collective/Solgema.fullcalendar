@@ -15,6 +15,7 @@ from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabularyFactory
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.registry.interfaces import IRegistry
+from plone.memoize.view import memoize
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
@@ -31,10 +32,11 @@ except ImportError:
 
 try:
     from plone.dexterity.interfaces import IDexterityContainer
-
 except ImportError:
     IDexterityContainer = IATFolder
 
+from plone.app.contenttypes.browser.folder import FolderView
+from plone.app.contenttypes.browser.collection import CollectionView
 
 from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
@@ -142,18 +144,25 @@ def _get_date_from_req(request):
     return year, month, day
 
 
-class SolgemaFullcalendarView(BrowserView):
+# Use Collection view and 'wind back' methods to Folderview to preserve
+# inheritance tree so that Zope Layers work ;-(
+
+class SolgemaFullcalendarView(CollectionView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
     implements(interfaces.ISolgemaFullcalendarView)
 
     def __init__(self, context, request):
+        FolderView.__init__(self, context, request)
         self.context = context
         self.request = request
         alsoProvides(self.request, IDisableCSRFProtection)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
         add_bundle_on_request(self.request, 'solgemafull')
+
+        # Get rid of tabular_fields()
+        self.tabular_fields = None
 
     def getCriteriaClass(self):
         return ''
@@ -177,6 +186,24 @@ class SolgemaFullcalendarView(BrowserView):
         if query: query = '?%s' % query
         return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
 
+    # Wind back 
+    def results(self, **kwargs):
+        return FolderView.results(self, **kwargs)
+    def batch(self):
+        return FolderView.batch(self)
+
+    @property
+    @memoize
+    def album_images(self):
+        return FolderView.album_images(self)
+
+    @property
+    @memoize
+    def album_folders(self):
+        return FolderView.album_images(self)
+
+    def no_items_message(self):
+        return FolderView.no_items_message(self)
 
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
@@ -222,19 +249,14 @@ class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
 class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
-    def results(self, **kwargs):
-        """ Helper to get the results from the collection-behavior.
-        The template collectionvew.pt calls the standard_view of collections
-        as a macro and standard_view uses python:view.results(b_start=b_start)
-        to get the reusults. When used as a macro 'view' is this view instead
-        of the CollectionView.
-        """
-        if COLLECTION_IS_BEHAVIOR:
-            context = aq_inner(self.context)
-            wrapped = ICollection(context)
-            return wrapped.results(**kwargs)
-        else:
-            return self.context.results(**kwargs)
+    # Retrieve CollectionView __init__
+    def __init__(self, *args, **kwargs):
+        CollectionView.__init__(self, *args, **kwargs)
+        context = self.context
+        alsoProvides(self.request, IDisableCSRFProtection)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
+                                                                  None)
+        add_bundle_on_request(self.request, 'solgemafull')
 
     def getCriteriaClass(self):
         queryField = self.context.query
@@ -248,6 +270,24 @@ class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
             return ''
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
+
+    # Retrieve CollectionView methods
+    def results(self, **kwargs):
+        return CollectionView.results(self, **kwargs)
+    def batch(self):
+        return CollectionView.batch(self)
+
+    @property
+    def album_images(self):
+        return CollectionView.album_images(self)
+
+    @property
+    def album_folders(self):
+        return CollectionView.album_images(self)
+
+    def no_items_message(self):
+        return CollectionView.no_items_message(self)
+
 
 
 class SolgemaFullcalendarEventJS(BrowserView):
