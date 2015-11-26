@@ -4,7 +4,8 @@ Changelog
 2.3.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove old Topic support.
+  [bsuttor]
 
 
 2.3.4 (2014-08-08)
