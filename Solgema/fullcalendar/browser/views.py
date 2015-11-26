@@ -14,9 +14,11 @@ from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabularyFactory
 from plone.i18n.normalizer.interfaces import IURLNormalizer
+from plone.registry.interfaces import IRegistry
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import getUtility
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode
@@ -543,8 +545,8 @@ class SFTopicSources(SolgemaFullcalendarView):
         """Render JS eventSources. Separate cookie request in different sources."""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
         criteria = self.getCriteriaClass()
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
         values = getCookieItems(self.request, criteria, charset)
         fromCookie = True
         if values == None:
@@ -611,8 +613,8 @@ class SFFolderSources(SolgemaFullcalendarView):
     def __call__(self, *args, **kw):
         """Render JS eventSources. Separate cookie request in different sources."""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
 
         values = getCookieItems(self.request, 'subFolders', charset)
         availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])

@@ -11,7 +11,8 @@ try:
     from Products.ZCatalog.interfaces import ICatalogBrain
 except:
     class ICatalogBrain(Interface): pass
-from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import getUtility, getToolByName
+from plone.registry.interfaces import IRegistry
 from Products.ATContentTypes.interface import IATTopic, IATFolder
 
 from Solgema.fullcalendar.browser.views import (
@@ -382,8 +383,8 @@ class FolderColorIndexGetter(object):
             return final.copy()
         colorsDict = self.calendar.queryColors
 
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
         selectedItems = getCookieItems(request, 'subFolders', charset)
         if not selectedItems:
             selectedItems = availableSubFolders
@@ -431,8 +432,8 @@ class ColorIndexGetter(object):
             return final.copy()
         colorsDict = self.calendar.queryColors
 
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
         selectedItems = getCookieItems(request, criteriaItems['name'], charset)
         if not selectedItems:
             selectedItems = criteriaItems['values']
@@ -865,8 +866,8 @@ class TopicEventSource(FolderEventSource):
         if not query:
             return ({}, [])
 
-        props = getToolByName(context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
 
         if 'Type' in query.keys():
             items = getCookieItems(request, 'Type', charset)
@@ -962,8 +963,8 @@ class CollectionEventSource(TopicEventSource):
         if not query:
             return ({}, [])
 
-        props = getToolByName(context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
 
         if 'Type' in query.keys():
             items = getCookieItems(request, 'Type', charset)
@@ -1033,8 +1034,8 @@ class DXCollectionEventSource(TopicEventSource):
         if not query:
             return ({}, [])
 
-        props = getToolByName(context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
 
         if 'Type' in query.keys():
             items = getCookieItems(request, 'Type', charset)
