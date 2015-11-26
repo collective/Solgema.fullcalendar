@@ -33,7 +33,7 @@
   <browser:page
       for="plone.app.contenttypes.interfaces.IFolder"
       name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarDXView"
+      class=".views.SolgemaFullcalendarView"
       template="folderview.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
