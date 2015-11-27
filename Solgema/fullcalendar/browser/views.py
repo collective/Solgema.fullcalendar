@@ -144,8 +144,8 @@ def _get_date_from_req(request):
     return year, month, day
 
 
-# Use Collection view and 'wind back' methods to Folderview to preserve
-# inheritance tree so that Zope Layers work ;-(
+# Use plone.app.contenttypes.collection.CollectionView and 'wind back' methods to Folderview to preserve
+# inheritance tree. Using MixIn classes stops Zope Layers working ;-(
 
 class SolgemaFullcalendarView(CollectionView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
@@ -186,24 +186,13 @@ class SolgemaFullcalendarView(CollectionView):
         if query: query = '?%s' % query
         return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
 
-    # Wind back 
-    def results(self, **kwargs):
-        return FolderView.results(self, **kwargs)
-    def batch(self):
-        return FolderView.batch(self)
+    # Retrieve FolderView methods and properties by monkey patching ;-(
+    results = FolderView.results
+    batch = FolderView.batch
+    album_images = FolderView.album_images
+    album_folders = FolderView.album_folders
+    no_items_message = FolderView.no_items_message
 
-    @property
-    @memoize
-    def album_images(self):
-        return FolderView.album_images(self)
-
-    @property
-    @memoize
-    def album_folders(self):
-        return FolderView.album_images(self)
-
-    def no_items_message(self):
-        return FolderView.no_items_message(self)
 
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
@@ -271,22 +260,12 @@ class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
 
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
-    # Retrieve CollectionView methods
-    def results(self, **kwargs):
-        return CollectionView.results(self, **kwargs)
-    def batch(self):
-        return CollectionView.batch(self)
-
-    @property
-    def album_images(self):
-        return CollectionView.album_images(self)
-
-    @property
-    def album_folders(self):
-        return CollectionView.album_images(self)
-
-    def no_items_message(self):
-        return CollectionView.no_items_message(self)
+    # Retrieve CollectionView methods and properties by monkeypatching
+    results = CollectionView.results
+    batch = CollectionView.batch
+    album_images = CollectionView.album_images
+    album_folders = CollectionView.album_folders
+    no_items_message = CollectionView.no_items_message
 
 
 
