@@ -735,7 +735,6 @@ function calendarOptions() {
           url :       SolgemaFullcalendarVars.topicAbsoluteUrl + '/solgemafullcalendar_resize',
           headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
           data :      data,
-          headers: {},
           success :   function(msg) {
             jq('#kss-spinner').hide();
           },

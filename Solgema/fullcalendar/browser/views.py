@@ -16,6 +16,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.registry.interfaces import IRegistry
 from plone.memoize.view import memoize
+from plone.protect.authenticator import createToken
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
@@ -585,6 +586,7 @@ class SFTopicSources(SolgemaFullcalendarView):
                 d['title'] = value
                 #d['data'] = {criteria:value} Unfortunately this is not possible to remove an eventSource with data from fullcalendar
                 #it recognises only eventSource by url....
+                d['headers'] =  { 'X-CSRF-TOKEN': createToken() }
                 if criteria == 'Subject':
                     d['extraData'] = {'subject:list':value}
                 elif criteria in ['Creator', 'Contributor']:#How to get the right field name?
@@ -593,7 +595,7 @@ class SFTopicSources(SolgemaFullcalendarView):
                     d['extraData'] = {criteria:value}
                 eventSources.append(d.copy())
         else:
-            eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents'})
+            eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents', 'headers': { 'X-CSRF-TOKEN': createToken() }})
 
         gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
         if gcalSourcesAttr != None:
@@ -657,6 +659,7 @@ class SFFolderSources(SolgemaFullcalendarView):
                 d['color'] = self.getColor('subFolders', value)
                 d['title'] = voc.getTerm(value).title
                 d['target_folder'] = self.context.absolute_url() + '/' + value
+                d['headers'] =  { 'X-CSRF-TOKEN': createToken() }
                 eventSources.append(d.copy())
         else:
             eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents'})
@@ -720,6 +723,7 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
         if not colorsDict or not availableSubFolders:
             return css
         folderIds = [a.getId for a in self.context.getFolderContents(contentFilter={'object_provides':'Products.ATContentTypes.interfaces.folder.IATFolder'})]
+        folderIds += [a.getId for a in self.context.getFolderContents(contentFilter={'object_provides':'plone.app.contenttypes.interfaces.IFolder'})]
         if not folderIds:
             return css
         fieldid = 'subFolders'

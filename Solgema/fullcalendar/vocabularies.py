@@ -60,6 +60,7 @@ def availableCriterias( context ):
 
 def availableSubFolders( context ):
     folderContents = context.getFolderContents(contentFilter={'object_provides':'Products.ATContentTypes.interfaces.folder.IATFolder'})
+    folderContents += context.getFolderContents(contentFilter={'object_provides':'plone.app.contenttypes.interfaces.IFolder'})
     return TitledVocabulary.fromTitles([(a.getId, a.Title) for a in folderContents])
 
 def shortNameFormats(context):
