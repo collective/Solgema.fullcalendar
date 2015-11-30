@@ -301,12 +301,13 @@ var SolgemaFullcalendar = {
     },
     openAddMenu: function (start, end, allDay, event, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
-      var url = jq('base').attr('href') + '/@@SFDisplayAddMenu';
+      var url = SolgemaFullcalendarVars.target_folder + '/@@SFDisplayAddMenu';
       jq.ajax({
         type : 'POST',
         url : url,
         dataType: "json",
         async: true,
+        headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
         data : {},
         success : function(msg) {
           if (msg['display']) {
@@ -468,6 +469,7 @@ var SolgemaFullcalendar = {
             url :       './@@solgemafullcalendar_workflowtransition',
             dataType: "json",
             async:   false,
+            headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
             data :      {event_path:href},
             success :   function(msg) {
               if (typeof(msg)=='string') {
@@ -499,6 +501,7 @@ var SolgemaFullcalendar = {
               url :    eventurl+'@@SFJsonEventDelete',
               dataType:"json",
               async:   false,
+              headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
               data :   {},
               success :function(json) {
                 if(json['status'] == 'ok') {
@@ -528,6 +531,7 @@ var SolgemaFullcalendar = {
             url :    eventurl+'@@SFJsonEventCut',
             dataType:"json",
             async:   false,
+            headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
             data :   {},
             success :function(json) {
               if(json['status'] == 'copied') {
@@ -537,6 +541,7 @@ var SolgemaFullcalendar = {
                   url :    eventurl+'@@SFJsonEvent',
                   dataType:"json",
                   async:   false,
+                  headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
                   data :   {},
                   success :function(json) {
                     var calendar = SolgemaFullcalendar.getCalendar();
@@ -572,6 +577,7 @@ var SolgemaFullcalendar = {
                   url :    eventurl+'@@SFJsonEvent',
                   dataType:"json",
                   async:   false,
+                  headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
                   data :   {},
                   success :function(json) {
                     var calendar = SolgemaFullcalendar.getCalendar();
@@ -712,8 +718,9 @@ function calendarOptions() {
         data = {event: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay};
         jq.ajax({
           type :   'POST',
-          url :    './solgemafullcalendar_drop',
+          url :    SolgemaFullcalendarVars.topicAbsoluteUrl + '/solgemafullcalendar_drop',
           data :   data,
+          headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
           success :function(msg) {
             jq('#kss-spinner').hide();
           }
@@ -725,8 +732,10 @@ function calendarOptions() {
         var data = {event: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta};
         jq.ajax({
           type :      'POST',
-          url :       './solgemafullcalendar_resize',
+          url :       SolgemaFullcalendarVars.topicAbsoluteUrl + '/solgemafullcalendar_resize',
+          headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
           data :      data,
+          headers: {},
           success :   function(msg) {
             jq('#kss-spinner').hide();
           },
