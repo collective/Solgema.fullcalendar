@@ -157,7 +157,8 @@ class SolgemaFullcalendarView(CollectionView):
         FolderView.__init__(self, context, request)
         self.context = context
         self.request = request
-        alsoProvides(self.request, IDisableCSRFProtection)
+        # Not a good idea - easy enough to fix things
+        # alsoProvides(self.request, IDisableCSRFProtection)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
         add_bundle_on_request(self.request, 'solgemafull')
@@ -243,7 +244,8 @@ class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
     def __init__(self, *args, **kwargs):
         CollectionView.__init__(self, *args, **kwargs)
         context = self.context
-        alsoProvides(self.request, IDisableCSRFProtection)
+        # Not a good idea - easy enough to fix things
+        # alsoProvides(self.request, IDisableCSRFProtection)
         self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
                                                                   None)
         add_bundle_on_request(self.request, 'solgemafull')
