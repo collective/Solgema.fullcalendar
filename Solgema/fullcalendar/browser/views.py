@@ -721,6 +721,7 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
     def __call__(self):
         colorsDict = self.calendar.queryColors
         availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
+        self.request.response.setHeader('Content-Type', 'text/css;;charset="utf-8"')
         css = ''
         if not colorsDict or not availableSubFolders:
             return css
@@ -740,7 +741,7 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
                     break
             if color:
                 css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
-                css += '    color: %s;\n' % (str(color))
+                css += '    color: %s !important;\n' % (str(color))
                 css += '}\n\n'
 
         return css
@@ -758,6 +759,7 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
     def __call__(self):
         colorsDict = self.calendar.queryColors
         criterias = interfaces.IListBaseQueryCriteria(self.context)()
+        self.request.response.setHeader('Content-Type', 'text/css;;charset="utf-8"')
         css = ''
         if not colorsDict:
             return css
@@ -777,7 +779,7 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
                         break
                 if color:
                     css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
-                    css += '    color: %s;\n' % (str(color))
+                    css += '    color: %s !important;\n' % (str(color))
                     css += '}\n\n'
 
         return css
