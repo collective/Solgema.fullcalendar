@@ -790,6 +790,12 @@ function initCalendar(date) {
     jq('#datePickerWrapper').insertAfter('.fc-button-calendar');
     jq('#datePicker').datepicker({
       dateFormat: "dd/mm/yy",
+      monthNames: SolgemaFullcalendarVars.monthNames,
+      monthNamesShort: SolgemaFullcalendarVars.monthNamesShort,
+      dayNames: SolgemaFullcalendarVars.dayNames,
+      dayNamesShort: SolgemaFullcalendarVars.dayNamesShort,
+      dayNamesMin: SolgemaFullcalendarVars.dayNamesShort,
+      yearSuffix: '',
       onSelect: function(date, inst) {
         jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
         jq('#datePicker').css('display', 'none');
