@@ -616,7 +616,10 @@ var SolgemaFullcalendar = {
         }
       }
       if(portalType != undefined){
-          var extra = '/SFLight_' + portalType + '_view';
+	  // This would work if there were multiple SFLight_portaltype_view forms,
+	  //  var extra = '/SFLight_' + portalType + '_view';
+	  // however the calendar view events are evnt based so:
+	  var extra = '/SFLight_' + 'event' + '_view';
           jq('#kss-spinner').show();
           var dialogContent = jq("#event_edit_container");
           dialogContent.empty();
