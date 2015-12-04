@@ -416,7 +416,7 @@ var SolgemaFullcalendar = {
         dxdata['form.widgets.IEventBasic.end-day'] = end.getDate();
         dxdata['form.widgets.IEventBasic.end-month'] = end.getMonth() + 1; //js Date zero-indexed month
         dxdata['form.widgets.IEventBasic.end-year'] = end.getYear() + 1900;
-        $dialogContent.append('<iframe src="'+target_folder+'/SFAjax_add_dx_event?'+jq.param(dxdata)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+        $dialogContent.append('<iframe src="'+target_folder+'/SFAjax_add_dx_event?'+jq.param(dxdata)+'" width="100%" height="95%" scrolling="yes" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       } else {
         var timestamp = new Date().getTime().toString();
         data['ajax_load'] = timestamp;
