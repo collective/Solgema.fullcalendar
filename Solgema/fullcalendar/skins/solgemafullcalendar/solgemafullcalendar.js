@@ -783,6 +783,14 @@ function calendarOptions() {
         }
       };
       options['target_folder'] = SolgemaFullcalendarVars.target_folder;
+      // Fix vairous Week view display problems
+      options['viewRender'] = function(view,element) {
+        // Fix dissappeaing border and day highligt
+        jq('#calendar table').css('background-color', 'transparent');
+   	jq('#calendar tr.fc-minor').attr('style','background:initial;');
+	// Fix header row layout problem
+	jq('#calendar table').css('margin-bottom','0');
+      };
       return options;
 };
 
