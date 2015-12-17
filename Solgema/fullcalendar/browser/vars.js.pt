@@ -1,5 +1,6 @@
 <metal:javascript i18n:domain="Solgema.fullcalendar">
   var SolgemaFullcalendarVars = {
+    csrfToken: "<p tal:replace="context/@@authenticator/token"/>",
     slotMinutes : <p tal:replace="view/slotMinutes"/>,
     defaultView: '<p tal:replace="view/defaultCalendarView"/>',
     firstDay : <p tal:replace="view/getFirstDay"/>,

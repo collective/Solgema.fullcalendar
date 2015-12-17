@@ -17,8 +17,10 @@ except:
 
 try:
     from plone.app.contenttypes.interfaces import ICollection as IDXCollection
+    from plone.app.contenttypes.interfaces import IFolder
 except:
     class IDXCollection(Interface): pass
+    class IFolder(Interface): pass
 
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryCriteria
 from Solgema.fullcalendar import msg_fact as _
@@ -100,7 +102,7 @@ class ColorDictInputWidget(Widget):
                             value, value)
                 html+='</table>'
         availableSubFolders = getattr(calendar, 'availableSubFolders', [])
-        if IATFolder.providedBy(self.context) and availableSubFolders:
+        if (IATFolder.providedBy(self.context) or IFolder.providedBy(self.context)) and availableSubFolders:
             html += '<br/><b>%s</b><br/><table>' % (_('Sub-Folders'))
             fieldid = 'subFolders'
             for folderId in availableSubFolders:

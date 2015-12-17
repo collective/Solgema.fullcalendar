@@ -6,6 +6,7 @@ from zope.schema.interfaces import IDict
 from zope.viewlet.interfaces import IViewletManager
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from Products.ATContentTypes.interface import IATFolder
+from plone.app.contenttypes.interfaces import IFolder
 try:
     from plone.dexterity.interfaces import IDexterityContainer
 except ImportError:
@@ -209,6 +210,7 @@ class ISolgemaFullcalendarProperties(Interface):
         source=PathSourceBinder(
             object_provides=(
                 IATFolder.__identifier__,
+                IFolder.__identifier__,
                 IOrderedContainer.__identifier__,
                 IDexterityContainer.__identifier__),
             ))

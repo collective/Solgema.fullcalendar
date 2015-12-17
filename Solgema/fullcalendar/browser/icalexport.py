@@ -41,7 +41,7 @@ class ICalExportButton(ViewletBase):
                    title="%(msg)s"
                    href="%(url)s/ics_view">
                     <img width="16" height="16" title="%(title)s" alt="%(title)s"
-                         src="%(portal_url)s/icon_export_ical.png">
+                         src="%(portal_url)s/++resource++plone.app.event/icon_export_ical.png">
                 <span>%(title)s</span></a>
                """ % {'msg': msg, 'title': title,
                       'url': url, 'portal_url': portal_url}

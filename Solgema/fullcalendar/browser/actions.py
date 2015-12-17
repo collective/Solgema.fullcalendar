@@ -106,7 +106,7 @@ class SFDisplayAddMenu(BaseActionView):
         target_folder = getattr(interfaces.ISolgemaFullcalendarProperties(context, None), 'target_folder', None)
         target_folder = target_folder \
                     and portal.unrestrictedTraverse('/'+ portal.id + target_folder) \
-                    or aq_parent(context)
+                    or context
 
         if not getSecurityManager().checkPermission('Add portal content', target_folder):
             raise Unauthorized, "You can't add an event on %s" % str(target_folder)

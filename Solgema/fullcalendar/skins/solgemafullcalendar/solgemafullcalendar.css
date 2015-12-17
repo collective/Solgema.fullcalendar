@@ -1,6 +1,3 @@
-/* <dtml-with base_properties> (do not remove this :) */
-/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
-
 table.fc-header td {
     position:relative;
 }
@@ -48,7 +45,7 @@ table.fc-header td {
 }
 
 #calendar div.contentmenu_selected a {
-    background-color: &dtml-helpBackgroundColor; !important;
+    background-color: #ccc !important;
     color: #000;
 }
 
@@ -63,11 +60,11 @@ table.fc-header td {
 
 #calendar div.contentmenu_selected,
 #calendar div.contentmenu_selected .fc-event-time {
-    background-color: &dtml-notifyBorderColor; !important;
+    background-color: #333 !important;
 }
 
 #calendar div.contentmenu_selected {
-    border:1px solid &dtml-notifyBorderColor; !important;
+    border:1px solid #333 !important;
 }
 
 #calendar .contentmenu_selected {
@@ -335,7 +332,7 @@ label.state-private {
 
 .state-private .fc-event-head .fc-event-time,
 .state-private .fc-event-inner .fc-event-time{
-    background: url("lock_icon.gif") no-repeat scroll left center transparent;
+    background: url("lock_icon.png") no-repeat scroll left center transparent;
     padding-left: 15px;
 }
 
@@ -350,13 +347,13 @@ label.state-visible {
 }
 
 #calendar.query-review_state div.fc-event.state-published {
-    border:1px solid &dtml-linkColor;;
+    border:1px solid #000;
 }
 #calendar.query-review_state div.fc-event.state-published a {
-    background-color: &dtml-linkColor;;
+    background-color: #000;
 }
 label.state-published {
-    color: &dtml-linkColor;;
+    color: #000;
 }
 
 #calendar.query-review_state div.fc-event.state-pending {
@@ -389,6 +386,5 @@ label.syndicated {
     color: #008000;
 }
 
-/* </dtml-with> */
 /* @end */
 

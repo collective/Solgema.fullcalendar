@@ -301,12 +301,13 @@ var SolgemaFullcalendar = {
     },
     openAddMenu: function (start, end, allDay, event, view) {
       if(SolgemaFullcalendarVars.disableAJAX) { return; }
-      var url = jq('base').attr('href') + '/@@SFDisplayAddMenu';
+      var url = SolgemaFullcalendarVars.target_folder + '/@@SFDisplayAddMenu';
       jq.ajax({
         type : 'POST',
         url : url,
         dataType: "json",
         async: true,
+        headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
         data : {},
         success : function(msg) {
           if (msg['display']) {
@@ -415,7 +416,7 @@ var SolgemaFullcalendar = {
         dxdata['form.widgets.IEventBasic.end-day'] = end.getDate();
         dxdata['form.widgets.IEventBasic.end-month'] = end.getMonth() + 1; //js Date zero-indexed month
         dxdata['form.widgets.IEventBasic.end-year'] = end.getYear() + 1900;
-        $dialogContent.append('<iframe src="'+target_folder+'/SFAjax_add_dx_event?'+jq.param(dxdata)+'" width="100%" scrolling="no" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
+        $dialogContent.append('<iframe src="'+target_folder+'/SFAjax_add_dx_event?'+jq.param(dxdata)+'" width="100%" height="95%" scrolling="yes" frameborder="0" name="SFEventEditIFRAME" style="overflow-x:hidden; overflow-y:hidden;"></iframe>');
       } else {
         var timestamp = new Date().getTime().toString();
         data['ajax_load'] = timestamp;
@@ -468,6 +469,7 @@ var SolgemaFullcalendar = {
             url :       './@@solgemafullcalendar_workflowtransition',
             dataType: "json",
             async:   false,
+            headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
             data :      {event_path:href},
             success :   function(msg) {
               if (typeof(msg)=='string') {
@@ -499,6 +501,7 @@ var SolgemaFullcalendar = {
               url :    eventurl+'@@SFJsonEventDelete',
               dataType:"json",
               async:   false,
+              headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
               data :   {},
               success :function(json) {
                 if(json['status'] == 'ok') {
@@ -528,6 +531,7 @@ var SolgemaFullcalendar = {
             url :    eventurl+'@@SFJsonEventCut',
             dataType:"json",
             async:   false,
+            headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
             data :   {},
             success :function(json) {
               if(json['status'] == 'copied') {
@@ -537,6 +541,7 @@ var SolgemaFullcalendar = {
                   url :    eventurl+'@@SFJsonEvent',
                   dataType:"json",
                   async:   false,
+                  headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
                   data :   {},
                   success :function(json) {
                     var calendar = SolgemaFullcalendar.getCalendar();
@@ -572,6 +577,7 @@ var SolgemaFullcalendar = {
                   url :    eventurl+'@@SFJsonEvent',
                   dataType:"json",
                   async:   false,
+                  headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
                   data :   {},
                   success :function(json) {
                     var calendar = SolgemaFullcalendar.getCalendar();
@@ -610,7 +616,10 @@ var SolgemaFullcalendar = {
         }
       }
       if(portalType != undefined){
-          var extra = '/SFLight_' + portalType + '_view';
+	  // This would work if there were multiple SFLight_portaltype_view forms,
+	  //  var extra = '/SFLight_' + portalType + '_view';
+	  // however the calendar view events are evnt based so:
+	  var extra = '/SFLight_' + 'event' + '_view';
           jq('#kss-spinner').show();
           var dialogContent = jq("#event_edit_container");
           dialogContent.empty();
@@ -712,8 +721,9 @@ function calendarOptions() {
         data = {event: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta, allDay: allDay};
         jq.ajax({
           type :   'POST',
-          url :    './solgemafullcalendar_drop',
+          url :    SolgemaFullcalendarVars.topicAbsoluteUrl + '/solgemafullcalendar_drop',
           data :   data,
+          headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
           success :function(msg) {
             jq('#kss-spinner').hide();
           }
@@ -725,7 +735,8 @@ function calendarOptions() {
         var data = {event: event.id, dayDelta: dayDelta, minuteDelta: minuteDelta};
         jq.ajax({
           type :      'POST',
-          url :       './solgemafullcalendar_resize',
+          url :       SolgemaFullcalendarVars.topicAbsoluteUrl + '/solgemafullcalendar_resize',
+          headers: { 'X-CSRF-TOKEN': SolgemaFullcalendarVars.csrfToken },
           data :      data,
           success :   function(msg) {
             jq('#kss-spinner').hide();
@@ -772,6 +783,14 @@ function calendarOptions() {
         }
       };
       options['target_folder'] = SolgemaFullcalendarVars.target_folder;
+      // Fix vairous Week view display problems
+      options['viewRender'] = function(view,element) {
+        // Fix dissappeaing border and day highligt
+        jq('#calendar table').css('background-color', 'transparent');
+   	jq('#calendar tr.fc-minor').attr('style','background:initial;');
+	// Fix header row layout problem
+	jq('#calendar table').css('margin-bottom','0');
+      };
       return options;
 };
 
@@ -782,6 +801,12 @@ function initCalendar(date) {
     jq('#datePickerWrapper').insertAfter('.fc-button-calendar');
     jq('#datePicker').datepicker({
       dateFormat: "dd/mm/yy",
+      monthNames: SolgemaFullcalendarVars.monthNames,
+      monthNamesShort: SolgemaFullcalendarVars.monthNamesShort,
+      dayNames: SolgemaFullcalendarVars.dayNames,
+      dayNamesShort: SolgemaFullcalendarVars.dayNamesShort,
+      dayNamesMin: SolgemaFullcalendarVars.dayNamesShort,
+      yearSuffix: '',
       onSelect: function(date, inst) {
         jq('#calendar').fullCalendar('gotoDate', date.split('/')[2], date.split('/')[1]-1, date.split('/')[0]);
         jq('#datePicker').css('display', 'none');

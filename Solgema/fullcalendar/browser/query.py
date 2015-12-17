@@ -2,7 +2,8 @@ from copy import deepcopy
 from Acquisition import aq_inner
 from zope import component
 from plone.app.layout.viewlets.common import ViewletBase
-from Products.CMFCore.utils import getToolByName
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getUtility
 
 from Solgema.fullcalendar.interfaces import ISolgemaFullcalendarProperties
 from Solgema.fullcalendar.browser.views import getCookieItems
@@ -37,8 +38,8 @@ class SolgemaFullcalendarTopicQuery(ViewletBase):
         return getattr(self.calendar, 'displayUndefined', False)
 
     def getCookieItems(self, field):
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
         return getCookieItems(self.request, field, charset)
 
 
@@ -91,6 +92,6 @@ class SolgemaFullcalendarFolderQuery(ViewletBase):
                 for a in getattr(self.calendar, 'availableSubFolders', [])]
 
     def getCookieItems(self, field):
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        registry = getUtility(IRegistry)
+        charset = registry.get('plone.default_charset', 'utf-8')
         return getCookieItems(self.request, field, charset)

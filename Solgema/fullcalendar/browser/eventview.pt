@@ -99,7 +99,8 @@
                                tal:attributes="href string:$here_url/ics_view"
                                title="Download this event in iCal format"
                                i18n:attributes="title title_add_to_ical;">
-                                <img tal:replace="structure portal/icon_export_ical.png" src="" alt="" />
+                                <img src="" alt=""
+                tal:attributes="src string:${portal/absolute_url}/++resource++plone.app.event/icon_export_ical.png"/>
                                 <span i18n:translate="label_add_to_ical">iCal</span></a>
                         </td>
                     </tr>

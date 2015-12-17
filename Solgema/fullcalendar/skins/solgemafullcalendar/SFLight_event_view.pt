@@ -15,11 +15,12 @@
                   ajax_load request/ajax_load | nothing;
                   event_macro context/@@event_view/macros/content-core |
                               context/event_view/macros/content-core |
-                              context/event_view/macros/main"
+                              context/event_view/macros/main;
+									auth_token context/@@authenticator/token|nothing"
       i18n:domain="plone"
       tal:omit-tag="">
- <div id="content">
 
+ <div id="content">
    <p class="documentDescription kssattr-atfieldname-description kssattr-templateId-kss_generic_macros kssattr-macro-description-field-view"
         id="parent-fieldname-description"
         tal:content="structure here/Description">
@@ -32,13 +33,16 @@
    </div>
 
    <tal:block define="actions context/@@plone_context_state/actions;
-                      object_actions python:actions['object']">
+                      object_actions python:actions">
     <ul style="float:left; width:45%;">
         <li tal:repeat="action object_actions">
           <a href=""
              target="_blank"
-             tal:define="title action/title"
-             tal:attributes="href action/url"
+             tal:define="title action/title;
+						             url action/url;
+												 id action/id;
+												 auth_string string:?_authenticator=${auth_token}"
+						 tal:attributes="href python: id == 'edit' and url + auth_string or url"
              i18n:translate=""
              i18n:domain="plone"
              tal:content="python: title=='View' and 'View details' or title">title</a>

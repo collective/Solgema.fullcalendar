@@ -4,8 +4,7 @@
       i18n:domain="Solgema.fullcalendar">
 <head>
   <metal:slot fill-slot="style_slot">
-        <style media="all"  type="text/css" tal:content="structure python:path('here/solgemafullcalendar_colors.css')">
-        </style>
+		<link rel="stylesheet" type="text/css" tal:attributes="href string:${context/id}/solgemafullcalendar_colors.css" />
   </metal:slot>
     <metal:slot fill-slot="javascript_head_slot" tal:omit-tag="">
         <script type="text/javascript" tal:condition="view/calendar/gcalSources | nothing"
@@ -40,7 +39,7 @@
                     <div id="event_edit_container"></div>
                 </div>
                 <noscript tal:condition="view/displayNoscriptList | python:True">
-                    <metal:block use-macro="context/standard_view/macros/listing"></metal:block>
+                    <!-- <metal:block use-macro="context/standard_view/macros/listing"></metal:block> -->
                 </noscript>
                 <div tal:replace="structure provider:Solgema.fullcalendar.queryManager" />
                 <div tal:replace="structure provider:plone.belowcontentbody" />
