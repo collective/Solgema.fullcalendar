@@ -4,7 +4,8 @@ Changelog
 2.3.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add new Dexterity folder view herited from FolderView (plone.app.contenttypes.browser.folder).
+  [bsuttor]
 
 
 2.3.4 (2014-08-08)
