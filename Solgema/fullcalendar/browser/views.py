@@ -14,7 +14,6 @@ from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 from zope.schema.interfaces import IVocabularyFactory
 from plone.i18n.normalizer.interfaces import IURLNormalizer
-
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
@@ -23,6 +22,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.ATContentTypes.interface import IATFolder
 try:
     from plone.app.contenttypes.behaviors.collection import ICollection
+    from plone.app.contenttypes.browser.folder import FolderView
     COLLECTION_IS_BEHAVIOR = False
 except ImportError:
     COLLECTION_IS_BEHAVIOR = True
@@ -169,6 +169,16 @@ class SolgemaFullcalendarView(BrowserView):
         return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
 
 
+class SolgemaFullcalendarDxView(FolderView, SolgemaFullcalendarView):
+    """Solgema Fullcalendar Browser view for Fullcalendar rendering."""
+
+    implements(interfaces.ISolgemaFullcalendarView)
+
+    def __init__(self, context, request):
+        super(SolgemaFullcalendarDxView, self).__init__(context, request)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+
+
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
@@ -193,6 +203,7 @@ class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
         return False
 
 
+
 class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
@@ -210,7 +221,7 @@ class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
 
-class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarView):
+class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarDxView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
     def results(self, **kwargs):
