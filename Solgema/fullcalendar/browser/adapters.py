@@ -1010,6 +1010,21 @@ class CollectionEventSource(TopicEventSource):
         return result
 
 
+def convert(value):
+    query = value['query']
+    if isinstance(query, unicode):
+        query = query.encode("utf-8")
+    elif isinstance(query, list):
+        query = [
+            item.encode("utf-8") if isinstance(item, unicode) else item
+            for item in query
+        ]
+    else:
+        pass
+    value['query'] = query
+    return value
+
+
 class DXCollectionEventSource(TopicEventSource):
     """Event source that get events from the collection
     """
@@ -1022,12 +1037,10 @@ class DXCollectionEventSource(TopicEventSource):
 
         listCriteria = context.query
 
-        # Handle operator-only query strings accordingly.
-        # Also convert to str since unicode breaks the catalog-query
-        query = dict(['v' in a and (str(a['i']),
-            [str(value) for value in a['v']]) or
-            (str(a['i']), [str(value) for value in a['o']])
-            for a in listCriteria])
+        query = dict([
+            (key, convert(value))
+            for key, value in queryparser.parseFormquery(context, listCriteria).items()
+        ])
 
         topicCriteria = interfaces.IListCriterias(context)()
         _args = {}

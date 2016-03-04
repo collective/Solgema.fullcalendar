@@ -20,6 +20,11 @@ try:
 except:
     class IDXCollection(Interface): pass
 
+try:
+    from plone.dexterity.interfaces import IDexterityContainer
+except:
+    IDexterityContainer = IATFolder
+
 from Solgema.fullcalendar.interfaces import ICustomUpdatingDict, ISolgemaFullcalendarProperties, IListBaseQueryCriteria
 from Solgema.fullcalendar import msg_fact as _
 
@@ -58,6 +63,8 @@ class ColorDictInputWidget(Widget):
             fieldname = index.friendlyName or index.index
             if selectedItems:
                 html += '<br/><b>%s</b><br/><table>' % (fieldname)
+                if isinstance(selectedItems, unicode):
+                    selectedItems = [selectedItems]
                 for item in selectedItems:
                     name = safe_unicode(item)
                     item = str(component.queryUtility(IURLNormalizer).normalize(name))
@@ -100,7 +107,7 @@ class ColorDictInputWidget(Widget):
                             value, value)
                 html+='</table>'
         availableSubFolders = getattr(calendar, 'availableSubFolders', [])
-        if IATFolder.providedBy(self.context) and availableSubFolders:
+        if (IATFolder.providedBy(self.context) or IDexterityContainer.providedBy(self.context)) and availableSubFolders:
             html += '<br/><b>%s</b><br/><table>' % (_('Sub-Folders'))
             fieldid = 'subFolders'
             for folderId in availableSubFolders:
