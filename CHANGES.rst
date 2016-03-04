@@ -7,6 +7,11 @@ Changelog
 - Add new Dexterity folder view herited from FolderView (plone.app.contenttypes.browser.folder).
   [bsuttor]
 
+- Added generator type to check for iterable.
+  [fsprenger]
+
+- Fixed converting DX query and subfolders
+  [kroman0]
 
 2.3.4 (2014-08-08)
 ------------------
