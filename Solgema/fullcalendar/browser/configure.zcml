@@ -33,7 +33,7 @@
   <browser:page
       for="plone.app.contenttypes.interfaces.IFolder"
       name="solgemafullcalendar_view"
-      class=".views.SolgemaFullcalendarView"
+      class=".views.SolgemaFullcalendarDxView"
       template="folderview.pt"
       allowed_interface="Solgema.fullcalendar.interfaces.ISolgemaFullcalendarView"
       permission="zope.Public"
@@ -489,36 +489,36 @@
     factory=".adapters.SolgemaFullcalendarEventDict" />
 
   <adapter factory=".adapters.FolderColorIndexGetter"/>
-  <adapter 
+  <adapter
     zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.DXFolderColorIndexGetter"/>
   <adapter factory=".adapters.ColorIndexGetter"/>
-  
+
   <!-- IEventSource adapters -->
   <adapter factory=".adapters.FolderEventSource"/>
-  <adapter 
+  <adapter
     zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.DXFolderEventSource"/>
   <adapter factory=".adapters.TopicEventSource"/>
   <adapter factory=".adapters.CollectionEventSource"/>
-  <adapter 
+  <adapter
     zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.DXCollectionEventSource"/>
   <adapter factory=".adapters.StandardEventSource"/>
-    
+
   <adapter factory=".adapters.listCriteriasTopicAdapter"/>
   <adapter factory=".adapters.listCriteriasCollectionAdapter"/>
-  <adapter 
+  <adapter
     zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.listCriteriasDXCollectionAdapter"/>
   <adapter factory=".adapters.listBaseQueryTopicCriteria"/>
   <adapter factory=".adapters.listBaseQueryCollectionCriteria"/>
-  <adapter 
+  <adapter
     zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.listBaseQueryDXCollectionCriteria"/>
   <adapter factory=".adapters.CriteriaItemsTopic"/>
   <adapter factory=".adapters.CriteriaItemsCollection"/>
-  <adapter 
+  <adapter
     zcml:condition="installed plone.app.contenttypes"
     factory=".adapters.CriteriaItemsDXCollection"/>
 
