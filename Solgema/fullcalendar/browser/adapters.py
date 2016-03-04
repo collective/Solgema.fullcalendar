@@ -7,6 +7,7 @@ from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
 from zope.interface import implements, Interface
 from zope.component import queryAdapter, adapts, getMultiAdapter, getAdapters
+from types import GeneratorType
 try:
     from Products.ZCatalog.interfaces import ICatalogBrain
 except:
@@ -143,7 +144,7 @@ def dict_from_events(events,
         else:
             raise ValueError('item type not supported for: %s' % repr(item))
 
-    if not hasattr(events, '__iter__'):
+    if not isinstance(events, (list, tuple, GeneratorType)):
         events = [events]
 
     return [dict_from_item(item) for item in events]
@@ -328,7 +329,7 @@ class SolgemaFullcalendarEventDict(object):
         referer = self.request.get('HTTP_REFERER')
         if referer:
             portal = getToolByName(self.context, 'portal_url').getPortalObject()
-            url = '/' + portal.id + referer.replace(portal.absolute_url(), '')
+            url = "/".join(portal.getPhysicalPath()) + referer.replace(portal.absolute_url(), '')
             context = portal.restrictedTraverse(url)
         eventPhysicalPath = '/'.join(event.getPhysicalPath())
         wft = getToolByName(context, 'portal_workflow')
