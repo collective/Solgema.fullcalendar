@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.6 (unreleased)
+2.3.6 (2016-04-05)
 ------------------
 
 - Fix missing import (from plone.app.querystring import queryparser)
