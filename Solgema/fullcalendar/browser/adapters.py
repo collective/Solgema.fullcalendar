@@ -56,6 +56,7 @@ try:
 except:
     class IDXCollection(Interface): pass
     class IFolder(Interface): pass
+from plone.app.querystring import queryparser
 
 
 def handle_recurrence(request):

@@ -4,7 +4,8 @@ Changelog
 2.3.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix missing import (from plone.app.querystring import queryparser)
+  [bsuttor]
 
 
 2.3.5 (2016-03-04)
