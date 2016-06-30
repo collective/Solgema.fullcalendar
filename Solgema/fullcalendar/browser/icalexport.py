@@ -52,7 +52,8 @@ class ICalExport(BrowserView):
 
     def update(self):
         context = self.context
-        self.iscalendarlayout = context.unrestrictedTraverse('iscalendarlayout')()
+        # self.iscalendarlayout = context.unrestrictedTraverse('iscalendarlayout')()
+        self.iscalendarlayout = False
         if self.iscalendarlayout:
             self.sources = [source for name, source
                                 in getAdapters((self.context, self.request),
