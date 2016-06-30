@@ -5,7 +5,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 try:
     from plone.event.interfaces import IEvent
-    from plone.app.event.ical import construct_calendar
+    from plone.app.event.ical import construct_icalendar
     hasPloneAppEvent = True
 except ImportError:
     from Products.ATContentTypes.lib import calendarsupport as calendarconstants
@@ -63,7 +63,7 @@ class ICalExport(BrowserView):
                 query = {'object_provides': IEvent.__identifier__}
             else:
                 query = {'portal_type': 'Event'}
-            self.events = context.queryCatalog(**query)
+            self.events = context.queryCatalog(query)
 
     def render(self):
         self.update()       # collect events
@@ -82,10 +82,10 @@ class ICalExport(BrowserView):
                 events = []
                 for source in self.sources:
                     events += source.getICalObjects()
-                return construct_calendar(context, events).as_string()
+                return construct_icalendar(context, events).to_ical()
             else:
                 events = [a.getObject() for a in self.events]
-                return construct_calendar(context, events).as_string()
+                return construct_icalendar(context, events).to_ical()
         else:
             if self.iscalendarlayout:
                 data = normalize_crlf_endings(calendarconstants.ICS_HEADER) % dict(prodid=calendarconstants.PRODID)
