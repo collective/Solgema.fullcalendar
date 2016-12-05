@@ -9,7 +9,12 @@ env:
   - PLONE_VERSION=4.2 TEST_EGGS=buildout:test-eggs=Pillow VERSIONS=versions:collective.js.jqueryui=1.8.16.9
   - PLONE_VERSION=4.3
   - PLONE_VERSION=4.3 TEST_EGGS=buildout:test-eggs=plone.app.contenttypes
+  - PLONE_VERSION=5.0
+  - PLONE_VERSION=5.1
 matrix:
+  allow_failures:
+    - env: PLONE_VERSION=5.0
+    - env: PLONE_VERSION=5.1
   fast_finish: true
 install:
   - sed -ie "s#4.3.x.cfg#$PLONE_VERSION.x.cfg#" buildout.cfg
