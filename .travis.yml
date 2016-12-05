@@ -1,8 +1,14 @@
 language: python
 python: 2.7
+sudo: false
+cache:
+  directories:
+  - eggs
+  - parts/node
 env:
-  - PLONE_VERSION=4.2
-  - PLONE_VERSION=4.3 QA=true
+  - PLONE_VERSION=4.2 TEST_EGGS=buildout:test-eggs=Pillow VERSIONS=versions:collective.js.jqueryui=1.8.16.9
+  - PLONE_VERSION=4.3
+  - PLONE_VERSION=4.3 TEST_EGGS=buildout:test-eggs=plone.app.contenttypes
 matrix:
   include:
     - python: 2.6
@@ -14,12 +20,22 @@ matrix:
       env: PLONE_VERSION=4.0
     - python: 2.6
       env: PLONE_VERSION=4.1
+  fast_finish: true
 install:
-  - sed -ie "s#travis-4.x.cfg#travis-$PLONE_VERSION.x.cfg#" travis.cfg
-  - mkdir -p buildout-cache/downloads
-  - python bootstrap.py -c travis.cfg
-  - bin/buildout -c travis.cfg annotate
-  - bin/buildout -c travis.cfg -N -q
-script: bin/code-analysis && bin/test
+  - sed -ie "s#4.3.x.cfg#$PLONE_VERSION.x.cfg#" buildout.cfg
+  - python bootstrap.py
+  - bin/buildout $TEST_EGGS $VERSIONS annotate
+  - bin/buildout $TEST_EGGS $VERSIONS
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - firefox -v
+script:
+  - bin/code-analysis
+  - bin/test
 after_success:
-  - test $QA && bin/coverage.sh && pip install -q coveralls && coveralls || true
+  - bin/createcoverage -t "--layer=!Robot"
+  - pip install --upgrade coveralls
+  - coveralls
+notifications:
+  irc: irc.freenode.org#plone-testing
