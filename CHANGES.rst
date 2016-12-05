@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.3.7 (unreleased)
+3.0 (unreleased)
 ------------------
+
+- Drop support for Python 2.6, Plone 4.0 and Plone 4.1.
+  [hvelarde]
 
 - Improve pt-br translation.
   [tcurvelo]
