@@ -63,7 +63,6 @@ setup(name='Solgema.fullcalendar',
               'plone.browserlayer',
               'plone.testing',
               'robotsuite',
-              'unittest2',
           ],
       },
       entry_points="""
