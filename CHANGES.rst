@@ -4,7 +4,11 @@ Changelog
 2.3.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improve pt-br translation.
+  [tcurvelo]
+
+- Set hour format for pt-br.
+  [tcurvelo]
 
 
 2.3.6 (2016-04-05)

@@ -189,12 +189,12 @@ msgstr "Mostrar o \"Indefinido\" checkbox no campo de pesquisa na parte inferior
 #. Default: "Events displayed on this calendar are adjusted by your web browser to your computer's local time."
 #: ../browser/topicview.pt:38
 msgid "help_displaying_localtime"
-msgstr ""
+msgstr "Eventos exibidos neste calendário são ajustados, pelo seu navegador, para a hora local de seu computador."
 
 #. Default: "Portal type to use when creating a new event"
 #: ../interfaces.py:301
 msgid "help_eventType"
-msgstr ""
+msgstr "Tipo de conteúdo a ser utilizado quando um novo evento for criado"
 
 #: ../interfaces.py:167
 msgid "help_firstDay"
@@ -311,7 +311,7 @@ msgstr "Indefinido"
 #. Default: "Event type"
 #: ../interfaces.py:298
 msgid "label_eventType"
-msgstr ""
+msgstr "Tipo Evento"
 
 #: ../interfaces.py:165
 msgid "label_firstDay"

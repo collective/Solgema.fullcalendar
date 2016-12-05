@@ -15,7 +15,7 @@ msgstr ""
 "Domain: plone\n"
 
 msgid "View details"
-msgstr ""
+msgstr "Ver detalhes"
 
 msgid "solgemafullcalendar_view"
 msgstr ""
