@@ -9,17 +9,12 @@ env:
   - PLONE_VERSION=4.2 TEST_EGGS=buildout:test-eggs=Pillow VERSIONS=versions:collective.js.jqueryui=1.8.16.9
   - PLONE_VERSION=4.3
   - PLONE_VERSION=4.3 TEST_EGGS=buildout:test-eggs=plone.app.contenttypes
+  - PLONE_VERSION=5.0
+  - PLONE_VERSION=5.1
 matrix:
-  include:
-    - python: 2.6
-      env: PLONE_VERSION=4.0
-    - python: 2.6
-      env: PLONE_VERSION=4.1
   allow_failures:
-    - python: 2.6
-      env: PLONE_VERSION=4.0
-    - python: 2.6
-      env: PLONE_VERSION=4.1
+    - env: PLONE_VERSION=4.2 TEST_EGGS=buildout:test-eggs=Pillow VERSIONS=versions:collective.js.jqueryui=1.8.16.9
+    - env: PLONE_VERSION=4.3
   fast_finish: true
 install:
   - sed -ie "s#4.3.x.cfg#$PLONE_VERSION.x.cfg#" buildout.cfg
@@ -37,5 +32,10 @@ after_success:
   - bin/createcoverage -t "--layer=!Robot"
   - pip install --upgrade coveralls
   - coveralls
+after_script:
+# Firefox complains: GConf-WARNING **: Got Disconnected from DBus.
+# And then it keeps hanging, causing a failed job after 30-50 minutes.
+# So we just kill Firefox.
+- pkill -9 firefox
 notifications:
   irc: irc.freenode.org#plone-testing

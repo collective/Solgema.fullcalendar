@@ -1,12 +1,24 @@
 # -*- coding: utf-8 -*-
+"""Setup testing infrastructure.
 
+For Plone 5 we need to install plone.app.contenttypes.
+"""
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
-from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-
 from plone.testing import z2
-from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
+
+import pkg_resources
+
+try:
+    pkg_resources.get_distribution('plone.app.contenttypes')
+except pkg_resources.DistributionNotFound:
+    from plone.app.testing import PLONE_FIXTURE
+    DEXTERITY_ONLY = False
+else:
+    from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE as PLONE_FIXTURE
+    DEXTERITY_ONLY = True
 
 
 class Fixture(PloneSandboxLayer):
