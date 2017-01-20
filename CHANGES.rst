@@ -2,7 +2,10 @@ Changelog
 =========
 
 3.0 (unreleased)
-------------------
+----------------
+
+- Do not break sites w/o `plone.app.contenttypes` (fixes #64)
+  [fRiSi]
 
 - Remove dependency on unittest2.
   [hvelarde]
