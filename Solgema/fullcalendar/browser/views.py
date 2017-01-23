@@ -26,6 +26,7 @@ try:
     COLLECTION_IS_BEHAVIOR = False
 except ImportError:
     COLLECTION_IS_BEHAVIOR = True
+    class FolderView(object): pass
 
 try:
     from plone.dexterity.interfaces import IDexterityContainer
@@ -130,9 +131,9 @@ def _get_date_from_req(request):
             return dateobj.year, dateobj.month, dateobj.day
         except ValueError:
             pass
-    year  = request.form.get('year')  or None
+    year = request.form.get('year')  or None
     month = request.form.get('month') or None
-    day   = request.form.get('day')   or None
+    day = request.form.get('day')   or None
     return year, month, day
 
 
@@ -566,11 +567,11 @@ class SFTopicSources(SolgemaFullcalendarView):
                 d['type'] = 'POST'
                 d['color'] = self.getColor(criteria, value)
                 d['title'] = value
-                #d['data'] = {criteria:value} Unfortunately this is not possible to remove an eventSource with data from fullcalendar
-                #it recognises only eventSource by url....
+                # d['data'] = {criteria:value} Unfortunately this is not possible to remove an eventSource with data from fullcalendar
+                # it recognises only eventSource by url....
                 if criteria == 'Subject':
                     d['extraData'] = {'subject:list':value}
-                elif criteria in ['Creator', 'Contributor']:#How to get the right field name?
+                elif criteria in ['Creator', 'Contributor']:# How to get the right field name?
                     d['extraData'] = {criteria.lower() + 's:lines':value}
                 else:
                     d['extraData'] = {criteria:value}
@@ -627,8 +628,8 @@ class SFFolderSources(SolgemaFullcalendarView):
         voc = component.getUtility(IVocabularyFactory, name=u'solgemafullcalendar.availableSubFolders', context=self.context)(self.context)
         eventSources = []
         if values and availableSubFolders:
-            #values could come from cookie set for parent folder whereas child folder should
-            #simply show contained events. if no subfolders are available, cookie comes from parent folder
+            # values could come from cookie set for parent folder whereas child folder should
+            # simply show contained events. if no subfolders are available, cookie comes from parent folder
             for value in values:
                 if not value in availableSubFolders:
                     continue
