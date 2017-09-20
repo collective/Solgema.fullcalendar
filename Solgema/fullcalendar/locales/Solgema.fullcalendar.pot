@@ -12,7 +12,7 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plone\n"
+"Domain: Solgema.fullcalendar\n"
 
 #: ./Solgema/fullcalendar/skins/solgemafullcalendar/createSFEvent.cpy:43
 msgid "${tname} has been created."
