@@ -1,0 +1,439 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone\n"
+"POT-Creation-Date: 2017-09-12 18:07+0000\n"
+"PO-Revision-Date: 2017-11-08 13:39+0100\n"
+"Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
+"Language-Team: French <plone-fr@lists.plone.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: Solgema.fullcalendar\n"
+"Language: eu\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/createSFEvent.cpy:43
+msgid "${tname} has been created."
+msgstr "${tname} ondo sortu da."
+
+#: Solgema/fullcalendar/configure.zcml:88
+#: Solgema/fullcalendar/upgrades/configure.zcml:45
+msgid "Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)"
+msgstr "fullcalendar-en oinarritutako egutegia"
+
+#. Default: "all-day"
+#: Solgema/fullcalendar/browser/views.py:316
+msgid "Allday"
+msgstr "Egun guztikoa"
+
+#. Default: "Calendar"
+#: Solgema/fullcalendar/browser/content.py:39
+msgid "Calendar"
+msgstr "Egutegia"
+
+#: Solgema/fullcalendar/profiles/default/actions.xml
+#: Solgema/fullcalendar/upgrades/profiles/upgrade16/actions.xml
+#: Solgema/fullcalendar/upgrades/profiles/upgrade19/actions.xml
+msgid "Calendar properties"
+msgstr "Egutegiaren ezarpenak"
+
+#. Default: "Colors"
+#: Solgema/fullcalendar/browser/content.py:82
+msgid "Colors"
+msgstr "Koloreak"
+
+#. Default: "Day"
+#: Solgema/fullcalendar/browser/views.py:310
+msgid "Day"
+msgstr "Eguna"
+
+#. Default: "DaySplit"
+#: Solgema/fullcalendar/browser/views.py:313
+msgid "DaySplit"
+msgstr "DaySplit"
+
+#: Solgema/fullcalendar/widgets/widgets.py:90
+msgid "Google Calendar Sources"
+msgstr "Google Calendar Iturburua"
+
+#. Default: "Month"
+#: Solgema/fullcalendar/browser/views.py:304
+#: Solgema/fullcalendar/vocabularies.py:30
+msgid "Month"
+msgstr "Hilabetea"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/SFValidate_integrity.cpy:19
+msgid "Please correct the indicated errors."
+msgstr "Erakutsitako akatsak zuzendu, mesedez."
+
+#. Default: "Query"
+#: Solgema/fullcalendar/browser/content.py:66
+msgid "Query"
+msgstr "Kontsulta"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/SFContextualContentMenu.pt:4
+msgid "Reschedule"
+msgstr "Berrantolatu"
+
+#: Solgema/fullcalendar/browser/configure.zcml:18
+#: Solgema/fullcalendar/configure.zcml:88
+msgid "Solgema Fullcalendar"
+msgstr "Solgema Fullcalendar"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:45
+msgid "Solgema Fullcalendar Upgrade 1.2"
+msgstr "Solgema Fullcalendar Upgrade 1.2"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:62
+msgid "Solgema Fullcalendar Upgrade 1.3"
+msgstr "Solgema Fullcalendar Upgrade 1.3"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:96
+msgid "Solgema Fullcalendar Upgrade 1.6"
+msgstr "Solgema Fullcalendar Upgrade 1.6"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:113
+msgid "Solgema Fullcalendar Upgrade 1.7"
+msgstr "Solgema Fullcalendar Upgrade 1.7"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:130
+msgid "Solgema Fullcalendar Upgrade 1.8"
+msgstr "Solgema Fullcalendar Upgrade 1.8"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:147
+msgid "Solgema Fullcalendar Upgrade 1.9"
+msgstr "Solgema Fullcalendar Upgrade 1.9"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:164
+msgid "Solgema Fullcalendar Upgrade 2"
+msgstr "Solgema Fullcalendar Upgrade 2"
+
+#: Solgema/fullcalendar/browser/folderquery.pt:16
+msgid "Sources"
+msgstr "Iturburuak"
+
+#: Solgema/fullcalendar/browser/content.py:75
+#: Solgema/fullcalendar/widgets/widgets.py:111
+msgid "Sub-Folders"
+msgstr "Azpi-karpetak"
+
+#: Solgema/fullcalendar/widgets/widgets.py:159
+msgid "The entered value is not a valid dict."
+msgstr "Sartutako balioa ez da hiztegi bat"
+
+#: Solgema/fullcalendar/configure.zcml:95
+msgid "Uninstall Solgema Fullcalendar"
+msgstr "Uninstall Solgema Fullcalendar"
+
+#: Solgema/fullcalendar/configure.zcml:95
+msgid "Uninstall Solgema Fullcalendar Product."
+msgstr "Uninstall Solgema Fullcalendar Product."
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:62
+msgid "Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)"
+msgstr "Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
+msgid "Versioning for this file has been disabled because it is too large"
+msgstr "Fitxategi honentzako bertsio sistema desgaitu egin da fitxategia handiegia delako."
+
+msgid "View details"
+msgstr "Ikusi xehetasunak"
+
+#. Default: "Week"
+#: Solgema/fullcalendar/browser/views.py:307
+msgid "Week"
+msgstr "Astea"
+
+#. Default: "abbreviated"
+#: Solgema/fullcalendar/vocabularies.py:71
+msgid "abbreviated"
+msgstr "Laburtuta"
+
+#. Default: "Add New Event"
+#: Solgema/fullcalendar/browser/views.py:319
+msgid "addNewEvent"
+msgstr "Hitzordu berria gehitu"
+
+#. Default: "agendaDay"
+#: Solgema/fullcalendar/vocabularies.py:34
+msgid "agendaDay"
+msgstr "Egun osoa agenda estiloan (agendaDay)"
+
+#. Default: "Day Split"
+#: Solgema/fullcalendar/vocabularies.py:35
+msgid "agendaDaySplit"
+msgstr "Agenda banatutako egunean (agendaDaySplit)"
+
+#. Default: "agendaWeek"
+#: Solgema/fullcalendar/vocabularies.py:33
+msgid "agendaWeek"
+msgstr "Astea agenda estiloan (agendaWeek)"
+
+#. Default: "basicDay"
+#: Solgema/fullcalendar/vocabularies.py:32
+msgid "basicDay"
+msgstr "Oinarrizko eguna (basicDay)"
+
+#. Default: "basicWeek"
+#: Solgema/fullcalendar/vocabularies.py:31
+msgid "basicWeek"
+msgstr "Oinarrizko astea (basicWeek)"
+
+#. Default: "Edit Event"
+#: Solgema/fullcalendar/browser/views.py:322
+msgid "editEvent"
+msgstr "Hitzordua editatu"
+
+#. Default: "Check to display 'All day' option"
+#: Solgema/fullcalendar/interfaces.py:370
+msgid "help_allDay"
+msgstr "Aukeratu hau Egun guztiko bistaratzerako"
+
+#: Solgema/fullcalendar/interfaces.py:225
+msgid "help_availableCriterias"
+msgstr "Aukeratu zein irizpide betetzen duten elementuak agertu behar diren egutegian"
+
+#: Solgema/fullcalendar/interfaces.py:234
+msgid "help_availableSubFolders"
+msgstr "Aukeratu zein azpi-karpetatako elementuak agertu behar diren egutegian"
+
+#. Default: "Check this box if you want the events in the calendar to be editable."
+#: Solgema/fullcalendar/interfaces.py:274
+msgid "help_caleditable"
+msgstr "Aukeratuta badago egutegian dauden hitzorduak editagarriak izango dira"
+
+#: Solgema/fullcalendar/interfaces.py:219
+msgid "help_calendarHeight"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:134
+msgid "help_defaultCalendarView"
+msgstr " "
+
+#. Default: "Disables contextual adding menu."
+#: Solgema/fullcalendar/interfaces.py:267
+msgid "help_disableAJAX"
+msgstr "Saguaren eskumako botoia sakatuta irteten den menua desgaitu."
+
+#. Default: "Disables all event dragging, even when events are editable."
+#: Solgema/fullcalendar/interfaces.py:283
+msgid "help_disableDragging"
+msgstr "Hitzorduak arrastatzea desaktibatu"
+
+#. Default: "Disables all event resizing, even when events are editable."
+#: Solgema/fullcalendar/interfaces.py:292
+msgid "help_disableResizing"
+msgstr "Hitzorduen iraupena egutegiaren bistatik aldatzea desaktibatu"
+
+#: Solgema/fullcalendar/interfaces.py:261
+msgid "help_displayNoscriptList"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:249
+msgid "help_displayUndefined"
+msgstr " "
+
+#. Default: "Events displayed on this calendar are adjusted by your web browser to your computer's local time."
+#: Solgema/fullcalendar/browser/topicview.pt:38
+msgid "help_displaying_localtime"
+msgstr "Egutegiko hitzorduak zure nabigatzailearen edo ordenagailuaren ordura egokituko dira."
+
+#. Default: "Portal type to use when creating a new event"
+#: Solgema/fullcalendar/interfaces.py:301
+msgid "help_eventType"
+msgstr "Hitzordu berri bat sortzerakoan erabiliko den elementu-mota"
+
+#: Solgema/fullcalendar/interfaces.py:167
+msgid "help_firstDay"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:180
+msgid "help_firstHour"
+msgstr " "
+
+#. Default: "Enter your Google Calendar feeds url here. the syntax must be: http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."
+#: Solgema/fullcalendar/interfaces.py:198
+msgid "help_gcalSources"
+msgstr "Idatzi zure Google Calendar egutegiaren jarioak hemen. Sintaxia horrelakoa izan behar da http://www.google.com/calendar/feeds/yourmail@gmail.com/.... URL bat lerro bakoitzean."
+
+#: Solgema/fullcalendar/interfaces.py:148
+msgid "help_headerLeft"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:153
+msgid "help_headerRight"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:186
+msgid "help_minTime"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:255
+msgid "help_overrideStateForAdmin"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:243
+msgid "help_queryColors"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:174
+msgid "help_relativeFirstDay"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:141
+msgid "help_shortDayNameFormat"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:124
+msgid "help_slotMinutes"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:207
+msgid "help_target_folder"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:161
+msgid "help_weekends"
+msgstr " "
+
+#: Solgema/fullcalendar/browser/icalexport.py:35
+msgid "iCal export"
+msgstr "ICal esportazioa"
+
+#. Default: "Display All day option"
+#: Solgema/fullcalendar/interfaces.py:368
+msgid "label_allDay"
+msgstr "Egun guztiko bistaratzea erabili"
+
+#: Solgema/fullcalendar/interfaces.py:128
+msgid "label_allDaySlot"
+msgstr "Egun guztiko hitzorduen kutxa erakutsi"
+
+#: Solgema/fullcalendar/interfaces.py:223
+msgid "label_availableCriterias"
+msgstr "Irizpideak"
+
+#: Solgema/fullcalendar/interfaces.py:232
+msgid "label_availableSubFolders"
+msgstr "Azpi-karpetak"
+
+#. Default: "Editable"
+#: Solgema/fullcalendar/interfaces.py:272
+msgid "label_caleditable"
+msgstr "Editagarria"
+
+#: Solgema/fullcalendar/interfaces.py:217
+msgid "label_calendarHeight"
+msgstr "Egutegiaren altuera"
+
+#: Solgema/fullcalendar/interfaces.py:132
+msgid "label_defaultCalendarView"
+msgstr "Defektuzko bista"
+
+#. Default: "Disable AJAX"
+#: Solgema/fullcalendar/interfaces.py:265
+msgid "label_disableAJAX"
+msgstr "AJAX desaktibatu"
+
+#. Default: "Disable Dragging"
+#: Solgema/fullcalendar/interfaces.py:280
+msgid "label_disableDragging"
+msgstr "Arrastatzea desaktibatu"
+
+#. Default: "Disable Resizing"
+#: Solgema/fullcalendar/interfaces.py:289
+msgid "label_disableResizing"
+msgstr "Tamaina aldatzea desaktibatu"
+
+#: Solgema/fullcalendar/interfaces.py:259
+msgid "label_displayNoscriptList"
+msgstr "Hitzordu zerrenda erakutsi JavaScriptik ez dagoenean"
+
+#: Solgema/fullcalendar/interfaces.py:247
+msgid "label_displayUndefined"
+msgstr "Definitu gabekoak erakutsi"
+
+#. Default: "Event type"
+#: Solgema/fullcalendar/interfaces.py:298
+msgid "label_eventType"
+msgstr "Hitzordu mota"
+
+#: Solgema/fullcalendar/interfaces.py:165
+msgid "label_firstDay"
+msgstr "Lehenengo eguna"
+
+#: Solgema/fullcalendar/interfaces.py:178
+msgid "label_firstHour"
+msgstr "Lehenengo ordua"
+
+#. Default: "Google Calendar Sources"
+#: Solgema/fullcalendar/interfaces.py:195
+msgid "label_gcalSources"
+msgstr "Google Calendar Iturburuak"
+
+#: Solgema/fullcalendar/interfaces.py:146
+msgid "label_headerLeft"
+msgstr "Ezkerreko goiburukoan agertuko diren botoiak"
+
+#: Solgema/fullcalendar/interfaces.py:152
+msgid "label_headerRight"
+msgstr "Eskumako goiburukoan agertuko diren botoiak"
+
+#: Solgema/fullcalendar/interfaces.py:190
+msgid "label_maxTime"
+msgstr "Erakutsiko den ordu beranduena"
+
+#: Solgema/fullcalendar/interfaces.py:184
+msgid "label_minTime"
+msgstr "Erakutsiko den ordu goiztiarrena"
+
+#: Solgema/fullcalendar/interfaces.py:253
+msgid "label_overrideStateForAdmin"
+msgstr "Kudeatzaileentzat, ez izan kontuan hitzorduaren egoera berau egutegian erakusterakon"
+
+#: Solgema/fullcalendar/interfaces.py:241
+msgid "label_queryColors"
+msgstr "Kontsultaren koloreak"
+
+#: Solgema/fullcalendar/interfaces.py:172
+msgid "label_relativeFirstDay"
+msgstr "Lehenengo egunarekiko egun erlatiboa"
+
+#: Solgema/fullcalendar/interfaces.py:139
+msgid "label_shortDayNameFormat"
+msgstr "Egunaren izenaren formatua"
+
+#: Solgema/fullcalendar/interfaces.py:122
+msgid "label_slotMinutes"
+msgstr "Zenbat minututako tartea"
+
+#: Solgema/fullcalendar/interfaces.py:206
+msgid "label_target_folder"
+msgstr "Iturburu karpeta"
+
+#: Solgema/fullcalendar/browser/collectionquery.pt:48
+#: Solgema/fullcalendar/browser/topicquery.pt:48
+msgid "label_undefined"
+msgstr "Zehaztugabea"
+
+#: Solgema/fullcalendar/interfaces.py:160
+msgid "label_weekends"
+msgstr "Asteburuak erakutsi"
+
+#. Default: "short"
+#: Solgema/fullcalendar/vocabularies.py:72
+msgid "short"
+msgstr "Laburra"
+
+msgid "solgemafullcalendar_view"
+msgstr "Egutegi bista"
+
+#. Default: "Download this calendar in iCal format"
+#: Solgema/fullcalendar/browser/icalexport.py:32
+msgid "title_add_to_ical"
+msgstr "Egutegi hau iCal formatuan deskargatu"
