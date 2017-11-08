@@ -4,6 +4,9 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Basque and Spanish translations
+  [erral]
+
 - Do not break sites w/o `plone.app.contenttypes` (fixes #64)
   [fRiSi]
 
