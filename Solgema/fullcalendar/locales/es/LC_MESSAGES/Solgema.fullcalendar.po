@@ -1,0 +1,439 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone\n"
+"POT-Creation-Date: 2017-09-12 18:07+0000\n"
+"PO-Revision-Date: 2017-11-08 16:43+0100\n"
+"Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
+"Language-Team: French <plone-fr@lists.plone.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: Solgema.fullcalendar\n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/createSFEvent.cpy:43
+msgid "${tname} has been created."
+msgstr "${tname} ha sido creado."
+
+#: Solgema/fullcalendar/configure.zcml:88
+#: Solgema/fullcalendar/upgrades/configure.zcml:45
+msgid "Adds a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)"
+msgstr "Añade un calendario completamente editable basado en fullcalendar (http://arshaw.com/fullcalendar/)"
+
+#. Default: "all-day"
+#: Solgema/fullcalendar/browser/views.py:316
+msgid "Allday"
+msgstr "Todo el día"
+
+#. Default: "Calendar"
+#: Solgema/fullcalendar/browser/content.py:39
+msgid "Calendar"
+msgstr "Calendario"
+
+#: Solgema/fullcalendar/profiles/default/actions.xml
+#: Solgema/fullcalendar/upgrades/profiles/upgrade16/actions.xml
+#: Solgema/fullcalendar/upgrades/profiles/upgrade19/actions.xml
+msgid "Calendar properties"
+msgstr "Propiedades del calendario"
+
+#. Default: "Colors"
+#: Solgema/fullcalendar/browser/content.py:82
+msgid "Colors"
+msgstr "Colores"
+
+#. Default: "Day"
+#: Solgema/fullcalendar/browser/views.py:310
+msgid "Day"
+msgstr "Día"
+
+#. Default: "DaySplit"
+#: Solgema/fullcalendar/browser/views.py:313
+msgid "DaySplit"
+msgstr "Día partido"
+
+#: Solgema/fullcalendar/widgets/widgets.py:90
+msgid "Google Calendar Sources"
+msgstr "Orígenes de Google Calendar"
+
+#. Default: "Month"
+#: Solgema/fullcalendar/browser/views.py:304
+#: Solgema/fullcalendar/vocabularies.py:30
+msgid "Month"
+msgstr "Mes"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/SFValidate_integrity.cpy:19
+msgid "Please correct the indicated errors."
+msgstr "Por favor, corrija los errores indicados."
+
+#. Default: "Query"
+#: Solgema/fullcalendar/browser/content.py:66
+msgid "Query"
+msgstr "Consulta"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/SFContextualContentMenu.pt:4
+msgid "Reschedule"
+msgstr "Reprogramar"
+
+#: Solgema/fullcalendar/browser/configure.zcml:18
+#: Solgema/fullcalendar/configure.zcml:88
+msgid "Solgema Fullcalendar"
+msgstr "Solgema Fullcalendar"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:45
+msgid "Solgema Fullcalendar Upgrade 1.2"
+msgstr "Solgema Fullcalendar Actualización 1.2"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:62
+msgid "Solgema Fullcalendar Upgrade 1.3"
+msgstr "Solgema Fullcalendar Actualización 1.3"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:96
+msgid "Solgema Fullcalendar Upgrade 1.6"
+msgstr "Solgema Fullcalendar Actualización 1.6"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:113
+msgid "Solgema Fullcalendar Upgrade 1.7"
+msgstr "Solgema Fullcalendar Actualización 1.7"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:130
+msgid "Solgema Fullcalendar Upgrade 1.8"
+msgstr "Solgema Fullcalendar Actualización 1.8"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:147
+msgid "Solgema Fullcalendar Upgrade 1.9"
+msgstr "Solgema Fullcalendar Actualización 1.9"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:164
+msgid "Solgema Fullcalendar Upgrade 2"
+msgstr "Solgema Fullcalendar Actualización 2"
+
+#: Solgema/fullcalendar/browser/folderquery.pt:16
+msgid "Sources"
+msgstr "Orígenes"
+
+#: Solgema/fullcalendar/browser/content.py:75
+#: Solgema/fullcalendar/widgets/widgets.py:111
+msgid "Sub-Folders"
+msgstr "Subcarpetas"
+
+#: Solgema/fullcalendar/widgets/widgets.py:159
+msgid "The entered value is not a valid dict."
+msgstr "El valor introducido no es un diccionario válido."
+
+#: Solgema/fullcalendar/configure.zcml:95
+msgid "Uninstall Solgema Fullcalendar"
+msgstr "Desinstalar Solgema Fullcalendar"
+
+#: Solgema/fullcalendar/configure.zcml:95
+msgid "Uninstall Solgema Fullcalendar Product."
+msgstr "Desinstalar el producto Solgema Fullcalendar"
+
+#: Solgema/fullcalendar/upgrades/configure.zcml:62
+msgid "Upgrade Solgema Fullcalendar, a Full editable Calendar based on fullcalendar (http://arshaw.com/fullcalendar/)"
+msgstr "Actualizar Solgema Fullcalendar, un completo calendario editable basado en fullcalendar (http://arshaw.com/fullcalendar/)"
+
+#: Solgema/fullcalendar/skins/solgemafullcalendar/SFUpdate_version_on_edit.cpy:35
+msgid "Versioning for this file has been disabled because it is too large"
+msgstr "El versionado de este archivo ha sido deshabilitado porque es muy grande"
+
+msgid "View details"
+msgstr "Ver detalles"
+
+#. Default: "Week"
+#: Solgema/fullcalendar/browser/views.py:307
+msgid "Week"
+msgstr "Semana"
+
+#. Default: "abbreviated"
+#: Solgema/fullcalendar/vocabularies.py:71
+msgid "abbreviated"
+msgstr "Abreviado"
+
+#. Default: "Add New Event"
+#: Solgema/fullcalendar/browser/views.py:319
+msgid "addNewEvent"
+msgstr "Añadir nuevo evento"
+
+#. Default: "agendaDay"
+#: Solgema/fullcalendar/vocabularies.py:34
+msgid "agendaDay"
+msgstr "Vista de agenda del día (agendaDay)"
+
+#. Default: "Day Split"
+#: Solgema/fullcalendar/vocabularies.py:35
+msgid "agendaDaySplit"
+msgstr "Vista de agenda del día partido (agendaDaySplit)"
+
+#. Default: "agendaWeek"
+#: Solgema/fullcalendar/vocabularies.py:33
+msgid "agendaWeek"
+msgstr "Vista de agenda de semana (agendaWeek)"
+
+#. Default: "basicDay"
+#: Solgema/fullcalendar/vocabularies.py:32
+msgid "basicDay"
+msgstr "Vista básica de día (basicDay)"
+
+#. Default: "basicWeek"
+#: Solgema/fullcalendar/vocabularies.py:31
+msgid "basicWeek"
+msgstr "Vista básica de semana (basicWeek)"
+
+#. Default: "Edit Event"
+#: Solgema/fullcalendar/browser/views.py:322
+msgid "editEvent"
+msgstr "Editar evento"
+
+#. Default: "Check to display 'All day' option"
+#: Solgema/fullcalendar/interfaces.py:370
+msgid "help_allDay"
+msgstr "Si está seleccionado se muestra la opción \"todo el día\""
+
+#: Solgema/fullcalendar/interfaces.py:225
+msgid "help_availableCriterias"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:234
+msgid "help_availableSubFolders"
+msgstr " "
+
+#. Default: "Check this box if you want the events in the calendar to be editable."
+#: Solgema/fullcalendar/interfaces.py:274
+msgid "help_caleditable"
+msgstr "Si está seleccionado los eventos del calendario serán editables"
+
+#: Solgema/fullcalendar/interfaces.py:219
+msgid "help_calendarHeight"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:134
+msgid "help_defaultCalendarView"
+msgstr " "
+
+#. Default: "Disables contextual adding menu."
+#: Solgema/fullcalendar/interfaces.py:267
+msgid "help_disableAJAX"
+msgstr "Si está seleccionado desactiva el menú contextual"
+
+#. Default: "Disables all event dragging, even when events are editable."
+#: Solgema/fullcalendar/interfaces.py:283
+msgid "help_disableDragging"
+msgstr "Si está seleccionado desactiva el poder arrastrar eventos, incluso cuando estos son editables."
+
+#. Default: "Disables all event resizing, even when events are editable."
+#: Solgema/fullcalendar/interfaces.py:292
+msgid "help_disableResizing"
+msgstr "Si está seleccionado desactiva el poder redimensionar los eventos, incluso cuando estos son editables."
+
+#: Solgema/fullcalendar/interfaces.py:261
+msgid "help_displayNoscriptList"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:249
+msgid "help_displayUndefined"
+msgstr " "
+
+#. Default: "Events displayed on this calendar are adjusted by your web browser to your computer's local time."
+#: Solgema/fullcalendar/browser/topicview.pt:38
+msgid "help_displaying_localtime"
+msgstr "Las horas que se muestran en el calendario se ajustan a la hora local del navegador u ordenador."
+
+#. Default: "Portal type to use when creating a new event"
+#: Solgema/fullcalendar/interfaces.py:301
+msgid "help_eventType"
+msgstr "Tipo de elemento que se crea cuando se añade un evento"
+
+#: Solgema/fullcalendar/interfaces.py:167
+msgid "help_firstDay"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:180
+msgid "help_firstHour"
+msgstr " "
+
+#. Default: "Enter your Google Calendar feeds url here. the syntax must be: http://www.google.com/calendar/feeds/yourmail@gmail.com/... One url per line."
+#: Solgema/fullcalendar/interfaces.py:198
+msgid "help_gcalSources"
+msgstr "Introduzca las urls de los feeds del calendario de Google Calendar en el siguiente formato: http://www.google.com/calendar/feeds/yourmail@gmail.com/... Una url por línea."
+
+#: Solgema/fullcalendar/interfaces.py:148
+msgid "help_headerLeft"
+msgstr " Opciones disponibles: title, prev, next, prevYear, nextYear, today"
+
+#: Solgema/fullcalendar/interfaces.py:153
+msgid "help_headerRight"
+msgstr " Opciones disponibles: title, prev, next, prevYear, nextYear, today"
+
+#: Solgema/fullcalendar/interfaces.py:186
+msgid "help_minTime"
+msgstr "Puede ser un número como 5 (indicará las 05:00) o un string como '5:30' (indicará las 05:30)"
+
+#: Solgema/fullcalendar/interfaces.py:255
+msgid "help_overrideStateForAdmin"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:243
+msgid "help_queryColors"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:174
+msgid "help_relativeFirstDay"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:141
+msgid "help_shortDayNameFormat"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:124
+msgid "help_slotMinutes"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:207
+msgid "help_target_folder"
+msgstr " "
+
+#: Solgema/fullcalendar/interfaces.py:161
+msgid "help_weekends"
+msgstr " "
+
+#: Solgema/fullcalendar/browser/icalexport.py:35
+msgid "iCal export"
+msgstr "Exportación iCal"
+
+#. Default: "Display All day option"
+#: Solgema/fullcalendar/interfaces.py:368
+msgid "label_allDay"
+msgstr "Mostrar opción de \"todo el día\""
+
+#: Solgema/fullcalendar/interfaces.py:128
+msgid "label_allDaySlot"
+msgstr "Mostrar opción de \"todo el día\""
+
+#: Solgema/fullcalendar/interfaces.py:223
+msgid "label_availableCriterias"
+msgstr "Criterios disponibles"
+
+#: Solgema/fullcalendar/interfaces.py:232
+msgid "label_availableSubFolders"
+msgstr "Subcarpetas disponibles"
+
+#. Default: "Editable"
+#: Solgema/fullcalendar/interfaces.py:272
+msgid "label_caleditable"
+msgstr "Editable"
+
+#: Solgema/fullcalendar/interfaces.py:217
+msgid "label_calendarHeight"
+msgstr "Altura del calendario"
+
+#: Solgema/fullcalendar/interfaces.py:132
+msgid "label_defaultCalendarView"
+msgstr "Vista por defecto del calendario"
+
+#. Default: "Disable AJAX"
+#: Solgema/fullcalendar/interfaces.py:265
+msgid "label_disableAJAX"
+msgstr "Desactivar AJAX"
+
+#. Default: "Disable Dragging"
+#: Solgema/fullcalendar/interfaces.py:280
+msgid "label_disableDragging"
+msgstr "Desactivar arrastrado"
+
+#. Default: "Disable Resizing"
+#: Solgema/fullcalendar/interfaces.py:289
+msgid "label_disableResizing"
+msgstr "Desactivar redimensionado"
+
+#: Solgema/fullcalendar/interfaces.py:259
+msgid "label_displayNoscriptList"
+msgstr "Mostrar eventos cuando no haya JavaScript"
+
+#: Solgema/fullcalendar/interfaces.py:247
+msgid "label_displayUndefined"
+msgstr "Mostrar campo \"undefined\""
+
+#. Default: "Event type"
+#: Solgema/fullcalendar/interfaces.py:298
+msgid "label_eventType"
+msgstr "Tipo de evento"
+
+#: Solgema/fullcalendar/interfaces.py:165
+msgid "label_firstDay"
+msgstr "Primer día"
+
+#: Solgema/fullcalendar/interfaces.py:178
+msgid "label_firstHour"
+msgstr "Primera hora a mostrar en el calendario"
+
+#. Default: "Google Calendar Sources"
+#: Solgema/fullcalendar/interfaces.py:195
+msgid "label_gcalSources"
+msgstr "Fuentes de Google Calendar"
+
+#: Solgema/fullcalendar/interfaces.py:146
+msgid "label_headerLeft"
+msgstr "Botones que se mostrarán en la parte superior izquierda del calendario"
+
+#: Solgema/fullcalendar/interfaces.py:152
+msgid "label_headerRight"
+msgstr "Botones que se mostrarán en la parte superior derecha del calendario"
+
+#: Solgema/fullcalendar/interfaces.py:190
+msgid "label_maxTime"
+msgstr "La mayor hora que se mostrará"
+
+#: Solgema/fullcalendar/interfaces.py:184
+msgid "label_minTime"
+msgstr "La menor hora que se mostrará"
+
+#: Solgema/fullcalendar/interfaces.py:253
+msgid "label_overrideStateForAdmin"
+msgstr "No tener en cuenta el estado para los administradores del sitio"
+
+#: Solgema/fullcalendar/interfaces.py:241
+msgid "label_queryColors"
+msgstr "Colores de las consultas"
+
+#: Solgema/fullcalendar/interfaces.py:172
+msgid "label_relativeFirstDay"
+msgstr "Número de días relativo respecto del primer día"
+
+#: Solgema/fullcalendar/interfaces.py:139
+msgid "label_shortDayNameFormat"
+msgstr "Formato de nombre de día"
+
+#: Solgema/fullcalendar/interfaces.py:122
+msgid "label_slotMinutes"
+msgstr "Frecuencia para mostrar slots en la vista de agenda"
+
+#: Solgema/fullcalendar/interfaces.py:206
+msgid "label_target_folder"
+msgstr "Carpeta destino"
+
+#: Solgema/fullcalendar/browser/collectionquery.pt:48
+#: Solgema/fullcalendar/browser/topicquery.pt:48
+msgid "label_undefined"
+msgstr "No definido"
+
+#: Solgema/fullcalendar/interfaces.py:160
+msgid "label_weekends"
+msgstr "Mostrar fines de semana"
+
+#. Default: "short"
+#: Solgema/fullcalendar/vocabularies.py:72
+msgid "short"
+msgstr "Corto"
+
+msgid "solgemafullcalendar_view"
+msgstr "Vista de calendario"
+
+#. Default: "Download this calendar in iCal format"
+#: Solgema/fullcalendar/browser/icalexport.py:32
+msgid "title_add_to_ical"
+msgstr "Descargar este calendario en formato iCal."
