@@ -4,6 +4,9 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Fix icalexport with versions of plone.app.event since 1.0.
+  [pcdummy]
+
 - Basque and Spanish translations
   [erral]
 
