@@ -4,9 +4,11 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import getToolByName
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from Solgema.fullcalendar import interfaces
-from Solgema.fullcalendar.Extensions.install import checkViews
+from Solgema.fullcalendar.utils import checkViews
+
 
 PRODUCT_DEPENDENCIES = ['Solgema.ContextualContentMenu', 'plone.app.z3cform', 'collective.js.jqueryui']
+
 
 def doNothing(context):
     pass

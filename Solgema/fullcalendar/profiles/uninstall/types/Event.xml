@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object name="Event">
+ <property purge="False" name="view_methods">
+  <element remove="True" value="solgemafullcalendar_view"/>
+ </property>
+</object>

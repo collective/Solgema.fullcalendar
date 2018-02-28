@@ -1,25 +1,10 @@
 from Products.CMFCore.utils import getToolByName
 
-# TODO: replace this with profile-only setup
 
 def installSolgemaFullcalendar(context):
     if context.readDataFile('solgemafullcalendar_various.txt') is None:
         return
     site = context.getSite()
-
-    ttool = getToolByName(site, 'portal_types')
-    if 'Topic' in ttool.objectIds():
-        topic_type = ttool.Topic
-        topic_methods = topic_type.view_methods
-    if 'Collection' in ttool.objectIds():
-        topic_type = ttool.Collection
-        topic_methods = topic_type.view_methods
-
-    if 'solgemafullcalendar_view' not in topic_methods:
-        topic_type.manage_changeProperties(
-            view_methods=topic_methods + tuple(['solgemafullcalendar_view', ])
-        )
-
     jstool = getToolByName(site, 'portal_javascripts')
     jstool.cookResources()
     csstool = getToolByName(site, 'portal_css')

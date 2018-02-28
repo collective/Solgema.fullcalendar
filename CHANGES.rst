@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.3.7 (unreleased)
+------------------
+
+- Install/Uninstall profile extensions and cleanup.
+  [thet]
+
+
 2.3.6 (2016-04-05)
 ------------------
 

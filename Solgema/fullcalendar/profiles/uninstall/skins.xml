@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
 <object name="portal_skins">
 
- <object name="solgemafullcalendar"
+ <object
+    remove="True"
+    name="solgemafullcalendar"
     meta_type="Filesystem Directory View"
-    directory="Solgema.fullcalendar:skins/solgemafullcalendar" remove="True"/>
+    directory="Solgema.fullcalendar:skins/solgemafullcalendar"/>
 
  <skin-path name="*">
-  <layer name="solgemafullcalendar" remove="True"/>
-  <layer name="solgemafullcalendar/ui-lightness" remove="True"/>
-  <layer name="solgemafullcalendar/ui-lightness/images" remove="True"/>
+  <layer remove="True" name="solgemafullcalendar"/>
+  <layer remove="True" name="solgemafullcalendar/ui-lightness"/>
+  <layer remove="True" name="solgemafullcalendar/ui-lightness/images"/>
  </skin-path>
 
 </object>
