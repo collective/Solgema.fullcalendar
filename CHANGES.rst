@@ -4,6 +4,9 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Fix optional dependency on plone.app.contenttypes.
+  [thet]
+
 - Install/Uninstall profile extensions and cleanup.
   [thet]
 
