@@ -4,6 +4,12 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Fix optional dependency on plone.app.contenttypes.
+  [thet]
+
+- Install/Uninstall profile extensions and cleanup.
+  [thet]
+
 - Fix icalexport with versions of plone.app.event since 1.0.
   [pcdummy]
 

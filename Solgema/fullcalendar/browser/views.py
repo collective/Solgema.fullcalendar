@@ -23,10 +23,9 @@ from Products.ATContentTypes.interface import IATFolder
 try:
     from plone.app.contenttypes.behaviors.collection import ICollection
     from plone.app.contenttypes.browser.folder import FolderView
-    COLLECTION_IS_BEHAVIOR = False
+    HAVE_PACONTENTTYPES = True
 except ImportError:
-    COLLECTION_IS_BEHAVIOR = True
-    class FolderView(object): pass
+    HAVE_PACONTENTTYPES = False
 
 try:
     from plone.dexterity.interfaces import IDexterityContainer
@@ -170,14 +169,15 @@ class SolgemaFullcalendarView(BrowserView):
         return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
 
 
-class SolgemaFullcalendarDxView(FolderView, SolgemaFullcalendarView):
-    """Solgema Fullcalendar Browser view for Fullcalendar rendering."""
+if HAVE_PACONTENTTYPES:
+    class SolgemaFullcalendarDxView(FolderView, SolgemaFullcalendarView):
+        """Solgema Fullcalendar Browser view for Fullcalendar rendering."""
 
-    implements(interfaces.ISolgemaFullcalendarView)
+        implements(interfaces.ISolgemaFullcalendarView)
 
-    def __init__(self, context, request):
-        super(SolgemaFullcalendarDxView, self).__init__(context, request)
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+        def __init__(self, context, request):
+            super(SolgemaFullcalendarDxView, self).__init__(context, request)
+            self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
 
 
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
@@ -222,35 +222,33 @@ class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
         return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
 
-class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarDxView):
-    """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
+if HAVE_PACONTENTTYPES:
+    class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarDxView):
+        """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
-    def results(self, **kwargs):
-        """ Helper to get the results from the collection-behavior.
-        The template collectionvew.pt calls the standard_view of collections
-        as a macro and standard_view uses python:view.results(b_start=b_start)
-        to get the reusults. When used as a macro 'view' is this view instead
-        of the CollectionView.
-        """
-        if COLLECTION_IS_BEHAVIOR:
+        def results(self, **kwargs):
+            """ Helper to get the results from the collection-behavior.
+            The template collectionvew.pt calls the standard_view of collections
+            as a macro and standard_view uses python:view.results(b_start=b_start)
+            to get the reusults. When used as a macro 'view' is this view instead
+            of the CollectionView.
+            """
             context = aq_inner(self.context)
             wrapped = ICollection(context)
             return wrapped.results(**kwargs)
-        else:
-            return self.context.results(**kwargs)
 
-    def getCriteriaClass(self):
-        queryField = self.context.query
-        listCriteria = []
-        for qField in queryField:
-            listCriteria.append(qField['i'])
-        anon = self.context.portal_membership.isAnonymousUser()
-        if not listCriteria:
-            return ''
-        if listCriteria[0] == 'review_state' and anon:
-            return ''
+        def getCriteriaClass(self):
+            queryField = self.context.query
+            listCriteria = []
+            for qField in queryField:
+                listCriteria.append(qField['i'])
+            anon = self.context.portal_membership.isAnonymousUser()
+            if not listCriteria:
+                return ''
+            if listCriteria[0] == 'review_state' and anon:
+                return ''
 
-        return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
+            return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
 
 
 class SolgemaFullcalendarEventJS(BrowserView):
