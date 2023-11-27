@@ -1,5 +1,6 @@
 import datetime
 from urllib import urlencode
+
 try:
     import json
 except:
@@ -20,13 +21,18 @@ from Products.CMFPlone import PloneLocalesMessageFactory as PLMF
 from Products.CMFPlone import utils as CMFPloneUtils
 from Products.CMFPlone.utils import safe_unicode
 from Products.ATContentTypes.interface import IATFolder
+
 try:
     from plone.app.contenttypes.behaviors.collection import ICollection
     from plone.app.contenttypes.browser.folder import FolderView
+
     COLLECTION_IS_BEHAVIOR = False
 except ImportError:
     COLLECTION_IS_BEHAVIOR = True
-    class FolderView(object): pass
+
+    class FolderView(object):
+        pass
+
 
 try:
     from plone.dexterity.interfaces import IDexterityContainer
@@ -45,34 +51,40 @@ import time
 # detect plone.app.event
 try:
     import plone.app.event
+
     HAS_PAE = True
 except ImportError:
     HAS_PAE = False
 
 
-DTMF = MessageFactory('collective.z3cform.datetimewidget')
-pMF = MessageFactory('plone')
+DTMF = MessageFactory("collective.z3cform.datetimewidget")
+pMF = MessageFactory("plone")
+
 
 def getCopyObjectsUID(REQUEST):
-    if REQUEST is not None and REQUEST.has_key('__cp'):
-        cp = REQUEST['__cp']
+    if REQUEST is not None and REQUEST.has_key("__cp"):
+        cp = REQUEST["__cp"]
     else:
         return []
 
     op, mdatas = CopySupport._cb_decode(cp)
-    return {'op': op, 'url': ['/'.join(a) for a in mdatas][0]}
+    return {"op": op, "url": ["/".join(a) for a in mdatas][0]}
 
 
 def listBaseQueryTopicCriteria(topic):
     li = []
     for criteria in topic.listCriteria():
-        if criteria.meta_type == 'ATPortalTypeCriterion' \
-                and len(criteria.getCriteriaItems()[0][1]) > 0:
+        if (
+            criteria.meta_type == "ATPortalTypeCriterion"
+            and len(criteria.getCriteriaItems()[0][1]) > 0
+        ):
             li.append(criteria)
-        if criteria.meta_type in ['ATSelectionCriterion', 'ATListCriterion'] \
-                and criteria.getCriteriaItems() \
-                and len(criteria.getCriteriaItems()[0]) > 1 \
-                and len(criteria.getCriteriaItems()[0][1]['query']) > 0:
+        if (
+            criteria.meta_type in ["ATSelectionCriterion", "ATListCriterion"]
+            and criteria.getCriteriaItems()
+            and len(criteria.getCriteriaItems()[0]) > 1
+            and len(criteria.getCriteriaItems()[0][1]["query"]) > 0
+        ):
             li.append(criteria)
 
     return li
@@ -86,31 +98,32 @@ def getCookieItems(request, field, charset):
     if not items:
         return None
     if isinstance(items, (str, unicode)):
-        items = items.find('+') == -1 and items or items.split('+')
+        items = items.find("+") == -1 and items or items.split("+")
     final = []
     if isinstance(items, (list, tuple)):
         for item in items:
             try:
-                item = item.decode('latin1')
+                item = item.decode("latin1")
             except:
                 pass
             final.append(safe_unicode(item).encode(charset))
     else:
         try:
-            items = items.decode('latin1')
+            items = items.decode("latin1")
         except:
             pass
         final = [safe_unicode(items).encode(charset)]
 
     return final
 
+
 def getColorIndex(context, request, eventPath=None, brain=None):
-    undefined = 'colorIndex-undefined'
+    undefined = "colorIndex-undefined"
     if not brain:
         if not eventPath:
-            raise ValueError(u'You must provide eventPath or brain')
+            raise ValueError("You must provide eventPath or brain")
 
-        catalog = getToolByName(context, 'portal_catalog')
+        catalog = getToolByName(context, "portal_catalog")
         brains = catalog.searchResults(path=eventPath)
         if len(brains) == 0:
             log.error("Error computing color index : no result for path %s", eventPath)
@@ -118,25 +131,26 @@ def getColorIndex(context, request, eventPath=None, brain=None):
 
         brain = brains[0]
 
-    adapter = getMultiAdapter((context, request, brain),
-                              interfaces.IColorIndexGetter)
+    adapter = getMultiAdapter((context, request, brain), interfaces.IColorIndexGetter)
     return adapter.getColorIndex()
+
+
 #    return colorDict
 #    return ' ' + (colorIndex or undefined)
 
 
 def _get_date_from_req(request):
-    datestr = request.form.get('date') or None
+    datestr = request.form.get("date") or None
     if datestr:
         # Try to parse datestr, otherwise keep extracting info from request.
         try:
-            dateobj = datetime.datetime.strptime(datestr, '%Y-%m-%d')
+            dateobj = datetime.datetime.strptime(datestr, "%Y-%m-%d")
             return dateobj.year, dateobj.month, dateobj.day
         except ValueError:
             pass
-    year = request.form.get('year')  or None
-    month = request.form.get('month') or None
-    day = request.form.get('day')   or None
+    year = request.form.get("year") or None
+    month = request.form.get("month") or None
+    day = request.form.get("day") or None
     return year, month, day
 
 
@@ -148,29 +162,35 @@ class SolgemaFullcalendarView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context),
-                                                                  None)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(
+            aq_inner(context), None
+        )
+
     def getCriteriaClass(self):
-        return ''
+        return ""
 
     def displayNoscriptList(self):
-        return getattr(self.calendar, 'displayNoscriptList', True)
+        return getattr(self.calendar, "displayNoscriptList", True)
 
     def getCalendarVarsUrl(self):
-        """Allows to set initial view and date by request parameters.
-        """
+        """Allows to set initial view and date by request parameters."""
         _date = _get_date_from_req(self.request)
-        view = self.request.form.get('sfview') or 'month'
+        view = self.request.form.get("sfview") or "month"
         year, month, day = _date[0], _date[1], _date[2]
         base_url = self.context.absolute_url()
         query = dict()
-        if view: query['sfview'] = view
-        if year: query['year'] = year
-        if month: query['month'] = month
-        if day: query['day'] = day
+        if view:
+            query["sfview"] = view
+        if year:
+            query["year"] = year
+        if month:
+            query["month"] = month
+        if day:
+            query["day"] = day
         query = urlencode(query)
-        if query: query = '?%s' % query
-        return '%s/solgemafullcalendar_vars.js%s' % (base_url, query)
+        if query:
+            query = "?%s" % query
+        return "%s/solgemafullcalendar_vars.js%s" % (base_url, query)
 
 
 class SolgemaFullcalendarDxView(FolderView, SolgemaFullcalendarView):
@@ -180,7 +200,9 @@ class SolgemaFullcalendarDxView(FolderView, SolgemaFullcalendarView):
 
     def __init__(self, context, request):
         super(SolgemaFullcalendarDxView, self).__init__(context, request)
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(
+            aq_inner(context), None
+        )
 
 
 class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
@@ -190,46 +212,45 @@ class SolgemaFullcalendarTopicView(SolgemaFullcalendarView):
         anon = self.context.portal_membership.isAnonymousUser()
         listCriteria = self.context.listCriteria()
         if not listCriteria:
-            return ''
-        if listCriteria[0].Field() == 'review_state' and anon:
-            return ''
+            return ""
+        if listCriteria[0].Field() == "review_state" and anon:
+            return ""
 
-        return self.request.cookies.get('sfqueryDisplay', listCriteria[0].Field())
+        return self.request.cookies.get("sfqueryDisplay", listCriteria[0].Field())
 
     def tzaware(self):
         """is calendar working with timezone-aware events?"""
         if not HAS_PAE:
             return False
         qi = getSite().portal_quickinstaller
-        products = [d['id'] for d in qi.listInstalledProducts()]
-        if 'plone.app.event' in products:
+        products = [d["id"] for d in qi.listInstalledProducts()]
+        if "plone.app.event" in products:
             return True  # assume true if plone.app.event is installed.
         return False
-
 
 
 class SolgemaFullcalendarCollectionView(SolgemaFullcalendarView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
     def getCriteriaClass(self):
-        queryField = self.context.getField('query').getRaw(self.context)
+        queryField = self.context.getField("query").getRaw(self.context)
         listCriteria = []
         for qField in queryField:
-            listCriteria.append(qField['i'])
+            listCriteria.append(qField["i"])
         anon = self.context.portal_membership.isAnonymousUser()
         if not listCriteria:
-            return ''
-        if listCriteria[0] == 'review_state' and anon:
-            return ''
+            return ""
+        if listCriteria[0] == "review_state" and anon:
+            return ""
 
-        return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
+        return self.request.cookies.get("sfqueryDisplay", listCriteria[0])
 
 
 class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarDxView):
     """Solgema Fullcalendar Browser view for Fullcalendar rendering"""
 
     def results(self, **kwargs):
-        """ Helper to get the results from the collection-behavior.
+        """Helper to get the results from the collection-behavior.
         The template collectionvew.pt calls the standard_view of collections
         as a macro and standard_view uses python:view.results(b_start=b_start)
         to get the reusults. When used as a macro 'view' is this view instead
@@ -246,14 +267,14 @@ class SolgemaFullcalendarDXCollectionView(SolgemaFullcalendarDxView):
         queryField = self.context.query
         listCriteria = []
         for qField in queryField:
-            listCriteria.append(qField['i'])
+            listCriteria.append(qField["i"])
         anon = self.context.portal_membership.isAnonymousUser()
         if not listCriteria:
-            return ''
-        if listCriteria[0] == 'review_state' and anon:
-            return ''
+            return ""
+        if listCriteria[0] == "review_state" and anon:
+            return ""
 
-        return self.request.cookies.get('sfqueryDisplay', listCriteria[0])
+        return self.request.cookies.get("sfqueryDisplay", listCriteria[0])
 
 
 class SolgemaFullcalendarEventJS(BrowserView):
@@ -264,9 +285,9 @@ class SolgemaFullcalendarEventJS(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
+        portal_state = getMultiAdapter((context, request), name="plone_portal_state")
         self.portal = portal_state.portal()
-        self._ts = getToolByName(context, 'translation_service')
+        self._ts = getToolByName(context, "translation_service")
         self.portal_language = portal_state.language()
         self.calendar = None
 
@@ -279,144 +300,175 @@ class SolgemaFullcalendarEventJS(BrowserView):
 
     def getMonthNumber(self):
         now = datetime.datetime.now()
-        return int(now.month) - 1 # JS: Jan = 0, Dez = 11
+        return int(now.month) - 1  # JS: Jan = 0, Dez = 11
 
     def getDate(self):
         now = datetime.datetime.now()
         return int(now.day)
 
     def getMonthsNames(self):
-        return [PLMF(self._ts.month_msgid(m), default=self._ts.month_english(m)) for m in [a + 1 for a in range(12)]]
+        return [
+            PLMF(self._ts.month_msgid(m), default=self._ts.month_english(m))
+            for m in [a + 1 for a in range(12)]
+        ]
 
     def getMonthsNamesAbbr(self):
-        return [PLMF(self._ts.month_msgid(m, format='a'), default=self._ts.month_english(m, format='a')) for m in [a + 1 for a in range(12)]]
+        return [
+            PLMF(
+                self._ts.month_msgid(m, format="a"),
+                default=self._ts.month_english(m, format="a"),
+            )
+            for m in [a + 1 for a in range(12)]
+        ]
 
     def getWeekdaysNames(self):
-        return [PLMF(self._ts.day_msgid(d), default=self._ts.weekday_english(d)) for d in range(7)]
+        return [
+            PLMF(self._ts.day_msgid(d), default=self._ts.weekday_english(d))
+            for d in range(7)
+        ]
 
     def getWeekdaysNamesAbbr(self):
-        if self.portal_language in ['de']:
-            return [PLMF(self._ts.day_msgid(d) + '_short', default=self._ts.weekday_english(d) + '_short') for d in range(7)]
+        if self.portal_language in ["de"]:
+            return [
+                PLMF(
+                    self._ts.day_msgid(d) + "_short",
+                    default=self._ts.weekday_english(d) + "_short",
+                )
+                for d in range(7)
+            ]
         else:
-            return [PLMF(self._ts.day_msgid(d, format='a'), default=self._ts.weekday_english(d, format='a')) for d in range(7)]
+            return [
+                PLMF(
+                    self._ts.day_msgid(d, format="a"),
+                    default=self._ts.weekday_english(d, format="a"),
+                )
+                for d in range(7)
+            ]
 
     def getTodayTranslation(self):
-        return DTMF('Today', 'Today')
+        return DTMF("Today", "Today")
 
     def getMonthTranslation(self):
-        return _('Month', 'Month')
+        return _("Month", "Month")
 
     def getWeekTranslation(self):
-        return _('Week', 'Week')
+        return _("Week", "Week")
 
     def getDayTranslation(self):
-        return _('Day', 'Day')
+        return _("Day", "Day")
 
     def getDaySplitTranslation(self):
-        return _('DaySplit', 'DaySplit')
+        return _("DaySplit", "DaySplit")
 
     def getAllDayText(self):
-        return _('Allday', 'all-day')
+        return _("Allday", "all-day")
 
     def getAddEventText(self):
-        return _('addNewEvent', 'Add New Event')
+        return _("addNewEvent", "Add New Event")
 
     def getEditEventText(self):
-        return _('editEvent', 'Edit Event')
+        return _("editEvent", "Edit Event")
 
     def getDeleteConfirmationText(self):
-        return pMF('alert_really_delete', 'Do you really want to delete this item?')
+        return pMF("alert_really_delete", "Do you really want to delete this item?")
 
     def getCustomTitleFormat(self):
-        if self.portal_language in ['fr', 'nl', 'it']:
-            return '{month: "MMMM yyyy", week: "d[ MMMM][ yyyy]{ \'-\' d MMMM yyyy}", day: \'dddd d MMMM yyyy\'}'
-        elif self.portal_language in ['de']:
-            return '{month: \'MMMM yyyy\', week: "d[ yyyy].[ MMMM]{ \'- \'d. MMMM yyyy}", day: \'dddd, d. MMMM yyyy\'}'
+        if self.portal_language in ["fr", "nl", "it"]:
+            return "{month: \"MMMM yyyy\", week: \"d[ MMMM][ yyyy]{ '-' d MMMM yyyy}\", day: 'dddd d MMMM yyyy'}"
+        elif self.portal_language in ["de"]:
+            return "{month: 'MMMM yyyy', week: \"d[ yyyy].[ MMMM]{ '- 'd. MMMM yyyy}\", day: 'dddd, d. MMMM yyyy'}"
         else:
-            return '{month: \'MMMM yyyy\', week: "MMM d[ yyyy]{ \'-\'[ MMM] d yyyy}", day: \'dddd, MMM d, yyyy\'}'
+            return "{month: 'MMMM yyyy', week: \"MMM d[ yyyy]{ '-'[ MMM] d yyyy}\", day: 'dddd, MMM d, yyyy'}"
 
     def getHourFormat(self):
-        if self.portal_language in ['fr', 'de', 'it', 'nl', 'pt-br']:
-            return 'HH:mm'
+        if self.portal_language in ["fr", "de", "it", "nl", "pt-br"]:
+            return "HH:mm"
         else:
-            return 'h(:mm)tt'
+            return "h(:mm)tt"
 
     def columnFormat(self):
-        if self.portal_language in ['de']:
+        if self.portal_language in ["de"]:
             return "{month: 'ddd', week: 'ddd d. MMM', day: 'dddd d. MMM'}"
-        elif self.portal_language in ['fr', 'nl', 'it']:
+        elif self.portal_language in ["fr", "nl", "it"]:
             return "{month: 'dddd', week: 'ddd d/MM', day: 'dddd d/MM'}"
         else:
             return "{month: 'ddd', week: 'ddd M/d', day: 'dddd M/d'}"
 
     def getTargetFolder(self):
-        target_folder = getattr(self.calendar, 'target_folder', None)
+        target_folder = getattr(self.calendar, "target_folder", None)
         if target_folder:
-            addContext = self.portal.unrestrictedTraverse('/' + self.portal.id + target_folder)
-        elif IATFolder.providedBy(self.context) or IDexterityContainer.providedBy(self.context):
+            addContext = self.portal.unrestrictedTraverse(
+                "/" + self.portal.id + target_folder
+            )
+        elif IATFolder.providedBy(self.context) or IDexterityContainer.providedBy(
+            self.context
+        ):
             addContext = self.context
         else:
             addContext = aq_parent(aq_inner(self.context))
         return addContext.absolute_url()
 
     def getHeaderRight(self):
-        return 'month, agendaWeek, agendaDay'
+        return "month, agendaWeek, agendaDay"
 
     def getHeaderLeft(self):
-        return 'prev,next today calendar'
+        return "prev,next today calendar"
 
     def getPloneVersion(self):
-        portal_migration = getToolByName(self.context, 'portal_migration')
+        portal_migration = getToolByName(self.context, "portal_migration")
         try:
             return portal_migration.getSoftwareVersion()
         except:
             return portal_migration.getInstanceVersion()
 
     def slotMinutes(self):
-        return '30'
+        return "30"
 
     def defaultCalendarView(self):
-        return 'agendaWeek'
+        return "agendaWeek"
 
     def calendarWeekends(self):
-        return 'true'
+        return "true"
 
     def firstHour(self):
-        return '-1'
+        return "-1"
 
     def minTime(self):
-        return '0'
+        return "0"
 
     def maxTime(self):
-        return '24'
+        return "24"
 
     def allDaySlot(self):
-        return 'false'
+        return "false"
 
     def calendarHeight(self):
         return None
 
     def getTopicRelativeUrl(self):
-        return '/' + self.context.absolute_url(relative=1)
+        return "/" + self.context.absolute_url(relative=1)
 
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
 
     def disableAJAX(self):
-        return 'false'
+        return "false"
 
     def caleditable(self):
-        return 'true'
+        return "true"
 
     def disableDragging(self):
-        return 'false'
+        return "false"
 
     def disableResizing(self):
-        return 'false'
+        return "false"
 
     def __call__(self):
-        self.request.RESPONSE.setHeader('Content-Type', 'application/x-javascript; charset=utf-8')
+        self.request.RESPONSE.setHeader(
+            "Content-Type", "application/x-javascript; charset=utf-8"
+        )
         return super(SolgemaFullcalendarEventJS, self).__call__()
+
 
 class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
     """Solgema Fullcalendar Javascript variables"""
@@ -425,15 +477,19 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
 
     def __init__(self, context, request):
         super(SolgemaFullcalendarTopicJS, self).__init__(context, request)
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(
+            aq_inner(context), None
+        )
         self._date = _get_date_from_req(request)
 
     def getFirstDay(self):
-        if getattr(self.calendar, 'relativeFirstDay', '') in [None, '']:
+        if getattr(self.calendar, "relativeFirstDay", "") in [None, ""]:
             return self.calendar.firstDay
         else:
             now = datetime.datetime.now()
-            delta = datetime.timedelta(hours=int(getattr(self.calendar, 'relativeFirstDay')))
+            delta = datetime.timedelta(
+                hours=int(getattr(self.calendar, "relativeFirstDay"))
+            )
             newdate = now + delta
             return newdate.isoweekday() - 1
 
@@ -442,7 +498,7 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         try:
             value = int(value)
         except (ValueError, TypeError):
-            rel_first = getattr(self.calendar, 'relativeFirstDay', None)
+            rel_first = getattr(self.calendar, "relativeFirstDay", None)
             newdate = None
             if rel_first:
                 now = datetime.datetime.now()
@@ -454,84 +510,83 @@ class SolgemaFullcalendarTopicJS(SolgemaFullcalendarEventJS):
         return int(value)
 
     def getYear(self):
-        year = self._prep_date_value('year', self._date[0])
+        year = self._prep_date_value("year", self._date[0])
         return int(year)
 
     def getMonthNumber(self):
-        month = self._prep_date_value('month', self._date[1])
-        return int(month) - 1 # JS: Jan = 0, Dez = 11
+        month = self._prep_date_value("month", self._date[1])
+        return int(month) - 1  # JS: Jan = 0, Dez = 11
 
     def getDate(self):
-        day = self._prep_date_value('day', self._date[2])
+        day = self._prep_date_value("day", self._date[2])
         return int(day)
 
     def getHeaderLeft(self):
-        headerLeft = getattr(self.calendar, 'headerLeft', 'prev,next today calendar')
+        headerLeft = getattr(self.calendar, "headerLeft", "prev,next today calendar")
         if isinstance(headerLeft, list):
-            return ','.join(headerLeft)
+            return ",".join(headerLeft)
         return headerLeft
 
     def getHeaderRight(self):
-        headerRight = getattr(self.calendar, 'headerRight', 'month,agendaWeek,agendaDay')
+        headerRight = getattr(
+            self.calendar, "headerRight", "month,agendaWeek,agendaDay"
+        )
         if isinstance(headerRight, list):
-            return ','.join(headerRight)
+            return ",".join(headerRight)
         return headerRight
 
     def getTopicRelativeUrl(self):
         if CMFPloneUtils.isDefaultPage(self.context, self.request):
-            return '/' + aq_parent(aq_inner(self.context)).absolute_url(relative=1)
+            return "/" + aq_parent(aq_inner(self.context)).absolute_url(relative=1)
         else:
-            return '/' + self.context.absolute_url(relative=1)
+            return "/" + self.context.absolute_url(relative=1)
 
     def getTopicAbsoluteUrl(self):
         return self.context.absolute_url()
 
     def slotMinutes(self):
-        return getattr(self.calendar, 'slotMinutes', '30')
+        return getattr(self.calendar, "slotMinutes", "30")
 
     def defaultCalendarView(self):
-        available = ['week', 'basicWeek', 'basicDay', 'agendaWeek', 'agendaDay']
-        view = self.request.form.get('sfview')
+        available = ["week", "basicWeek", "basicDay", "agendaWeek", "agendaDay"]
+        view = self.request.form.get("sfview")
         if view is not None:
             if view in available:
                 return view
-        return getattr(self.calendar, 'defaultCalendarView', 'agendaWeek')
+        return getattr(self.calendar, "defaultCalendarView", "agendaWeek")
 
     def calendarWeekends(self):
-        return getattr(self.calendar, 'weekends', True) and 'true' or 'false'
+        return getattr(self.calendar, "weekends", True) and "true" or "false"
 
     def firstHour(self):
-        return getattr(self.calendar, 'firstHour', '-1')
+        return getattr(self.calendar, "firstHour", "-1")
 
     def minTime(self):
-        return getattr(self.calendar, 'minTime', '0')
+        return getattr(self.calendar, "minTime", "0")
 
     def maxTime(self):
-        return getattr(self.calendar, 'maxTime', '24')
+        return getattr(self.calendar, "maxTime", "24")
 
     def allDaySlot(self):
-        return getattr(self.calendar, 'allDaySlot', False) and 'true' or 'false'
+        return getattr(self.calendar, "allDaySlot", False) and "true" or "false"
 
     def calendarHeight(self):
-        return getattr(self.calendar, 'calendarHeight', '600')
+        return getattr(self.calendar, "calendarHeight", "600")
 
     def disableAJAX(self):
-        return getattr(self.calendar, 'disableAJAX', False) \
-                    and 'true' or 'false'
+        return getattr(self.calendar, "disableAJAX", False) and "true" or "false"
 
     def caleditable(self):
-        return getattr(self.calendar, 'editable', True) and 'true' or 'false'
+        return getattr(self.calendar, "editable", True) and "true" or "false"
 
     def disableDragging(self):
-        return getattr(self.calendar, 'disableDragging', False) \
-                    and 'true' or 'false'
+        return getattr(self.calendar, "disableDragging", False) and "true" or "false"
 
     def disableResizing(self):
-        return getattr(self.calendar, 'disableResizing', False) \
-                    and 'true' or 'false'
+        return getattr(self.calendar, "disableResizing", False) and "true" or "false"
+
 
 class SFTopicSources(SolgemaFullcalendarView):
-
     implements(interfaces.ISolgemaFullcalendarEventsSources)
 
     def getColor(self, fieldid, value):
@@ -539,69 +594,92 @@ class SFTopicSources(SolgemaFullcalendarView):
 
         if not colorsDict or not colorsDict.get(fieldid):
             return None
-        value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
+        value = str(
+            component.queryUtility(IURLNormalizer).normalize(safe_unicode(value))
+        )
         newColorsDict = {}
         for k, v in colorsDict.get(fieldid, {}).items():
             k = safe_unicode(k)
-            if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
+            if (
+                k == value
+                or str(component.queryUtility(IURLNormalizer).normalize(k)) == value
+            ):
                 return v
         return None
 
     def __call__(self, *args, **kw):
         """Render JS eventSources. Separate cookie request in different sources."""
-        self.request.response.setHeader('Content-Type', 'application/x-javascript')
+        self.request.response.setHeader("Content-Type", "application/x-javascript")
         criteria = self.getCriteriaClass()
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        props = getToolByName(self.context, "portal_properties")
+        charset = props and props.site_properties.default_charset or "utf-8"
         values = getCookieItems(self.request, criteria, charset)
         fromCookie = True
         if values == None:
             fromCookie = False
-            CriteriaItems = getMultiAdapter((self.context, self.request), interfaces.ICriteriaItems)()
-            values = CriteriaItems and [a for a in CriteriaItems['values'] if a] or []
-            criteria = CriteriaItems and CriteriaItems['name'] or ''
+            CriteriaItems = getMultiAdapter(
+                (self.context, self.request), interfaces.ICriteriaItems
+            )()
+            values = CriteriaItems and [a for a in CriteriaItems["values"] if a] or []
+            criteria = CriteriaItems and CriteriaItems["name"] or ""
         eventSources = []
         if values:
             for value in values:
                 d = {}
                 if fromCookie:
-                    value = value.decode('utf-8')
-                d['url'] = self.context.absolute_url() + '/@@solgemafullcalendarevents?' + criteria + '=' + value
-                d['type'] = 'POST'
-                d['color'] = self.getColor(criteria, value)
-                d['title'] = value
+                    value = value.decode("utf-8")
+                d["url"] = (
+                    self.context.absolute_url()
+                    + "/@@solgemafullcalendarevents?"
+                    + criteria
+                    + "="
+                    + value
+                )
+                d["type"] = "POST"
+                d["color"] = self.getColor(criteria, value)
+                d["title"] = value
                 # d['data'] = {criteria:value} Unfortunately this is not possible to remove an eventSource with data from fullcalendar
                 # it recognises only eventSource by url....
-                if criteria == 'Subject':
-                    d['extraData'] = {'subject:list':value}
-                elif criteria in ['Creator', 'Contributor']:# How to get the right field name?
-                    d['extraData'] = {criteria.lower() + 's:lines':value}
+                if criteria == "Subject":
+                    d["extraData"] = {"subject:list": value}
+                elif criteria in [
+                    "Creator",
+                    "Contributor",
+                ]:  # How to get the right field name?
+                    d["extraData"] = {criteria.lower() + "s:lines": value}
                 else:
-                    d['extraData'] = {criteria:value}
+                    d["extraData"] = {criteria: value}
                 eventSources.append(d.copy())
         else:
-            eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents'})
+            eventSources.append(
+                {"url": self.context.absolute_url() + "/@@solgemafullcalendarevents"}
+            )
 
-        gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
+        gcalSourcesAttr = getattr(self.calendar, "gcalSources", "")
         if gcalSourcesAttr != None:
-            gcalSources = gcalSourcesAttr.split('\n')
+            gcalSources = gcalSourcesAttr.split("\n")
             for i in range(len(gcalSources)):
                 url = gcalSources[i]
                 if url:
-                    gcalColors = self.calendar.queryColors.get('gcalSources', {})
-                    eventSources.append({'url':       url,
-                                        'dataType':  'gcal',
-                                        'className': 'gcal-event gcal-source' + str(i + 1),
-                                        'color':     gcalColors.get('source' + str(i), ''),
-                                        'title':     'GCAL ' + str(i + 1)})
+                    gcalColors = self.calendar.queryColors.get("gcalSources", {})
+                    eventSources.append(
+                        {
+                            "url": url,
+                            "dataType": "gcal",
+                            "className": "gcal-event gcal-source" + str(i + 1),
+                            "color": gcalColors.get("source" + str(i), ""),
+                            "title": "GCAL " + str(i + 1),
+                        }
+                    )
         self.request.response.setHeader("Content-type", "application/json")
         return json.dumps(eventSources, sort_keys=True)
+
 
 class SFCollectionSources(SFTopicSources):
     """Sources for collection"""
 
-class SFFolderSources(SolgemaFullcalendarView):
 
+class SFFolderSources(SolgemaFullcalendarView):
     implements(interfaces.ISolgemaFullcalendarEventsSources)
 
     def getColor(self, fieldid, value):
@@ -609,26 +687,35 @@ class SFFolderSources(SolgemaFullcalendarView):
 
         if not colorsDict or not colorsDict.get(fieldid):
             return None
-        value = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(value)))
+        value = str(
+            component.queryUtility(IURLNormalizer).normalize(safe_unicode(value))
+        )
         for k, v in colorsDict.get(fieldid, {}).items():
             k = safe_unicode(k)
-            if k == value or str(component.queryUtility(IURLNormalizer).normalize(k)) == value:
+            if (
+                k == value
+                or str(component.queryUtility(IURLNormalizer).normalize(k)) == value
+            ):
                 return v
         return None
 
     def __call__(self, *args, **kw):
         """Render JS eventSources. Separate cookie request in different sources."""
-        self.request.response.setHeader('Content-Type', 'application/x-javascript')
-        props = getToolByName(self.context, 'portal_properties')
-        charset = props and props.site_properties.default_charset or 'utf-8'
+        self.request.response.setHeader("Content-Type", "application/x-javascript")
+        props = getToolByName(self.context, "portal_properties")
+        charset = props and props.site_properties.default_charset or "utf-8"
 
-        values = getCookieItems(self.request, 'subFolders', charset)
-        availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
+        values = getCookieItems(self.request, "subFolders", charset)
+        availableSubFolders = getattr(self.calendar, "availableSubFolders", [])
         fromCookie = True
         if values == None:
             fromCookie = False
-            values = getattr(self.calendar, 'availableSubFolders', [])
-        voc = component.getUtility(IVocabularyFactory, name=u'solgemafullcalendar.availableSubFolders', context=self.context)(self.context)
+            values = getattr(self.calendar, "availableSubFolders", [])
+        voc = component.getUtility(
+            IVocabularyFactory,
+            name="solgemafullcalendar.availableSubFolders",
+            context=self.context,
+        )(self.context)
         eventSources = []
         if values and availableSubFolders:
             # values could come from cookie set for parent folder whereas child folder should
@@ -638,34 +725,45 @@ class SFFolderSources(SolgemaFullcalendarView):
                     continue
                 d = {}
                 if fromCookie:
-                    value = value.decode('utf-8')
-                d['url'] = self.context.absolute_url() + '/' + value + '/@@solgemafullcalendarevents'
-                d['type'] = 'POST'
-                d['color'] = self.getColor('subFolders', value)
-                d['title'] = voc.getTerm(value).title
-                d['target_folder'] = self.context.absolute_url() + '/' + value
+                    value = value.decode("utf-8")
+                d["url"] = (
+                    self.context.absolute_url()
+                    + "/"
+                    + value
+                    + "/@@solgemafullcalendarevents"
+                )
+                d["type"] = "POST"
+                d["color"] = self.getColor("subFolders", value)
+                d["title"] = voc.getTerm(value).title
+                d["target_folder"] = self.context.absolute_url() + "/" + value
                 eventSources.append(d.copy())
         else:
-            eventSources.append({'url':self.context.absolute_url() + '/@@solgemafullcalendarevents'})
+            eventSources.append(
+                {"url": self.context.absolute_url() + "/@@solgemafullcalendarevents"}
+            )
 
-        gcalSourcesAttr = getattr(self.calendar, 'gcalSources', '')
+        gcalSourcesAttr = getattr(self.calendar, "gcalSources", "")
         if gcalSourcesAttr != None:
-            gcalSources = gcalSourcesAttr.split('\n')
+            gcalSources = gcalSourcesAttr.split("\n")
             for i in range(len(gcalSources)):
                 url = gcalSources[i]
                 if url:
-                    gcalColors = self.calendar.queryColors.get('gcalSources', {})
-                    eventSources.append({'url':       url,
-                                        'dataType':  'gcal',
-                                        'className': 'gcal-event gcal-source' + str(i + 1),
-                                        'color':     gcalColors.get('source' + str(i), ''),
-                                        'title':     'GCAL ' + str(i + 1)})
+                    gcalColors = self.calendar.queryColors.get("gcalSources", {})
+                    eventSources.append(
+                        {
+                            "url": url,
+                            "dataType": "gcal",
+                            "className": "gcal-event gcal-source" + str(i + 1),
+                            "color": gcalColors.get("source" + str(i), ""),
+                            "title": "GCAL " + str(i + 1),
+                        }
+                    )
 
         self.request.response.setHeader("Content-type", "application/json")
         return json.dumps(eventSources, sort_keys=True)
 
-class SFEventSources(BrowserView):
 
+class SFEventSources(BrowserView):
     implements(interfaces.ISolgemaFullcalendarEventsSources)
 
     def __call__(self, *args, **kw):
@@ -691,9 +789,8 @@ class SolgemaFullcalendarEvents(BrowserView):
     @cache(_get_cache_key)
     def __call__(self, *args, **kw):
         """Render JS Initialization code"""
-        self.request.response.setHeader('Content-Type', 'application/x-javascript')
-        sources = getAdapters((self.context, self.request),
-                                 interfaces.IEventSource)
+        self.request.response.setHeader("Content-Type", "application/x-javascript")
+        sources = getAdapters((self.context, self.request), interfaces.IEventSource)
         events = []
         for name, source in sources:
             events.extend(source.getEvents())
@@ -710,23 +807,30 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(
+            aq_inner(context), None
+        )
 
     def __call__(self):
         colorsDict = self.calendar.queryColors
-        availableSubFolders = getattr(self.calendar, 'availableSubFolders', [])
-        css = ''
+        availableSubFolders = getattr(self.calendar, "availableSubFolders", [])
+        css = ""
         if not colorsDict or not availableSubFolders:
             return css
-        folderIds = [a.getId for a in self.context.getFolderContents(contentFilter={
-            'object_provides': [
-                'Products.ATContentTypes.interfaces.folder.IATFolder',
-                'plone.dexterity.interfaces.IDexterityContainer',
-            ]
-        })]
+        folderIds = [
+            a.getId
+            for a in self.context.getFolderContents(
+                contentFilter={
+                    "object_provides": [
+                        "Products.ATContentTypes.interfaces.folder.IATFolder",
+                        "plone.dexterity.interfaces.IDexterityContainer",
+                    ]
+                }
+            )
+        ]
         if not folderIds:
             return css
-        fieldid = 'subFolders'
+        fieldid = "subFolders"
 
         for i in range(len(availableSubFolders)):
             folderId = availableSubFolders[i]
@@ -737,11 +841,12 @@ class SolgemaFullcalendarColorsCssFolder(BrowserView):
                     color = v
                     break
             if color:
-                css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
-                css += '    color: %s;\n' % (str(color))
-                css += '}\n\n'
+                css += "label.%scolorIndex-%s {\n" % (fieldid, str(i))
+                css += "    color: %s;\n" % (str(color))
+                css += "}\n\n"
 
         return css
+
 
 class SolgemaFullcalendarColorsCssTopic(BrowserView):
     """Solgema Fullcalendar Javascript variables"""
@@ -751,34 +856,45 @@ class SolgemaFullcalendarColorsCssTopic(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.calendar = interfaces.ISolgemaFullcalendarProperties(aq_inner(context), None)
+        self.calendar = interfaces.ISolgemaFullcalendarProperties(
+            aq_inner(context), None
+        )
 
     def __call__(self):
         colorsDict = self.calendar.queryColors
         criterias = interfaces.IListBaseQueryCriteria(self.context)()
-        css = ''
+        css = ""
         if not colorsDict:
             return css
 
-        for fieldid, selectedItems in [(a['i'], a.get('v')) for a in criterias]:
+        for fieldid, selectedItems in [(a["i"], a.get("v")) for a in criterias]:
             if not colorsDict.has_key(fieldid):
                 continue
 
             for i in range(len(selectedItems)):
-                cValName = str(component.queryUtility(IURLNormalizer).normalize(safe_unicode(selectedItems[i])))
+                cValName = str(
+                    component.queryUtility(IURLNormalizer).normalize(
+                        safe_unicode(selectedItems[i])
+                    )
+                )
 
                 color = None
                 for k, v in colorsDict.get(fieldid, {}).items():
                     k = safe_unicode(k)
-                    if k == cValName or str(component.queryUtility(IURLNormalizer).normalize(k)) == cValName:
+                    if (
+                        k == cValName
+                        or str(component.queryUtility(IURLNormalizer).normalize(k))
+                        == cValName
+                    ):
                         color = v
                         break
                 if color:
-                    css += 'label.%scolorIndex-%s {\n' % (fieldid, str(i))
-                    css += '    color: %s;\n' % (str(color))
-                    css += '}\n\n'
+                    css += "label.%scolorIndex-%s {\n" % (fieldid, str(i))
+                    css += "    color: %s;\n" % (str(color))
+                    css += "}\n\n"
 
         return css
+
 
 class SolgemaFullcalendarColorsCssCollection(SolgemaFullcalendarColorsCssTopic):
     """Solgema Fullcalendar Javascript variables"""
