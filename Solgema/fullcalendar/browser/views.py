@@ -39,6 +39,9 @@ from Solgema.fullcalendar import interfaces
 from Solgema.fullcalendar import log
 from Solgema.fullcalendar import msg_fact as _
 
+from plone.memoize.ram import cache
+import time
+
 # detect plone.app.event
 try:
     import plone.app.event
@@ -667,13 +670,25 @@ class SFEventSources(BrowserView):
 
     def __call__(self, *args, **kw):
         self.request.response.setHeader("Content-type", "application/json")
-        return json.dumps([self.context.absolute_url() + '/@@solgemafullcalendarevents', ])
+        return json.dumps(
+            [
+                self.context.absolute_url() + "/@@solgemafullcalendarevents",
+            ]
+        )
+
+
+def _get_cache_key(fun, self, *args, **kw):
+    return "{}-{}-{}-{}".format(
+        fun.__name__, json.dumps(args), json.dumps(kw), time.time() // 600
+    )
+
 
 class SolgemaFullcalendarEvents(BrowserView):
     """Solgema Fullcalendar Update browser view"""
 
     implements(interfaces.ISolgemaFullcalendarEvents)
 
+    @cache(_get_cache_key)
     def __call__(self, *args, **kw):
         """Render JS Initialization code"""
         self.request.response.setHeader('Content-Type', 'application/x-javascript')
