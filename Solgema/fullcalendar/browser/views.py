@@ -635,7 +635,7 @@ class SFTopicSources(SolgemaFullcalendarView):
                     + "="
                     + value
                 )
-                d["type"] = "POST"
+                d["type"] = "GET"
                 d["color"] = self.getColor(criteria, value)
                 d["title"] = value
                 # d['data'] = {criteria:value} Unfortunately this is not possible to remove an eventSource with data from fullcalendar
@@ -732,7 +732,7 @@ class SFFolderSources(SolgemaFullcalendarView):
                     + value
                     + "/@@solgemafullcalendarevents"
                 )
-                d["type"] = "POST"
+                d["type"] = "GET"
                 d["color"] = self.getColor("subFolders", value)
                 d["title"] = voc.getTerm(value).title
                 d["target_folder"] = self.context.absolute_url() + "/" + value
